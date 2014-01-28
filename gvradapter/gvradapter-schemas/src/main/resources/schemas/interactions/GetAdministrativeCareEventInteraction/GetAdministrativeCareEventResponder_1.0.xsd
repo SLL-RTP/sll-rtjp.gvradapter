@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell) -->
+<!-- 
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements. See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership. Sveriges Kommuner och Landsting licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License. You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied. See the License for the
+ specific language governing permissions and limitations
+ under the License.
+ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1" xmlns:core="urn:riv:followup:processdevelopment:1" targetNamespace="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:import namespace="urn:riv:followup:processdevelopment:1" schemaLocation="../../core_components/followup_processdevelopment_1.0.xsd"/>
+	<xs:element name="GetAdministrativeCareEvent" type="tns:GetAdministrativeCareEventType"/>
+	<xs:element name="GetAdministrativeCareEventResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="careEvent" type="core:CareEventType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="GetAdministrativeCareEventType">
+		<xs:sequence>
+			<xs:element name="date" type="core:DateType"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

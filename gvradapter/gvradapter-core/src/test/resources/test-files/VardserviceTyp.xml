@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?><arb:result xmlns:arb="urn::codeservice"><arb:document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn::codeservice codeservice_result_V2.0.xsd"><header>Produced by CodeServer 4.8.4 (c) Datawell Oy</header>
+<body>
+<termsystem id="1" begindate="2013-10-01T00:00:01" expirationdate="2099-12-31T23:59:59" lastmodifieddate="2013-12-10T13:24:35.48275" lastmodifiedby="Löfström, Åsa">
+<attribute type="longname" datatype="ST" language="fi">1</attribute>
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="codetype" datatype="ST">1</attribute>
+<attribute type="relatesto" datatype="ST">VårdserviceTyp</attribute>
+<attribute type="relatestoname" datatype="ST">VårdserviceTyp</attribute>
+<attribute type="hierarchical" datatype="ST">0</attribute>
+<termitementry id="01" language="fi" createdate="2013-10-31T10:01:45.0" begindate="2013-10-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-12-10T13:24:35.0" lastmodifiedby="Löfström, Åsa">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Språktolk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Språktolk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Språktolk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+</termitementry></termsystem></body></arb:document></arb:result>

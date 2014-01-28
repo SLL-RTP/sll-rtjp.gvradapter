@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappningar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd" ExportDatum="2013-09-30T05:55:31.913+02:00" MEKFilId="1719">
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108011M04</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:55.257+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108951M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:56.570+02:00</SkapadDatum>
+  </mappning>
+
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>93857010M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:53:15.383+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108648M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:56.257+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>191080110</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:54.727+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>93920010M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:53:15.740+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108841L01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:56.367+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>93859010M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:53:15.617+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108565M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:56.150+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108011M03</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:55.150+02:00</SkapadDatum>
+  </mappning>
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>93971010M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:53:15.850+02:00</SkapadDatum>
+  </mappning>
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108011000</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:54.837+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108011M05</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:55.367+02:00</SkapadDatum>
+  </mappning>
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108950M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:56.460+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>93858010M01</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:53:15.490+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108011M35</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:55.587+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108011M51</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:55.693+02:00</SkapadDatum>
+  </mappning>
+
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>19108011M02</Kombikakod>
+    <HSAId>SE2321000016-14L1</HSAId>
+    <FromDatum>2007-04-03T00:00:00+02:00</FromDatum>
+    <SkapadDatum>2007-04-24T15:51:55.040+02:00</SkapadDatum>
+  </mappning>
+</mappningar>

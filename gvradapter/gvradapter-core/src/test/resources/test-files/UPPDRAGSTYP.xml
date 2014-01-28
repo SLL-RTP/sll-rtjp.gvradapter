@@ -1,0 +1,1673 @@
+<?xml version='1.0' encoding='UTF-8'?><arb:result xmlns:arb="urn::codeservice"><arb:document xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn::codeservice codeservice_result_V2.0.xsd"><header>Produced by CodeServer 4.8.4 (c) Datawell Oy</header>
+<body>
+<termsystem id="1" begindate="1970-01-01T00:00:01" expirationdate="2099-12-31T23:59:59" lastmodifieddate="2014-01-20T10:35:41.38141" lastmodifiedby="Tavakoli, Jamileh">
+<attribute type="longname" datatype="ST" language="fi">1</attribute>
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="codetype" datatype="ST">1</attribute>
+<attribute type="relatesto" datatype="ST">UPPDRAGSTYP</attribute>
+<attribute type="relatestoname" datatype="ST">UPPDRAGSTYP</attribute>
+<attribute type="hierarchical" datatype="ST">0</attribute>
+<termitementry id="000" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Inget uppdrag</attribute>
+<attribute type="longname" datatype="ST" language="fi">Inget uppdrag</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Inget uppdrag</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="70" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="102" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Allmän Internmedicin</attribute>
+<attribute type="longname" datatype="ST" language="fi">Allmän Internmedicin</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Allmän Internmedicin</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="103" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Allmänkirurgi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Allmänkirurgi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Allmänkirurgi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="104" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Allmänpsykiatri</attribute>
+<attribute type="longname" datatype="ST" language="fi">Allmänpsykiatri</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Allmänpsykiatri</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="106" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Arbetsterapi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Arbetsterapi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Arbetsterapi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="107" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Asylsjukvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Asylsjukvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Asylsjukvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="70" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="108" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Barn- och ungdomspsykiatri</attribute>
+<attribute type="longname" datatype="ST" language="fi">Barn- och ungdomspsykiatri</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Barn- och ungdomspsykiatri</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="05" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="109" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Barnkirurgi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Barnkirurgi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Barnkirurgi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="110" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Barn-och ungdomsmedicinsk mottagning</attribute>
+<attribute type="longname" datatype="ST" language="fi">Barn-och ungdomsmedicinsk mottagning</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Barn-och ungdomsmedicinsk mottagning</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="111" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Beroendevård barn och ungdom</attribute>
+<attribute type="longname" datatype="ST" language="fi">Beroendevård barn och ungdom</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Beroendevård barn och ungdom</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="09" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="112" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Beroendevård vuxna</attribute>
+<attribute type="longname" datatype="ST" language="fi">Beroendevård vuxna</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Beroendevård vuxna</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="09" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="113" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2012-01-17T23:59:59.0" lastmodifieddate="2013-03-25T07:15:25.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">BVC</attribute>
+<attribute type="longname" datatype="ST" language="fi">BVC</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">BVC</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="115" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ambulanssjukvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ambulanssjukvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ambulanssjukvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="120" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Dietist</attribute>
+<attribute type="longname" datatype="ST" language="fi">Dietist</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Dietist</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="122" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Förlossning</attribute>
+<attribute type="longname" datatype="ST" language="fi">Förlossning</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Förlossning</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="123" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Gastroenterologi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Gastroenterologi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Gastroenterologi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="124" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Geriatrik, basverksamhet</attribute>
+<attribute type="longname" datatype="ST" language="fi">Geriatrik, basverksamhet</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Geriatrik, basverksamhet</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="125" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Geropsykiatri</attribute>
+<attribute type="longname" datatype="ST" language="fi">Geropsykiatri</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Geropsykiatri</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="126" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Gynekologi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Gynekologi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Gynekologi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="127" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Habilitering</attribute>
+<attribute type="longname" datatype="ST" language="fi">Habilitering</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Habilitering</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="128" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Hemsjukvård, avancerad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Hemsjukvård, avancerad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Hemsjukvård, avancerad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="129" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Hemsjukvård, basal</attribute>
+<attribute type="longname" datatype="ST" language="fi">Hemsjukvård, basal</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Hemsjukvård, basal</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="131" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Palliativ vård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Palliativ vård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Palliativ vård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="132" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Hud- och könssjukdomar</attribute>
+<attribute type="longname" datatype="ST" language="fi">Hud- och könssjukdomar</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Hud- och könssjukdomar</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="133" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Husläkarverksamhet, basåtagande</attribute>
+<attribute type="longname" datatype="ST" language="fi">Husläkarverksamhet, basåtagande</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Husläkarverksamhet, basåtagande</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="134" language="fi" createdate="2006-12-21T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Jourverksamhet</attribute>
+<attribute type="longname" datatype="ST" language="fi">Jourverksamhet</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Jourverksamhet</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="135" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Kiropraktor</attribute>
+<attribute type="longname" datatype="ST" language="fi">Kiropraktor</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Kiropraktor</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="136" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Kurator</attribute>
+<attribute type="longname" datatype="ST" language="fi">Kurator</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Kurator</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="137" language="fi" createdate="2007-01-17T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Kvälls- och nattpatrull</attribute>
+<attribute type="longname" datatype="ST" language="fi">Kvälls- och nattpatrull</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Kvälls- och nattpatrull</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="138" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Logoped</attribute>
+<attribute type="longname" datatype="ST" language="fi">Logoped</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Logoped</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="139" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2012-01-20T23:59:59.0" lastmodifieddate="2013-03-25T07:16:04.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Läkarinsatser i sjukhem och SÄBO</attribute>
+<attribute type="longname" datatype="ST" language="fi">Läkarinsatser i sjukhem och SÄBO</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Läkarinsatser i sjukhem och SÄBO</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="140" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Medicinsk fotsjukvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Medicinsk fotsjukvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Medicinsk fotsjukvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="141" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Medicinsk service</attribute>
+<attribute type="longname" datatype="ST" language="fi">Medicinsk service</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Medicinsk service</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+</termitementry><termitementry id="142" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">MVC</attribute>
+<attribute type="longname" datatype="ST" language="fi">MVC</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">MVC</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="06" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="143" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Naprapat</attribute>
+<attribute type="longname" datatype="ST" language="fi">Naprapat</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Naprapat</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="144" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Neurokirurgi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Neurokirurgi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Neurokirurgi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="145" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Neurologi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Neurologi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Neurologi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="146" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Närakut</attribute>
+<attribute type="longname" datatype="ST" language="fi">Närakut</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Närakut</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="147" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Onkologi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Onkologi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Onkologi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="148" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ortopedi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ortopedi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ortopedi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="149" language="fi" createdate="2007-01-26T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Psykoterapi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Psykoterapi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Psykoterapi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="150" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Reumatologi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Reumatologi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Reumatologi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="151" language="fi" createdate="2007-01-25T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Rättspsykiatri/Särskilt vårdkrävande</attribute>
+<attribute type="longname" datatype="ST" language="fi">Rättspsykiatri/Särskilt vårdkrävande</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Rättspsykiatri/Särskilt vårdkrävande</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="153" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Sjukgymnastik</attribute>
+<attribute type="longname" datatype="ST" language="fi">Sjukgymnastik</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Sjukgymnastik</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="156" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Toraxkirurgi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Toraxkirurgi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Toraxkirurgi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="157" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Tortyrskadade</attribute>
+<attribute type="longname" datatype="ST" language="fi">Tortyrskadade</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Tortyrskadade</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="158" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ungdomsmottagning</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ungdomsmottagning</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ungdomsmottagning</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="159" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Urologi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Urologi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Urologi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="160" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ätstörningsvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ätstörningsvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ätstörningsvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="161" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ögonsjukvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ögonsjukvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ögonsjukvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="162" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Öron, Näsa, Hals</attribute>
+<attribute type="longname" datatype="ST" language="fi">Öron, Näsa, Hals</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Öron, Näsa, Hals</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="165" language="fi" createdate="2007-01-25T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Övrig sjukvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Övrig sjukvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Övrig sjukvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="166" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Övrigt</attribute>
+<attribute type="longname" datatype="ST" language="fi">Övrigt</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Övrigt</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="70" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="168" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ortoptist</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ortoptist</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ortoptist</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="169" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Paramedicin</attribute>
+<attribute type="longname" datatype="ST" language="fi">Paramedicin</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Paramedicin</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="175" language="fi" createdate="2011-09-21T12:51:57.0" begindate="2011-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Allmäntandvård, Vuxen</attribute>
+<attribute type="longname" datatype="ST" language="fi">Allmäntandvård, Vuxen</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Allmäntandvård, Vuxen</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="08" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="176" language="fi" createdate="2011-09-21T00:00:00.0" begindate="2011-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Tandvårdsreformen</attribute>
+<attribute type="longname" datatype="ST" language="fi">Tandvårdsreformen</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Tandvårdsreformen</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="08" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="177" language="fi" createdate="2011-09-21T12:59:08.0" begindate="2011-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Specialisttandvård, Vuxen</attribute>
+<attribute type="longname" datatype="ST" language="fi">Specialisttandvård, Vuxen</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Specialisttandvård, Vuxen</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="08" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="178" language="fi" createdate="2011-09-26T13:33:43.0" begindate="2011-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Medicinsk Tandvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Medicinsk Tandvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Medicinsk Tandvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="08" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="180" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Psykoterapeutisk verksamhet</attribute>
+<attribute type="longname" datatype="ST" language="fi">Psykoterapeutisk verksamhet</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Psykoterapeutisk verksamhet</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="182" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Sjukhusvård/Akutsjukhus</attribute>
+<attribute type="longname" datatype="ST" language="fi">Sjukhusvård/Akutsjukhus</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Sjukhusvård/Akutsjukhus</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="183" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Sjukhusvård/Akutmottagning</attribute>
+<attribute type="longname" datatype="ST" language="fi">Sjukhusvård/Akutmottagning</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Sjukhusvård/Akutmottagning</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="184" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2009-10-31T23:59:59.0" lastmodifieddate="2009-11-02T11:18:06.0" lastmodifiedby="Johansson, Elisabeth">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Barnnärakut</attribute>
+<attribute type="longname" datatype="ST" language="fi">Barnnärakut</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Barnnärakut</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="185" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Cityakuten</attribute>
+<attribute type="longname" datatype="ST" language="fi">Cityakuten</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Cityakuten</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="186" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Närsjukhus</attribute>
+<attribute type="longname" datatype="ST" language="fi">Närsjukhus</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Närsjukhus</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="187" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Tekniska hjälpmedel</attribute>
+<attribute type="longname" datatype="ST" language="fi">Tekniska hjälpmedel</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Tekniska hjälpmedel</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="188" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Kardiologi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Kardiologi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Kardiologi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="189" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Tolkverksamhet</attribute>
+<attribute type="longname" datatype="ST" language="fi">Tolkverksamhet</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Tolkverksamhet</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="190" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2009-10-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Lättakut</attribute>
+<attribute type="longname" datatype="ST" language="fi">Lättakut</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Lättakut</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="196" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ortopedi (dagkir+slv+mott)</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ortopedi (dagkir+slv+mott)</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ortopedi (dagkir+slv+mott)</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="199" language="fi" createdate="2007-01-25T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Psykosocial verksamhet i primärvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Psykosocial verksamhet i primärvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Psykosocial verksamhet i primärvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="201" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Sjukgymnastik ARV</attribute>
+<attribute type="longname" datatype="ST" language="fi">Sjukgymnastik ARV</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Sjukgymnastik ARV</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="202" language="fi" createdate="2006-12-21T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Familjecentral</attribute>
+<attribute type="longname" datatype="ST" language="fi">Familjecentral</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Familjecentral</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="203" language="fi" createdate="2007-01-25T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Specialiserad rehabilitering</attribute>
+<attribute type="longname" datatype="ST" language="fi">Specialiserad rehabilitering</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Specialiserad rehabilitering</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="204" language="fi" createdate="2007-01-25T00:00:00.0" begindate="2009-06-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Övrig öppenvårdsrehab</attribute>
+<attribute type="longname" datatype="ST" language="fi">Övrig öppenvårdsrehab</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Övrig öppenvårdsrehab</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="205" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Allmänmedicinska spec - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Allmänmedicinska spec - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Allmänmedicinska spec - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="206" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Barnmedicinska spec - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Barnmedicinska spec - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Barnmedicinska spec - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="207" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Hud - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Hud - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Hud - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="208" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Invärtesmedicin - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Invärtesmedicin - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Invärtesmedicin - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="209" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Psykiatriska spec - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Psykiatriska spec - Priv spec läk </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Psykiatriska spec - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="210" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Reumatologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Reumatologi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Reumatologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="211" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Vissa op spec - Reumatologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Vissa op spec - Reumatologi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Vissa op spec - Reumatologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="212" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Öron, Näsa, Hals - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Öron, Näsa, Hals - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Öron, Näsa, Hals - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="213" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ögonsjukvård - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ögonsjukvård - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ögonsjukvård - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="214" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Neurologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Neurologi - Priv spec läk </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Neurologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="215" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Gynekologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Gynekologi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Gynekologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="216" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Onkologi m m - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Onkologi m m - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Onkologi m m - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="217" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">ST-läkare allmänmedicin</attribute>
+<attribute type="longname" datatype="ST" language="fi">ST-läkare allmänmedicin</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">ST-läkare allmänmedicin</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="218" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Psykosocialt team, psykiatrisk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Psykosocialt team, psykiatrisk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Psykosocialt team, psykiatrisk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="219" language="fi" createdate="2007-01-17T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Rehabilitering i Primärvård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Rehabilitering i Primärvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Rehabilitering i Primärvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="220" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Stroketeam</attribute>
+<attribute type="longname" datatype="ST" language="fi">Stroketeam</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Stroketeam</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="221" language="fi" createdate="2007-01-17T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Äldrevårdcentral</attribute>
+<attribute type="longname" datatype="ST" language="fi">Äldrevårdcentral</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Äldrevårdcentral</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="222" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Algologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Algologi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Algologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="223" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Anestesi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Anestesi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Anestesi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="224" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Bröstmottagning - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Bröstmottagning - Priv spec läk </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Bröstmottagning - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="225" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Allergologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Allergologi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Allergologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="226" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Katarakter - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Katarakter - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Katarakter - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="227" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Gastroenterologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Gastroenterologi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Gastroenterologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="228" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Kardiologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Kardiologi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Kardiologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="229" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Lungmedicin - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Lungmedicin - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Lungmedicin - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="230" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Allmänkirurgi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Allmänkirurgi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Allmänkirurgi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="231" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Handkirurgi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Handkirurgi - Priv spec läk </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Handkirurgi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="232" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ortopedi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ortopedi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ortopedi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="233" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Urologi - Priv spec läk</attribute>
+<attribute type="longname" datatype="ST" language="fi">Urologi - Priv spec läk</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Urologi - Priv spec läk</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="234" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Vårdgaranti - akutsomatik</attribute>
+<attribute type="longname" datatype="ST" language="fi">Vårdgaranti - akutsomatik</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Vårdgaranti - akutsomatik</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="236" language="fi" createdate="2006-12-07T00:00:00.0" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Barnmedicinsk specialitet</attribute>
+<attribute type="longname" datatype="ST" language="fi">Barnmedicinsk specialitet</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Barnmedicinsk specialitet</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="237" language="fi" createdate="2006-12-07T00:00:00.0" begindate="2009-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Abortverksamhet</attribute>
+<attribute type="longname" datatype="ST" language="fi">Abortverksamhet</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Abortverksamhet</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="238" language="fi" createdate="2006-12-07T00:00:00.0" begindate="2009-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Hyperhidrosverksamhet</attribute>
+<attribute type="longname" datatype="ST" language="fi">Hyperhidrosverksamhet</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Hyperhidrosverksamhet</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="239" language="fi" createdate="2006-12-07T00:00:00.0" begindate="2009-10-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Barnakutverksamhet.</attribute>
+<attribute type="longname" datatype="ST" language="fi">Barnakutverksamhet.</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Barnakutverksamhet.</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="240" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">ST-läkare geriatrik</attribute>
+<attribute type="longname" datatype="ST" language="fi">ST-läkare geriatrik</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">ST-läkare geriatrik</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="241" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">ST-läkare psykiatri</attribute>
+<attribute type="longname" datatype="ST" language="fi">ST-läkare psykiatri</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">ST-läkare psykiatri</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="242" language="fi" createdate="2006-12-07T00:00:00.0" begindate="1970-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">IVF-behandlingar</attribute>
+<attribute type="longname" datatype="ST" language="fi">IVF-behandlingar</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">IVF-behandlingar</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="243" language="fi" createdate="2006-12-07T00:00:00.0" begindate="2009-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Kulturella omskärelser</attribute>
+<attribute type="longname" datatype="ST" language="fi">Kulturella omskärelser</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Kulturella omskärelser</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="244" language="fi" createdate="2010-10-22T00:00:00.0" begindate="2010-01-01T00:00:01.0" expirationdate="2012-04-30T23:59:59.0" lastmodifieddate="2012-04-03T09:49:50.0" lastmodifiedby="Svensson, Ann">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Länsgemensam geriatrik</attribute>
+<attribute type="longname" datatype="ST" language="fi">Länsgemensam geriatrik</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Länsgemensam geriatrik</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="244" language="fi" createdate="2012-04-03T09:50:23.0" begindate="2012-05-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Övrig Geriatrik</attribute>
+<attribute type="longname" datatype="ST" language="fi">Övrig Geriatrik</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Övrig Geriatrik</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="245" language="fi" createdate="2011-10-12T00:00:00.0" begindate="2012-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Synrehabilitering</attribute>
+<attribute type="longname" datatype="ST" language="fi">Synrehabilitering</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Synrehabilitering</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="246" language="fi" createdate="2011-10-12T00:00:00.0" begindate="2012-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">STI</attribute>
+<attribute type="longname" datatype="ST" language="fi">STI</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">STI</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="06" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="300" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Husläkarverksamhet - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Husläkarverksamhet - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Husläkarverksamhet - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="301" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Psykosociala insatser - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Psykosociala insatser - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Psykosociala insatser - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="302" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Hemsjukvård basal - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Hemsjukvård basal - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Hemsjukvård basal - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="303" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">BVC - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">BVC - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">BVC - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="304" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Fotsjukvård - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Fotsjukvård - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Fotsjukvård - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="305" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">MVC - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">MVC - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">MVC - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="06" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="306" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Logoped - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Logoped - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Logoped - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="307" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Läkarins särs boende - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Läkarins särs boende - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Läkarins särs boende - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="19" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="308" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Husläkarjour - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Husläkarjour - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Husläkarjour - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="309" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2010-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Obstetriska Ultraljud - Vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Obstetriska Ultraljud - Vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Obstetriska Ultraljud - Vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="06" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="310" language="fi" createdate="2011-10-12T00:00:00.0" begindate="2011-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Vårdval primär hörselrehabilitering</attribute>
+<attribute type="longname" datatype="ST" language="fi">Vårdval primär hörselrehabilitering </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Vårdval primär hörselrehabilitering</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="311" language="fi" createdate="2011-10-12T15:00:36.0" begindate="2012-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Vårdval  primärvårdsrehabilitering</attribute>
+<attribute type="longname" datatype="ST" language="fi">Vårdval  primärvårdsrehabilitering</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Vårdval  primärvårdsrehabilitering</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="312" language="fi" createdate="2011-10-12T00:00:00.0" begindate="2012-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Vårdval Neuroteam</attribute>
+<attribute type="longname" datatype="ST" language="fi">Vårdval Neuroteam</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Vårdval Neuroteam</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="313" language="fi" createdate="2011-10-12T00:00:00.0" begindate="2012-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Vårdval Specialiserad sjukgymnastik</attribute>
+<attribute type="longname" datatype="ST" language="fi">Vårdval Specialiserad sjukgymnastik</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Vårdval Specialiserad sjukgymnastik</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="314" language="fi" createdate="2011-10-12T15:15:11.0" begindate="2012-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">MVC Familjeplanering</attribute>
+<attribute type="longname" datatype="ST" language="fi">MVC Familjeplanering </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">MVC Familjeplanering</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="06" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="315" language="fi" createdate="2011-10-12T15:15:47.0" begindate="2012-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">MVC Screening</attribute>
+<attribute type="longname" datatype="ST" language="fi">MVC Screening</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">MVC Screening</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="06" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="317" language="fi" createdate="2012-05-07T15:40:26.0" begindate="2012-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Vårdval Specialiserad sjukgymnastik med övergångsr</attribute>
+<attribute type="longname" datatype="ST" language="fi">Vårdval Specialiserad sjukgymnastik med övergångsregel</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Vårdval Specialiserad sjukgymnastik med övergångsr</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="07" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="318" language="fi" createdate="2013-11-12T00:00:00.0" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-11-28T08:45:53.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Avancerad hemsjukvård vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Avancerad hemsjukvård vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Avancerad hemsjukvård vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="319" language="fi" createdate="2013-11-12T13:02:13.0" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-11-28T08:45:59.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Specialiserad palliativ sv vv</attribute>
+<attribute type="longname" datatype="ST" language="fi">Övrig Geriatrik</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Specialiserad palliativ sv vv</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="320" language="fi" createdate="2013-10-30T09:23:48.0" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-10-30T09:23:48.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Psykisk ohälsa hos barn o ung</attribute>
+<attribute type="longname" datatype="ST" language="fi">Psykisk ohälsa hos barn och ungdom</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Psykisk ohälsa hos barn o ung</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="321" language="fi" createdate="2014-01-20T10:17:33.0" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2014-01-20T10:34:34.0" lastmodifiedby="Tavakoli, Jamileh">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">BUMM basuppdrag vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">BUMM basuppdrag vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">BUMM basuppdrag vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="322" language="fi" createdate="2014-01-20T10:22:52.0" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2014-01-20T10:34:58.0" lastmodifiedby="Tavakoli, Jamileh">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">BUMM barnfetma vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">BUMM barnfetma vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">BUMM barnfetma vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="323" language="fi" createdate="2014-01-20T10:23:37.0" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2014-01-20T10:35:41.0" lastmodifiedby="Tavakoli, Jamileh">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">BUMM neuropsyk utr vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">BUMM neuropsyk utr vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">BUMM neuropsyk utr vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="04" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="400" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Baspsykiatri vuxna</attribute>
+<attribute type="longname" datatype="ST" language="fi">Baspsykiatri vuxna</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Baspsykiatri vuxna</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="03" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="405" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">LG klinikvård BUP</attribute>
+<attribute type="longname" datatype="ST" language="fi">LG klinikvård BUP</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">LG klinikvård BUP</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="05" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="406" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">LG öppenvård BUP</attribute>
+<attribute type="longname" datatype="ST" language="fi">LG öppenvård BUP</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">LG öppenvård BUP</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="05" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="407" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">LG Mellanvård BUP</attribute>
+<attribute type="longname" datatype="ST" language="fi">LG Mellanvård BUP</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">LG Mellanvård BUP</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="05" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="408" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Barn-o ungdomspsykiatri, lokal</attribute>
+<attribute type="longname" datatype="ST" language="fi">Barn-o ungdomspsykiatri, lokal </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Barn-o ungdomspsykiatri, lokal</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="05" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="412" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2006-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Lokal integrerad beroendevård</attribute>
+<attribute type="longname" datatype="ST" language="fi">Lokal integrerad beroendevård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Lokal integrerad beroendevård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="09" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="600" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2008-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Höft- och Knäoperationer - Vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Höft- och Knäoperationer - Vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Höft- och Knäoperationer - Vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="601" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2008-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ögonbottenscreening - Vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ögonbottenscreening - Vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ögonbottenscreening - Vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="602" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2008-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Kataraktoperationer - Vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Kataraktoperationer - Vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Kataraktoperationer - Vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="603" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2008-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Förlossningsvård - Vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Förlossningsvård - Vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Förlossningsvård - Vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="604" language="fi" createdate="2011-07-17T00:00:00.0" begindate="2011-07-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Auktorisation specialiserad ögonsjukvård</attribute>
+<attribute type="longname" datatype="ST" language="fi"> Auktorisation specialiserad ögonsjukvård</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Auktorisation specialiserad ögonsjukvård</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="605" language="fi" createdate="2011-09-15T00:00:00.0" begindate="2011-07-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Auktorisation specialiserad ÖNH</attribute>
+<attribute type="longname" datatype="ST" language="fi"> Auktorisation specialiserad ÖNH</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Auktorisation specialiserad ÖNH</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="606" language="fi" createdate="2011-09-15T00:00:00.0" begindate="2011-07-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Auktorisation specialiserad Hud,</attribute>
+<attribute type="longname" datatype="ST" language="fi"> Auktorisation specialiserad Hud,</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Auktorisation specialiserad Hud,</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="607" language="fi" createdate="2011-09-15T00:00:00.0" begindate="2011-07-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Auktorisation specialiserad Gyn,</attribute>
+<attribute type="longname" datatype="ST" language="fi"> Auktorisation specialiserad Gyn,</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Auktorisation specialiserad Gyn,</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="608" language="fi" createdate="2011-10-05T00:00:00.0" begindate="2011-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Kval gynekologiskt ultraljud vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Kval gynekologiskt ultraljud vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Kval gynekologiskt ultraljud vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="609" language="fi" createdate="2011-10-11T00:00:00.0" begindate="2011-10-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Uroterapeutisk utredning och behandling</attribute>
+<attribute type="longname" datatype="ST" language="fi">Uroterapeutisk utredning och behandling</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Uroterapeutisk utredning och behandling</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="610" language="fi" createdate="2012-01-30T00:00:00.0" begindate="2011-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Särskild uppdrag, Aukt. hudmottagning</attribute>
+<attribute type="longname" datatype="ST" language="fi">Särskild uppdrag, Aukt. hudmottagning</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Särskild uppdrag, Aukt. hudmottagning</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi">Särskild uppdrag, Aukt. hudmottagning</attribute>
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="611" language="fi" createdate="2012-09-14T00:00:00.0" begindate="2012-08-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Auktorisation specialiserad allergologi</attribute>
+<attribute type="longname" datatype="ST" language="fi">Auktorisation specialiserad allergologi</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Auktorisation specialiserad allergologi</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="612" language="fi" createdate="2013-03-01T00:00:00.0" begindate="2013-08-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-06-03T13:02:50.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ortopedi, vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Ortopedi, vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ortopedi, vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="613" language="fi" createdate="2013-05-23T10:33:04.0" begindate="2013-08-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-05-23T10:33:04.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Fotkirurgi, vårdval </attribute>
+<attribute type="longname" datatype="ST" language="fi">Fotkirurgi, vårdval </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Fotkirurgi, vårdval </attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="614" language="fi" createdate="2013-05-23T00:00:00.0" begindate="2013-08-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-06-03T13:03:20.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Handkirurgi, vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Handkirurgi, vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Handkirurgi, vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="615" language="fi" createdate="2013-05-23T00:00:00.0" begindate="2013-03-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-05-23T12:46:01.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Ryggkirurgi, vårdval </attribute>
+<attribute type="longname" datatype="ST" language="fi">Ryggkirurgi, vårdval </attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Ryggkirurgi, vårdval </attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="616" language="fi" createdate="2013-11-26T14:16:28.0" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-11-26T14:16:28.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Specialiserad neurologi ÖV, Vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Specialiserad neurologi ÖV, Vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Spec neurologi öv VV</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi">Används inom VV specialiserad neurologi&lt;br/></attribute>
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="700" language="fi" createdate="2006-12-07T00:00:00.0" begindate="2009-06-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:18:11.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Egna lab prover-MVK (Mina vårdkontakter)</attribute>
+<attribute type="longname" datatype="ST" language="fi">Egna lab prover-MVK (Mina vårdkontakter)</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Egna lab prover-MVK (Mina vårdkontakter)</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">N</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="70" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="800" language="fi" createdate="2007-01-25T00:00:00.0" begindate="2009-11-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2013-02-19T15:19:08.0" lastmodifiedby="Malm, Roger">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Specialiserad rehabilitering, Vårdval</attribute>
+<attribute type="longname" datatype="ST" language="fi">Specialiserad rehabilitering, Vårdval</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Specialiserad rehabilitering, Vårdval</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi" />
+<attribute type="Vårdval_LOV" datatype="ST" language="sv">J</attribute>
+<attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="20" codesystem="BUDOMR" codesystemversion="1" referenceid="BUDOMR" /></attribute>
+</termitementry><termitementry id="998" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2007-12-31T23:59:59.0" lastmodifieddate="2008-09-05T12:12:41.0" lastmodifiedby="Johansson, Elisabeth">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Psykosociala insatser - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Psykosociala insatser - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Psykosociala insatser - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi">Tillfällig uppdragstyp kommer att ersättas med uppdragstyp 301 innan 2008-01-01</attribute>
+</termitementry><termitementry id="999" language="fi" createdate="2007-01-17T00:00:00.0" begindate="2007-11-01T00:00:01.0" expirationdate="2007-12-31T23:59:59.0" lastmodifieddate="2008-09-05T12:13:48.0" lastmodifiedby="Johansson, Elisabeth">
+<attribute type="status" datatype="ST">1</attribute>
+<attribute type="shortname" datatype="ST" language="fi">Hemsjukvård - Auktoriserad</attribute>
+<attribute type="longname" datatype="ST" language="fi">Hemsjukvård - Auktoriserad</attribute>
+<attribute type="abbreviation" datatype="ST" language="fi">Hemsjukvård - Auktoriserad</attribute>
+<attribute type="hierarchylevel" datatype="ST">0</attribute>
+<attribute type="parentid" datatype="ST" language="fi" />
+<attribute type="description" datatype="ST" language="fi">Tillfällig uppdragstyp kommer att ersättas med uppdragstyp 302 innan 2008-01-01</attribute>
+</termitementry></termsystem></body></arb:document></arb:result>
