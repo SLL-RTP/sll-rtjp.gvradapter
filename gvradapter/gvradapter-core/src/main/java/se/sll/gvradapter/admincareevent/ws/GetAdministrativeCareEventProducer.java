@@ -29,7 +29,6 @@ import riv.followup.processdevelopment.getadministrativecareeventresponder._1.Ge
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.v1.CareEventType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
-import se.sll.gvradapter.admincareevent.service.GVRFileService;
 import se.sll.gvradapter.gvr.reader.GVRFileReader;
 import se.sll.gvradapter.gvr.transform.ERSMOIndataToReimbursementEventTransformer;
 import se.sll.gvradapter.gvr.transform.ERSMOIndataUnMarshaller;

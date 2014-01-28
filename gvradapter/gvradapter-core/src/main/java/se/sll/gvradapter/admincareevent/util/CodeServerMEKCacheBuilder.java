@@ -15,7 +15,6 @@
  */
 package se.sll.gvradapter.admincareevent.util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -213,7 +212,6 @@ public class CodeServerMEKCacheBuilder {
     protected Map<String, List<TermItem<HSAMappingState>>> createHSAIndex() {
         log.info("build HSA index from: {}", mekFile);
 
-        File hsaFile = new File(this.mekFile);
         final SimpleXMLElementParser elementParser = new SimpleXMLElementParser(this.mekFile);
         final Map<String, List<TermItem<HSAMappingState>>> map = new HashMap<String, List<TermItem<HSAMappingState>>>();
 
