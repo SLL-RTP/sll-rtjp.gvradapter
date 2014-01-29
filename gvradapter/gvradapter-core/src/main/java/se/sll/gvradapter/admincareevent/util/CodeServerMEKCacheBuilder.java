@@ -127,7 +127,7 @@ public class CodeServerMEKCacheBuilder {
     /**
      * Builds the index.
      * 
-     * @return a map with HSA ID as keys and {@link HSAMappingBean} as value objects.
+     * @return a map with Kombika as keys and {@link FacilityState} as value objects.
      */
     public Map<String, TermItem<FacilityState>> build() {
 

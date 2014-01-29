@@ -59,11 +59,10 @@ public class GVRFileReader {
 		
 		log.info("Reading files from date: " + inDate + " and path: " + folderToIterate.toString());
 
-		String str = inDate;
-		SimpleDateFormat df = new SimpleDateFormat(gvrService.getGVRTimestampFormat());
-		Date date = null;
+        SimpleDateFormat df = new SimpleDateFormat(gvrService.getGVRTimestampFormat());
+		Date date;
 		try {
-			date = df.parse(str);
+			date = df.parse(inDate);
 		} catch (ParseException e1) {
 			log.error("The supplied date parameter (" + inDate + ") is not valid.", e1);
 			throw new InvalidParameterException("The date parameter was not valid: " + inDate);
@@ -115,13 +114,13 @@ public class GVRFileReader {
 	 */
 	public static String readFile(Path path) {
 		Charset charset = Charset.forName("ISO-8859-1");
-		StringBuffer response = new StringBuffer();
+		StringBuilder response = new StringBuilder();
 		BufferedReader reader = null;
 		try {
 			reader = Files.newBufferedReader(path, charset);
-			String line = null;
+			String line;
 			while ((line = reader.readLine()) != null) {
-				response.append(line + System.getProperty("line.separator"));
+                response.append(line).append(System.getProperty("line.separator"));
 			}
 		} catch (IOException x) {
 			log.error("IOException when reading GVR file", x);

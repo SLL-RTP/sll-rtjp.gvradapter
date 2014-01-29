@@ -30,6 +30,7 @@ import riv.followup.processdevelopment.v1.ObjectFactory;
 import se.sll.ersmo.xml.indata.Diagnoser.Diagnos;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
+import se.sll.ersmo.xml.indata.Kon;
 import se.sll.ersmo.xml.indata.Tillståndslista.Tillstånd;
 import se.sll.ersmo.xml.indata.Yrkeskategorier.Yrkeskategori;
 import se.sll.ersmo.xml.indata.Åtgärder.Åtgärd;
@@ -78,13 +79,13 @@ public class ERSMOIndataToReimbursementEventTransformer {
 					currentEvent.getPatient().setBirthDate(currentErsh.getPatient().getFödelsedatum().toXMLFormat());
 				}
 				if (currentErsh.getPatient().getKön() != null) {
-					if (currentErsh.getPatient().getKön().equals("M")) {
+					if (currentErsh.getPatient().getKön().equals(Kon.M)) {
 						currentEvent.getPatient().setGender(GenderType.M);
-					} else if (currentErsh.getPatient().getKön().equals("K")) {
+					} else if (currentErsh.getPatient().getKön().equals(Kon.K)) {
 						currentEvent.getPatient().setGender(GenderType.F);
-					} else if (currentErsh.getPatient().getKön().equals("X")) {
+					} /*else if (currentErsh.getPatient().getKön().equals("X")) {
 						currentEvent.getPatient().setGender(GenderType.U);
-					}
+					}*/
 				}
 				currentEvent.getPatient().setResidency(of.createPatientTypeResidency());
 				if (currentErsh.getPatient().getLkf() != null && currentErsh.getPatient().getLkf().length() >= 6) {
@@ -142,7 +143,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
 				if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
 					// Emergency
 					if (currentErsh.getHändelseklass().getVårdkontakt().getAkut() != null) {
-						currentEvent.setEmergency(currentErsh.getHändelseklass().getVårdkontakt().getAkut().equals("J") ? true : false);
+						currentEvent.setEmergency(currentErsh.getHändelseklass().getVårdkontakt().getAkut().equals("J"));
 					}
 
 					// Event Type

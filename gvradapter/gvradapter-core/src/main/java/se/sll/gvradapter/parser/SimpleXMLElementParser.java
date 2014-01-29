@@ -103,7 +103,7 @@ public class SimpleXMLElementParser {
             case XMLEvent.START_ELEMENT:
                 if (match) {
                     Integer i = nameCodeMap.get(e.asStartElement().getName().getLocalPart());
-                    code = (i == null) ? Integer.MIN_VALUE : i.intValue();
+                    code = (i == null) ? Integer.MIN_VALUE : i;
                 } else if (e.asStartElement().getName().getLocalPart().equals(enclosingName)) {
                     matcher.begin();
                     match = true;
