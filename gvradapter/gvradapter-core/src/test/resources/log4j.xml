@@ -32,6 +32,7 @@
 	<!-- Application Loggers -->
 	<logger name="se.sll">
 		<level value="debug" />
+        <appender-ref ref="console" />
 	</logger>
 	
 	<logger name="org.springframework.http.client">

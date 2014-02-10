@@ -35,15 +35,25 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import se.sll.gvradapter.admincareevent.service.GVRFileService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import se.sll.gvradapter.admincareevent.service.GVRJobService;
 
 /**
  * Handles listing all the GVR files that are newer (last changed) than the
  * incoming date parameter as well as reading a specified file (Path).
  */
+@Component
 public class GVRFileReader {
 	
 	private static final Logger log = LoggerFactory.getLogger(GVRFileReader.class);
+
+    @Value("${pr.ftp.gvr.localPath:/tmp/gvr/in}")
+    private String localPath;
+
+    @Value("${pr.gvr.timestampFormat:yyyyMMddHHmmss}")
+    private String gvrTimestampFormat;
 
 	/**
 	 * Gets a list of file {@link Path}s in a configured directory that has a modified
@@ -53,13 +63,12 @@ public class GVRFileReader {
 	 * @return a List of {@link Path} objects.
 	 * @throws InvalidParameterException If the supplied date format is not valid.
 	 */
-	public static List<Path> getFileList(String inDate) throws InvalidParameterException {
-		GVRFileService gvrService = GVRFileService.getInstance();
-		Path folderToIterate = FileSystems.getDefault().getPath(gvrService.getGVRDirectory());
+	public List<Path> getFileList(String inDate) throws InvalidParameterException {
+		Path folderToIterate = FileSystems.getDefault().getPath(localPath);
 		
 		log.info("Reading files from date: " + inDate + " and path: " + folderToIterate.toString());
 
-        SimpleDateFormat df = new SimpleDateFormat(gvrService.getGVRTimestampFormat());
+        SimpleDateFormat df = new SimpleDateFormat(gvrTimestampFormat);
 		Date date;
 		try {
 			date = df.parse(inDate);
@@ -74,11 +83,12 @@ public class GVRFileReader {
 
 			@Override
 			public boolean accept(Path entry) throws IOException {
+                boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
 				// Filter reads basic attributes and accepts all the files with lastModifiedTime > inDate
 				BasicFileAttributeView basicAttrsView = Files.getFileAttributeView(entry, BasicFileAttributeView.class);
 				BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
 				boolean isLastModifiedAfterLocalDate = FileTime.fromMillis(epoch).compareTo(basicAttrs.lastModifiedTime()) <= 0;
-				return basicAttrs.isRegularFile() && isLastModifiedAfterLocalDate;
+				return isXML && basicAttrs.isRegularFile() && isLastModifiedAfterLocalDate;
 			}
 		};
 
@@ -112,7 +122,7 @@ public class GVRFileReader {
 	 * @param path The full path for the file that will be read.
 	 * @return A String with the full file contents.
 	 */
-	public static String readFile(Path path) {
+	public String readFile(Path path) {
 		Charset charset = Charset.forName("ISO-8859-1");
 		StringBuilder response = new StringBuilder();
 		BufferedReader reader = null;

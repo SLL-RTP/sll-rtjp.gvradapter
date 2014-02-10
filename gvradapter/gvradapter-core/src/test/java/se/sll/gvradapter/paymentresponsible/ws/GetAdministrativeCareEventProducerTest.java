@@ -15,8 +15,6 @@
  */
 package se.sll.gvradapter.paymentresponsible.ws;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,20 +24,20 @@ import riv.followup.processdevelopment.getadministrativecareeventresponder._1.Ge
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.v1.CareEventType;
 import se.sll.gvradapter.admincareevent.service.CodeServerMEKCacheManagerService;
-import se.sll.gvradapter.admincareevent.ws.GetAdministrativeCareEventProducer;
+import se.sll.gvradapter.admincareevent.ws.AbstractProducer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:gvradapter-core-spring-context.xml")
-public class GetAdministrativeCareEventProducerTest {
+public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
 	@Test
 	public void test() { 
 		CodeServerMEKCacheManagerService.getInstance().revalidate();
-		GetAdministrativeCareEventProducer test = new GetAdministrativeCareEventProducer();
 		GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
 		params.setDate("20140123150600");
 
-		GetAdministrativeCareEventResponse response = test.getAdministrativeCareEvent("12314", params);
+        GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        response.getCareEvent().addAll(this.getAdministrativeCareEvent0(params));
 		for (CareEventType careEvent : response.getCareEvent()) {
 			System.out.println("HSA-id: " + careEvent.getCareUnitHsaId());
 			System.out.println("Deceased: " + careEvent.isDeceased());

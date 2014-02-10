@@ -15,6 +15,7 @@
  */
 package se.sll.gvradapter.admincareevent.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -318,7 +319,8 @@ public class CodeServerMEKCacheBuilder {
     //
     protected HashMap<String, TermItem<CommissionTypeState>> createCommissionTypeIndex() {
         final HashMap<String, TermItem<CommissionTypeState>> index = new HashMap<String, TermItem<CommissionTypeState>>();
-
+        File test = new File(this.commissionTypeFile);
+        System.out.printf("Current commission type file: %1$s \\n", test.getAbsolutePath());
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.commissionTypeFile, new CodeServiceEntryCallback() {
             @Override
             public void onCodeServiceEntry(CodeServiceEntry codeServiceEntry) {

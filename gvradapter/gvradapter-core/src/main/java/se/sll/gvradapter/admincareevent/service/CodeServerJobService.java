@@ -15,12 +15,7 @@
  */
 package se.sll.gvradapter.admincareevent.service;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,16 +33,16 @@ import se.sll.gvradapter.jmx.StatusBean;
  * @author Peter
  */
 @Service
-public class JobService {
+public class CodeServerJobService {
     //
-    private static final Logger log = LoggerFactory.getLogger(JobService.class);
+    private static final Logger log = LoggerFactory.getLogger(CodeServerJobService.class);
 
     @Value("${pr.ftp.script:}")
     private String script;
     
     @Value("${pr.ftp.localPath}")
     private String localPath;
-    
+
     @Autowired
     private CodeServerMEKCacheManagerService codeServerMekCacheService;
     
@@ -89,7 +84,6 @@ public class JobService {
             statusBean.stop(success);
         }
     }
-    
 
     /**
      * Logs input from an input stream to error or info level.
