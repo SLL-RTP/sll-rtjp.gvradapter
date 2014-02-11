@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.v1.CareEventType;
+import riv.followup.processdevelopment.v1.TimePeriodType;
 import se.sll.gvradapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.gvradapter.admincareevent.ws.AbstractProducer;
 
@@ -34,7 +35,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 	public void test() { 
 		CodeServerMEKCacheManagerService.getInstance().revalidate();
 		GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
-		params.setDate("20140123150600");
+		params.setUpdatedDuringPeriod(new TimePeriodType());
+        params.getUpdatedDuringPeriod().setStart("20140123150600");
 
         GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         response.getCareEvent().addAll(this.getAdministrativeCareEvent0(params));

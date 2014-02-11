@@ -30,7 +30,7 @@
 	</xs:element>
 	<xs:complexType name="GetAdministrativeCareEventType">
 		<xs:sequence>
-			<xs:element name="date" type="core:DateType"/>
+			<xs:element name="updatedDuringPeriod" type="core:TimePeriodType"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>

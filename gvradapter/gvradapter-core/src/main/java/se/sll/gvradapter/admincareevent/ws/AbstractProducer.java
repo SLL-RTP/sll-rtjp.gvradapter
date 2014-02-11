@@ -23,9 +23,6 @@ import javax.xml.ws.handler.MessageContext;
 import java.nio.file.Path;
 import java.util.*;
 
-/**
- * Created by erja on 2014-02-10.
- */
 public class AbstractProducer {
 
     private static final Logger log = LoggerFactory.getLogger("WS-API");
@@ -60,7 +57,7 @@ public class AbstractProducer {
 
     public List<CareEventType> getAdministrativeCareEvent0(GetAdministrativeCareEventType parameters) {
         List<CareEventType> responseList = new ArrayList<CareEventType>();
-        for (Path currentFile : gvrFileReader.getFileList(parameters.getDate())) {
+        for (Path currentFile : gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(), parameters.getUpdatedDuringPeriod().getEnd())) {
             // (TODO: Convert to stream instead of a String response)
             String fileContent = gvrFileReader.readFile(currentFile);
 

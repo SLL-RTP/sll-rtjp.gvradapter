@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp"
+      xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd">
+	<sftp:connector name="sftp-default" autoDelete="true" doc:name="SFTP" />
+    <flow name="ftp-downloadFlow1" doc:name="ftp-downloadFlow1">
+        <sftp:inbound-endpoint  connector-ref="sftp-default" doc:name="SFTP" host="localhost" password="k4tt3nb0ss3" pollingFrequency="60000" port="22" responseTimeout="10000" user="erja" path="/inbox" encoding="UTF-8" />
+        <logger level="INFO" message="#[payload]" doc:name="Logger"/>
+        <file:outbound-endpoint doc:name="File" path="C:\tmp\gvr\archive" responseTimeout="10000"/>
+        <choice doc:name="Choice">
+        	<when expression="#[payload.getFileName().endsWith('.xml')]">
+        		<file:outbound-endpoint doc:name="File" path="C:\tmp\gvr\in" responseTimeout="10000"/>
+        	</when>
+            <otherwise>
+                <logger message="Fil filtrerades bort: #[payload.getFileName()]" level="INFO" doc:name="Logger"/>
+            </otherwise>
+        </choice>
+    </flow>
+</mule>

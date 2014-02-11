@@ -24,11 +24,11 @@ import riv.followup.processdevelopment.getadministrativecareeventresponder._1.Ge
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
 
 /**
- * Fully implemented GetAdministrativeCareEventProducer that is used by the logic free Mule flow. It reads all the new files in the configured in directory,
- * transforms these to the contract format and returns the response.
+ * Fully implemented GetAdministrativeCareEventProducer that is used by the logic free Mule flow and the web-app.
+ * It reads all the new files in the configured in directory, transforms these to the contract format and returns the response.
  * 
  * It uses lightly modified versions of the existing
- * support classes for handling file reading and transformations, which is why the architecture of these are a little unorthodox.
+ * Mule support classes for handling file reading and transformations, which is why the architecture of these are a little unorthodox.
  */
 public class GetAdministrativeCareEventProducer extends AbstractProducer implements
         GetAdministrativeCareEventResponderInterface {

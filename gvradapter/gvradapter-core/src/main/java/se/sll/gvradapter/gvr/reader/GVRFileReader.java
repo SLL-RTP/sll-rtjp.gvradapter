@@ -37,8 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import se.sll.gvradapter.admincareevent.service.GVRJobService;
 
 /**
  * Handles listing all the GVR files that are newer (last changed) than the
@@ -55,28 +53,49 @@ public class GVRFileReader {
     @Value("${pr.gvr.timestampFormat:yyyyMMddHHmmss}")
     private String gvrTimestampFormat;
 
+    /**
+     * Gets a list of file {@link java.nio.file.Path}s in a configured directory that has a modified
+     * date that is newer than the date parameter provided.
+     *
+     * @param fromDateString The date to compare the files with (format: yyyyMMddHHmmss).
+     * @param toDateString The date to compare the files with (format: yyyyMMddHHmmss).
+     * @return a List of {@link java.nio.file.Path} objects.
+     * @throws java.security.InvalidParameterException If the supplied date format is not valid.
+     */
+    public List<Path> getFileList(String fromDateString, String toDateString) throws InvalidParameterException {
+        SimpleDateFormat df = new SimpleDateFormat(gvrTimestampFormat);
+        Date fromDate = null;
+        Date toDate = null;
+        try {
+            if (fromDateString != null && !fromDateString.equals("")) {
+                fromDate = df.parse(fromDateString);
+            }
+            if (toDateString != null && !toDateString.equals("")) {
+                toDate = df.parse(toDateString);
+            }
+        } catch (ParseException e1) {
+            log.error("One of the supplied date parameters (" + fromDateString + "/" + toDateString + ") is not valid.", e1);
+            throw new InvalidParameterException("One of the supplied date parameters (" + fromDateString + "/" + toDateString + ") is not valid.");
+        }
+
+        return getFileList(fromDate, toDate);
+    }
+
 	/**
-	 * Gets a list of file {@link Path}s in a configured directory that has a modified
+	 * Gets a list of file {@link java.nio.file.Path}s in a configured directory that has a modified
 	 * date that is newer than the date parameter provided.
 	 * 
-	 * @param inDate The date to compare the files with (format: yyyyMMddHHmmss).
-	 * @return a List of {@link Path} objects.
-	 * @throws InvalidParameterException If the supplied date format is not valid.
+	 * @param fromDate The date to compare the files with (format: yyyyMMddHHmmss).
+	 * @return a List of {@link java.nio.file.Path} objects.
+	 * @throws java.security.InvalidParameterException If the supplied date format is not valid.
 	 */
-	public List<Path> getFileList(String inDate) throws InvalidParameterException {
+	public List<Path> getFileList(Date fromDate, Date toDate) throws InvalidParameterException {
 		Path folderToIterate = FileSystems.getDefault().getPath(localPath);
 		
-		log.info("Reading files from date: " + inDate + " and path: " + folderToIterate.toString());
+		log.info("Reading files from date: " + fromDate + " and path: " + folderToIterate.toString());
 
-        SimpleDateFormat df = new SimpleDateFormat(gvrTimestampFormat);
-		Date date;
-		try {
-			date = df.parse(inDate);
-		} catch (ParseException e1) {
-			log.error("The supplied date parameter (" + inDate + ") is not valid.", e1);
-			throw new InvalidParameterException("The date parameter was not valid: " + inDate);
-		}
-		final long epoch = date.getTime();
+		final long fromDateEpoch = fromDate != null ? fromDate.getTime() : 0L;
+        final long toDateEpoch = toDate != null ? toDate.getTime() : Long.MAX_VALUE;
 		
 		// Creating the filter
 		DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
@@ -87,8 +106,9 @@ public class GVRFileReader {
 				// Filter reads basic attributes and accepts all the files with lastModifiedTime > inDate
 				BasicFileAttributeView basicAttrsView = Files.getFileAttributeView(entry, BasicFileAttributeView.class);
 				BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
-				boolean isLastModifiedAfterLocalDate = FileTime.fromMillis(epoch).compareTo(basicAttrs.lastModifiedTime()) <= 0;
-				return isXML && basicAttrs.isRegularFile() && isLastModifiedAfterLocalDate;
+				boolean isLastModifiedAfterLocalFromDate = FileTime.fromMillis(fromDateEpoch).compareTo(basicAttrs.lastModifiedTime()) <= 0;
+                boolean isLastModifiedBeforeLocalToDate = FileTime.fromMillis(toDateEpoch).compareTo(basicAttrs.lastModifiedTime()) >= 0;
+				return isXML && basicAttrs.isRegularFile() && isLastModifiedAfterLocalFromDate && isLastModifiedBeforeLocalToDate;
 			}
 		};
 
