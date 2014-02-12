@@ -40,7 +40,7 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="careUnitHsaId" type="tns:HSAIdType"/>
+			<xs:element name="careUnit" type="tns:CareUnitType"/>
 			<xs:element name="lastUpdatedTime" type="tns:TimeStampType"/>
 			<xs:element name="deleted" type="xs:boolean"/>
 			<xs:element name="datePeriod" type="tns:DatePeriodType"/>
@@ -226,9 +226,36 @@
                 The end time of the format YYYYMMDDhhmmss
             </xs:documentation>
 		</xs:annotation>
+	</xs:complexType>
+	<xs:simpleType name="TimeStampMillisType">
+		<xs:annotation>
+			<xs:documentation>
+                A quantity specifying a point on the axis of natural time.
+                A point in time is most often represented as a calendar
+                expression.
+                
+                The time has the format YYYYMMDDhhmmssMMM
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])(0[0-9]|1[0-9]|2[0123])([0-5])([0-9])([0-5])([0-9])([0-9])([0-9])([0-9])"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TimePeriodMillisType">
+		<xs:annotation>
+			<xs:documentation>
+                Used to specify a time interval using a start and an end timestamp.
+                Used to specify a time interval using a start and an end timestamp.
+                
+                start: 
+                The start time of the format YYYYMMDDhhmmssMMM
+                end: 
+                The end time of the format YYYYMMDDhhmmssMMM
+            </xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="start" type="tns:TimeStampType"/>
-			<xs:element name="end" type="tns:TimeStampType"/>
+			<xs:element name="start" type="tns:TimeStampMillisType" minOccurs="0"/>
+			<xs:element name="end" type="tns:TimeStampMillisType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="GenderType">
@@ -260,6 +287,12 @@
 			<xs:element name="providerOrganization" type="tns:HSAIdType"/>
 			<xs:element name="payorOrganization" type="tns:HSAIdType"/>
 			<xs:element name="requesterOrganization" type="tns:HSAIdType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CareUnitType">
+		<xs:sequence>
+			<xs:element name="careUnitHsaId" type="tns:HSAIdType"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>

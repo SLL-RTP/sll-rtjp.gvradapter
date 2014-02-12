@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.v1.CareEventType;
+import riv.followup.processdevelopment.v1.TimePeriodMillisType;
 import riv.followup.processdevelopment.v1.TimePeriodType;
 import se.sll.gvradapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.gvradapter.admincareevent.ws.AbstractProducer;
@@ -35,13 +36,15 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 	public void test() { 
 		CodeServerMEKCacheManagerService.getInstance().revalidate();
 		GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
-		params.setUpdatedDuringPeriod(new TimePeriodType());
-        params.getUpdatedDuringPeriod().setStart("20140123150600");
+		params.setUpdatedDuringPeriod(new TimePeriodMillisType());
+        params.getUpdatedDuringPeriod().setStart("20140123150600000");
 
         GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         response.getCareEvent().addAll(this.getAdministrativeCareEvent0(params));
 		for (CareEventType careEvent : response.getCareEvent()) {
-			System.out.println("HSA-id: " + careEvent.getCareUnitHsaId());
+            if (careEvent.getCareUnit() != null) {
+			    System.out.println("HSA-id: " + careEvent.getCareUnit().getCareUnitHsaId());
+            }
 			System.out.println("Deceased: " + careEvent.isDeceased());
 			System.out.println("Deleted: " + careEvent.isDeleted());
 		}

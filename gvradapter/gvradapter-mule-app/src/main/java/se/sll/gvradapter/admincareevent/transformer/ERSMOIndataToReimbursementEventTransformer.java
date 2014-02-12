@@ -76,7 +76,8 @@ public class ERSMOIndataToReimbursementEventTransformer extends AbstractTransfor
 			//currentEvent.getContract().setOriginalText(currentErsh.getStartverksamhet());
 
 			// Care Unit HSA-id
-			currentEvent.setCareUnitHsaId("1.2.752.97.??:" + currentErsh.getStartverksamhet());
+            currentEvent.setCareUnit(of.createCareUnitType());
+			currentEvent.getCareUnit().setCareUnitHsaId("1.2.752.97.??:" + currentErsh.getStartverksamhet());
 
 			// Last updated time
 			currentEvent.setLastUpdatedTime("???");

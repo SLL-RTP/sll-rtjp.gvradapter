@@ -44,14 +44,23 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class GVRFileReader {
-	
+
+    /** Logger */
 	private static final Logger log = LoggerFactory.getLogger(GVRFileReader.class);
 
+    /** Local path to the directory where GVR files are stored. */
     @Value("${pr.ftp.gvr.localPath:/tmp/gvr/in}")
     private String localPath;
 
+    /** Timestamp format that comes from the RIV schema request. */
     @Value("${pr.gvr.timestampFormat:yyyyMMddHHmmss}")
-    private String gvrTimestampFormat;
+    private String rivTimestampFormat;
+
+    /** Timestamp format that is embedded in the GVR file names (if DateFilterMethod.FILENAME is used). */
+    private String gvrTimestampFormat = "yyyy-MM-dd'T'HHmmss";
+
+    /** The configured {@link DateFilterMethod} for the class. METADATA or FILENAME. */
+    private DateFilterMethod dateFilterMethod = DateFilterMethod.METADATA;
 
     /**
      * Gets a list of file {@link java.nio.file.Path}s in a configured directory that has a modified
@@ -63,7 +72,7 @@ public class GVRFileReader {
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
      */
     public List<Path> getFileList(String fromDateString, String toDateString) throws InvalidParameterException {
-        SimpleDateFormat df = new SimpleDateFormat(gvrTimestampFormat);
+        SimpleDateFormat df = new SimpleDateFormat(rivTimestampFormat);
         Date fromDate = null;
         Date toDate = null;
         try {
@@ -89,54 +98,101 @@ public class GVRFileReader {
 	 * @return a List of {@link java.nio.file.Path} objects.
 	 * @throws java.security.InvalidParameterException If the supplied date format is not valid.
 	 */
-	public List<Path> getFileList(Date fromDate, Date toDate) throws InvalidParameterException {
+	public List<Path> getFileList(final Date fromDate, final Date toDate) throws InvalidParameterException {
 		Path folderToIterate = FileSystems.getDefault().getPath(localPath);
 		
-		log.info("Reading files from date: " + fromDate + " and path: " + folderToIterate.toString());
+		log.debug("Reading files from date: " + fromDate + " and path: " + folderToIterate.toString());
 
-		final long fromDateEpoch = fromDate != null ? fromDate.getTime() : 0L;
-        final long toDateEpoch = toDate != null ? toDate.getTime() : Long.MAX_VALUE;
-		
-		// Creating the filter
-		DirectoryStream.Filter<Path> filter = new DirectoryStream.Filter<Path>() {
+        // Filter all the files in the configured in directory.
+        List<Path> response = new ArrayList<Path>();
+        DirectoryStream<Path> ds = null;
+        // [bound to java6 spec (but not API if you are sneaky!) by the SOI Toolkit dependency, can't use try-with-resources.]
+        try  {
+            ds = Files.newDirectoryStream(folderToIterate, new DirectoryStream.Filter<Path>() {
+                public boolean accept(Path entry) throws IOException {
+                    // Depending on the configured filter type, invoke the appropriate filter method.
+                    if (dateFilterMethod.equals(DateFilterMethod.METADATA)) {
+                        return filterFilePathForMetadata(entry, fromDate, toDate);
+                    } else if (dateFilterMethod.equals(DateFilterMethod.FILENAME)) {
+                        return filterFilePathForFilename(entry, fromDate, toDate);
+                    }
+                    return false;
+                }
+            });
+            for (Path p : ds) {
+                response.add(p);
+            }
+        } catch (IOException e) {
+            log.error("IOException while filtering the files in the current directory.", e);
+        } finally {
+            if (ds != null) {
+                try {
+                    ds.close();
+                } catch (IOException e) {
+                    log.error("Unexpected IOException when closing DirectoryStream.", e);
+                }
+            }
+        }
 
-			@Override
-			public boolean accept(Path entry) throws IOException {
-                boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
-				// Filter reads basic attributes and accepts all the files with lastModifiedTime > inDate
-				BasicFileAttributeView basicAttrsView = Files.getFileAttributeView(entry, BasicFileAttributeView.class);
-				BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
-				boolean isLastModifiedAfterLocalFromDate = FileTime.fromMillis(fromDateEpoch).compareTo(basicAttrs.lastModifiedTime()) <= 0;
-                boolean isLastModifiedBeforeLocalToDate = FileTime.fromMillis(toDateEpoch).compareTo(basicAttrs.lastModifiedTime()) >= 0;
-				return isXML && basicAttrs.isRegularFile() && isLastModifiedAfterLocalFromDate && isLastModifiedBeforeLocalToDate;
-			}
-		};
-
-		// Apply the filter to all the files in the configured in directory
-		List<Path> response = new ArrayList<Path>();
-		DirectoryStream<Path> ds = null;
-		try  {
-			ds = Files.newDirectoryStream(folderToIterate, filter);
-			for (Path p : ds) {
-				response.add(p);
-			}
-
-		} catch (IOException e) {
-			log.error("IOException while filtering the files in the current directory.", e);
-		} finally {
-			if (ds != null) {
-				try {
-					ds.close();
-				} catch (IOException e) {
-					log.error("Unexpected IOException when closing DirectoryStream.", e);
-				}
-			}
-		}
-
-		return response;
+        return response;
 	}
 
-	/**
+    /**
+     * Filters a file {@link Path} on whether the timestamp found in the file name
+     * falls within the provided from Date and toDate parameters.
+     *
+     * @param entry the {@link Path} object to filter on.
+     * @param fromDate the from date to filter on.
+     * @param toDate The to date to filter on.
+     * @return a boolean that indicates whether the file timestamp falls within the provided date span.
+     */
+    private boolean filterFilePathForFilename(Path entry, Date fromDate, Date toDate) {
+        SimpleDateFormat gvrFormat = new SimpleDateFormat(gvrTimestampFormat);
+        boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
+        if (entry.getFileName().toString().contains("T")) {
+            String[] tSplit = entry.getFileName().toString().split("_");
+            // According to the rules the filename must end with "T<timestamp>.xml".
+            String timeStamp = tSplit[tSplit.length - 1];
+            if (timeStamp.endsWith(".xml")) {
+                timeStamp = timeStamp.substring(0, timeStamp.length() - 4);
+                try {
+                    Date gvrFileDate = gvrFormat.parse(timeStamp);
+
+                    // [..yes, .compareTo >=/<= works here to, but this is easier to parse imho. :)]
+                    boolean hasFileTimestampAfterLocalFromDate = fromDate == null || gvrFileDate.after(fromDate) || gvrFileDate.equals(fromDate);
+                    boolean hasFileTimestampBeforeLocalToDate = toDate == null || gvrFileDate.before(toDate) || gvrFileDate.equals(toDate);
+                    return isXML && hasFileTimestampAfterLocalFromDate && hasFileTimestampBeforeLocalToDate;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Filters a file {@link Path} on whether the timestamp in the file system metadata
+     * falls within the provided from Date and toDate parameters.
+     *
+     * @param entry the {@link Path} object to filter on.
+     * @param fromDate the from date to filter on.
+     * @param toDate The to date to filter on.
+     * @return a boolean that indicates whether the file timestamp falls within the provided date span.
+     */
+    private boolean filterFilePathForMetadata(Path entry, Date fromDate, Date toDate) throws IOException {
+        // Filter reads basic attributes and accepts all the files with lastModifiedTime > inDate
+        boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
+        final long fromDateEpoch = fromDate != null ? fromDate.getTime() : 0L;
+        final long toDateEpoch = toDate != null ? toDate.getTime() : Long.MAX_VALUE;
+
+        BasicFileAttributeView basicAttrsView = Files.getFileAttributeView(entry, BasicFileAttributeView.class);
+        BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
+        boolean isLastModifiedAfterLocalFromDate = FileTime.fromMillis(fromDateEpoch).compareTo(basicAttrs.lastModifiedTime()) <= 0;
+        boolean isLastModifiedBeforeLocalToDate = FileTime.fromMillis(toDateEpoch).compareTo(basicAttrs.lastModifiedTime()) >= 0;
+        return isXML && basicAttrs.isRegularFile() && isLastModifiedAfterLocalFromDate && isLastModifiedBeforeLocalToDate;
+    }
+
+    /**
 	 * Reads a specific file from a Path with the correct character set.
 	 * 
 	 * @param path The full path for the file that will be read.
