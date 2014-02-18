@@ -22,7 +22,6 @@ import javax.jws.WebResult;
 import riv.followup.processdevelopment.getadministrativecareevent._1.rivtabp21.GetAdministrativeCareEventResponderInterface;
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
-import riv.followup.processdevelopment.v1.TimePeriodMillisType;
 
 /**
  * Fully implemented GetAdministrativeCareEventProducer that is used by the logic free Mule flow and the web-app.
@@ -42,15 +41,12 @@ public class GetAdministrativeCareEventProducer extends AbstractProducer impleme
 	public GetAdministrativeCareEventResponse getAdministrativeCareEvent(
 			@WebParam(partName = "LogicalAddress", name = "LogicalAddress", targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
 			@WebParam(partName = "parameters", name = "GetAdministrativeCareEvent", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1") final GetAdministrativeCareEventType parameters) {
-        //GetAdministrativeCareEventResponse response;
         boolean status = fulfill(new Runnable() {
             @Override
             public void run() {
-                // TODO: Add logic for limiting the fetch
                 response = getAdministrativeCareEvent0(parameters);
             }
         });
-
         return response;
     }
 

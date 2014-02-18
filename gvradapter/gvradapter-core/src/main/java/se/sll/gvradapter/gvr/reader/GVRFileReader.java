@@ -72,6 +72,7 @@ public class GVRFileReader {
      * @param toDateString The date to compare the files with (format: yyyyMMddHHmmss).
      * @return a List of {@link java.nio.file.Path} objects.
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
+     * @throws ParseException When the supplied date parameters could not be parsed.
      */
     public List<Path> getFileList(String fromDateString, String toDateString) throws InvalidParameterException, ParseException {
         SimpleDateFormat df = new SimpleDateFormat(rivTimestampFormat);
@@ -156,6 +157,7 @@ public class GVRFileReader {
         if (gvrFileDate == null) {
             // Invalid File, remove from filter.
             log.info("File " + entry.toString() + " does not have a valid date and will therefore be filtered away");
+            return false;
         }
 
         // [..yes, .compareTo >=/<= works here to, but this is easier to parse imho. :)]
@@ -173,7 +175,6 @@ public class GVRFileReader {
      *
      * @param file The GVR file to read the date from.
      * @return A {@link java.util.Date} with the date from the file name of the provided GVR file.
-     * @throws ParseException When the date from the file could not be parsed.
      */
     public Date getDateFromGVRFileName(Path file) {
         SimpleDateFormat gvrFormat = new SimpleDateFormat(gvrTimestampFormat);

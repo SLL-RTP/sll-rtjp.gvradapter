@@ -28,12 +28,15 @@ import riv.followup.processdevelopment.v1.TimePeriodType;
 import se.sll.gvradapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.gvradapter.admincareevent.ws.AbstractProducer;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:gvradapter-core-spring-context.xml")
 public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
 	@Test
-	public void test() { 
+	public void test() {
 		CodeServerMEKCacheManagerService.getInstance().revalidate();
 		GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
 		params.setUpdatedDuringPeriod(new TimePeriodMillisType());
@@ -45,9 +48,10 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
             if (careEvent.getCareUnit() != null) {
 			    System.out.println("HSA-id: " + careEvent.getCareUnit().getCareUnitHsaId());
             }
-			System.out.println("Deceased: " + careEvent.isDeceased());
-			System.out.println("Deleted: " + careEvent.isDeleted());
-		}
+            assertFalse(careEvent.getPatient().getBirthDate().contains("-"));
+            assertFalse(careEvent.getDatePeriod().getStartDate().contains("-"));
+            assertFalse(careEvent.getDatePeriod().getEndDate().contains("-"));
+        }
 	}
 
 }

@@ -88,7 +88,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
                 currentEvent.getPatient().getId().setType("1.2.752.129.2.1.3.1");
             } // TODO: Fix the logic and add OID:s for temporary identities.
             if (currentErsh.getPatient().getFödelsedatum() != null) {
-                currentEvent.getPatient().setBirthDate(currentErsh.getPatient().getFödelsedatum().toXMLFormat());
+                currentEvent.getPatient().setBirthDate(currentErsh.getPatient().getFödelsedatum().toXMLFormat().replace("-", ""));
             }
             if (currentErsh.getPatient().getKön() != null) {
                 if (currentErsh.getPatient().getKön().equals(Kon.M)) {
@@ -165,9 +165,9 @@ public class ERSMOIndataToReimbursementEventTransformer {
 
         // Date Period
         currentEvent.setDatePeriod(of.createSplitDatePeriodType());
-        currentEvent.getDatePeriod().setStartDate(currentErsh.getStartdatum().toXMLFormat());
+        currentEvent.getDatePeriod().setStartDate(currentErsh.getStartdatum().toXMLFormat().replace("-", ""));
         if (currentErsh.getSlutdatum() != null) {
-            currentEvent.getDatePeriod().setEndDate(currentErsh.getSlutdatum().toXMLFormat());
+            currentEvent.getDatePeriod().setEndDate(currentErsh.getSlutdatum().toXMLFormat().replace("-", ""));
         }
 
         if (currentErsh.getHändelseklass() != null) {
