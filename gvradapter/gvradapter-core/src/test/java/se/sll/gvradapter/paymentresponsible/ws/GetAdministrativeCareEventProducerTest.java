@@ -20,16 +20,15 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventResponse;
-import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
-import riv.followup.processdevelopment.v1.CareEventType;
-import riv.followup.processdevelopment.v1.TimePeriodMillisType;
-import riv.followup.processdevelopment.v1.TimePeriodType;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
+import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
+import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
 import se.sll.gvradapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.gvradapter.admincareevent.ws.AbstractProducer;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:gvradapter-core-spring-context.xml")

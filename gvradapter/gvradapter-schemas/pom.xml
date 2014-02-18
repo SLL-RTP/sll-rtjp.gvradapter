@@ -94,11 +94,11 @@ DON'T CHANGE THE CONTENT OF THIS COMMENT UNLESS YOU REALLY KNOW WHAT YOU ARE DOI
 									<extraargs>
 										<extraarg>-validate</extraarg> 
 										<extraarg>-p</extraarg>
-										<extraarg>urn:riv:followup:processdevelopment:GetReimbursement:1:rivtabp21=riv.followup.processdevelopment.getreimbursement.v1.rivtabp21</extraarg> 
+										<extraarg>urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEvent:1:rivtabp21=riv.followup.processdevelopment.reimbursement.getadministrativecareevent.v1.rivtabp21</extraarg>
 										<extraarg>-p</extraarg>
-										<extraarg>urn:riv:followup:processdevelopment:GetReimbursementResponder:1=riv.followup.processdevelopment.getreimbursementresponder.v1</extraarg>
+										<extraarg>urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1=riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1</extraarg>
 										<extraarg>-p</extraarg>
-										<extraarg>urn:riv:followup:processdevelopment:1=riv.followup.processdevelopment.v1</extraarg>
+										<extraarg>urn:riv:followup:processdevelopment:reimbursement:1=riv.followup.processdevelopment.reimbursement.v1</extraarg>
 										<extraarg>-p</extraarg>
 										<extraarg>urn:riv:itintegration:registry:1=riv.itintegration.registry.v1</extraarg>
 										<!-- <extraarg>-xjc-Xannotate</extraarg>
@@ -106,6 +106,23 @@ DON'T CHANGE THE CONTENT OF THIS COMMENT UNLESS YOU REALLY KNOW WHAT YOU ARE DOI
 			                            <extraarg>${riv.schema.path}/bindings.xjb</extraarg>-->
 									</extraargs>
 	            				</wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>${riv.schema.path}/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl</wsdl>
+                                    <extraargs>
+                                        <extraarg>-validate</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21=riv.followup.processdevelopment.reimbursement.processreimbursement.v1.rivtabp21</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1=riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>urn:riv:followup:processdevelopment:reimbursement:1=riv.followup.processdevelopment.reimbursement.v1</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>urn:riv:itintegration:registry:1=riv.itintegration.registry.v1</extraarg>
+                                        <!-- <extraarg>-xjc-Xannotate</extraarg>
+                                        <extraarg>-b</extraarg>
+                                        <extraarg>${riv.schema.path}/bindings.xjb</extraarg>-->
+                                    </extraargs>
+                                </wsdlOption>
 							</wsdlOptions>
 						</configuration>
 						<goals>

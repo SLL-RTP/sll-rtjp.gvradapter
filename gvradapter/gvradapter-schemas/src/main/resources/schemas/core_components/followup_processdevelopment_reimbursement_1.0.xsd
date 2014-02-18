@@ -18,7 +18,7 @@
  specific language governing permissions and limitations
  under the License.
  -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:riv:followup:processdevelopment:1" targetNamespace="urn:riv:followup:processdevelopment:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:riv:followup:processdevelopment:reimbursement:1" targetNamespace="urn:riv:followup:processdevelopment:reimbursement:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:complexType name="CareEventType">
 		<xs:sequence>
 			<xs:element name="id">
@@ -79,6 +79,56 @@
 			<xs:element name="stayBefore" type="tns:CVType" minOccurs="0"/>
 			<xs:element name="stayAfter" type="tns:CVType" minOccurs="0"/>
 			<xs:element name="deceased" type="xs:boolean"/>
+			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReimbursementEventType">
+		<xs:sequence>
+			<xs:element name="id">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="organization" type="tns:HSAIdType"/>
+						<xs:element name="source">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="8"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="value">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="20"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="emergency" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="eventType" type="tns:eventTypeType"/>
+			<xs:element name="patient" type="tns:PatientType"/>
+			<xs:element name="involvedProfessions" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="profession" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="activities" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="activity" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="productSet" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="product" type="tns:ProductType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -310,6 +360,20 @@
 			<xs:element name="startTime" type="tns:TimeType" minOccurs="0"/>
 			<xs:element name="endDate" type="tns:DateType" minOccurs="0"/>
 			<xs:element name="endTime" type="tns:TimeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SimpleContractType">
+		<xs:sequence>
+			<xs:element name="id" type="tns:IIType" minOccurs="0"/>
+			<xs:element name="name" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProductType">
+		<xs:sequence>
+			<xs:element name="code" type="tns:CVType"/>
+			<xs:element name="careUnit" type="tns:CareUnitType"/>
+			<xs:element name="contract" type="tns:SimpleContractType"/>
+			<xs:element name="model" type="tns:CVType"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>

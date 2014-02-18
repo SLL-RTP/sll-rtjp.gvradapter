@@ -18,10 +18,10 @@
  specific language governing permissions and limitations
  under the License.
  -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1" xmlns:core="urn:riv:followup:processdevelopment:reimbursement:1" targetNamespace="urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1" xmlns:core="urn:riv:followup:processdevelopment:reimbursement:1" targetNamespace="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:import namespace="urn:riv:followup:processdevelopment:reimbursement:1" schemaLocation="../../core_components/followup_processdevelopment_reimbursement_1.0.xsd"/>
-	<xs:element name="GetAdministrativeCareEvent" type="tns:GetAdministrativeCareEventType"/>
-	<xs:element name="GetAdministrativeCareEventResponse">
+	<xs:element name="ProcessReimbursementRequest" type="tns:ProcessReimbursementRequestType"/>
+	<xs:element name="ProcessReimbursementResponse">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="resultCode">
@@ -35,14 +35,14 @@
 					</xs:simpleType>
 				</xs:element>
 				<xs:element name="comment" type="xs:string" minOccurs="0"/>
-				<xs:element name="responseTimePeriod" type="core:TimePeriodMillisType"/>
-				<xs:element name="careEvent" type="core:CareEventType" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="GetAdministrativeCareEventType">
+	<xs:complexType name="ProcessReimbursementRequestType">
 		<xs:sequence>
-			<xs:element name="updatedDuringPeriod" type="core:TimePeriodMillisType"/>
+			<xs:element name="sourceSystem" type="core:SourceType"/>
+			<xs:element name="batchId" type="xs:string"/>
+			<xs:element name="reimbursementEvent" type="core:ReimbursementEventType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>

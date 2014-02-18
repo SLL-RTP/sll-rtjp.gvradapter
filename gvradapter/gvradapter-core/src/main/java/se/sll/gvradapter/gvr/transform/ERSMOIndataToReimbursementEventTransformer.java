@@ -23,11 +23,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import riv.followup.processdevelopment.v1.CVType;
-import riv.followup.processdevelopment.v1.CareEventType;
-import riv.followup.processdevelopment.v1.ContractType;
-import riv.followup.processdevelopment.v1.GenderType;
-import riv.followup.processdevelopment.v1.ObjectFactory;
+import riv.followup.processdevelopment.reimbursement.v1.CVType;
+import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
+import riv.followup.processdevelopment.reimbursement.v1.ContractType;
+import riv.followup.processdevelopment.reimbursement.v1.GenderType;
+import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
 import se.sll.ersmo.xml.indata.*;
 import se.sll.ersmo.xml.indata.Diagnoser.Diagnos;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
@@ -54,10 +54,10 @@ public class ERSMOIndataToReimbursementEventTransformer {
 		log.debug("Entering ERSMOIndataToReimbursementEventTransformer.doTransform()");
 		// Instantiate the Cache Manager.
 		CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
-		// Create the response object
+		// Create the response object.
 		List<CareEventType> responseList = new ArrayList<CareEventType>();
 		
-		// Iterate over all the ersmoIndata.getErsättningshändelse() and convert them to CareEventType
+		// Iterate over all the ersmoIndata.getErsättningshändelse() and convert them to CareEventType.
 		for (Ersättningshändelse currentErsh : ersmoIndata.getErsättningshändelse()) {
             CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime);
 			responseList.add(currentEvent);
@@ -146,15 +146,17 @@ public class ERSMOIndataToReimbursementEventTransformer {
             currentEvent.setCareUnit(of.createCareUnitType());
             currentEvent.getCareUnit().setCareUnitHsaId(mappedFacilities.getState(new Date()).getHSAMapping().getState(new Date()).getHsaId());
 
-            // Care Unit Local Id (xs:any) (move to regular contract?)
-            CVType careUnitExtras = of.createCVType();
+            // Care Unit Local Id
+            currentEvent.getCareUnit().setCareUnitLocalId(of.createCVType());
+            currentEvent.getCareUnit().getCareUnitLocalId().setCode(currentErsh.getSlutverksamhet());
+            currentEvent.getCareUnit().getCareUnitLocalId().setCodeSystem("no.oid (KOMBIKA)");
+            /*CVType careUnitExtras = of.createCVType();
             careUnitExtras.setCode(currentErsh.getSlutverksamhet());
             careUnitExtras.setOriginalText("Not properly mapped yet!");
 
             JAXBElement<CVType> test2 = new JAXBElement<CVType>(new QName("urn:riv:followup:processdevelopment:1","CareUnitLocalId"),
                     CVType.class, careUnitExtras);
-            currentEvent.getCareUnit().getAny().add(test2);
-
+            currentEvent.getCareUnit().getAny().add(test2);*/
         }
 
         // Last updated time
@@ -200,7 +202,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
                 if (currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier() != null && currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier().getYrkeskategori() != null && currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier().getYrkeskategori().size() > 0) {
                     for (Yrkeskategori kategori : currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier().getYrkeskategori()) {
                         CVType currentProfession = of.createCVType();
-                        currentProfession.setCodeSystem("NO.OID: " + kategori.getKlass()); // TODO: Konvertera till OID?
+                        currentProfession.setCodeSystem("NO.OID: " + kategori.getKlass()); // TODO: Convert to OID
                         currentProfession.setCode(kategori.getKod());
                         currentEvent.getInvolvedProfessions().getProfession().add(currentProfession);
                     }
@@ -227,7 +229,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
                 if (currentErsh.getHändelseklass().getVårdkontakt().getTillståndslista() != null && currentErsh.getHändelseklass().getVårdkontakt().getTillståndslista().getTillstånd() != null && currentErsh.getHändelseklass().getVårdkontakt().getTillståndslista().getTillstånd().size() > 0) {
                     for (Tillstånd tillstånd : currentErsh.getHändelseklass().getVårdkontakt().getTillståndslista().getTillstånd()) {
                         CVType currentCondition = of.createCVType();
-                        currentCondition.setCodeSystem("NO.OID: " + tillstånd.getKlass()); // TODO: Konvertera till OID?
+                        currentCondition.setCodeSystem("NO.OID: " + tillstånd.getKlass()); // TODO: Convert to OID
                         currentCondition.setCode(tillstånd.getKod());
                         currentEvent.getConditions().getCondition().add(currentCondition);
                     }

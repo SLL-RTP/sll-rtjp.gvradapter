@@ -19,9 +19,9 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 
-import riv.followup.processdevelopment.getadministrativecareevent._1.rivtabp21.GetAdministrativeCareEventResponderInterface;
-import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventResponse;
-import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareevent.v1.rivtabp21.GetAdministrativeCareEventResponderInterface;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 
 /**
  * Fully implemented GetAdministrativeCareEventProducer that is used by the logic free Mule flow and the web-app.

@@ -16,15 +16,14 @@
 package se.sll.gvradapter.admincareevent.ws;
 
 import org.apache.cxf.binding.soap.SoapFault;
-import org.apache.cxf.interceptor.Fault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
-import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventResponse;
-import riv.followup.processdevelopment.v1.CareEventType;
-import riv.followup.processdevelopment.v1.TimePeriodMillisType;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
+import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
+import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.gvradapter.gvr.reader.GVRFileReader;
 import se.sll.gvradapter.gvr.transform.ERSMOIndataToReimbursementEventTransformer;
@@ -34,10 +33,8 @@ import se.sll.gvradapter.jmx.StatusBean;
 import javax.annotation.Resource;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
-import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
-import java.text.ParseException;
 import java.util.*;
 
 public class AbstractProducer {
@@ -134,8 +131,8 @@ public class AbstractProducer {
 
             if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
                 response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
-                response.setResultCode("INFO");
-                response.setComment("Reponse was truncated due to hitting maximum configured Care Events of " + maximumSupportedCareEvents);
+                response.setResultCode("TRUNCATED");
+                response.setComment("Response was truncated due to hitting the maximum configured number of Care Events of " + maximumSupportedCareEvents);
                 return response;
             }
 

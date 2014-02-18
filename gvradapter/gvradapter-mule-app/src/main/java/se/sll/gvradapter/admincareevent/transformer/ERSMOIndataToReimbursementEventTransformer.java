@@ -7,10 +7,10 @@ import org.mule.api.transformer.TransformerException;
 import org.mule.transformer.AbstractTransformer;
 import org.mule.transformer.types.DataTypeFactory;
 
-import riv.followup.processdevelopment.v1.CVType;
-import riv.followup.processdevelopment.v1.CareEventType;
-import riv.followup.processdevelopment.v1.GenderType;
-import riv.followup.processdevelopment.v1.ObjectFactory;
+import riv.followup.processdevelopment.reimbursement.v1.CVType;
+import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
+import riv.followup.processdevelopment.reimbursement.v1.GenderType;
+import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
 import se.sll.ersmo.xml.indata.Diagnoser.Diagnos;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
