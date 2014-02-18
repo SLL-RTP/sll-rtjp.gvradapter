@@ -1,3 +1,18 @@
+/**
+ *  Copyright (c) 2013 SLL <http://sll.se/>
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 package se.sll.gvradapter.admincareevent.ws;
 
 import org.apache.cxf.binding.soap.SoapFault;
@@ -5,22 +20,24 @@ import org.apache.cxf.interceptor.Fault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventType;
+import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.v1.CareEventType;
+import riv.followup.processdevelopment.v1.TimePeriodMillisType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
-import se.sll.gvradapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.gvradapter.gvr.reader.GVRFileReader;
 import se.sll.gvradapter.gvr.transform.ERSMOIndataToReimbursementEventTransformer;
 import se.sll.gvradapter.gvr.transform.ERSMOIndataUnMarshaller;
 import se.sll.gvradapter.jmx.StatusBean;
 
 import javax.annotation.Resource;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
+import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Path;
+import java.text.ParseException;
 import java.util.*;
 
 public class AbstractProducer {
@@ -28,17 +45,22 @@ public class AbstractProducer {
     private static final Logger log = LoggerFactory.getLogger("WS-API");
     private static final String SERVICE_CONSUMER_HEADER_NAME = "x-rivta-original-serviceconsumer-hsaid";
 
+    /** Handles all the JMX stuff. */
     @Autowired
     private StatusBean statusBean;
 
-    @Autowired
-    private CodeServerMEKCacheManagerService codeServerMEKCacheManagerService;
-
+    /** Lists files matching a period and provides Readers for individual files. */
     @Autowired
     private GVRFileReader gvrFileReader;
 
+    /** Reference to the JAX-WS {@link javax.xml.ws.WebServiceContext}. */
     @Resource
+    @SuppressWarnings("unused")
     private WebServiceContext webServiceContext;
+
+    /** The configured value for the maximum number of Care Events that the RIV Service should return. */
+    @Value("${pr.gvr.maximumSupportedCareEvents:10000}")
+    private int maximumSupportedCareEvents;
 
     //
     static class NotFoundException extends RuntimeException {
@@ -55,35 +77,76 @@ public class AbstractProducer {
 
     }
 
-    public List<CareEventType> getAdministrativeCareEvent0(GetAdministrativeCareEventType parameters) {
-        List<CareEventType> responseList = new ArrayList<CareEventType>();
-        for (Path currentFile : gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(), parameters.getUpdatedDuringPeriod().getEnd())) {
-            // (TODO: Convert to stream instead of a String response)
-            String fileContent = gvrFileReader.readFile(currentFile);
+    /**
+     * Creates a GetAdministrativeCareEventResponse from the provided GetAdministrativeCareEventType parameter.
+     * Used by {@link se.sll.gvradapter.admincareevent.ws.GetAdministrativeCareEventProducer}.
+     *
+     * @param parameters The incoming parameters from the RIV service.
+     * @return A complete GetAdministrativeCareEventResponse.
+     */
+    public GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType parameters) {
+        GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        response.setResultCode("OK");
+        response.setResponseTimePeriod(new TimePeriodMillisType());
+        response.getResponseTimePeriod().setStart(parameters.getUpdatedDuringPeriod().getStart());
+        response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
+
+        List<Path> pathList = null;
+        try {
+            pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(), parameters.getUpdatedDuringPeriod().getEnd());
+        } catch (Exception e) {
+            // TODO: Try again?
+            log.error("Error when listing files in GVR directory", e);
+            throw createSoapFault("Internal error when listing files in GVR directory", e);
+            //response.setResultCode("ERROR");
+            //response.setComment("Internal error in the service when reading files from disk: " + e.getMessage());
+            //return response;
+        }
+
+        Date currentDate = null;
+
+        for (Path currentFile : pathList) {
+            currentDate = gvrFileReader.getDateFromGVRFileName(currentFile);
+
+            Reader fileContent = null;
+            try {
+                fileContent = gvrFileReader.GetReaderForFile(currentFile);
+            } catch (Exception e) {
+                // TODO: Try again?
+                log.error("Error when creating Reader for file: " + currentFile.getFileName(), e);
+                throw createSoapFault("Internal error when creating Reader for file: " + currentFile.getFileName(), e);
+                //response.setResultCode("ERROR");
+                //response.setComment("Internal error in the service when reading a source file: " + e.getMessage());
+                //return response;
+            }
 
             // Unmarshal the incoming file content to an ERSMOIndata.
             ERSMOIndata xmlObject;
             try {
                 xmlObject = ERSMOIndataUnMarshaller.unmarshalString(fileContent);
             } catch (Exception e) {
-                throw new Fault(e);
+                log.error("Error when parsing ERSMOIndata XML for file: " + currentFile.getFileName(), e);
+                throw createSoapFault("Internal error when parsing ERSMOIndata XML for file: " + currentFile.getFileName(), e);
             }
 
             // Transform all the Ersättningshändelse within the object to CareEventType and add them to the response.
-            List<CareEventType> careEventList = ERSMOIndataToReimbursementEventTransformer.doTransform(xmlObject);
-            responseList.addAll(careEventList);
+            List<CareEventType> careEventList = ERSMOIndataToReimbursementEventTransformer.doTransform(xmlObject, currentDate);
+
+            if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
+                response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
+                response.setResultCode("INFO");
+                response.setComment("Reponse was truncated due to hitting maximum configured Care Events of " + maximumSupportedCareEvents);
+                return response;
+            }
+
+            response.getCareEvent().addAll(careEventList);
         }
 
-        return responseList;
-    }
+        if (response.getCareEvent().size() > 0) {
+            response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
+        }
 
-    /**
-     * Returns the mapping service.
-     *
-     * @return the service instance.
-     */
-    protected CodeServerMEKCacheManagerService getCodeServerMEKCacheManagerService() {
-        return codeServerMEKCacheManagerService;
+        return response;
     }
 
     /**
@@ -96,9 +159,19 @@ public class AbstractProducer {
         final String msg = createLogMessage(throwable.toString());
         log.error(msg, throwable);
 
-        final SoapFault soapFault = createSoapFault(msg);
+        return createSoapFault(msg);
+    }
 
-        return soapFault;
+    /**
+     * Creates a soap fault.
+     *
+     * @param throwable the cause.
+     * @return the soap fault object.
+     */
+    protected SoapFault createSoapFault(String msg, Throwable throwable) {
+        log.error(msg, throwable);
+
+        return createSoapFault(msg);
     }
 
     /**
@@ -108,19 +181,9 @@ public class AbstractProducer {
      * @return the soap fault object.
      */
     protected SoapFault createSoapFault(final String msg) {
-        final SoapFault soapFault = new SoapFault(msg, SoapFault.FAULT_CODE_SERVER);
-        return soapFault;
+        return new SoapFault(msg, SoapFault.FAULT_CODE_SERVER);
     }
 
-
-    /**
-     * Returns status bean.
-     *
-     * @return the status bean.
-     */
-    protected StatusBean getStatusBean() {
-        return statusBean;
-    }
     /**
      * Returns the actual message context.
      *
@@ -180,38 +243,5 @@ public class AbstractProducer {
         log.debug("stats: {}", statusBean.getPerformanceMetricsAsJSON());
 
         return status;
-    }
-
-    public static XMLGregorianCalendar toTime(Date date) {
-        if (date == null) {
-            return null;
-        }
-        try {
-            final GregorianCalendar cal = new GregorianCalendar();
-            cal.setTime(date);
-            return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
-        } catch (DatatypeConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Returns a {@link Date} date and time representation.
-     *
-     * @param cal the actual date and time.
-     * @return the {@link Date} representation.
-     */
-    public static Date toDate(XMLGregorianCalendar cal) {
-        return (cal == null) ? null : cal.toGregorianCalendar().getTime();
-    }
-
-    //
-    protected static boolean contains(String[] list, String id) {
-        for (final String e : list) {
-            if (id.equals(e)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

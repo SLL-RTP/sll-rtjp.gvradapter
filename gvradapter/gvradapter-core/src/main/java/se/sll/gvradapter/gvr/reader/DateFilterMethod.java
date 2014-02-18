@@ -1,9 +1,7 @@
 package se.sll.gvradapter.gvr.reader;
 
-/**
- * Created by erja on 2014-02-11.
- */
+/** Used as a parameter object in {@link se.sll.gvradapter.gvr.reader.GVRFileReader}. */
 public enum DateFilterMethod {
     FILENAME,
-    METADATA;
+    METADATA
 }

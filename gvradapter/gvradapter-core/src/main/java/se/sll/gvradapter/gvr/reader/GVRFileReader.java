@@ -17,6 +17,7 @@ package se.sll.gvradapter.gvr.reader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.charset.Charset;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
@@ -46,21 +47,22 @@ import org.springframework.stereotype.Component;
 public class GVRFileReader {
 
     /** Logger */
-	private static final Logger log = LoggerFactory.getLogger(GVRFileReader.class);
+    private static final Logger log = LoggerFactory.getLogger(GVRFileReader.class);
 
     /** Local path to the directory where GVR files are stored. */
     @Value("${pr.ftp.gvr.localPath:/tmp/gvr/in}")
     private String localPath;
 
     /** Timestamp format that comes from the RIV schema request. */
-    @Value("${pr.gvr.timestampFormat:yyyyMMddHHmmss}")
+    @Value("${pr.riv.timestampFormat:yyyyMMddHHmmssSSS}")
     private String rivTimestampFormat;
 
     /** Timestamp format that is embedded in the GVR file names (if DateFilterMethod.FILENAME is used). */
-    private String gvrTimestampFormat = "yyyy-MM-dd'T'HHmmss";
+    @Value("${pr.gvr.timestampFormat:yyyy-MM-dd'T'HHmmss}")
+    private String gvrTimestampFormat;
 
     /** The configured {@link DateFilterMethod} for the class. METADATA or FILENAME. */
-    private DateFilterMethod dateFilterMethod = DateFilterMethod.METADATA;
+    private DateFilterMethod dateFilterMethod = DateFilterMethod.FILENAME;
 
     /**
      * Gets a list of file {@link java.nio.file.Path}s in a configured directory that has a modified
@@ -71,37 +73,32 @@ public class GVRFileReader {
      * @return a List of {@link java.nio.file.Path} objects.
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
      */
-    public List<Path> getFileList(String fromDateString, String toDateString) throws InvalidParameterException {
+    public List<Path> getFileList(String fromDateString, String toDateString) throws InvalidParameterException, ParseException {
         SimpleDateFormat df = new SimpleDateFormat(rivTimestampFormat);
         Date fromDate = null;
         Date toDate = null;
-        try {
-            if (fromDateString != null && !fromDateString.equals("")) {
-                fromDate = df.parse(fromDateString);
-            }
-            if (toDateString != null && !toDateString.equals("")) {
-                toDate = df.parse(toDateString);
-            }
-        } catch (ParseException e1) {
-            log.error("One of the supplied date parameters (" + fromDateString + "/" + toDateString + ") is not valid.", e1);
-            throw new InvalidParameterException("One of the supplied date parameters (" + fromDateString + "/" + toDateString + ") is not valid.");
+        if (fromDateString != null && !fromDateString.equals("")) {
+            fromDate = df.parse(fromDateString);
+        }
+        if (toDateString != null && !toDateString.equals("")) {
+            toDate = df.parse(toDateString);
         }
 
         return getFileList(fromDate, toDate);
     }
 
-	/**
-	 * Gets a list of file {@link java.nio.file.Path}s in a configured directory that has a modified
-	 * date that is newer than the date parameter provided.
-	 * 
-	 * @param fromDate The date to compare the files with (format: yyyyMMddHHmmss).
-	 * @return a List of {@link java.nio.file.Path} objects.
-	 * @throws java.security.InvalidParameterException If the supplied date format is not valid.
-	 */
-	public List<Path> getFileList(final Date fromDate, final Date toDate) throws InvalidParameterException {
-		Path folderToIterate = FileSystems.getDefault().getPath(localPath);
-		
-		log.debug("Reading files from date: " + fromDate + " and path: " + folderToIterate.toString());
+    /**
+     * Gets a list of file {@link java.nio.file.Path}s in a configured directory that has a modified
+     * date that is newer than the date parameter provided.
+     *
+     * @param fromDate The date to compare the files with (format: yyyyMMddHHmmss).
+     * @return a List of {@link java.nio.file.Path} objects.
+     * @throws java.security.InvalidParameterException If the supplied date format is not valid.
+     */
+    public List<Path> getFileList(final Date fromDate, final Date toDate) throws InvalidParameterException {
+        Path folderToIterate = FileSystems.getDefault().getPath(localPath);
+
+        log.debug("Reading files from date: " + fromDate + " and path: " + folderToIterate.toString());
 
         // Filter all the files in the configured in directory.
         List<Path> response = new ArrayList<Path>();
@@ -135,7 +132,7 @@ public class GVRFileReader {
         }
 
         return response;
-	}
+    }
 
     /**
      * Filters a file {@link Path} on whether the timestamp found in the file name
@@ -146,28 +143,59 @@ public class GVRFileReader {
      * @param toDate The to date to filter on.
      * @return a boolean that indicates whether the file timestamp falls within the provided date span.
      */
-    private boolean filterFilePathForFilename(Path entry, Date fromDate, Date toDate) {
-        SimpleDateFormat gvrFormat = new SimpleDateFormat(gvrTimestampFormat);
+    private boolean filterFilePathForFilename(Path entry, Date fromDate, Date toDate) throws IOException {
         boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
-        if (entry.getFileName().toString().contains("T")) {
-            String[] tSplit = entry.getFileName().toString().split("_");
+
+        // Return false if not an XML-file, to make the filter below easier.
+        if (!isXML) {
+            return false;
+        }
+
+        // Read the date om the provided file name according to the spec.
+        Date gvrFileDate = getDateFromGVRFileName(entry);
+        if (gvrFileDate == null) {
+            // Invalid File, remove from filter.
+            log.info("File " + entry.toString() + " does not have a valid date and will therefore be filtered away");
+        }
+
+        // [..yes, .compareTo >=/<= works here to, but this is easier to parse imho. :)]
+        boolean hasFileTimestampAfterLocalFromDate = fromDate == null
+                                                  || gvrFileDate.after(fromDate)
+                                                  || gvrFileDate.equals(fromDate);
+        boolean hasFileTimestampBeforeLocalToDate = toDate == null
+                                                 || gvrFileDate.before(toDate)
+                                                 || gvrFileDate.equals(toDate);
+        return hasFileTimestampAfterLocalFromDate && hasFileTimestampBeforeLocalToDate;
+    }
+
+    /**
+     * Returns a {@link java.util.Date} from the file name of the provided GVR file.
+     *
+     * @param file The GVR file to read the date from.
+     * @return A {@link java.util.Date} with the date from the file name of the provided GVR file.
+     * @throws ParseException When the date from the file could not be parsed.
+     */
+    public Date getDateFromGVRFileName(Path file) {
+        SimpleDateFormat gvrFormat = new SimpleDateFormat(gvrTimestampFormat);
+        Date gvrFileDate = null;
+        if (file.getFileName().toString().contains("T")) {
+            String[] tSplit = file.getFileName().toString().split("_");
             // According to the rules the filename must end with "T<timestamp>.xml".
             String timeStamp = tSplit[tSplit.length - 1];
             if (timeStamp.endsWith(".xml")) {
                 timeStamp = timeStamp.substring(0, timeStamp.length() - 4);
                 try {
-                    Date gvrFileDate = gvrFormat.parse(timeStamp);
-
-                    // [..yes, .compareTo >=/<= works here to, but this is easier to parse imho. :)]
-                    boolean hasFileTimestampAfterLocalFromDate = fromDate == null || gvrFileDate.after(fromDate) || gvrFileDate.equals(fromDate);
-                    boolean hasFileTimestampBeforeLocalToDate = toDate == null || gvrFileDate.before(toDate) || gvrFileDate.equals(toDate);
-                    return isXML && hasFileTimestampAfterLocalFromDate && hasFileTimestampBeforeLocalToDate;
+                    gvrFileDate = gvrFormat.parse(timeStamp);
                 } catch (ParseException e) {
-                    e.printStackTrace();
+                    log.debug("File date could not be parsed");
                 }
+            } else {
+                log.debug("File is not an XML file and is not valid");
             }
+        } else {
+            log.debug("File is not an XML file and is not valid");
         }
-        return false;
+        return gvrFileDate;
     }
 
     /**
@@ -182,44 +210,33 @@ public class GVRFileReader {
     private boolean filterFilePathForMetadata(Path entry, Date fromDate, Date toDate) throws IOException {
         // Filter reads basic attributes and accepts all the files with lastModifiedTime > inDate
         boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
+
+        // Read long epoch from the provided Dates or set to 0L and Long.MAX_VALUE respectively.
         final long fromDateEpoch = fromDate != null ? fromDate.getTime() : 0L;
         final long toDateEpoch = toDate != null ? toDate.getTime() : Long.MAX_VALUE;
 
+        // Fetch file attributes
         BasicFileAttributeView basicAttrsView = Files.getFileAttributeView(entry, BasicFileAttributeView.class);
         BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
+
+        // Define response booleans and return
         boolean isLastModifiedAfterLocalFromDate = FileTime.fromMillis(fromDateEpoch).compareTo(basicAttrs.lastModifiedTime()) <= 0;
         boolean isLastModifiedBeforeLocalToDate = FileTime.fromMillis(toDateEpoch).compareTo(basicAttrs.lastModifiedTime()) >= 0;
         return isXML && basicAttrs.isRegularFile() && isLastModifiedAfterLocalFromDate && isLastModifiedBeforeLocalToDate;
     }
 
     /**
-	 * Reads a specific file from a Path with the correct character set.
-	 * 
-	 * @param path The full path for the file that will be read.
-	 * @return A String with the full file contents.
-	 */
-	public String readFile(Path path) {
-		Charset charset = Charset.forName("ISO-8859-1");
-		StringBuilder response = new StringBuilder();
-		BufferedReader reader = null;
-		try {
-			reader = Files.newBufferedReader(path, charset);
-			String line;
-			while ((line = reader.readLine()) != null) {
-                response.append(line).append(System.getProperty("line.separator"));
-			}
-		} catch (IOException x) {
-			log.error("IOException when reading GVR file", x);
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					log.error("Unexpected IOException when closing BufferedReader.", e);
-				}
-			}
-		}
-		
-		return response.toString();
-	}
+     * Creates a file reader (ISO-8859-1) for the provided file {@link java.nio.file.Path}.
+     * Remember, children, <u>always</u> close the Reader after use!
+     *
+     * @param path The full path to the file to be read.
+     * @return A initialized Reader (ISO-8859-1) for reading the contents of the provided file.
+     */
+    public Reader GetReaderForFile(Path path) throws IOException {
+        Charset charset = Charset.forName("ISO-8859-1");
+        BufferedReader reader = null;
+        reader = Files.newBufferedReader(path, charset);
+
+        return reader;
+    }
 }

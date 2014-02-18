@@ -18,7 +18,6 @@ package se.sll.gvradapter.admincareevent.ws;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
-import javax.xml.bind.annotation.XmlSeeAlso;
 
 import riv.followup.processdevelopment.getadministrativecareevent._1.rivtabp21.GetAdministrativeCareEventResponderInterface;
 import riv.followup.processdevelopment.getadministrativecareeventresponder._1.GetAdministrativeCareEventResponse;
@@ -35,34 +34,22 @@ import riv.followup.processdevelopment.v1.TimePeriodMillisType;
 public class GetAdministrativeCareEventProducer extends AbstractProducer implements
         GetAdministrativeCareEventResponderInterface {
 
+    private static GetAdministrativeCareEventResponse response;
+
 	@Override
 	@WebResult(name = "GetAdministrativeCareEventResponse", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1", partName = "parameters")
 	@WebMethod(operationName = "GetAdministrativeCareEvent", action = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent")
 	public GetAdministrativeCareEventResponse getAdministrativeCareEvent(
 			@WebParam(partName = "LogicalAddress", name = "LogicalAddress", targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
 			@WebParam(partName = "parameters", name = "GetAdministrativeCareEvent", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1") final GetAdministrativeCareEventType parameters) {
-        final GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        //GetAdministrativeCareEventResponse response;
         boolean status = fulfill(new Runnable() {
             @Override
             public void run() {
                 // TODO: Add logic for limiting the fetch
-                response.getCareEvent().addAll(getAdministrativeCareEvent0(parameters));
+                response = getAdministrativeCareEvent0(parameters);
             }
         });
-
-        // Set the status flags in the response.
-        if (status) {
-            response.setResultCode("OK");
-        } else {
-            // Only for non critical errors, otherwise a SOAP Exception is thrown.
-            response.setResultCode("ERROR");
-            response.setComment("Some error");
-        }
-
-        // TODO: Change these if the service has to page the response.
-        response.setResponseTimePeriod(new TimePeriodMillisType());
-        response.getResponseTimePeriod().setStart(parameters.getUpdatedDuringPeriod().getStart());
-        response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
 
         return response;
     }

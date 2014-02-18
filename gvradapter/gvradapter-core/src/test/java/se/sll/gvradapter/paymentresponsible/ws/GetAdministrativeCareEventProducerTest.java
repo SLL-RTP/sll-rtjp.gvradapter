@@ -39,8 +39,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 		params.setUpdatedDuringPeriod(new TimePeriodMillisType());
         params.getUpdatedDuringPeriod().setStart("20140123150600000");
 
-        GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
-        response.getCareEvent().addAll(this.getAdministrativeCareEvent0(params));
+        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
 		for (CareEventType careEvent : response.getCareEvent()) {
             if (careEvent.getCareUnit() != null) {
 			    System.out.println("HSA-id: " + careEvent.getCareUnit().getCareUnitHsaId());

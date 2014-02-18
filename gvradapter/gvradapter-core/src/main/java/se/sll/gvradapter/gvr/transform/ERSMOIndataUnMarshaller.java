@@ -15,7 +15,8 @@
  */
 package se.sll.gvradapter.gvr.transform;
 
-import java.io.StringReader;
+import java.io.IOException;
+import java.io.Reader;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -33,25 +34,25 @@ public class ERSMOIndataUnMarshaller {
 	
 	private static final Logger log = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
 
-	/**
-	 * Unmarshals an XML Document in the form of a String to an ERSMOIndata XML Object using
-	 * a JAXB {@link Unmarshaller}.
-	 * 
-	 * @param src The source XML document in String format.
-	 * @return The unmarshalled ERSMOIndata XML Object.
-	 */
-	public static ERSMOIndata unmarshalString(String src) {
-		log.debug("Starting to unmarshal source: " + src.substring(0,  50) + "...");
-		ERSMOIndata indata = null;
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
-			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-			StringReader reader = new StringReader(src);
-			indata = (ERSMOIndata) unmarshaller.unmarshal(reader);
-		} catch (JAXBException e) {
-			log.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
-		}
-		return indata;
-	}
+    public static ERSMOIndata unmarshalString(Reader src) {
+        log.debug("Starting to unmarshal contents of source Reader.");
+        ERSMOIndata indata = null;
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            indata = (ERSMOIndata) unmarshaller.unmarshal(src);
+        } catch (JAXBException e) {
+            log.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
+        } finally {
+            if (src != null) {
+                try {
+                    src.close();
+                } catch (IOException e) {
+                    log.error("Unexpected IOException when closing BufferedReader.", e);
+                }
+            }
+        }
+        return indata;
+    }
 
 }

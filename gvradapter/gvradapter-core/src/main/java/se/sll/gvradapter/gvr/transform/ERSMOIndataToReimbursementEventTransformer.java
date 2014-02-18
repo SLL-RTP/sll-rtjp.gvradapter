@@ -15,6 +15,7 @@
  */
 package se.sll.gvradapter.gvr.transform;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +23,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import riv.followup.processdevelopment.v1.CVType;
 import riv.followup.processdevelopment.v1.CareEventType;
 import riv.followup.processdevelopment.v1.ContractType;
@@ -41,10 +40,7 @@ import se.sll.gvradapter.admincareevent.service.CodeServerMEKCacheManagerService
 import se.sll.gvradapter.parser.TermItem;
 
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Transforms a single ERSMOIndata XML object to a number of CareEventType XML objects.
@@ -54,7 +50,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
 	
 	private static final Logger log = LoggerFactory.getLogger(ERSMOIndataToReimbursementEventTransformer.class);
 
-	public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata) {
+	public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime) {
 		log.debug("Entering ERSMOIndataToReimbursementEventTransformer.doTransform()");
 		// Instantiate the Cache Manager.
 		CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
@@ -63,14 +59,14 @@ public class ERSMOIndataToReimbursementEventTransformer {
 		
 		// Iterate over all the ersmoIndata.getErsättningshändelse() and convert them to CareEventType
 		for (Ersättningshändelse currentErsh : ersmoIndata.getErsättningshändelse()) {
-            CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager);
+            CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime);
 			responseList.add(currentEvent);
 		}
 
 		return responseList;
 	}
 
-    private static CareEventType createCareEventFromErsättningshändelse(Ersättningshändelse currentErsh, ERSMOIndata ersmoIndata, CodeServerMEKCacheManagerService cacheManager) {
+    private static CareEventType createCareEventFromErsättningshändelse(Ersättningshändelse currentErsh, ERSMOIndata ersmoIndata, CodeServerMEKCacheManagerService cacheManager, Date updatedTime) {
         ObjectFactory of = new ObjectFactory();
         CareEventType currentEvent = of.createCareEventType();
 
@@ -90,7 +86,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
                 currentEvent.getPatient().getId().setType("1.2.752.97.3.1.3");
             } else {
                 currentEvent.getPatient().getId().setType("1.2.752.129.2.1.3.1");
-            } // TODO: Fixa logiken och lägg till reservpersoner
+            } // TODO: Fix the logic and add OID:s for temporary identities.
             if (currentErsh.getPatient().getFödelsedatum() != null) {
                 currentEvent.getPatient().setBirthDate(currentErsh.getPatient().getFödelsedatum().toXMLFormat());
             }
@@ -113,14 +109,13 @@ public class ERSMOIndataToReimbursementEventTransformer {
             CVType patientExtras = of.createCVType();
             patientExtras.setOriginalText("Not mapped yet!");
 
-            JAXBElement<CVType> test2 = new JAXBElement(new QName("urn:riv:followup:processdevelopment:1","Extras"),
-                    patientExtras.getClass(), patientExtras);
-
+            JAXBElement<CVType> test2 = new JAXBElement<CVType>(new QName("urn:riv:followup:processdevelopment:1","Extras"),
+                    CVType.class, patientExtras);
 
             currentEvent.getPatient().getAny().add(test2);
         }
 
-        // TODO: Datum för vårdhändelsen istället?
+        // TODO: Use the date for the reimbursement event instead?
         Date stateDate = new Date();
         TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(currentErsh.getSlutverksamhet());
         if (mappedFacilities != null) {
@@ -151,27 +146,28 @@ public class ERSMOIndataToReimbursementEventTransformer {
             currentEvent.setCareUnit(of.createCareUnitType());
             currentEvent.getCareUnit().setCareUnitHsaId(mappedFacilities.getState(new Date()).getHSAMapping().getState(new Date()).getHsaId());
 
+            // Care Unit Local Id (xs:any) (move to regular contract?)
             CVType careUnitExtras = of.createCVType();
-            careUnitExtras.setOriginalText("Not mapped yet!");
+            careUnitExtras.setCode(currentErsh.getSlutverksamhet());
+            careUnitExtras.setOriginalText("Not properly mapped yet!");
 
-            JAXBElement<CVType> test2 = new JAXBElement(new QName("urn:riv:followup:processdevelopment:1","Extras"),
-                    careUnitExtras.getClass(), careUnitExtras);
-
+            JAXBElement<CVType> test2 = new JAXBElement<CVType>(new QName("urn:riv:followup:processdevelopment:1","CareUnitLocalId"),
+                    CVType.class, careUnitExtras);
             currentEvent.getCareUnit().getAny().add(test2);
 
         }
 
         // Last updated time
-        currentEvent.setLastUpdatedTime("???");
+        currentEvent.setLastUpdatedTime((new SimpleDateFormat("yyyyMMddHHmmssSSS")).format(updatedTime));
 
         // Deleted
         currentEvent.setDeleted(currentErsh.isMakulerad());
 
         // Date Period
-        currentEvent.setDatePeriod(of.createDatePeriodType());
-        currentEvent.getDatePeriod().setStart(currentErsh.getStartdatum().toXMLFormat());
+        currentEvent.setDatePeriod(of.createSplitDatePeriodType());
+        currentEvent.getDatePeriod().setStartDate(currentErsh.getStartdatum().toXMLFormat());
         if (currentErsh.getSlutdatum() != null) {
-            currentEvent.getDatePeriod().setEnd(currentErsh.getSlutdatum().toXMLFormat());
+            currentEvent.getDatePeriod().setEndDate(currentErsh.getSlutdatum().toXMLFormat());
         }
 
         if (currentErsh.getHändelseklass() != null) {

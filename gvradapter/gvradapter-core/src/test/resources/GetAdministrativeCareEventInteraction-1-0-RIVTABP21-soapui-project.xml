@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="GetAdministrativeCareEventInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="GetAdministrativeCareEventResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:GetAdministrativeCareEvent:1:rivtabp21}GetAdministrativeCareEventResponderBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/Projekt/IVBAR/GetAdministrativeCareEvent-rivta/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/Projekt/IVBAR/GetAdministrativeCareEvent-rivta/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:/C:/Projekt/IVBAR/GetAdministrativeCareEvent-rivta/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements. See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership. Sveriges Kommuner och Landsting licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License. You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied. See the License for the
+ specific language governing permissions and limitations
+ under the License.-->
+<wsdl:definitions name="GetAdministrativeCareEventInteraction" targetNamespace="urn:riv:followup:processdevelopment:GetAdministrativeCareEvent:1:rivtabp21" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tjsr="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1" xmlns:tjsi="urn:riv:followup:processdevelopment:GetAdministrativeCareEventInitiator:1" xmlns:tns="urn:riv:followup:processdevelopment:GetAdministrativeCareEvent:1:rivtabp21" xmlns:itr="urn:riv:itintegration:registry:1">
+  <xs:annotation>
+    <xs:documentation>Tjänsteinteraktionens namn: GetAdministrativeCareEventInteraction
+			 Beskrivning: 
+			   Hämtar all vårdersättningsinformation för en given tidsperiod.
+			 Revisioner: 
+			 Tjänstedomän: followup:processdevelopment
+			 Tjänsteinteraktionstyp: Fråga-Svar
+			 WS-profil: RIVTABP21
+			 Förvaltas av: Sveriges Kommuner och Landsting</xs:documentation>
+  </xs:annotation>
+  <wsdl:types>
+    <xs:schema targetNamespace="urn:riv:followup:processdevelopment:GetAdministrativeCareEvent:1:rivtabp21">
+      <xs:import schemaLocation="GetAdministrativeCareEventResponder_1.0.xsd" namespace="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1"/>
+      <xs:import schemaLocation="../../core_components/itintegration_registry_1.0.xsd" namespace="urn:riv:itintegration:registry:1"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetAdministrativeCareEventRequest">
+    <wsdl:part name="LogicalAddress" element="itr:LogicalAddress">
+      <wsdl:documentation>The provider instance to request information from</wsdl:documentation>
+    </wsdl:part>
+    <wsdl:part name="parameters" element="tjsr:GetAdministrativeCareEvent"/>
+  </wsdl:message>
+  <wsdl:message name="GetAdministrativeCareEventResponse">
+    <wsdl:part name="parameters" element="tjsr:GetAdministrativeCareEventResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="GetAdministrativeCareEventResponderInterface">
+    <wsdl:operation name="GetAdministrativeCareEvent">
+      <wsdl:input message="tns:GetAdministrativeCareEventRequest"/>
+      <wsdl:output message="tns:GetAdministrativeCareEventResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GetAdministrativeCareEventResponderBinding" type="tns:GetAdministrativeCareEventResponderInterface">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetAdministrativeCareEvent">
+      <soap:operation soapAction="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent" style="document"/>
+      <wsdl:input>
+        <soap:header use="literal" message="tns:GetAdministrativeCareEventRequest" part="LogicalAddress"/>
+        <soap:body use="literal" parts="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GetAdministrativeCareEventResponderService">
+    <wsdl:port name="GetAdministrativeCareEventResponderPort" binding="tns:GetAdministrativeCareEventResponderBinding">
+      <soap:address location="http://tempuri.org"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\Projekt\IVBAR\GetAdministrativeCareEvent-rivta\schemas\interactions\GetAdministrativeCareEventInteraction\GetAdministrativeCareEventResponder_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
+<!--Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements. See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership. Sveriges Kommuner och Landsting licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License. You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied. See the License for the
+ specific language governing permissions and limitations
+ under the License.-->
+<xs:schema targetNamespace="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1" xmlns:core="urn:riv:followup:processdevelopment:1">
+  <xs:import namespace="urn:riv:followup:processdevelopment:1" schemaLocation="../../core_components/followup_processdevelopment_1.0.xsd"/>
+  <xs:element name="GetAdministrativeCareEvent" type="tns:GetAdministrativeCareEventType"/>
+  <xs:element name="GetAdministrativeCareEventResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="resultCode">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="OK"/>
+              <xs:enumeration value="INFO"/>
+              <xs:enumeration value="ERROR"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="comment" type="xs:string" minOccurs="0"/>
+        <xs:element name="responseTimePeriod" type="core:TimePeriodMillisType"/>
+        <xs:element name="careEvent" type="core:CareEventType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="GetAdministrativeCareEventType">
+    <xs:sequence>
+      <xs:element name="updatedDuringPeriod" type="core:TimePeriodMillisType"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Projekt\IVBAR\GetAdministrativeCareEvent-rivta\schemas\core_components\followup_processdevelopment_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
+<!--Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements. See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership. Sveriges Kommuner och Landsting licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License. You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied. See the License for the
+ specific language governing permissions and limitations
+ under the License.-->
+<xs:schema targetNamespace="urn:riv:followup:processdevelopment:1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:riv:followup:processdevelopment:1">
+  <xs:complexType name="CareEventType">
+    <xs:sequence>
+      <xs:element name="id">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:maxLength value="20"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="sourceSystem" type="tns:SourceType"/>
+      <xs:element name="patient" type="tns:PatientType"/>
+      <xs:element name="emergency" type="xs:boolean"/>
+      <xs:element name="eventType" type="tns:eventTypeType"/>
+      <xs:element name="feeCategory" type="tns:CVType" minOccurs="0"/>
+      <xs:element name="contracts">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="contract" type="tns:ContractType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="careUnit" type="tns:CareUnitType"/>
+      <xs:element name="lastUpdatedTime" type="tns:TimeStampMillisType"/>
+      <xs:element name="deleted" type="xs:boolean"/>
+      <xs:element name="datePeriod" type="tns:SplitDatePeriodType"/>
+      <xs:element name="involvedProfessions" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Should we register separate types for these instead? Do we need to names as well at some point?</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="profession" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="diagnoses" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="diagnosis" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="conditions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="condition" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="activities" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="activity" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="referredFrom" type="tns:HSAIdType" minOccurs="0"/>
+      <xs:element name="stayBefore" type="tns:CVType" minOccurs="0"/>
+      <xs:element name="stayAfter" type="tns:CVType" minOccurs="0"/>
+      <xs:element name="deceased" type="xs:boolean"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PatientType">
+    <xs:sequence>
+      <xs:element name="id" type="tns:PersonIdType"/>
+      <xs:element name="birthDate" type="tns:DateType" minOccurs="0"/>
+      <xs:element name="gender" type="tns:GenderType" minOccurs="0"/>
+      <xs:element name="residency" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="region" type="xs:string"/>
+            <xs:element name="municipality" type="xs:string"/>
+            <xs:element name="parish" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CVType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="code" type="xs:string" minOccurs="0"/>
+      <xs:element name="codeSystem" type="xs:string" minOccurs="0"/>
+      <xs:element name="codeSystemName" type="xs:string" minOccurs="0"/>
+      <xs:element name="codeSystemVersion" type="xs:string" minOccurs="0"/>
+      <xs:element name="displayName" type="xs:string" minOccurs="0"/>
+      <xs:element name="originalText" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="HSAIdType">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:complexType name="IIType">
+    <xs:sequence>
+      <xs:element name="root" type="xs:string"/>
+      <xs:element name="extension" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!--YYYYMMDD-->
+  <xs:simpleType name="DateType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DatePeriodType">
+    <xs:annotation>
+      <xs:documentation>Used for specifying a date interval using a start and an end date.
+                
+                start: 
+                    Start date on the format YYYYMMDD
+                end: 
+                    End date on the format YYYYMMDD</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="start" type="tns:DateType"/>
+      <xs:element name="end" type="tns:DateType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <!--hhmmss-->
+  <xs:simpleType name="TimeType">
+    <xs:annotation>
+      <xs:documentation/>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(0[0-9]|1[0-9]|2[0123])([0-5])([0-9])([0-5])([0-9])"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="OrgUnitType">
+    <xs:annotation>
+      <xs:documentation>Information about an organizational unit.
+                
+                orgUnitHsaId: 
+                HSA-id for the unit.
+                orgUnitName
+                Namn of the unit.
+                orgUnitTelecom: 
+                Phone number for the unit.
+                orgUnitEmail: 
+                Email adress to the unit.
+                orgUnitAddress: 
+                Postal adress to the unit.
+                orgUnitLocation: 
+                Text that specifies the name of the place or locattion for the unit or functions physical location.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="orgUnitHSAId" type="tns:HSAIdType" minOccurs="1"/>
+      <xs:element name="orgUnitName" type="xs:string" minOccurs="1"/>
+      <xs:element name="orgUnitTelecom" type="xs:string" minOccurs="0"/>
+      <xs:element name="orgUnitEmail" type="xs:string" minOccurs="0"/>
+      <xs:element name="orgUnitAddress" type="xs:string" minOccurs="0"/>
+      <xs:element name="orgUnitLocation" type="xs:string" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PersonIdType">
+    <xs:annotation>
+      <xs:documentation>id
+				Personal identity has the following format depending on the type
+				personnummer: yyyymmddnnnn
+				samordningsnummer: yyyymmddnnnn
+				reservnummer: Is not standardized, there are several different variants.
+				type
+				Type av identification.
+				personnummer = '1.2.752.129.2.1.3.1', se http://sv.wikipedia.org/wiki/Personnummer#Sverige
+				samordningsnummer = '1.2.752.129.2.1.3.3', se http://sv.wikipedia.org/wiki/Samordningsnummer
+				reservnummer SLL = '1.2.752.97.3.1.3', se http://sv.wikipedia.org/wiki/Reservnummer</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="TimeStampType">
+    <xs:annotation>
+      <xs:documentation>A quantity specifying a point on the axis of natural time.
+                A point in time is most often represented as a calendar
+                expression.
+                
+                The time has the format YYYYMMDDhhmmss</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])(0[0-9]|1[0-9]|2[0123])([0-5])([0-9])([0-5])([0-9])"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TimePeriodType">
+    <xs:annotation>
+      <xs:documentation>Used to specify a time interval using a start and an end timestamp.
+                Used to specify a time interval using a start and an end timestamp.
+                
+                start: 
+                The start time of the format YYYYMMDDhhmmss
+                end: 
+                The end time of the format YYYYMMDDhhmmss</xs:documentation>
+    </xs:annotation>
+  </xs:complexType>
+  <xs:simpleType name="TimeStampMillisType">
+    <xs:annotation>
+      <xs:documentation>A quantity specifying a point on the axis of natural time.
+                A point in time is most often represented as a calendar
+                expression.
+                
+                The time has the format YYYYMMDDhhmmssMMM</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])(0[0-9]|1[0-9]|2[0123])([0-5])([0-9])([0-5])([0-9])([0-9])([0-9])([0-9])"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="TimePeriodMillisType">
+    <xs:annotation>
+      <xs:documentation>Used to specify a time interval using a start and an end timestamp.
+                Used to specify a time interval using a start and an end timestamp.
+                
+                start: 
+                The start time of the format YYYYMMDDhhmmssMMM
+                end: 
+                The end time of the format YYYYMMDDhhmmssMMM</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="start" type="tns:TimeStampMillisType"/>
+      <xs:element name="end" type="tns:TimeStampMillisType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="GenderType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="M"/>
+      <xs:enumeration value="F"/>
+      <xs:enumeration value="U"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="SourceType">
+    <xs:sequence>
+      <xs:element name="organization" type="tns:HSAIdType"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eventTypeType">
+    <xs:sequence>
+      <xs:element name="mainType" type="tns:CVType"/>
+      <xs:element name="subType" type="tns:CVType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ContractType">
+    <xs:sequence>
+      <xs:element name="id" type="tns:IIType"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="contractType" type="tns:CVType"/>
+      <xs:element name="providerOrganization" type="tns:HSAIdType"/>
+      <xs:element name="payorOrganization" type="tns:HSAIdType"/>
+      <xs:element name="requesterOrganization" type="tns:HSAIdType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CareUnitType">
+    <xs:sequence>
+      <xs:element name="careUnitHsaId" type="tns:HSAIdType"/>
+      <xs:element name="careUnitLocalId" type="tns:CVType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SplitDatePeriodType">
+    <xs:sequence>
+      <xs:element name="startDate" type="tns:DateType"/>
+      <xs:element name="startTime" type="tns:TimeType" minOccurs="0"/>
+      <xs:element name="endDate" type="tns:DateType" minOccurs="0"/>
+      <xs:element name="endTime" type="tns:TimeType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Projekt\IVBAR\GetAdministrativeCareEvent-rivta\schemas\core_components\itintegration_registry_1.0.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="urn:riv:itintegration:registry:1" elementFormDefault="qualified" version="1.0" xmlns="urn:riv:itintegration:registry:1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:documentation>Beskrivning: 	Grundläggande informationsobjekt för domänen itintegration:registry (adressering av tjänster)
+			Revisionshistorik: 2011-06-27 Mats Ekhammar, Callista Enterprise AB
+				Added ServiceContractType
+			
+			Datum:			2011-05-04
+			Beskrivning:	Initial version
+			Författare:		marcus.krantz@callistaenterprise.se</xs:documentation>
+  </xs:annotation>
+  <xs:element name="LogicalAddress" type="LogicalAddressType"/>
+  <xs:element name="ServiceContract" type="ServiceContractType"/>
+  <xs:simpleType name="LogicalAddressType">
+    <xs:annotation>
+      <xs:documentation>Defines the type for logical address according to national reference architecture.
+				Superseeds wsa:To as type for logical address header in RIVTA 2.1.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:complexType name="ServiceContractType">
+    <xs:annotation>
+      <xs:documentation>Type which describes a service contract. Used in interaction GetSupportedServiceContracts.</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="ServiceContractNamespace" type="xs:anyURI"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://tempuri.org</con:endpoint><con:endpoint>http://SOL-LT24:8088/mockGetAdministrativeCareEventResponderBinding</con:endpoint><con:endpoint>http://localhost:8080/gvradapter-web-app/ws/getAdministrativeCareEvent/v1</con:endpoint><con:endpoint>http://localhost:20000/gvradapter/services/getadministrativecareevent/v1</con:endpoint></con:endpoints><con:operation isOneWay="false" action="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent" name="GetAdministrativeCareEvent" bindingOperationName="GetAdministrativeCareEvent" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/gvradapter-web-app/ws/getAdministrativeCareEvent/v1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:riv:itintegration:registry:1" xmlns:urn1="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1" xmlns:urn2="urn:riv:followup:processdevelopment:1">
+   <soapenv:Header>
+      <urn:LogicalAddress>SE012314</urn:LogicalAddress>
+   </soapenv:Header>
+   <soapenv:Body>
+      <urn1:GetAdministrativeCareEvent>
+         <urn1:updatedDuringPeriod>
+             <urn2:start>20140202100000000</urn2:start>
+             <urn2:end>20140203095959999</urn2:end>
+         </urn1:updatedDuringPeriod>
+      </urn1:GetAdministrativeCareEvent>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="GetAdministrativeCareEventResponderBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetAdministrativeCareEvent TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="Full data validation - one response"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>GetAdministrativeCareEventResponderBinding</con:interface><con:operation>GetAdministrativeCareEvent</con:operation><con:request name="Full data validation - one response"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/gvradapter-web-app/ws/getAdministrativeCareEvent/v1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:riv:itintegration:registry:1" xmlns:urn1="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1" xmlns:urn2="urn:riv:followup:processdevelopment:1">
+   <soapenv:Header>
+      <urn:LogicalAddress>SE012314</urn:LogicalAddress>
+   </soapenv:Header>
+   <soapenv:Body>
+      <urn1:GetAdministrativeCareEvent>
+         <urn1:updatedDuringPeriod>
+            <!--Optional:-->
+            <urn2:start>20140203100000000</urn2:start>
+            <!--Optional:-->
+            <urn2:end>20140204095959999</urn2:end>
+         </urn1:updatedDuringPeriod>
+         <!--You may enter ANY elements at this point-->
+      </urn1:GetAdministrativeCareEvent>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:assertion type="Schema Compliance"><con:configuration/></con:assertion><con:assertion type="SOAP Fault Assertion"/><con:assertion type="XPath Match" name="Status code = OK"><con:configuration><path>declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:resultCode</path><content>OK</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Care event count = 1"><con:configuration><path>declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/count(ns2:careEvent)</path><content>1</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="responseTimePeriodStart = UpdatedDuringPeriodStart"><con:configuration><path>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:responseTimePeriod/ns1:start</path><content>20140203100000000</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="responseTimePeriodEnd = UpdatedDuringPeriodEnd"><con:configuration><path>declare namespace soap='http://schemas.xmlsoap.org/soap/envelope/';
+declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:responseTimePeriod/ns1:end</path><content>20140203100000000</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Care Event id"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:id</path><content>12345678901234567890</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Source System Name"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:sourceSystem/ns1:name</path><content>GVR</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient ID"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:patient/ns1:id/ns1:id</path><content>191212121212</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient ID OID"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:patient/ns1:id/ns1:type</path><content>1.2.752.129.2.1.3.1</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient Birth Date"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:patient/ns1:birthDate</path><content>19121212</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient Gender"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:patient/ns1:gender</path><content>M</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient Recidency Region"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:patient/ns1:residency/ns1:region</path><content>01</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient Recidency Municipality"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:patient/ns1:residency/ns1:municipality</path><content>02</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient Recidency Parish"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:patient/ns1:residency/ns1:parish</path><content>03</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Emergency"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:emergency</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Main Event Type"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventType/ns1:mainType/ns1:originalText</path><content>???</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Sub Event Type"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventType/ns1:subType/ns1:originalText</path><content>???</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Fee Category"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:feeCategory/ns1:originalText</path><content>006</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Contracts"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:contracts/count(ns1:contract)</path><content>1</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Contract 1 id"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:contracts/ns1:contract[1]/ns1:id/ns1:extension</path><content>9081</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Contract 1 type"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:contracts/ns1:contract[1]/ns1:contractType/ns1:originalText</path><content>615</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Contract 1 Provider Organization"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:1';
+declare namespace ns3='urn:riv:itintegration:registry:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:contracts/ns1:contract[1]/ns1:providerOrganization</path><content>30216311002</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:mockService port="8088" path="/mockGetAdministrativeCareEventResponderBinding" host="SOL-LT24" name="GetAdministrativeCareEventResponderBinding MockService"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:mockOperation name="GetAdministrativeCareEvent" interface="GetAdministrativeCareEventResponderBinding" operation="GetAdministrativeCareEvent"><con:settings/><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:defaultResponse>Response 1</con:defaultResponse><con:response name="Response 1" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1" xmlns:urn1="urn:riv:followup:processdevelopment:1">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:GetAdministrativeCareEventResponse>
+         <!--Zero or more repetitions:-->
+         <urn:careEvent>
+            <urn1:id>?</urn1:id>
+            <urn1:sourceSystem>
+               <urn1:organization>?</urn1:organization>
+               <urn1:name>?</urn1:name>
+               <!--You may enter ANY elements at this point-->
+            </urn1:sourceSystem>
+            <urn1:patient>
+               <urn1:id>
+                  <urn1:id>?</urn1:id>
+                  <urn1:type>?</urn1:type>
+                  <!--You may enter ANY elements at this point-->
+               </urn1:id>
+               <!--Optional:-->
+               <urn1:birthDate>?</urn1:birthDate>
+               <!--Optional:-->
+               <urn1:gender>?</urn1:gender>
+               <!--Optional:-->
+               <urn1:residency>
+                  <urn1:region>?</urn1:region>
+                  <urn1:municipality>?</urn1:municipality>
+                  <urn1:parish>?</urn1:parish>
+               </urn1:residency>
+               <!--You may enter ANY elements at this point-->
+            </urn1:patient>
+            <urn1:emergency>?</urn1:emergency>
+            <urn1:eventType>
+               <urn1:mainType>
+                  <!--Optional:-->
+                  <urn1:code>?</urn1:code>
+                  <!--Optional:-->
+                  <urn1:codeSystem>?</urn1:codeSystem>
+                  <!--Optional:-->
+                  <urn1:codeSystemName>?</urn1:codeSystemName>
+                  <!--Optional:-->
+                  <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+                  <!--Optional:-->
+                  <urn1:displayName>?</urn1:displayName>
+                  <!--Optional:-->
+                  <urn1:originalText>?</urn1:originalText>
+                  <!--You may enter ANY elements at this point-->
+               </urn1:mainType>
+               <urn1:subType>
+                  <!--Optional:-->
+                  <urn1:code>?</urn1:code>
+                  <!--Optional:-->
+                  <urn1:codeSystem>?</urn1:codeSystem>
+                  <!--Optional:-->
+                  <urn1:codeSystemName>?</urn1:codeSystemName>
+                  <!--Optional:-->
+                  <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+                  <!--Optional:-->
+                  <urn1:displayName>?</urn1:displayName>
+                  <!--Optional:-->
+                  <urn1:originalText>?</urn1:originalText>
+                  <!--You may enter ANY elements at this point-->
+               </urn1:subType>
+               <!--You may enter ANY elements at this point-->
+            </urn1:eventType>
+            <!--Optional:-->
+            <urn1:feeCategory>
+               <!--Optional:-->
+               <urn1:code>?</urn1:code>
+               <!--Optional:-->
+               <urn1:codeSystem>?</urn1:codeSystem>
+               <!--Optional:-->
+               <urn1:codeSystemName>?</urn1:codeSystemName>
+               <!--Optional:-->
+               <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+               <!--Optional:-->
+               <urn1:displayName>?</urn1:displayName>
+               <!--Optional:-->
+               <urn1:originalText>?</urn1:originalText>
+               <!--You may enter ANY elements at this point-->
+            </urn1:feeCategory>
+            <urn1:contracts>
+               <!--Zero or more repetitions:-->
+               <urn1:contract>
+                  <urn1:id>
+                     <urn1:root>?</urn1:root>
+                     <!--Optional:-->
+                     <urn1:extension>?</urn1:extension>
+                     <!--You may enter ANY elements at this point-->
+                  </urn1:id>
+                  <urn1:name>?</urn1:name>
+                  <urn1:contractType>
+                     <!--Optional:-->
+                     <urn1:code>?</urn1:code>
+                     <!--Optional:-->
+                     <urn1:codeSystem>?</urn1:codeSystem>
+                     <!--Optional:-->
+                     <urn1:codeSystemName>?</urn1:codeSystemName>
+                     <!--Optional:-->
+                     <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+                     <!--Optional:-->
+                     <urn1:displayName>?</urn1:displayName>
+                     <!--Optional:-->
+                     <urn1:originalText>?</urn1:originalText>
+                     <!--You may enter ANY elements at this point-->
+                  </urn1:contractType>
+                  <urn1:providerOrganization>?</urn1:providerOrganization>
+                  <urn1:payorOrganization>?</urn1:payorOrganization>
+                  <urn1:requesterOrganization>?</urn1:requesterOrganization>
+               </urn1:contract>
+            </urn1:contracts>
+            <urn1:careUnitHsaId>?</urn1:careUnitHsaId>
+            <urn1:lastUpdatedTime>?</urn1:lastUpdatedTime>
+            <urn1:deleted>?</urn1:deleted>
+            <urn1:datePeriod>
+               <urn1:start>?</urn1:start>
+               <!--Optional:-->
+               <urn1:end>?</urn1:end>
+               <!--You may enter ANY elements at this point-->
+            </urn1:datePeriod>
+            <urn1:careAssignment>?</urn1:careAssignment>
+            <!--Optional:-->
+            <urn1:involvedProfessions>
+               <!--Zero or more repetitions:-->
+               <urn1:profession>
+                  <!--Optional:-->
+                  <urn1:code>?</urn1:code>
+                  <!--Optional:-->
+                  <urn1:codeSystem>?</urn1:codeSystem>
+                  <!--Optional:-->
+                  <urn1:codeSystemName>?</urn1:codeSystemName>
+                  <!--Optional:-->
+                  <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+                  <!--Optional:-->
+                  <urn1:displayName>?</urn1:displayName>
+                  <!--Optional:-->
+                  <urn1:originalText>?</urn1:originalText>
+                  <!--You may enter ANY elements at this point-->
+               </urn1:profession>
+            </urn1:involvedProfessions>
+            <!--Optional:-->
+            <urn1:diagnoses>
+               <!--Zero or more repetitions:-->
+               <urn1:diagnosis>
+                  <!--Optional:-->
+                  <urn1:code>?</urn1:code>
+                  <!--Optional:-->
+                  <urn1:codeSystem>?</urn1:codeSystem>
+                  <!--Optional:-->
+                  <urn1:codeSystemName>?</urn1:codeSystemName>
+                  <!--Optional:-->
+                  <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+                  <!--Optional:-->
+                  <urn1:displayName>?</urn1:displayName>
+                  <!--Optional:-->
+                  <urn1:originalText>?</urn1:originalText>
+                  <!--You may enter ANY elements at this point-->
+               </urn1:diagnosis>
+            </urn1:diagnoses>
+            <!--Optional:-->
+            <urn1:conditions>
+               <!--Zero or more repetitions:-->
+               <urn1:condition>
+                  <!--Optional:-->
+                  <urn1:code>?</urn1:code>
+                  <!--Optional:-->
+                  <urn1:codeSystem>?</urn1:codeSystem>
+                  <!--Optional:-->
+                  <urn1:codeSystemName>?</urn1:codeSystemName>
+                  <!--Optional:-->
+                  <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+                  <!--Optional:-->
+                  <urn1:displayName>?</urn1:displayName>
+                  <!--Optional:-->
+                  <urn1:originalText>?</urn1:originalText>
+                  <!--You may enter ANY elements at this point-->
+               </urn1:condition>
+            </urn1:conditions>
+            <!--Optional:-->
+            <urn1:activities>
+               <!--Zero or more repetitions:-->
+               <urn1:activity>
+                  <!--Optional:-->
+                  <urn1:code>?</urn1:code>
+                  <!--Optional:-->
+                  <urn1:codeSystem>?</urn1:codeSystem>
+                  <!--Optional:-->
+                  <urn1:codeSystemName>?</urn1:codeSystemName>
+                  <!--Optional:-->
+                  <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+                  <!--Optional:-->
+                  <urn1:displayName>?</urn1:displayName>
+                  <!--Optional:-->
+                  <urn1:originalText>?</urn1:originalText>
+                  <!--You may enter ANY elements at this point-->
+               </urn1:activity>
+            </urn1:activities>
+            <!--Optional:-->
+            <urn1:referredFrom>?</urn1:referredFrom>
+            <!--Optional:-->
+            <urn1:stayBefore>
+               <!--Optional:-->
+               <urn1:code>?</urn1:code>
+               <!--Optional:-->
+               <urn1:codeSystem>?</urn1:codeSystem>
+               <!--Optional:-->
+               <urn1:codeSystemName>?</urn1:codeSystemName>
+               <!--Optional:-->
+               <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+               <!--Optional:-->
+               <urn1:displayName>?</urn1:displayName>
+               <!--Optional:-->
+               <urn1:originalText>?</urn1:originalText>
+               <!--You may enter ANY elements at this point-->
+            </urn1:stayBefore>
+            <!--Optional:-->
+            <urn1:stayAfter>
+               <!--Optional:-->
+               <urn1:code>?</urn1:code>
+               <!--Optional:-->
+               <urn1:codeSystem>?</urn1:codeSystem>
+               <!--Optional:-->
+               <urn1:codeSystemName>?</urn1:codeSystemName>
+               <!--Optional:-->
+               <urn1:codeSystemVersion>?</urn1:codeSystemVersion>
+               <!--Optional:-->
+               <urn1:displayName>?</urn1:displayName>
+               <!--Optional:-->
+               <urn1:originalText>?</urn1:originalText>
+               <!--You may enter ANY elements at this point-->
+            </urn1:stayAfter>
+            <urn1:deceased>?</urn1:deceased>
+            <!--You may enter ANY elements at this point-->
+         </urn:careEvent>
+      </urn:GetAdministrativeCareEventResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent"/></con:response><con:dispatchConfig/></con:mockOperation><con:properties/></con:mockService><con:properties/><con:wssContainer/></con:soapui-project>

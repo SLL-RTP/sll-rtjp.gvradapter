@@ -86,11 +86,11 @@ public class ERSMOIndataToReimbursementEventTransformer extends AbstractTransfor
 			currentEvent.setDeleted(currentErsh.isMakulerad());
 
 			// Date Period
-			currentEvent.setDatePeriod(of.createDatePeriodType());
-			currentEvent.getDatePeriod().setStart(currentErsh.getStartdatum().toXMLFormat());
-			if (currentErsh.getSlutdatum() != null) {
-				currentEvent.getDatePeriod().setEnd(currentErsh.getSlutdatum().toXMLFormat());
-			}
+            currentEvent.setDatePeriod(of.createSplitDatePeriodType());
+            currentEvent.getDatePeriod().setStartDate(currentErsh.getStartdatum().toXMLFormat());
+            if (currentErsh.getSlutdatum() != null) {
+                currentEvent.getDatePeriod().setEndDate(currentErsh.getSlutdatum().toXMLFormat());
+            }
 
 			if (currentErsh.getHändelseklass() != null) {
 				if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
