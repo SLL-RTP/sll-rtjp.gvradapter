@@ -24,6 +24,8 @@
     <module>getadmincareevent-core</module>
     <module>getadmincareevent-web-app</module>
     <module>getadmincareevent-mule-app</module>
+    <module>processreimbursement-core</module>
+      <module>processreimbursement-web-app</module>
   </modules>
 
   <properties>
