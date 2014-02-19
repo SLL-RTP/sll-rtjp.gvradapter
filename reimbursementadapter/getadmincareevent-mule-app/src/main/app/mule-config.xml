@@ -24,8 +24,8 @@
     ">
 
        <spring:beans>
-                <spring:import resource="gvradapter-common.xml" />
-                <spring:import resource="classpath*:/gvradapter-core-spring-context.xml" />
+                <spring:import resource="getadmincareevent-common.xml" />
+                <spring:import resource="classpath*:/getadmincareevent-core-spring-context.xml" />
         </spring:beans>
 
 </mule>

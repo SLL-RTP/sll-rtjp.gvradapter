@@ -28,16 +28,16 @@
   
   <context-param>
     <param-name>webAppRootKey</param-name>
-        <param-value>gvradapter-web-app.root</param-value>
+        <param-value>getadmincareevent-web-app.root</param-value>
   </context-param>
   
   <context-param>
         <param-name>log4jConfigLocation</param-name>
-        <param-value>file:${user.home}/gvradapter/log4j.xml</param-value>
+        <param-value>file:${user.home}/reimbursementadapter/log4j.xml</param-value>
   </context-param>
   
   <listener>
-    <listener-class>se.sll.gvradapter.app.listener.ApplicationContextLoaderListener</listener-class>
+    <listener-class>se.sll.reimbursementadapter.app.listener.ApplicationContextLoaderListener</listener-class>
   </listener>
 
   <listener>

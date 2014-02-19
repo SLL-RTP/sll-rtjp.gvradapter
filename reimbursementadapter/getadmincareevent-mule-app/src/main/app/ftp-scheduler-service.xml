@@ -37,7 +37,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 	<ftp:connector name="ftp-connector" passive="true"
 		streaming="true" binary="true">
 		<service-overrides
-			messageReceiver="se.sll.gvradapter.mule.NonDeletingFtpMessageReceiver" />
+			messageReceiver="se.sll.reimbursementadapter.mule.NonDeletingFtpMessageReceiver" />
 	</ftp:connector>
 
 	<ftp:endpoint name="ftp-fetch" connector-ref="ftp-connector"
@@ -56,7 +56,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 		<inbound-endpoint ref="quartz-batch" />
 		<echo-component />
 		<flow-ref name="ftp-process-fetch-flow" />
-		<component class="se.sll.gvradapter.mule.FTPFetchHandler" />
+		<component class="se.sll.reimbursementadapter.mule.FTPFetchHandler" />
 	</flow>
 
 	<flow name="ftp-process-fetch-flow">

@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				serviceClass="riv.followup.processdevelopment.getadministrativecareevent._1.rivtabp21.GetAdministrativeCareEventResponderInterface" />
 		</http:inbound-endpoint>
 		<component doc:name="Java Component"
-			class="se.sll.gvradapter.admincareevent.ws.GetAdministrativeCareEventProducer" />
+			class="se.sll.reimbursementadapter.admincareevent.ws.GetAdministrativeCareEventProducer" />
 
 		<custom-exception-strategy
 			class="org.soitoolkit.commons.mule.error.ServiceExceptionStrategy" />

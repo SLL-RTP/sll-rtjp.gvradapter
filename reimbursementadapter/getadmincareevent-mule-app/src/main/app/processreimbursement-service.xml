@@ -5,23 +5,23 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd">
     <spring:beans>
-        <spring:bean id="fileReaderBean" class="se.sll.gvradapter.mule.FileReader"/>
+        <spring:bean id="fileReaderBean" class="se.sll.reimbursementadapter.mule.FileReader"/>
     </spring:beans>
     <flow name="processreimbursement-serviceFlow1" doc:name="processreimbursement-serviceFlow1">
         <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8085" doc:name="HTTP"/>
         <object-to-string-transformer doc:name="Request to String"/>
         <set-variable variableName="date" value="#[xpath('//urn1:date') == null ? null : xpath('//urn1:date').text]" doc:name="Fetch Date via XPATH"/>
         <cxf:jaxws-service serviceClass="riv.followup.processdevelopment.getadministrativecareevent._1.rivtabp21.GetAdministrativeCareEventResponderInterface" doc:name="SOAP"/>
-        <component class="se.sll.gvradapter.admincareevent.ws.GetAdministrativeCareEventEmptyProducer" doc:name="SOAP Impl"/>
+        <component class="se.sll.reimbursementadapter.admincareevent.ws.GetAdministrativeCareEventEmptyProducer" doc:name="SOAP Impl"/>
 		<set-variable variableName="originalPayload" value="#[payload]" doc:name="save original payload" />
 		<enricher target="#[flowVars['fileList']]" doc:name="Message Enricher">
 			<invoke object-ref="fileReaderBean" method="getFileList" methodArguments="#[flowVars['date']]" doc:name="Get File List" />
 		</enricher>
         <foreach collection="#[flowVars['fileList']]" doc:name="For Each File in Files">
         	<logger level="INFO" message="File #[payload]" doc:name="Logger"/>
-            <component class="se.sll.gvradapter.mule.FileReader" doc:name="Read file to string" />
-            <custom-transformer class="se.sll.gvradapter.admincareevent.transformer.ERSMOIndataUnMarshaller" doc:name="Unmarshal ERSMOIndata"/>
-            <custom-transformer class="se.sll.gvradapter.admincareevent.transformer.ERSMOIndataToReimbursementEventTransformer" doc:name="Transform ReimbursementEvent"/>
+            <component class="se.sll.reimbursementadapter.mule.FileReader" doc:name="Read file to string" />
+            <custom-transformer class="se.sll.reimbursementadapter.admincareevent.transformer.ERSMOIndataUnMarshaller" doc:name="Unmarshal ERSMOIndata"/>
+            <custom-transformer class="se.sll.reimbursementadapter.admincareevent.transformer.ERSMOIndataToReimbursementEventTransformer" doc:name="Transform ReimbursementEvent"/>
         	<expression-component doc:name="Add to responselist"><![CDATA[flowVars['originalPayload'].getCareEvent().addAll(payload)]]></expression-component>
         </foreach>
     </flow>

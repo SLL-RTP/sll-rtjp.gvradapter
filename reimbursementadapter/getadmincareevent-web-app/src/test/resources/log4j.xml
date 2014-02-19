@@ -28,7 +28,7 @@
   </appender>
 
   <!-- Application Loggers -->
-  <logger name="org.formengine">
+  <logger name="org.formengine">>
     <level value="debug" />
   </logger>
 

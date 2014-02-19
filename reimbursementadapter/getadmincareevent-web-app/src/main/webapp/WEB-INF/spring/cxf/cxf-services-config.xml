@@ -33,7 +33,7 @@
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
 	<jaxws:endpoint id="getAdministrativeCareEvent"
-		implementor="se.sll.gvradapter.admincareevent.ws.GetAdministrativeCareEventProducer"
+		implementor="se.sll.reimbursementadapter.admincareevent.ws.GetAdministrativeCareEventProducer"
 		address="/ws/getAdministrativeCareEvent/v1">
 		<jaxws:properties>
 			<entry key="schema-validation-enabled" value="false" />
@@ -47,6 +47,6 @@
 		</jaxrs:serviceBeans>
 	</jaxrs:server>
 
-	<bean id="adminBean" class="se.sll.gvradapter.admincareevent.rs.AdminService" />
+	<bean id="adminBean" class="se.sll.reimbursementadapter.admincareevent.rs.AdminService" />
 
 </beans>
