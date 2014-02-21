@@ -18,8 +18,19 @@ package se.sll.reimbursementadapter.processreimbursement.ws;
 import riv.followup.processdevelopment.reimbursement.processreimbursement.v1.rivtabp21.ProcessReimbursementResponderInterface;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
+import se.sll.hej.xml.indata.HEJIndata;
+import se.sll.hej.xml.indata.ObjectFactory;
+import se.sll.reimbursementadapter.hej.transform.HEJIndataMarshaller;
+import se.sll.reimbursementadapter.hej.transform.ReimbursementRequestToHEJIndataTransformer;
 
 import javax.jws.WebParam;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.nio.file.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ProcessReimbursementProducer implements ProcessReimbursementResponderInterface {
 
@@ -28,6 +39,40 @@ public class ProcessReimbursementProducer implements ProcessReimbursementRespond
         ProcessReimbursementResponse response = new ProcessReimbursementResponse();
         response.setComment("Aha!");
         response.setResultCode("OK");
+
+        HEJIndata hejXml = ReimbursementRequestToHEJIndataTransformer.doTransform(parameters);
+
+        try {
+            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_" + parameters.getBatchId() + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date())));
+            BufferedWriter bw = Files.newBufferedWriter(file, Charset.defaultCharset(), StandardOpenOption.WRITE);
+            HEJIndataMarshaller.unmarshalString(hejXml, bw);
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return response;
+    }
+
+    public static void main(String[] args) {
+        try {
+            HEJIndata indata = new HEJIndata();
+            indata.setID("testid");
+            indata.setKälla("Test");
+            HEJIndata.Ersättningshändelse test = new HEJIndata.Ersättningshändelse();
+            test.setID("123");
+            test.setKälla("ERA");
+            test.setHändelseform("test");
+            test.setKundKod("sets");
+            indata.getErsättningshändelse().add(test);
+            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_" + "01" + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date())));
+            BufferedWriter bw = Files.newBufferedWriter(file, Charset.defaultCharset(), StandardOpenOption.WRITE);
+            HEJIndataMarshaller.unmarshalString(indata, bw);
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

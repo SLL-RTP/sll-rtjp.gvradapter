@@ -502,94 +502,80 @@
   </xs:complexType>
 </xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://tempuri.org</con:endpoint><con:endpoint>http://localhost:8080/processreimbursement-web-app/ws/processReimbursement/v1</con:endpoint></con:endpoints><con:operation isOneWay="false" action="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1:ProcessReimbursement" name="ProcessReimbursement" bindingOperationName="ProcessReimbursement" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/processreimbursement-web-app/ws/processReimbursement/v1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:riv:itintegration:registry:1" xmlns:urn1="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1" xmlns:urn2="urn:riv:followup:processdevelopment:reimbursement:1">
    <soapenv:Header>
-      <urn:LogicalAddress>?</urn:LogicalAddress>
+      <urn:LogicalAddress>SE01231231</urn:LogicalAddress>
    </soapenv:Header>
    <soapenv:Body>
       <urn1:ProcessReimbursementRequest>
          <urn1:sourceSystem>
-            <urn2:organization>?</urn2:organization>
-            <urn2:name>?</urn2:name>
+            <urn2:organization>1.2.3.4.5.5.7</urn2:organization>
+            <urn2:name>ERA</urn2:name>
             <!--You may enter ANY elements at this point-->
          </urn1:sourceSystem>
-         <urn1:batchId>?</urn1:batchId>
+         <urn1:batchId>1</urn1:batchId>
          <!--Zero or more repetitions:-->
          <urn1:reimbursementEvent>
             <urn2:id>
-               <urn2:organization>?</urn2:organization>
-               <urn2:source>?</urn2:source>
-               <urn2:value>?</urn2:value>
+               <urn2:organization>1.2.3.4.5.6</urn2:organization>
+               <urn2:source>ERA</urn2:source>
+               <urn2:value>42342432</urn2:value>
             </urn2:id>
             <!--Optional:-->
-            <urn2:emergency>?</urn2:emergency>
+            <urn2:emergency>false</urn2:emergency>
             <urn2:eventType>
                <urn2:mainType>
                   <!--Optional:-->
-                  <urn2:code>?</urn2:code>
+                  <urn2:code>ÖPPENVÅRD</urn2:code>
                   <!--Optional:-->
-                  <urn2:codeSystem>?</urn2:codeSystem>
-                  <!--Optional:-->
-                  <urn2:codeSystemName>?</urn2:codeSystemName>
-                  <!--Optional:-->
-                  <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                  <!--Optional:-->
-                  <urn2:displayName>?</urn2:displayName>
-                  <!--Optional:-->
-                  <urn2:originalText>?</urn2:originalText>
-                  <!--You may enter ANY elements at this point-->
+                  <urn2:codeSystem>1.2.3.4.5.6</urn2:codeSystem>
                </urn2:mainType>
                <!--Optional:-->
                <urn2:subType>
                   <!--Optional:-->
-                  <urn2:code>?</urn2:code>
+                  <urn2:code>I02+1235</urn2:code>
                   <!--Optional:-->
-                  <urn2:codeSystem>?</urn2:codeSystem>
-                  <!--Optional:-->
-                  <urn2:codeSystemName>?</urn2:codeSystemName>
-                  <!--Optional:-->
-                  <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                  <!--Optional:-->
-                  <urn2:displayName>?</urn2:displayName>
-                  <!--Optional:-->
-                  <urn2:originalText>?</urn2:originalText>
-                  <!--You may enter ANY elements at this point-->
+                  <urn2:codeSystem>1.2.4.4.6.</urn2:codeSystem>
                </urn2:subType>
                <!--You may enter ANY elements at this point-->
             </urn2:eventType>
             <urn2:patient>
                <urn2:id>
-                  <urn2:id>?</urn2:id>
-                  <urn2:type>?</urn2:type>
+                  <urn2:id>191212121212</urn2:id>
+                  <urn2:type>1.2.4.56.7.</urn2:type>
                   <!--You may enter ANY elements at this point-->
                </urn2:id>
                <!--Optional:-->
-               <urn2:birthDate>?</urn2:birthDate>
+               <urn2:birthDate>19121212</urn2:birthDate>
                <!--Optional:-->
-               <urn2:gender>?</urn2:gender>
+               <urn2:gender>M</urn2:gender>
                <!--Optional:-->
                <urn2:residency>
-                  <urn2:region>?</urn2:region>
-                  <urn2:municipality>?</urn2:municipality>
-                  <urn2:parish>?</urn2:parish>
+                  <urn2:region>01</urn2:region>
+                  <urn2:municipality>80</urn2:municipality>
+                  <urn2:parish>01</urn2:parish>
                </urn2:residency>
                <!--You may enter ANY elements at this point-->
+               <Extras>test</Extras>
             </urn2:patient>
             <!--Optional:-->
             <urn2:involvedProfessions>
                <!--Zero or more repetitions:-->
                <urn2:profession>
                   <!--Optional:-->
-                  <urn2:code>?</urn2:code>
+                  <urn2:code>01</urn2:code>
                   <!--Optional:-->
-                  <urn2:codeSystem>?</urn2:codeSystem>
+                  <urn2:codeSystem>1.1.2.3.4</urn2:codeSystem>
+               </urn2:profession>
+               <urn2:profession>
                   <!--Optional:-->
-                  <urn2:codeSystemName>?</urn2:codeSystemName>
+                  <urn2:code>14</urn2:code>
                   <!--Optional:-->
-                  <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
+                  <urn2:codeSystem>1.1.2.3.4</urn2:codeSystem>
+               </urn2:profession>
+               <urn2:profession>
                   <!--Optional:-->
-                  <urn2:displayName>?</urn2:displayName>
+                  <urn2:code>02</urn2:code>
                   <!--Optional:-->
-                  <urn2:originalText>?</urn2:originalText>
-                  <!--You may enter ANY elements at this point-->
+                  <urn2:codeSystem>1.1.2.3.4</urn2:codeSystem>
                </urn2:profession>
             </urn2:involvedProfessions>
             <!--Optional:-->
@@ -597,18 +583,15 @@
                <!--Zero or more repetitions:-->
                <urn2:activity>
                   <!--Optional:-->
-                  <urn2:code>?</urn2:code>
+                  <urn2:code>NHP09</urn2:code>
                   <!--Optional:-->
-                  <urn2:codeSystem>?</urn2:codeSystem>
+                  <urn2:codeSystem>1.2.3.4.5.7</urn2:codeSystem>
+               </urn2:activity>
+               <urn2:activity>
                   <!--Optional:-->
-                  <urn2:codeSystemName>?</urn2:codeSystemName>
+                  <urn2:code>PE009</urn2:code>
                   <!--Optional:-->
-                  <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                  <!--Optional:-->
-                  <urn2:displayName>?</urn2:displayName>
-                  <!--Optional:-->
-                  <urn2:originalText>?</urn2:originalText>
-                  <!--You may enter ANY elements at this point-->
+                  <urn2:codeSystem>1.2.3.4.5.7</urn2:codeSystem>
                </urn2:activity>
             </urn2:activities>
             <!--1 or more repetitions:-->
@@ -616,63 +599,36 @@
                <urn2:product>
                   <urn2:code>
                      <!--Optional:-->
-                     <urn2:code>?</urn2:code>
+                     <urn2:code>A1234</urn2:code>
                      <!--Optional:-->
-                     <urn2:codeSystem>?</urn2:codeSystem>
-                     <!--Optional:-->
-                     <urn2:codeSystemName>?</urn2:codeSystemName>
-                     <!--Optional:-->
-                     <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                     <!--Optional:-->
-                     <urn2:displayName>?</urn2:displayName>
-                     <!--Optional:-->
-                     <urn2:originalText>?</urn2:originalText>
-                     <!--You may enter ANY elements at this point-->
+                     <urn2:codeSystem>1.2.4.6.8</urn2:codeSystem>
                   </urn2:code>
                   <urn2:careUnit>
-                     <urn2:careUnitHsaId>?</urn2:careUnitHsaId>
+                     <urn2:careUnitHsaId>SE012301231</urn2:careUnitHsaId>
                      <!--Optional:-->
                      <urn2:careUnitLocalId>
                         <!--Optional:-->
-                        <urn2:code>?</urn2:code>
+                        <urn2:code>19147021M01</urn2:code>
                         <!--Optional:-->
-                        <urn2:codeSystem>?</urn2:codeSystem>
-                        <!--Optional:-->
-                        <urn2:codeSystemName>?</urn2:codeSystemName>
-                        <!--Optional:-->
-                        <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                        <!--Optional:-->
-                        <urn2:displayName>?</urn2:displayName>
-                        <!--Optional:-->
-                        <urn2:originalText>?</urn2:originalText>
-                        <!--You may enter ANY elements at this point-->
+                        <urn2:codeSystem>1.2.3.5.7</urn2:codeSystem>
                      </urn2:careUnitLocalId>
                      <!--You may enter ANY elements at this point-->
                   </urn2:careUnit>
                   <urn2:contract>
                      <!--Optional:-->
                      <urn2:id>
-                        <urn2:root>?</urn2:root>
+                        <urn2:root>6341</urn2:root>
                         <!--Optional:-->
-                        <urn2:extension>?</urn2:extension>
+                        <urn2:extension>1.2.3.4.6</urn2:extension>
                         <!--You may enter ANY elements at this point-->
                      </urn2:id>
                      <urn2:name>?</urn2:name>
                   </urn2:contract>
                   <urn2:model>
                      <!--Optional:-->
-                     <urn2:code>?</urn2:code>
+                     <urn2:code>003</urn2:code>
                      <!--Optional:-->
-                     <urn2:codeSystem>?</urn2:codeSystem>
-                     <!--Optional:-->
-                     <urn2:codeSystemName>?</urn2:codeSystemName>
-                     <!--Optional:-->
-                     <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                     <!--Optional:-->
-                     <urn2:displayName>?</urn2:displayName>
-                     <!--Optional:-->
-                     <urn2:originalText>?</urn2:originalText>
-                     <!--You may enter ANY elements at this point-->
+                     <urn2:codeSystem>1.2.3.4.5.6</urn2:codeSystem>
                   </urn2:model>
                </urn2:product>
             </urn2:productSet>

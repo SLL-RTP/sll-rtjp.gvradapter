@@ -125,7 +125,7 @@
 			<xs:element name="productSet" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="product" type="tns:ProductType"/>
+						<xs:element name="product" type="tns:ProductType" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

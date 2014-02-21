@@ -133,20 +133,54 @@ DON'T CHANGE THE CONTENT OF THIS COMMENT UNLESS YOU REALLY KNOW WHAT YOU ARE DOI
 			</plugin>
 			
 			<plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>1.5</version>
+                <!--<groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>-->
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.8.3</version>
                 <executions>
                     <execution>
-                        <id>xjc</id>
+                        <id>xjc-ersmoindata</id>
                         <goals>
-                            <goal>xjc</goal>
+                            <goal>generate</goal>
                         </goals>
+                        <configuration>
+                            <!--<clearOutputDir>false</clearOutputDir>
+                            <generatedResourcesDirectory>target/generated-sources/ersmoindata-xjc</generatedResourcesDirectory>
+                            <schemaDirectory>src/main/xsd/ERSMOIndata</schemaDirectory>
+                            <schemaFiles>
+                                ERSMOIndata2.2.xsd
+                            </schemaFiles>
+                            <outputDirectory>target/generated-sources/ersmoindata-xjc</outputDirectory>
+                            <packageName>se.sll.ersmo.xml.indata</packageName>-->
+                            <schemaDirectory>src/main/xsd/ERSMOIndata</schemaDirectory>
+                            <schemaIncludes>
+                                <include>ERSMOIndata2.2.xsd</include>
+                            </schemaIncludes>
+                            <generatePackage>se.sll.ersmo.xml.indata</generatePackage>
+                            <generateDirectory>${project.build.directory}/generated-sources/ersmo</generateDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>xjc-hejindata</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <!--<clearOutputDir>false</clearOutputDir>
+                            <generatedResourcesDirectory>target/generated-sources/hej-xjc</generatedResourcesDirectory>
+                            <schemaDirectory>src/main/xsd/HEJIndata</schemaDirectory>
+                            <outputDirectory>target/generated-sources/hej-xjc</outputDirectory>
+                            <packageName>se.sll.hej.xml.indata</packageName>-->
+                            <schemaDirectory>src/main/xsd/HEJIndata</schemaDirectory>
+                            <schemaIncludes>
+                                <include>HEJIndata2.0.xsd</include>
+                            </schemaIncludes>
+                            <generatePackage>se.sll.hej.xml.indata</generatePackage>
+                            <generateDirectory>${project.build.directory}/generated-sources/hej</generateDirectory>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <packageName>se.sll.ersmo.xml.indata</packageName> <!-- The name of your generated source package -->
-                </configuration>
             </plugin>
 
 			<plugin>
