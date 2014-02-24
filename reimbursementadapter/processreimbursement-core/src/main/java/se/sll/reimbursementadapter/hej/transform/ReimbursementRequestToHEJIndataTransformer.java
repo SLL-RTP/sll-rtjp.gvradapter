@@ -15,6 +15,7 @@
  */
 package se.sll.reimbursementadapter.hej.transform;
 
+import org.w3c.dom.Element;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.v1.CVType;
 import riv.followup.processdevelopment.reimbursement.v1.PatientType;
@@ -50,7 +51,14 @@ public class ReimbursementRequestToHEJIndataTransformer {
         PatientType.Residency residency = currentReimbursementEvent.getPatient().getResidency();
         ersh.getPatient().setLkf(residency.getRegion() + residency.getMunicipality() + residency.getParish());
         if (currentReimbursementEvent.getPatient().getAny().size() > 0) {
-            ersh.getPatient().setBasområde(currentReimbursementEvent.getPatient().getAny().get(0).toString());
+            Object anyObject = currentReimbursementEvent.getPatient().getAny().get(0);
+            System.out.println("Any class type: " + anyObject.getClass());
+            if (anyObject instanceof Element) {
+                Element test = (Element) anyObject;
+                System.out.println("Element name: " + test.getNodeName());
+                System.out.println("Element value: " + test.getTextContent());
+                ersh.getPatient().setBasområde(test.getTextContent());
+            }
         }
 
         ersh.setKundKod("01" + "MAPPAT BETJÄNINGSOMRÅDE FRÅN KODSERVERN");
@@ -98,3 +106,4 @@ public class ReimbursementRequestToHEJIndataTransformer {
         return ersh;
     }
 }
+

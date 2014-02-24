@@ -22,9 +22,6 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.BasicFileAttributeView;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
 import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -105,17 +102,9 @@ public class GVRFileReader {
         DirectoryStream<Path> ds = null;
         // [bound to java6 spec (but not API if you are sneaky!) by the SOI Toolkit dependency, can't use try-with-resources.]
         try  {
-            ds = Files.newDirectoryStream(folderToIterate, new DirectoryStream.Filter<Path>() {
-                public boolean accept(Path entry) throws IOException {
-                    // Depending on the configured filter type, invoke the appropriate filter method.
-                    if (dateFilterMethod.equals(DateFilterMethod.METADATA)) {
-                        return filterFilePathForMetadata(entry, fromDate, toDate);
-                    } else if (dateFilterMethod.equals(DateFilterMethod.FILENAME)) {
-                        return filterFilePathForFilename(entry, fromDate, toDate);
-                    }
-                    return false;
-                }
-            });
+            ds = Files.newDirectoryStream(folderToIterate, dateFilterMethod.equals(DateFilterMethod.METADATA) ?
+                                                new MetadataDateRangeFilter(fromDate, toDate)
+                                              : new FileNameDateRangeFilter(fromDate, toDate, this));
             for (Path p : ds) {
                 response.add(p);
             }
@@ -132,41 +121,6 @@ public class GVRFileReader {
         }
 
         return response;
-    }
-
-    /**
-     * Filters a file {@link Path} on whether the timestamp found in the file name
-     * falls within the provided from Date and toDate parameters.
-     *
-     * @param entry the {@link Path} object to filter on.
-     * @param fromDate the from date to filter on.
-     * @param toDate The to date to filter on.
-     * @return a boolean that indicates whether the file timestamp falls within the provided date span.
-     */
-    private boolean filterFilePathForFilename(Path entry, Date fromDate, Date toDate) throws IOException {
-        boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
-
-        // Return false if not an XML-file, to make the filter below easier.
-        if (!isXML) {
-            return false;
-        }
-
-        // Read the date om the provided file name according to the spec.
-        Date gvrFileDate = getDateFromGVRFileName(entry);
-        if (gvrFileDate == null) {
-            // Invalid File, remove from filter.
-            log.info("File " + entry.toString() + " does not have a valid date and will therefore be filtered away");
-            return false;
-        }
-
-        // [..yes, .compareTo >=/<= works here to, but this is easier to parse imho. :)]
-        boolean hasFileTimestampAfterLocalFromDate = fromDate == null
-                                                  || gvrFileDate.after(fromDate)
-                                                  || gvrFileDate.equals(fromDate);
-        boolean hasFileTimestampBeforeLocalToDate = toDate == null
-                                                 || gvrFileDate.before(toDate)
-                                                 || gvrFileDate.equals(toDate);
-        return hasFileTimestampAfterLocalFromDate && hasFileTimestampBeforeLocalToDate;
     }
 
     /**
@@ -199,33 +153,6 @@ public class GVRFileReader {
     }
 
     /**
-     * Filters a file {@link Path} on whether the timestamp in the file system metadata
-     * falls within the provided from Date and toDate parameters.
-     *
-     * @param entry the {@link Path} object to filter on.
-     * @param fromDate the from date to filter on.
-     * @param toDate The to date to filter on.
-     * @return a boolean that indicates whether the file timestamp falls within the provided date span.
-     */
-    private boolean filterFilePathForMetadata(Path entry, Date fromDate, Date toDate) throws IOException {
-        // Filter reads basic attributes and accepts all the files with lastModifiedTime > inDate
-        boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
-
-        // Read long epoch from the provided Dates or set to 0L and Long.MAX_VALUE respectively.
-        final long fromDateEpoch = fromDate != null ? fromDate.getTime() : 0L;
-        final long toDateEpoch = toDate != null ? toDate.getTime() : Long.MAX_VALUE;
-
-        // Fetch file attributes
-        BasicFileAttributeView basicAttrsView = Files.getFileAttributeView(entry, BasicFileAttributeView.class);
-        BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
-
-        // Define response booleans and return
-        boolean isLastModifiedAfterLocalFromDate = FileTime.fromMillis(fromDateEpoch).compareTo(basicAttrs.lastModifiedTime()) <= 0;
-        boolean isLastModifiedBeforeLocalToDate = FileTime.fromMillis(toDateEpoch).compareTo(basicAttrs.lastModifiedTime()) >= 0;
-        return isXML && basicAttrs.isRegularFile() && isLastModifiedAfterLocalFromDate && isLastModifiedBeforeLocalToDate;
-    }
-
-    /**
      * Creates a file reader (ISO-8859-1) for the provided file {@link java.nio.file.Path}.
      * Remember, children, <u>always</u> close the Reader after use!
      *
@@ -234,5 +161,9 @@ public class GVRFileReader {
      */
     public Reader GetReaderForFile(Path path) throws IOException {
         return Files.newBufferedReader(path, Charset.forName("ISO-8859-1"));
+    }
+
+    public String getGvrTimestampFormat() {
+        return gvrTimestampFormat;
     }
 }

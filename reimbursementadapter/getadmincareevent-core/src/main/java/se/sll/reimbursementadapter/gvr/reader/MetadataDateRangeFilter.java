@@ -1,0 +1,51 @@
+package se.sll.reimbursementadapter.gvr.reader;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.util.Date;
+
+public class MetadataDateRangeFilter implements DirectoryStream.Filter<Path> {
+
+    private Date fromDate;
+    private Date toDate;
+
+
+    public MetadataDateRangeFilter(Date fromDate, Date toDate) {
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+    }
+
+    /**
+     * Decides if the given directory entry should be accepted or filtered.
+     *
+     * @param entry the directory entry to be tested
+     * @return {@code true} if the directory entry should be accepted
+     * @throws java.io.IOException If an I/O error occurs
+     */
+    @Override
+    public boolean accept(Path entry) throws IOException {
+        // Filter reads basic attributes and accepts all the files with lastModifiedTime > inDate
+        boolean isXML = entry.getFileName().toString().toLowerCase().endsWith(".xml");
+
+        // Read long epoch from the provided Dates or set to 0L and Long.MAX_VALUE respectively.
+        final long fromDateEpoch = fromDate != null ? fromDate.getTime() : 0L;
+        final long toDateEpoch = toDate != null ? toDate.getTime() : Long.MAX_VALUE;
+
+        // Fetch file attributes
+        BasicFileAttributeView basicAttrsView = Files.getFileAttributeView(entry, BasicFileAttributeView.class);
+        BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
+
+        // Define response booleans and return
+        boolean isLastModifiedAfterLocalFromDate = FileTime.fromMillis(fromDateEpoch).compareTo(basicAttrs.lastModifiedTime()) <= 0;
+        boolean isLastModifiedBeforeLocalToDate = FileTime.fromMillis(toDateEpoch).compareTo(basicAttrs.lastModifiedTime()) >= 0;
+        return isXML && basicAttrs.isRegularFile() && isLastModifiedAfterLocalFromDate && isLastModifiedBeforeLocalToDate;
+    }
+}

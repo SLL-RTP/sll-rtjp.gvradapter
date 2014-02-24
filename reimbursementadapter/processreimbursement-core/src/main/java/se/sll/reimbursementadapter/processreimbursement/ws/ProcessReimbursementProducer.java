@@ -35,7 +35,10 @@ import java.util.Date;
 public class ProcessReimbursementProducer implements ProcessReimbursementResponderInterface {
 
     @Override
-    public ProcessReimbursementResponse processReimbursement(@WebParam(partName = "LogicalAddress", name = "LogicalAddress", targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress, @WebParam(partName = "parameters", name = "ProcessReimbursementRequest", targetNamespace = "urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1") ProcessReimbursementRequestType parameters) {
+    public ProcessReimbursementResponse processReimbursement(@WebParam(partName = "LogicalAddress", name = "LogicalAddress",
+            targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
+                                                             @WebParam(partName = "parameters", name = "ProcessReimbursementRequest",
+            targetNamespace = "urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1") ProcessReimbursementRequestType parameters) {
         ProcessReimbursementResponse response = new ProcessReimbursementResponse();
         response.setComment("Aha!");
         response.setResultCode("OK");
@@ -43,7 +46,9 @@ public class ProcessReimbursementProducer implements ProcessReimbursementRespond
         HEJIndata hejXml = ReimbursementRequestToHEJIndataTransformer.doTransform(parameters);
 
         try {
-            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_" + parameters.getBatchId() + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date())));
+            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_"
+                            + parameters.getBatchId() + "_"
+                            + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + ".xml"));
             BufferedWriter bw = Files.newBufferedWriter(file, Charset.defaultCharset(), StandardOpenOption.WRITE);
             HEJIndataMarshaller.unmarshalString(hejXml, bw);
             bw.flush();
@@ -66,7 +71,7 @@ public class ProcessReimbursementProducer implements ProcessReimbursementRespond
             test.setHändelseform("test");
             test.setKundKod("sets");
             indata.getErsättningshändelse().add(test);
-            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_" + "01" + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date())));
+            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_" + "01" + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + ".xml"));
             BufferedWriter bw = Files.newBufferedWriter(file, Charset.defaultCharset(), StandardOpenOption.WRITE);
             HEJIndataMarshaller.unmarshalString(indata, bw);
             bw.flush();
