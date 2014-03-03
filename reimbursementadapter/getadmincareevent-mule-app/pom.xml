@@ -263,7 +263,7 @@
 									<goal>java</goal>
 								</goals>
 								<configuration>
-									<mainClass>se.sll.reimbursementadapter.GvrAdapterMuleServer</mainClass>
+									<mainClass>se.sll.se.sll.se.sll.reimbursementadapter.GvrAdapterMuleServer</mainClass>
 									<classpathScope>test</classpathScope>
 								</configuration>
 							</execution>

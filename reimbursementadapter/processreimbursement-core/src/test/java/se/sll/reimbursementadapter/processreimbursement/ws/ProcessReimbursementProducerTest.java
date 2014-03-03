@@ -6,9 +6,6 @@ import riv.followup.processdevelopment.reimbursement.processreimbursementrespond
 import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
 import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
 
-/**
- * Created by erja on 2014-02-21.
- */
 public class ProcessReimbursementProducerTest {
     @Test
     public void testProcessReimbursement() throws Exception {
@@ -20,12 +17,11 @@ public class ProcessReimbursementProducerTest {
         req.setBatchId("1");
         req.setSourceSystem(of.createSourceType());
         req.getSourceSystem().setName("haha");
+        req.getBatchId();
         req.getSourceSystem().setOrganization("1.2.3.5");
         ReimbursementEventType event = of.createReimbursementEventType();
         event.setPatient(of.createPatientType());
-        
+
         ProcessReimbursementResponse response = test.processReimbursement("SE01203123", req);
-
-
     }
 }

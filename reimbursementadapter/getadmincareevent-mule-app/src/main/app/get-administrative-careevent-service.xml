@@ -24,7 +24,7 @@
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 
-	<flow name="payment-responsible-service" doc:name="payment-responsible-service">
+	<flow name="get-administrative-careevent-service" doc:name="get-administrative-careevent-service">
 
 		<http:inbound-endpoint address="${pr.ws.inboundURL}"
 			exchange-pattern="request-response"
