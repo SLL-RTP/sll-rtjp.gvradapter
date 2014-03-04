@@ -26,11 +26,11 @@ import org.slf4j.LoggerFactory;
 public class GvrAdapterMuleServer {
 
 
-	public static final String MULE_SERVER_ID   = "codeserveradapter";
+	public static final String MULE_SERVER_ID   = "reimbursementadapter";
  
 
 	private static final Logger logger = LoggerFactory.getLogger(GvrAdapterMuleServer.class);
-    private static final RecursiveResourceBundle rb = new RecursiveResourceBundle("codeserveradapter-config");
+    private static final RecursiveResourceBundle rb = new RecursiveResourceBundle("getadmincareevent-config");
 
 	public static void main(String[] args) throws Exception {
 	

@@ -67,8 +67,8 @@ public class CodeServiceXMLParser {
     final static XMLInputFactory factory = XMLInputFactory.newInstance();
 
     private XMLEventReader reader;
-    private Set<String> extractFilter = new HashSet<String>();
-    private Map<String, QName> names = new HashMap<String, QName>();
+    private Set<String> extractFilter = new HashSet<>();
+    private Map<String, QName> names = new HashMap<>();
     private CodeServiceEntryCallback codeServiceEntryCallback;
     private Date newerThan = ONE_YEAR_BACK;
 

@@ -31,7 +31,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 			responseTransformer-refs="createSoapFaultIfException"
 			doc:name="HTTP">
 			<cxf:jaxws-service doc:name="RIV-TA WebService"
-				serviceClass="riv.followup.processdevelopment.getadministrativecareevent._1.rivtabp21.GetAdministrativeCareEventResponderInterface" />
+				serviceClass="riv.followup.processdevelopment.reimbursement.getadministrativecareevent.v1.rivtabp21.GetAdministrativeCareEventResponderInterface" />
 		</http:inbound-endpoint>
 		<component doc:name="Java Component"
 			class="se.sll.reimbursementadapter.admincareevent.ws.GetAdministrativeCareEventProducer" />

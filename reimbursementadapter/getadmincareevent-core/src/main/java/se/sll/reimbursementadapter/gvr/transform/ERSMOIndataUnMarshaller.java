@@ -15,7 +15,6 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
-import java.io.IOException;
 import java.io.Reader;
 
 import javax.xml.bind.JAXBContext;
@@ -43,14 +42,6 @@ public class ERSMOIndataUnMarshaller {
             indata = (ERSMOIndata) unmarshaller.unmarshal(src);
         } catch (JAXBException e) {
             log.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
-        } finally {
-            if (src != null) {
-                try {
-                    src.close();
-                } catch (IOException e) {
-                    log.error("Unexpected IOException when closing BufferedReader.", e);
-                }
-            }
         }
         return indata;
     }

@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package se.sll.reimbursementadapter.paymentresponsible.util;
+package se.sll.reimbursementadapter.getadmincareevent.util;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -37,6 +37,5 @@ public class HSAMappingIndexBuilderTest extends TestSupport {
     public void parse_success() {
         hsaMappingService.revalidate();
         final Map<String, TermItem<FacilityState>> index = hsaMappingService.getCurrentIndex();
-              
     }
 }

@@ -164,7 +164,7 @@ public class CodeServerMEKCacheBuilder {
         
         log.info("commissionIndex size: {}", samverksIndex.size());
 
-        final HashMap<String, TermItem<FacilityState>> index = new HashMap<String, TermItem<FacilityState>>();
+        final HashMap<String, TermItem<FacilityState>> index = new HashMap<>();
 
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.facilityFile, new CodeServiceEntryCallback() {
             @Override
@@ -177,7 +177,7 @@ public class CodeServerMEKCacheBuilder {
                     }
                     TermItem<FacilityState> avd = index.get(codeServiceEntry.getId());
                     if (avd == null) {
-                        avd = new TermItem<FacilityState>();
+                        avd = new TermItem<>();
                         avd.setId(codeServiceEntry.getId());
                         index.put(codeServiceEntry.getId(), avd);
                     }
@@ -214,9 +214,9 @@ public class CodeServerMEKCacheBuilder {
         log.info("build HSA index from: {}", mekFile);
 
         final SimpleXMLElementParser elementParser = new SimpleXMLElementParser(this.mekFile);
-        final Map<String, List<TermItem<HSAMappingState>>> map = new HashMap<String, List<TermItem<HSAMappingState>>>();
+        final Map<String, List<TermItem<HSAMappingState>>> map = new HashMap<>();
 
-        final Map<String, Integer> elements = new HashMap<String, Integer>();
+        final Map<String, Integer> elements = new HashMap<>();
         elements.put(KOMBIKAKOD, 1);
         elements.put(HSA_ID, 2);
         elements.put(FROM_DATUM, 3);
@@ -249,7 +249,7 @@ public class CodeServerMEKCacheBuilder {
                 if (state.isNewerThan(newerThan)) {
                     List<TermItem<HSAMappingState>> list = map.get(mapping.getId());
                     if (list == null) {
-                        list = new ArrayList<TermItem<HSAMappingState>>();
+                        list = new ArrayList<>();
                         map.put(mapping.getId(), list);
                     }
                     mapping.addState(state);
@@ -260,7 +260,7 @@ public class CodeServerMEKCacheBuilder {
             @Override
             public void begin() {
                 state = new HSAMappingState();
-                mapping = new TermItem<HSAMappingState>();
+                mapping = new TermItem<>();
             }
         });
 
@@ -270,7 +270,7 @@ public class CodeServerMEKCacheBuilder {
     //
     protected HashMap<String, TermItem<CommissionState>> createCommissionIndex() {
 
-        final HashMap<String, TermItem<CommissionState>> index = new HashMap<String, TermItem<CommissionState>>();
+        final HashMap<String, TermItem<CommissionState>> index = new HashMap<>();
 
         log.info("build commissionTypeIndex from: {}", commissionTypeFile);
         final HashMap<String, TermItem<CommissionTypeState>> uppdragstypIndex = createCommissionTypeIndex();
@@ -288,7 +288,7 @@ public class CodeServerMEKCacheBuilder {
                 
                 TermItem<CommissionState> commission = index.get(codeServiceEntry.getId());
                 if (commission == null) {
-                    commission = new TermItem<CommissionState>();
+                    commission = new TermItem<>();
                     commission.setId(codeServiceEntry.getId());
                     index.put(codeServiceEntry.getId(), commission);
                 }
@@ -318,7 +318,7 @@ public class CodeServerMEKCacheBuilder {
 
     //
     protected HashMap<String, TermItem<CommissionTypeState>> createCommissionTypeIndex() {
-        final HashMap<String, TermItem<CommissionTypeState>> index = new HashMap<String, TermItem<CommissionTypeState>>();
+        final HashMap<String, TermItem<CommissionTypeState>> index = new HashMap<>();
         File test = new File(this.commissionTypeFile);
         System.out.printf("Current commission type file: %1$s \\n", test.getAbsolutePath());
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.commissionTypeFile, new CodeServiceEntryCallback() {
@@ -326,7 +326,7 @@ public class CodeServerMEKCacheBuilder {
             public void onCodeServiceEntry(CodeServiceEntry codeServiceEntry) {
                 TermItem<CommissionTypeState> commissionType = index.get(codeServiceEntry.getId());
                 if (commissionType == null) {
-                    commissionType = new TermItem<CommissionTypeState>();
+                    commissionType = new TermItem<>();
                     commissionType.setId(codeServiceEntry.getId());
                     index.put(codeServiceEntry.getId(), commissionType);
                 }

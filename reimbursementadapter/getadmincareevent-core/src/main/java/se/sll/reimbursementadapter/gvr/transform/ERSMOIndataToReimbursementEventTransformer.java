@@ -65,7 +65,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
 		// Instantiate the Cache Manager.
 		CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
 		// Create the response object.
-		List<CareEventType> responseList = new ArrayList<CareEventType>();
+		List<CareEventType> responseList = new ArrayList<>();
 		
 		// Iterate over all the ersmoIndata.getErsättningshändelse() and convert them to CareEventType.
 		for (Ersättningshändelse currentErsh : ersmoIndata.getErsättningshändelse()) {
@@ -135,7 +135,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
             CVType patientExtras = of.createCVType();
             patientExtras.setOriginalText("Not mapped yet!");
 
-            JAXBElement<CVType> extrasElement = new JAXBElement<CVType>(new QName("urn:riv:followup:processdevelopment:reimbursement:extras:1","Extras"),
+            JAXBElement<CVType> extrasElement = new JAXBElement<>(new QName("urn:riv:followup:processdevelopment:reimbursement:extras:1","Extras"),
                     CVType.class, patientExtras);
 
             currentEvent.getPatient().getAny().add(extrasElement);

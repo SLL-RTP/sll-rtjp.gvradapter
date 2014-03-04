@@ -65,11 +65,11 @@
 		<spring:property name="ignoreResourceNotFound" value="true" />
 		<spring:property name="locations">
 			<spring:list>
-				<spring:value>classpath:gvradapter-core.properties
+				<spring:value>classpath:getadmincareevent-core.properties
 				</spring:value>
-				<spring:value>classpath:gvradapter-config.properties
+				<spring:value>classpath:getadmincareevent-config.properties
 				</spring:value>
-				<spring:value>file:///${user.home}/.gvradapter-config.properties
+				<spring:value>file:///${user.home}/.getadmincareevent-config.properties
 				</spring:value>
 			</spring:list>
 		</spring:property>
@@ -103,7 +103,7 @@
 	</spring:beans>
 	
 	<mulexml:namespace-manager xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" includeConfigNamespaces="true">  
-        <mulexml:namespace prefix="urn1" uri="urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1"/> 
+        <mulexml:namespace prefix="urn1" uri="urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1"/>
     </mulexml:namespace-manager>
 
 

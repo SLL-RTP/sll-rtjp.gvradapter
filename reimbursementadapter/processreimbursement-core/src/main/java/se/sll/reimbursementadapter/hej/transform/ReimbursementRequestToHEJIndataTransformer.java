@@ -24,11 +24,15 @@ import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.hej.xml.indata.ObjectFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReimbursementRequestToHEJIndataTransformer {
 
     public static HEJIndata doTransform(ProcessReimbursementRequestType request) {
         ObjectFactory of = new ObjectFactory();
         HEJIndata response = of.createHEJIndata();
+        List<String> test = new ArrayList<>();
         response.setKälla(request.getSourceSystem().getName());
         response.setID(request.getBatchId());
         for (ReimbursementEventType currentReimbursementEvent : request.getReimbursementEvent()) {

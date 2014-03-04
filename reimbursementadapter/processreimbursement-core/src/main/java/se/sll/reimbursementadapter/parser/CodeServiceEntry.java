@@ -30,8 +30,8 @@ public class CodeServiceEntry extends TermState implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
-    private Map<String, String> attributes = new HashMap<String, String>();
-    private Map<String, List<String>> codes = new HashMap<String, List<String>>();
+    private Map<String, String> attributes = new HashMap<>();
+    private Map<String, List<String>> codes = new HashMap<>();
     
     
     public String getId() {
@@ -49,7 +49,7 @@ public class CodeServiceEntry extends TermState implements Serializable {
     public void addCode(String name, String value) {
         List<String> l = codes.get(name);
         if (l == null) {
-            l = new ArrayList<String>();
+            l = new ArrayList<>();
             codes.put(name, l);
         }
         l.add(value);

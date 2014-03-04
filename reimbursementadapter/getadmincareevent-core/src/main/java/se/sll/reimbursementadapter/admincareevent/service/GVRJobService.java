@@ -91,9 +91,7 @@ public class GVRJobService {
      * @param err if it's error, otherwise is info assumed.
      */
     private void log(final InputStream is, final boolean err) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(is));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is));) {
             String line = reader.readLine();
             while (line != null) {
                 if (err) {
@@ -105,8 +103,6 @@ public class GVRJobService {
             }
         } catch (Exception e) {
             log.error("Error while reading input stream", e);
-        } finally {
-            close(reader);
         }
     }
 

@@ -507,8 +507,8 @@
    <soapenv:Body>
       <urn1:GetAdministrativeCareEvent>
          <urn1:updatedDuringPeriod>
-            <urn2:start>20140203100000000</urn2:start>
-            <urn2:end>20140204095959999</urn2:end>
+            <urn2:start>20140201095959999</urn2:start>
+            <urn2:end>20140405095959999</urn2:end>
          </urn1:updatedDuringPeriod>
       </urn1:GetAdministrativeCareEvent>
    </soapenv:Body>

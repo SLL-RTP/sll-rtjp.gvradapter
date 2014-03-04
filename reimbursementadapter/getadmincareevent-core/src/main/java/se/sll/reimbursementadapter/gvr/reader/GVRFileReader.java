@@ -98,26 +98,17 @@ public class GVRFileReader {
         log.debug("Reading files from date: " + fromDate + " and path: " + folderToIterate.toString());
 
         // Filter all the files in the configured in directory.
-        List<Path> response = new ArrayList<Path>();
-        DirectoryStream<Path> ds = null;
-        // [bound to java6 spec (but not API if you are sneaky!) by the SOI Toolkit dependency, can't use try-with-resources.]
-        try  {
-            ds = Files.newDirectoryStream(folderToIterate, dateFilterMethod.equals(DateFilterMethod.METADATA) ?
-                                                new MetadataDateRangeFilter(fromDate, toDate)
-                                              : new FileNameDateRangeFilter(fromDate, toDate, this));
+        List<Path> response = new ArrayList<>();
+
+        try(DirectoryStream<Path> ds = Files.newDirectoryStream(folderToIterate,
+                dateFilterMethod.equals(DateFilterMethod.METADATA) ?
+                new MetadataDateRangeFilter(fromDate, toDate) :
+                new FileNameDateRangeFilter(fromDate, toDate, this)))  {
             for (Path p : ds) {
                 response.add(p);
             }
         } catch (IOException e) {
             log.error("IOException while filtering the files in the current directory.", e);
-        } finally {
-            if (ds != null) {
-                try {
-                    ds.close();
-                } catch (IOException e) {
-                    log.error("Unexpected IOException when closing DirectoryStream.", e);
-                }
-            }
         }
 
         return response;

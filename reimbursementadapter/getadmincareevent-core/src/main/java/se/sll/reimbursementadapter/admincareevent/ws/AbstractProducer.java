@@ -105,9 +105,27 @@ public class AbstractProducer {
         for (Path currentFile : pathList) {
             currentDate = gvrFileReader.getDateFromGVRFileName(currentFile);
 
-            Reader fileContent = null;
-            try {
-                fileContent = gvrFileReader.GetReaderForFile(currentFile);
+            try (Reader fileContent = gvrFileReader.GetReaderForFile(currentFile)) {
+                ERSMOIndata xmlObject = ERSMOIndataUnMarshaller.unmarshalString(fileContent);
+
+                // Transform all the Ersättningshändelse within the object to CareEventType and add them to the response.
+                List<CareEventType> careEventList = ERSMOIndataToReimbursementEventTransformer.doTransform(xmlObject, currentDate);
+
+                if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
+                    // Truncate response if we reached the configured limit for care events in the response.
+                    if (response.getCareEvent().size() == 0) {
+                        // If we have been truncated due to a overly large first file we set the end response
+                        // period to the start of the request to indicate that nothing was processed.
+                        response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
+                    } else {
+                        response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
+                    }
+                    response.setResultCode("TRUNCATED");
+                    response.setComment("Response was truncated due to hitting the maximum configured number of Care Events of " + maximumSupportedCareEvents);
+                    return response;
+                }
+
+                response.getCareEvent().addAll(careEventList);
             } catch (Exception e) {
                 // TODO: Try again?
                 log.error("Error when creating Reader for file: " + currentFile.getFileName(), e);
@@ -116,34 +134,6 @@ public class AbstractProducer {
                 //response.setComment("Internal error in the service when reading a source file: " + e.getMessage());
                 //return response;
             }
-
-            // Unmarshal the incoming file content to an ERSMOIndata.
-            ERSMOIndata xmlObject;
-            try {
-                xmlObject = ERSMOIndataUnMarshaller.unmarshalString(fileContent);
-            } catch (Exception e) {
-                log.error("Error when parsing ERSMOIndata XML for file: " + currentFile.getFileName(), e);
-                throw createSoapFault("Internal error when parsing ERSMOIndata XML for file: " + currentFile.getFileName(), e);
-            }
-
-            // Transform all the Ersättningshändelse within the object to CareEventType and add them to the response.
-            List<CareEventType> careEventList = ERSMOIndataToReimbursementEventTransformer.doTransform(xmlObject, currentDate);
-
-            if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
-                // Truncate response if we reached the configured limit for care events in the response.
-                if (response.getCareEvent().size() == 0) {
-                    // If we have been truncated due to a overly large first file we set the end response
-                    // period to the start of the request to indicate that nothing was processed.
-                    response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
-                } else {
-                    response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
-                }
-                response.setResultCode("TRUNCATED");
-                response.setComment("Response was truncated due to hitting the maximum configured number of Care Events of " + maximumSupportedCareEvents);
-                return response;
-            }
-
-            response.getCareEvent().addAll(careEventList);
         }
 
         if (response.getCareEvent().size() > 0) {
