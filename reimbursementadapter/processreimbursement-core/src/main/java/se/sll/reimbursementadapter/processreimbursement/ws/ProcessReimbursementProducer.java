@@ -49,7 +49,7 @@ public class ProcessReimbursementProducer implements ProcessReimbursementRespond
             Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_"
                             + parameters.getBatchId() + "_"
                             + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + ".xml"));
-            BufferedWriter bw = Files.newBufferedWriter(file, Charset.defaultCharset(), StandardOpenOption.WRITE);
+            BufferedWriter bw = Files.newBufferedWriter(file, Charset.forName("ISO-8859-1"), StandardOpenOption.WRITE);
             HEJIndataMarshaller.unmarshalString(hejXml, bw);
             bw.flush();
             bw.close();

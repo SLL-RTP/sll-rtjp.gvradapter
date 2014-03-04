@@ -40,6 +40,7 @@ public class HEJIndataMarshaller {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(HEJIndata.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty("jaxb.encoding", "ISO-8859-1");
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(src, writer);
         } catch (JAXBException e) {
