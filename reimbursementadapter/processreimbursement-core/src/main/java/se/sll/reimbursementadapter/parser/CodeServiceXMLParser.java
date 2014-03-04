@@ -254,7 +254,7 @@ public class CodeServiceXMLParser {
                 if (same(e.asStartElement(), CODEDVALUE)) {
                     final String codeSystem = attribute(e.asStartElement(), CODESYSTEM);
                     if (extractFilter.contains(CODE_PREFIX + codeSystem)) {
-                        state.addCode(codeSystem, attribute(e.asStartElement(), CODE));
+                        state.addCode(codeSystem, attribute(e.asStartElement(), CODE), attribute(e.asStartElement(), "referenceid"));
                     }
                 }
                 break;

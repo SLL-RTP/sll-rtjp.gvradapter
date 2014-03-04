@@ -31,17 +31,17 @@ import java.util.List;
 public class GeographicalAreaState extends TermState implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
-     * The list of medicalServiceAreas.
+     * The list of medicalServiceArea.
      * @serial
      */
-    private List<TermItem<MedicalServiceAreaState>> medicalServiceAreas = new ArrayList<TermItem<MedicalServiceAreaState>>();
+    private String medicalServiceArea = null;
 
 
-    public List<TermItem<MedicalServiceAreaState>> getMedicalServiceAreas() {
-        return medicalServiceAreas;
+    public String getMedicalServiceArea() {
+        return medicalServiceArea;
     }
 
-    public void setMedicalServiceAreas(List<TermItem<MedicalServiceAreaState>> medicalServiceAreas) {
-        this.medicalServiceAreas = medicalServiceAreas;
+    public void setMedicalServiceArea(String medicalServiceArea) {
+        this.medicalServiceArea = medicalServiceArea;
     }
 }

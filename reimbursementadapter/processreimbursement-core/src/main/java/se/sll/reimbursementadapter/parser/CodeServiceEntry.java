@@ -31,7 +31,7 @@ public class CodeServiceEntry extends TermState implements Serializable {
 
     private String id;
     private Map<String, String> attributes = new HashMap<>();
-    private Map<String, List<String>> codes = new HashMap<>();
+    private Map<String, List<CodeServerCode>> codes = new HashMap<>();
     
     
     public String getId() {
@@ -46,20 +46,24 @@ public class CodeServiceEntry extends TermState implements Serializable {
         attributes.put(name, value);
     }
 
-    public void addCode(String name, String value) {
-        List<String> l = codes.get(name);
-        if (l == null) {
-            l = new ArrayList<>();
-            codes.put(name, l);
+    public void addCode(String name, String value, String referenceId) {
+        List<CodeServerCode> codesForCodeSystem = codes.get(name);
+        if (codesForCodeSystem == null) {
+            codesForCodeSystem = new ArrayList<>();
+            codes.put(name, codesForCodeSystem);
         }
-        l.add(value);
+        CodeServerCode code = new CodeServerCode();
+        code.setValue(value);
+        code.setReferenceId(referenceId);
+
+        codesForCodeSystem.add(code);
     }
 
     public String getAttribute(String name) {
         return attributes.get(name);
     }
 
-    public List<String> getCodes(String name) {
+    public List<CodeServerCode> getCodes(String name) {
         return codes.get(name);
     }
 }
