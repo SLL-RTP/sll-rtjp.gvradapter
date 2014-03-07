@@ -13,19 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package se.sll.reimbursementadapter.admincareevent.service;
-
-import java.util.Map;
+package se.sll.reimbursementadapter.processreimbursement.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
-import se.sll.reimbursementadapter.util.FileObjectStore;
-import se.sll.reimbursementadapter.admincareevent.util.CodeServerMEKCacheBuilder;
 import se.sll.reimbursementadapter.parser.TermItem;
+import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
+import se.sll.reimbursementadapter.processreimbursement.util.CodeServerCacheBuilder;
+import se.sll.reimbursementadapter.util.FileObjectStore;
+
+import java.util.Map;
 
 /**
  * Manages the main cache tree compromising a number of code server tables as well as a mapping
@@ -42,7 +41,7 @@ import se.sll.reimbursementadapter.parser.TermItem;
  *
  */
 @Service
-public class CodeServerMEKCacheManagerService {
+public class CodeServerCacheManagerService {
 
     @Value("${pr.ftp.localPath:}")
     private String localPath;
@@ -50,28 +49,19 @@ public class CodeServerMEKCacheManagerService {
     @Value("${pr.indexFile:/tmp/hsa-index.gz}")
     private String fileName;
 
-    @Value("${pr.commissionFile}")
-    private String commissionFile;
-
-    @Value("${pr.commissionTypeFile}")
-    private String commissionTypeFile;
-
-    @Value("${pr.facilityFile}")
-    private String facilityFile;
-
-    @Value("${pr.mekFile}")
-    private String mekFile;
+    @Value("${pr.geographicalAreaFile:/tmp/out/BASOMRNY.XML}")
+    private String geographicalAreaFile;
 
     private boolean busy;
-    private static CodeServerMEKCacheManagerService instance;
-    private static final Logger log = LoggerFactory.getLogger(CodeServerMEKCacheManagerService.class);
+    private static CodeServerCacheManagerService instance;
+    private static final Logger log = LoggerFactory.getLogger(CodeServerCacheManagerService.class);
 
 
-    private Map<String, TermItem<FacilityState>> currentIndex;
+    private Map<String, TermItem<GeographicalAreaState>> currentIndex;
     private final Object buildLock = new Object();
     private FileObjectStore fileObjectStore = new FileObjectStore();
 
-    public CodeServerMEKCacheManagerService() {
+    public CodeServerCacheManagerService() {
         log.debug("constructor");
         if (instance == null) {
             instance = this;
@@ -82,16 +72,13 @@ public class CodeServerMEKCacheManagerService {
         return localPath + (localPath.endsWith("/") ? "" : "/") + name;
     }
 
-    private Map<String, TermItem<FacilityState>> build() {
+    private Map<String, TermItem<GeographicalAreaState>> build() {
         log.debug("build index");
 
-        CodeServerMEKCacheBuilder builder = new CodeServerMEKCacheBuilder()
-        .withCommissionFile(path(commissionFile))
-        .withCommissionTypeFile(path(commissionTypeFile))
-        .withFacilityFile(path(facilityFile))
-        .withMekFile(path(mekFile));
+        CodeServerCacheBuilder builder = new CodeServerCacheBuilder()
+        .withGeographicalAreaFile(geographicalAreaFile);
 
-        final Map<String, TermItem<FacilityState>> index = builder.build();
+        final Map<String, TermItem<GeographicalAreaState>> index = builder.build();
         
         log.debug("build index: done");
 
@@ -129,11 +116,11 @@ public class CodeServerMEKCacheManagerService {
             }
             setBusy(true);
             try {
-                final Map<String, TermItem<FacilityState>> index = build();
+                final Map<String, TermItem<GeographicalAreaState>> index = build();
                 fileObjectStore.write(index, fileName);
                 setCurrentIndex(index);
             } finally {
-                setBusy(false);            
+                setBusy(false);
             }
         }
     }
@@ -147,7 +134,7 @@ public class CodeServerMEKCacheManagerService {
      * 
      * @return the singleton instance, or null if none has been created.
      */
-    public static CodeServerMEKCacheManagerService getInstance() {
+    public static CodeServerCacheManagerService getInstance() {
         return instance;
     }
     
@@ -157,9 +144,9 @@ public class CodeServerMEKCacheManagerService {
      * @return the current index.
      */
 
-    public synchronized Map<String, TermItem<FacilityState>> getCurrentIndex() {
+    public synchronized Map<String, TermItem<GeographicalAreaState>> getCurrentIndex() {
         if (currentIndex == null) {
-        	Map<String, TermItem<FacilityState>> index = fileObjectStore.read(fileName);
+        	Map<String, TermItem<GeographicalAreaState>> index = fileObjectStore.read(fileName);
             setCurrentIndex(index);
         }
         return this.currentIndex;
@@ -170,7 +157,7 @@ public class CodeServerMEKCacheManagerService {
      * 
      * @param currentIndex the new index.
      */
-    protected synchronized void setCurrentIndex(Map<String, TermItem<FacilityState>> currentIndex) {
+    protected synchronized void setCurrentIndex(Map<String, TermItem<GeographicalAreaState>> currentIndex) {
         this.currentIndex = currentIndex;
         log.info("current index set, size: {}", (this.currentIndex == null) ? 0 : this.currentIndex.size());
     }

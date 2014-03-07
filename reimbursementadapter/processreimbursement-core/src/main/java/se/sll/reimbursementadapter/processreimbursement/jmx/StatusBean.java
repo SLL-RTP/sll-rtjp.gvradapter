@@ -13,37 +13,27 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package se.sll.reimbursementadapter.jmx;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
-import java.util.UUID;
+package se.sll.reimbursementadapter.processreimbursement.jmx;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jmx.export.annotation.ManagedAttribute;
-import org.springframework.jmx.export.annotation.ManagedMetric;
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedOperationParameter;
-import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.jmx.export.annotation.*;
 import org.springframework.jmx.support.MetricType;
 import org.springframework.stereotype.Component;
+import se.sll.reimbursementadapter.jmx.HistoryTimer;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
-import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
+import java.util.*;
 
 
 @Component
-@ManagedResource(objectName = "se.sll.reimbursementadapter.jmx:name=StatusBean", description="Status information")
+@ManagedResource(objectName = "se.sll.reimbursementadapter.processreimbursement.jmx:name=StatusBean", description="Status information")
 public class StatusBean {
 
     private static final Logger log = LoggerFactory.getLogger(StatusBean.class);
 
-    @Autowired
-    private CodeServerMEKCacheManagerService codeServerMekCacheService;
+    // Släng in som anrop till någon konstruktor eller liknande. Eller skall vi köra samma namn på bönan?
+    private CodeServerCacheManagerService codeServerMekCacheService;
     
     //
     private int historyLength = 1000;

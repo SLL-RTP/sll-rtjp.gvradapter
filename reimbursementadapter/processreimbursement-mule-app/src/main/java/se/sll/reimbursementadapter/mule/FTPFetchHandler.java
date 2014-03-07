@@ -42,7 +42,7 @@ public class FTPFetchHandler implements Callable {
     public Object onCall(MuleEventContext eventContext) throws Exception {
         log.info("Revalidate index.");
 
-        //CodeServerMEKCacheManagerService.getInstance().revalidate();
+        //CodeServerCacheManagerService.getInstance().revalidate();
         
         return eventContext.getMessage();
     }

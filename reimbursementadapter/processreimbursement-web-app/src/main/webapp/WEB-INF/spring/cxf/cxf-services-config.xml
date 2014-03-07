@@ -41,12 +41,12 @@
 	</jaxws:endpoint>
 
 	<!--  JAXRS -->
-	<!--<jaxrs:server id="admin" address="/admin">
+	<jaxrs:server id="admin" address="/admin">
 		<jaxrs:serviceBeans>
 			<ref bean="adminBean" />
 		</jaxrs:serviceBeans>
-	</jaxrs:server>-->
+	</jaxrs:server>
 
-	<!--<bean id="adminBean" class="se.sll.reimbursementadapter.admincareevent.rs.AdminService" />-->
+	<bean id="adminBean" class="se.sll.reimbursementadapter.processreimbursement.rs.AdminService" />
 
 </beans>

@@ -32,6 +32,9 @@ import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Standard producer implementation for {@link ProcessReimbursementResponderInterface}.
+ */
 public class ProcessReimbursementProducer implements ProcessReimbursementResponderInterface {
 
     @Override
@@ -40,9 +43,11 @@ public class ProcessReimbursementProducer implements ProcessReimbursementRespond
                                                              @WebParam(partName = "parameters", name = "ProcessReimbursementRequest",
             targetNamespace = "urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1") ProcessReimbursementRequestType parameters) {
         ProcessReimbursementResponse response = new ProcessReimbursementResponse();
+        // TODO: Fixa när det bryts ut till Abstractproducer :)
         response.setComment("Aha!");
         response.setResultCode("OK");
 
+        // Transformera inkommande ProcessReimbursementRequestType till motsvarande HEJIndata enligt specifikation.
         HEJIndata hejXml = ReimbursementRequestToHEJIndataTransformer.doTransform(parameters);
 
         try {
@@ -58,26 +63,5 @@ public class ProcessReimbursementProducer implements ProcessReimbursementRespond
         }
 
         return response;
-    }
-
-    public static void main(String[] args) {
-        try {
-            HEJIndata indata = new HEJIndata();
-            indata.setID("testid");
-            indata.setKälla("Test");
-            HEJIndata.Ersättningshändelse test = new HEJIndata.Ersättningshändelse();
-            test.setID("123");
-            test.setKälla("ERA");
-            test.setHändelseform("test");
-            test.setKundKod("sets");
-            indata.getErsättningshändelse().add(test);
-            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_" + "01" + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + ".xml"));
-            BufferedWriter bw = Files.newBufferedWriter(file, Charset.defaultCharset(), StandardOpenOption.WRITE);
-            HEJIndataMarshaller.unmarshalString(indata, bw);
-            bw.flush();
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -41,7 +41,7 @@ public class ApplicationContextLoaderListener extends ContextLoaderListener {
         super.contextInitialized(event);
 /*        try {
             final WebApplicationContext wc = getWebRequest(event.getServletContext());
-            final CodeServerMEKCacheManagerService codeServerMekCacheService = wc.getBean(CodeServerMEKCacheManagerService.class);
+            final CodeServerCacheManagerService codeServerMekCacheService = wc.getBean(CodeServerCacheManagerService.class);
             if (codeServerMekCacheService.getCurrentIndex() == null) {
                 log.info("Index needs to be revalidated, takes some time please be patient");
                 codeServerMekCacheService.revalidate();

@@ -29,11 +29,7 @@ import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionTypeState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
-import se.sll.reimbursementadapter.parser.CodeServiceEntry;
-import se.sll.reimbursementadapter.parser.CodeServiceXMLParser;
-import se.sll.reimbursementadapter.parser.SimpleXMLElementParser;
-import se.sll.reimbursementadapter.parser.TermItem;
-import se.sll.reimbursementadapter.parser.TermState;
+import se.sll.reimbursementadapter.parser.*;
 import se.sll.reimbursementadapter.parser.CodeServiceXMLParser.CodeServiceEntryCallback;
 import se.sll.reimbursementadapter.parser.SimpleXMLElementParser.ElementMatcherCallback;
 
@@ -169,7 +165,7 @@ public class CodeServerMEKCacheBuilder {
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.facilityFile, new CodeServiceEntryCallback() {
             @Override
             public void onCodeServiceEntry(CodeServiceEntry codeServiceEntry) {
-                final List<String> codes = codeServiceEntry.getCodes(SAMVERKS);
+                final List<CodeServerCode> codes = codeServiceEntry.getCodes(SAMVERKS);
                 if (codes != null) {
                     // filter out non-existing SAMVERKS associations 
                     if (codes.size() == 1 && NO_COMMISSION_ID.equals(codes.get(0))) {
@@ -188,8 +184,8 @@ public class CodeServerMEKCacheBuilder {
                     if (hsaIndex.get(codeServiceEntry.getId()) != null && hsaIndex.get(codeServiceEntry.getId()).size() > 0) {
                     	state.setHSAMapping(hsaIndex.get(codeServiceEntry.getId()).get(0));
                     }
-                    for (final String id : codes) {
-                        final TermItem<CommissionState> samverks = samverksIndex.get(id);
+                    for (final CodeServerCode code : codes) {
+                        final TermItem<CommissionState> samverks = samverksIndex.get(code.getValue());
                         // don't add the same twice
                         if (samverks != null) {
                             state.getCommissions().add(samverks);
@@ -279,8 +275,8 @@ public class CodeServerMEKCacheBuilder {
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.commissionFile, new CodeServiceEntryCallback() {
             @Override
             public void onCodeServiceEntry(CodeServiceEntry codeServiceEntry) {
-                final String uCode = singleton(codeServiceEntry.getCodes(UPPDRAGSTYP));
-                final TermItem<CommissionTypeState> uppdragstyp = (uCode == null) ? null : uppdragstypIndex.get(uCode);
+                final CodeServerCode uCode = singleton(codeServiceEntry.getCodes(UPPDRAGSTYP));
+                final TermItem<CommissionTypeState> uppdragstyp = (uCode == null) ? null : uppdragstypIndex.get(uCode.getValue());
                 if (uppdragstyp == null) {
                     log.trace("No such commission: {}",  uCode);
                     return;
@@ -293,10 +289,16 @@ public class CodeServerMEKCacheBuilder {
                     index.put(codeServiceEntry.getId(), commission);
                 }
                 final CommissionState state = new CommissionState();
-                state.setContractCode(singleton(codeServiceEntry.getCodes(AVTAL)));
+                CodeServerCode contractCode = singleton(codeServiceEntry.getCodes(AVTAL));
+                if (contractCode != null) {
+                    state.setContractCode(contractCode.getValue());
+                }
                 state.setName(codeServiceEntry.getAttribute(ABBREVIATION));
                 state.setCommissionType(uppdragstyp);
-                state.setAssignmentType(singleton(codeServiceEntry.getCodes(STYP)));
+                CodeServerCode assignmentCode = singleton(codeServiceEntry.getCodes(STYP));
+                if (assignmentCode != null) {
+                    state.setAssignmentType(assignmentCode.getValue());
+                }
                 state.setValidFrom(codeServiceEntry.getValidFrom());
                 state.setValidTo(codeServiceEntry.getValidTo());
                 

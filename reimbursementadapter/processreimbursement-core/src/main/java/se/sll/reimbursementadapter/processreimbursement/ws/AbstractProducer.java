@@ -13,29 +13,30 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package se.sll.reimbursementadapter.admincareevent.ws;
+package se.sll.reimbursementadapter.processreimbursement.ws;
 
 import org.apache.cxf.binding.soap.SoapFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
+import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
+import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
-import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
-import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToReimbursementEventTransformer;
-import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
-import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
+import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
 
 import javax.annotation.Resource;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 import java.io.Reader;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class AbstractProducer {
 
@@ -47,8 +48,8 @@ public class AbstractProducer {
     private StatusBean statusBean;
 
     /** Lists files matching a period and provides Readers for individual files. */
-    @Autowired
-    private GVRFileReader gvrFileReader;
+    //@Autowired
+    //private GVRFileReader gvrFileReader;
 
     /** Reference to the JAX-WS {@link javax.xml.ws.WebServiceContext}. */
     @Resource
@@ -74,73 +75,8 @@ public class AbstractProducer {
 
     }
 
-    /**
-     * Creates a GetAdministrativeCareEventResponse from the provided GetAdministrativeCareEventType parameter.
-     * Used by {@link se.sll.reimbursementadapter.admincareevent.ws.GetAdministrativeCareEventProducer}.
-     *
-     * @param parameters The incoming parameters from the RIV service.
-     * @return A complete GetAdministrativeCareEventResponse.
-     */
-    public GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType parameters) {
-        GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
-        response.setResultCode("OK");
-        response.setResponseTimePeriod(new TimePeriodMillisType());
-        response.getResponseTimePeriod().setStart(parameters.getUpdatedDuringPeriod().getStart());
-        response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
-
-        List<Path> pathList = null;
-        try {
-            pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(), parameters.getUpdatedDuringPeriod().getEnd());
-        } catch (Exception e) {
-            // TODO: Try again?
-            log.error("Error when listing files in GVR directory", e);
-            throw createSoapFault("Internal error when listing files in GVR directory", e);
-            //response.setResultCode("ERROR");
-            //response.setComment("Internal error in the service when reading files from disk: " + e.getMessage());
-            //return response;
-        }
-
-        Date currentDate = null;
-
-        for (Path currentFile : pathList) {
-            currentDate = gvrFileReader.getDateFromGVRFileName(currentFile);
-
-            try (Reader fileContent = gvrFileReader.GetReaderForFile(currentFile)) {
-                ERSMOIndata xmlObject = ERSMOIndataUnMarshaller.unmarshalString(fileContent);
-
-                // Transform all the Ersättningshändelse within the object to CareEventType and add them to the response.
-                List<CareEventType> careEventList = ERSMOIndataToReimbursementEventTransformer.doTransform(xmlObject, currentDate);
-
-                if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
-                    // Truncate response if we reached the configured limit for care events in the response.
-                    if (response.getCareEvent().size() == 0) {
-                        // If we have been truncated due to a overly large first file we set the end response
-                        // period to the start of the request to indicate that nothing was processed.
-                        response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
-                    } else {
-                        response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
-                    }
-                    response.setResultCode("TRUNCATED");
-                    response.setComment("Response was truncated due to hitting the maximum configured number of Care Events of " + maximumSupportedCareEvents);
-                    return response;
-                }
-
-                response.getCareEvent().addAll(careEventList);
-            } catch (Exception e) {
-                // TODO: Try again?
-                log.error("Error when creating Reader for file: " + currentFile.getFileName(), e);
-                throw createSoapFault("Internal error when creating Reader for file: " + currentFile.getFileName(), e);
-                //response.setResultCode("ERROR");
-                //response.setComment("Internal error in the service when reading a source file: " + e.getMessage());
-                //return response;
-            }
-        }
-
-        if (response.getCareEvent().size() > 0) {
-            response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
-        }
-
-        return response;
+    public ProcessReimbursementResponse processReimbursementEvent0(ProcessReimbursementRequestType parameters) {
+        return null;
     }
 
     /**

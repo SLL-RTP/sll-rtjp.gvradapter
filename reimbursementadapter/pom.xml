@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.soitoolkit.commons.poms</groupId>
         <artifactId>soitoolkit-default-parent</artifactId>
-        <version>0.6.1-M2</version>
+        <version>0.6.1</version>
     </parent>
 
     <groupId>se.sll.rtjp</groupId>
@@ -29,6 +29,7 @@
         <module>processreimbursement-core</module>
         <module>processreimbursement-web-app</module>
         <module>processreimbursement-mule-app</module>
+        <module>reimbursement-common</module>
     </modules>
 
     <properties>

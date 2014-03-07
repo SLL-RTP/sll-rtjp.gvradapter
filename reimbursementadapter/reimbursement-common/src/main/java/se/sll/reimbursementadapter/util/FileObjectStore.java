@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package se.sll.reimbursementadapter.admincareevent.util;
+package se.sll.reimbursementadapter.util;
 
 import java.io.Closeable;
 import java.io.FileInputStream;

@@ -1,3 +1,18 @@
+/**
+ *  Copyright (c) 2013 SLL <http://sll.se/>
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 package se.sll.reimbursementadapter.processreimbursement.util;
 
 import org.slf4j.Logger;
@@ -8,19 +23,27 @@ import se.sll.reimbursementadapter.parser.CodeServiceXMLParser;
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
 
-import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Builder class that is responsible for creating the code server index for processreimbursement.
+ */
 public class CodeServerCacheBuilder {
 
+    /** Code system name for the OMRKODNY system. */
     private static final String OMRKODNY = "OMRKODNY";
+    /** Reference name for the link between BASOMR and OMRKOD. */
     private static final String BASOMR_OMRKOD = "BASOMRomrkod";
+    /** Name of the attribute SHORTNAME. */
     private static final String SHORTNAME = "shortname";
 
+    /** The configured file with codes for Geographical Areas. */
     private String geoAreaFile;
+    /** The configured Date for which the returned codes should be newer than. Default is CodeServiceXMLParser.ONE_YEAR_BACK. */
     private Date newerThan = CodeServiceXMLParser.ONE_YEAR_BACK;
+    /** Logger. */
     private static final Logger log = LoggerFactory.getLogger(CodeServerCacheBuilder.class);
 
     /**
@@ -60,10 +83,15 @@ public class CodeServerCacheBuilder {
         return avdIndex;
     }
 
+    /**
+     * Builds the Geographical Area Index (Basområde) from the configured input file.
+     *
+     * @return A Map keyed with the Geographical Area code and the mapped TermItems.
+     */
     protected HashMap<String, TermItem<GeographicalAreaState>> createGeographicalAreaIndex() {
         final HashMap<String, TermItem<GeographicalAreaState>> index = new HashMap<>();
-        File test = new File(this.geoAreaFile);
-        System.out.printf("Current geoAreaFile: %1$s \\n", test.getAbsolutePath());
+
+        // Define a Code Server parser implementation for reading the file.
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.geoAreaFile, new CodeServiceXMLParser.CodeServiceEntryCallback() {
             @Override
             public void onCodeServiceEntry(CodeServiceEntry codeServiceEntry) {
@@ -87,6 +115,7 @@ public class CodeServerCacheBuilder {
             }
         });
 
+        // Define which attributes and codeSystems to parse (the rest will be silently filtered away)
         parser.extractAttribute(SHORTNAME);
         parser.extractCodeSystem(OMRKODNY);
         parser.setNewerThan(newerThan);

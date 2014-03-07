@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import se.sll.reimbursementadapter.jmx.StatusBean;
+import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 
 /**
  * Service executing batch jobs. Currently it's only about fetching master data files, and rebuild

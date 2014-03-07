@@ -19,7 +19,7 @@ import org.mule.api.context.notification.MuleContextNotificationListener;
 import org.mule.context.notification.MuleContextNotification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
+//import se.sll.reimbursementadapter.admincareevent.service.CodeServerCacheManagerService;
 
 /**
  * Ensures an index is loaded upon startup of application.
@@ -35,8 +35,8 @@ public class AppContextNotificationListener implements MuleContextNotificationLi
     public void onNotification(MuleContextNotification notification) {
         if (notification.getAction() == MuleContextNotification.CONTEXT_STARTED) {
             log.debug("Context started.");
-            //if (CodeServerMEKCacheManagerService.getInstance().getCurrentIndex() == null) {
-            //    CodeServerMEKCacheManagerService.getInstance().revalidate();
+            //if (CodeServerCacheManagerService.getInstance().getCurrentIndex() == null) {
+            //    CodeServerCacheManagerService.getInstance().revalidate();
             //}
         }
     }

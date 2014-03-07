@@ -44,8 +44,7 @@ public class HEJIndataMarshaller {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(src, writer);
         } catch (JAXBException e) {
-            //log.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
-            e.printStackTrace();
+            log.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
         }
     }
 

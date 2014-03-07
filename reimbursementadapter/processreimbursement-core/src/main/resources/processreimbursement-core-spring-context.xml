@@ -24,13 +24,13 @@
 	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 	<context:property-placeholder
-		location="classpath:processreimbursement-core.properties,file:///${user.home}/.processreimbursement-config.properties"
-		ignore-resource-not-found="true" />
+        location="classpath:processreimbursement-core.properties,file:///${user.home}/.processreimbursement-config.properties"
+        ignore-resource-not-found="true" />
 
-	<context:annotation-config />
+    <context:annotation-config />
 
 	<context:component-scan
-		base-package="se.sll.reimbursementadapter.admincareevent.service,se.sll.reimbursementadapter.jmx,se.sll.reimbursementadapter.gvr.reader" />
+		base-package="se.sll.reimbursementadapter.processreimbursement.service,se.sll.reimbursementadapter.processreimbursement.jmx" />
 
 	<task:annotation-driven />
 

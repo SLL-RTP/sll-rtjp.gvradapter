@@ -34,7 +34,7 @@ import java.util.*;
  * 
  * All attribute elements and code elements of interest are registered by names.
  * 
- * @see se.sll.reimbursementadapter.parser.CodeServiceXMLParser.CodeServiceEntryCallback
+ * @see CodeServiceXMLParser.CodeServiceEntryCallback
  * 
  * @author Peter
  *

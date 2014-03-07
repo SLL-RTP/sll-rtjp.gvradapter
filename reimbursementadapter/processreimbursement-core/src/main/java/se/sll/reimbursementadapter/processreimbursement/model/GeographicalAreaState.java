@@ -19,8 +19,6 @@ import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.parser.TermState;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Facility state. The id corresponds to "kombikaid"
