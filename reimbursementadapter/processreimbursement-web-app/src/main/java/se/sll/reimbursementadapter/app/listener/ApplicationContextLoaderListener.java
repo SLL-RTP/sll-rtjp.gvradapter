@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -39,7 +40,7 @@ public class ApplicationContextLoaderListener extends ContextLoaderListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         super.contextInitialized(event);
-/*        try {
+        try {
             final WebApplicationContext wc = getWebRequest(event.getServletContext());
             final CodeServerCacheManagerService codeServerMekCacheService = wc.getBean(CodeServerCacheManagerService.class);
             if (codeServerMekCacheService.getCurrentIndex() == null) {
@@ -48,14 +49,14 @@ public class ApplicationContextLoaderListener extends ContextLoaderListener {
             }
         } catch (Throwable t) {
             t.printStackTrace();
-        }*/
-        log.info("======== GVRAdapter Application :: Started ========");
+        }
+        log.info("======== ProcessReimbursement Application :: Started ========");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         super.contextDestroyed(event);
-        log.info("======== GVRAdapter Application :: Stopped ========");
+        log.info("======== ProcessReimbursement Application :: Stopped ========");
     }
 
 

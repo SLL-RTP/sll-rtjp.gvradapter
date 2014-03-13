@@ -49,7 +49,7 @@ public class CodeServerCacheManagerService {
     @Value("${pr.indexFile:/tmp/hsa-index.gz}")
     private String fileName;
 
-    @Value("${pr.geographicalAreaFile:/tmp/out/BASOMRNY.XML}")
+    @Value("${pr.geographicalAreaFile:BASOMRNY.XML}")
     private String geographicalAreaFile;
 
     private boolean busy;
