@@ -29,14 +29,20 @@ import java.io.Reader;
 import java.io.Writer;
 
 /**
- * Unmarshals an XML Document in the form of a String to an ERSMOIndata XML Object.
+ * Marshals a HEJIndata XML Object to a string.
  */
 public class HEJIndataMarshaller {
 	
 	private static final Logger log = LoggerFactory.getLogger(HEJIndataMarshaller.class);
 
+    /**
+     * Marshals the HEJIndata to a string, and writes the string to the provided writer.
+     *
+     * @param src The HEJIndata object to marshall.
+     * @param writer The Writer to write the result to.
+     */
     public static void unmarshalString(HEJIndata src, Writer writer) {
-        log.debug("Starting to unmarshal contents of source Reader.");
+        log.info("Starting to unmarshal contents of source Reader.");
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(HEJIndata.class);
             Marshaller marshaller = jaxbContext.createMarshaller();

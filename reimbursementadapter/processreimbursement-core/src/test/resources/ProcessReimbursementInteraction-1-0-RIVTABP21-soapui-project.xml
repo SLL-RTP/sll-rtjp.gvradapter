@@ -554,7 +554,7 @@
                   <urn2:parish>01</urn2:parish>
                </urn2:residency>
                <!--You may enter ANY elements at this point-->
-               <Extras>test</Extras>
+               <Extras>2242363</Extras>
             </urn2:patient>
             <!--Optional:-->
             <urn2:involvedProfessions>

@@ -27,17 +27,14 @@ import se.sll.reimbursementadapter.util.FileObjectStore;
 import java.util.Map;
 
 /**
- * Manages the main cache tree compromising a number of code server tables as well as a mapping
- * from the facility code used in these (Kombika) to the national HSA-id format via the MEK file.<p>
+ * Manages the main cache tree for the processreimbursementevent compromising a single code server table (BASOMRNY).
  * 
  * The index is built from code-server master XML files, and a the result is saved/cached on local disk.
  * The local cache is always used if it exists, and the only way to rebuild the index is to 
  * invoke the <code>revalidate</code> method, which is intended to be called by an external scheduled
  * job.
- *                       
+ *
  * @see #revalidate()
- * 
- * @author Peter
  *
  */
 @Service
@@ -72,6 +69,11 @@ public class CodeServerCacheManagerService {
         return localPath + (localPath.endsWith("/") ? "" : "/") + name;
     }
 
+    /**
+     * Builds the index from the parameters supplied from the builder pattern helper methods.
+     *
+     * @return The index fully built from the configured master Code Server files.
+     */
     private Map<String, TermItem<GeographicalAreaState>> build() {
         log.debug("build index");
 

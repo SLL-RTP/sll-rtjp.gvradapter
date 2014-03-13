@@ -37,6 +37,9 @@ import java.io.Reader;
 import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the other shell producers.
+ */
 public class AbstractProducer {
 
     private static final Logger log = LoggerFactory.getLogger("WS-API");

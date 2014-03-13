@@ -37,5 +37,4 @@ public class GetAdministrativeCareEventEmptyProducer implements
 			@WebParam(partName = "parameters", name = "GetAdministrativeCareEvent", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1") GetAdministrativeCareEventType parameters) {
 		return new GetAdministrativeCareEventResponse();
 	}
-
 }

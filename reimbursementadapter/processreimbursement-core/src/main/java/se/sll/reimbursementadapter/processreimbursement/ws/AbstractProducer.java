@@ -61,10 +61,6 @@ public class AbstractProducer {
     @Autowired
     private StatusBean statusBean;
 
-    /** Lists files matching a period and provides Readers for individual files. */
-    //@Autowired
-    //private GVRFileReader gvrFileReader;
-
     /** Reference to the JAX-WS {@link javax.xml.ws.WebServiceContext}. */
     @Resource
     @SuppressWarnings("unused")
@@ -92,15 +88,15 @@ public class AbstractProducer {
     public ProcessReimbursementResponse processReimbursementEvent0(ProcessReimbursementRequestType parameters) {
         ProcessReimbursementResponse response = new ProcessReimbursementResponse();
         // TODO: Fixa någon gång :)
-        response.setComment("Aha!");
+        //response.setComment("");
         response.setResultCode("OK");
 
-        // Transformera inkommande ProcessReimbursementRequestType till motsvarande HEJIndata enligt specifikation.
+        // Transforms the incoming ProcessReimbursementRequestType to the equivivalent HEJIndata according to the specification (TODO: version?)
         ReimbursementRequestToHEJIndataTransformer hejTransformer = new ReimbursementRequestToHEJIndataTransformer(codeServerCacheService.getCurrentIndex());
-        //System.out.println("Status bean?" + statusBean.getGUID().toString());
         HEJIndata hejXml = hejTransformer.doTransform(parameters);
 
         try {
+            // TODO: Make the file name configurable
             Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_"
                     + parameters.getBatchId() + "_"
                     + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + ".xml"));

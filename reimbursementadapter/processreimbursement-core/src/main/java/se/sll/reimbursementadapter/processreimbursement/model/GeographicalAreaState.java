@@ -21,10 +21,7 @@ import se.sll.reimbursementadapter.parser.TermState;
 import java.io.Serializable;
 
 /**
- * Facility state. The id corresponds to "kombikaid"
- * 
- * @author Peter
- *
+ * Geographical area state. The id corresponds to "basområdeskod".
  */
 public class GeographicalAreaState extends TermState implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -19,6 +19,9 @@ import se.sll.reimbursementadapter.parser.TermState;
 
 import java.io.Serializable;
 
+/**
+ * Medical Service Area state. The ID corresponds to the "betjäningsområdeskod".
+ */
 public class MedicalServiceAreaState extends TermState implements Serializable {
 
     private static final long serialVersionUID = 1L;

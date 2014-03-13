@@ -25,14 +25,15 @@ import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheM
 
 import java.util.*;
 
-
+/**
+ * Handles all the JMX information and operation exporting.
+ */
 @Component
 @ManagedResource(objectName = "se.sll.reimbursementadapter.processreimbursement.jmx:name=StatusBean", description="Status information")
 public class StatusBean {
 
     private static final Logger log = LoggerFactory.getLogger(StatusBean.class);
 
-    // Släng in som anrop till någon konstruktor eller liknande. Eller skall vi köra samma namn på bönan?
     private CodeServerCacheManagerService codeServerMekCacheService;
     
     //

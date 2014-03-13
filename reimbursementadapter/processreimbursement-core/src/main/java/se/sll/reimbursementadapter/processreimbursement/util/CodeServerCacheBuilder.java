@@ -91,7 +91,7 @@ public class CodeServerCacheBuilder {
      */
     protected HashMap<String, TermItem<GeographicalAreaState>> createGeographicalAreaIndex() {
         File testFile = new File(this.geoAreaFile);
-        System.out.println("Using geoAreaFile: " + testFile.getAbsolutePath());
+        log.debug("Using geoAreaFile: " + testFile.getAbsolutePath());
         final HashMap<String, TermItem<GeographicalAreaState>> index = new HashMap<>();
 
         // Define a Code Server parser implementation for reading the file.
