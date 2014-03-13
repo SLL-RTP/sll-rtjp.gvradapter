@@ -18,50 +18,27 @@ package se.sll.reimbursementadapter.processreimbursement.ws;
 import riv.followup.processdevelopment.reimbursement.processreimbursement.v1.rivtabp21.ProcessReimbursementResponderInterface;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
-import se.sll.hej.xml.indata.HEJIndata;
-import se.sll.hej.xml.indata.ObjectFactory;
-import se.sll.reimbursementadapter.hej.transform.HEJIndataMarshaller;
-import se.sll.reimbursementadapter.hej.transform.ReimbursementRequestToHEJIndataTransformer;
 
 import javax.jws.WebParam;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.nio.charset.Charset;
-import java.nio.file.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Standard producer implementation for {@link ProcessReimbursementResponderInterface}.
  */
-public class ProcessReimbursementProducer implements ProcessReimbursementResponderInterface {
+public class ProcessReimbursementProducer extends AbstractProducer implements ProcessReimbursementResponderInterface {
+
+    private static ProcessReimbursementResponse response;
 
     @Override
     public ProcessReimbursementResponse processReimbursement(@WebParam(partName = "LogicalAddress", name = "LogicalAddress",
             targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
                                                              @WebParam(partName = "parameters", name = "ProcessReimbursementRequest",
-            targetNamespace = "urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1") ProcessReimbursementRequestType parameters) {
-        ProcessReimbursementResponse response = new ProcessReimbursementResponse();
-        // TODO: Fixa när det bryts ut till Abstractproducer :)
-        response.setComment("Aha!");
-        response.setResultCode("OK");
-
-        // Transformera inkommande ProcessReimbursementRequestType till motsvarande HEJIndata enligt specifikation.
-        HEJIndata hejXml = ReimbursementRequestToHEJIndataTransformer.doTransform(parameters);
-
-        try {
-            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_"
-                            + parameters.getBatchId() + "_"
-                            + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + ".xml"));
-            BufferedWriter bw = Files.newBufferedWriter(file, Charset.forName("ISO-8859-1"), StandardOpenOption.WRITE);
-            HEJIndataMarshaller.unmarshalString(hejXml, bw);
-            bw.flush();
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+            targetNamespace = "urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1") final ProcessReimbursementRequestType parameters) {
+        boolean status = fulfill(new Runnable() {
+            @Override
+            public void run() {
+                response = processReimbursementEvent0(parameters);
+            }
+        });
         return response;
     }
 }

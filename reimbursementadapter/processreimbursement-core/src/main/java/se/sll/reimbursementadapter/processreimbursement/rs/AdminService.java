@@ -32,7 +32,7 @@ import javax.ws.rs.core.Response;
 @Path("/")
 public class AdminService {
     @Autowired
-    private CodeServerCacheManagerService codeServerMekCacheService;
+    private CodeServerCacheManagerService codeServerCacheService;
 
     @Autowired
     private StatusBean statusBean;
@@ -44,7 +44,7 @@ public class AdminService {
         boolean success = false;
         statusBean.start("/revalidate-index");
         try {
-            codeServerMekCacheService.revalidate();
+            codeServerCacheService.revalidate();
             return Response.ok().build();
         } finally {
             statusBean.stop(success);

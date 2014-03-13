@@ -16,17 +16,25 @@
 package se.sll.reimbursementadapter.processreimbursement.ws;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
 import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
 import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
-public class ProcessReimbursementProducerTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations="classpath:processreimbursement-core-spring-context.xml")
+public class ProcessReimbursementProducerTest extends AbstractProducer {
+
     @Test
     public void testProcessReimbursement() throws Exception {
+        CodeServerCacheManagerService instance = CodeServerCacheManagerService.getInstance();
+        instance.revalidate();
         riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ObjectFactory rivOf = new riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ObjectFactory();
         ObjectFactory of = new ObjectFactory();
-        ProcessReimbursementProducer test = new ProcessReimbursementProducer();
 
         ProcessReimbursementRequestType req = rivOf.createProcessReimbursementRequestType();
         req.setBatchId("1");
@@ -37,7 +45,7 @@ public class ProcessReimbursementProducerTest {
         ReimbursementEventType event = of.createReimbursementEventType();
         event.setPatient(of.createPatientType());
 
-        ProcessReimbursementResponse response = test.processReimbursement("SE01203123", req);
+        ProcessReimbursementResponse response = processReimbursementEvent0(req);
 
         // Read the file..
     }

@@ -15,6 +15,7 @@
  */
 package se.sll.reimbursementadapter.hej.transform;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Element;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.v1.CVType;
@@ -23,13 +24,26 @@ import riv.followup.processdevelopment.reimbursement.v1.ProductType;
 import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.hej.xml.indata.ObjectFactory;
+import se.sll.reimbursementadapter.parser.CodeServerCode;
+import se.sll.reimbursementadapter.parser.TermItem;
+import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ReimbursementRequestToHEJIndataTransformer {
 
-    public static HEJIndata doTransform(ProcessReimbursementRequestType request) {
+    public Map<String, TermItem<GeographicalAreaState>> codeServerIndex;
+
+
+    public ReimbursementRequestToHEJIndataTransformer(Map<String, TermItem<GeographicalAreaState>> codeServerIndex) {
+        this.codeServerIndex = codeServerIndex;
+    }
+
+    public HEJIndata doTransform(ProcessReimbursementRequestType request) {
+        System.out.println("Cache test: " + codeServerIndex.get("2242363"));
         ObjectFactory of = new ObjectFactory();
         HEJIndata response = of.createHEJIndata();
         List<String> test = new ArrayList<>();
@@ -41,7 +55,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
         return response;
     }
 
-    public static HEJIndata.Ersättningshändelse transformReimbursementEventToErsättningshändelse(ReimbursementEventType currentReimbursementEvent) {
+    public HEJIndata.Ersättningshändelse transformReimbursementEventToErsättningshändelse(ReimbursementEventType currentReimbursementEvent) {
         ObjectFactory of = new ObjectFactory();
         HEJIndata.Ersättningshändelse ersh = of.createHEJIndataErsättningshändelse();
         ersh.setKälla(currentReimbursementEvent.getId().getSource());

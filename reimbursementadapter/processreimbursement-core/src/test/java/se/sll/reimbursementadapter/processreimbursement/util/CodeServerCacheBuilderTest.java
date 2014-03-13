@@ -17,17 +17,25 @@ package se.sll.reimbursementadapter.processreimbursement.util;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import se.sll.reimbursementadapter.TestSupport;
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
 import java.util.Date;
 import java.util.Map;
 
-public class CodeServerCacheBuilderTest {
+public class CodeServerCacheBuilderTest extends TestSupport {
+
+    @Autowired
+    private CodeServerCacheManagerService cacheManagerService;
 
     @Test
     public void geographicalAreaToMedicalServicesArea() {
-        Map<String, TermItem<GeographicalAreaState>> codeCache = new CodeServerCacheBuilder().withGeographicalAreaFile("c:\\tmp\\out\\BASOMRNY.XML").build();
+        cacheManagerService.revalidate();
+
+        Map<String, TermItem<GeographicalAreaState>> codeCache = cacheManagerService.getCurrentIndex();
 
         String geographicalArea = "2242363";
         String expectedMedicalServicesArea = "131103";

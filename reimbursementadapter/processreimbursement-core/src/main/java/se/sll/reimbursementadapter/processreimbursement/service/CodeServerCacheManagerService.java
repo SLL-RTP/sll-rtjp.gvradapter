@@ -76,7 +76,7 @@ public class CodeServerCacheManagerService {
         log.debug("build index");
 
         CodeServerCacheBuilder builder = new CodeServerCacheBuilder()
-        .withGeographicalAreaFile(geographicalAreaFile);
+        .withGeographicalAreaFile(path(geographicalAreaFile));
 
         final Map<String, TermItem<GeographicalAreaState>> index = builder.build();
         

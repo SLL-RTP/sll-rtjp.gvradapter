@@ -23,6 +23,7 @@ import se.sll.reimbursementadapter.parser.CodeServiceXMLParser;
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,6 +90,8 @@ public class CodeServerCacheBuilder {
      * @return A Map keyed with the Geographical Area code and the mapped TermItems.
      */
     protected HashMap<String, TermItem<GeographicalAreaState>> createGeographicalAreaIndex() {
+        File testFile = new File(this.geoAreaFile);
+        System.out.println("Using geoAreaFile: " + testFile.getAbsolutePath());
         final HashMap<String, TermItem<GeographicalAreaState>> index = new HashMap<>();
 
         // Define a Code Server parser implementation for reading the file.

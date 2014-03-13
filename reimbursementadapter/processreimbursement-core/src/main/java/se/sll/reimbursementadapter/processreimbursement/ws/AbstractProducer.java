@@ -27,13 +27,24 @@ import riv.followup.processdevelopment.reimbursement.processreimbursementrespond
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
+import se.sll.hej.xml.indata.HEJIndata;
+import se.sll.reimbursementadapter.hej.transform.HEJIndataMarshaller;
+import se.sll.reimbursementadapter.hej.transform.ReimbursementRequestToHEJIndataTransformer;
 import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
 import javax.annotation.Resource;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +53,9 @@ public class AbstractProducer {
 
     private static final Logger log = LoggerFactory.getLogger("WS-API");
     private static final String SERVICE_CONSUMER_HEADER_NAME = "x-rivta-original-serviceconsumer-hsaid";
+
+    @Autowired
+    private CodeServerCacheManagerService codeServerCacheService;
 
     /** Handles all the JMX stuff. */
     @Autowired
@@ -76,7 +90,29 @@ public class AbstractProducer {
     }
 
     public ProcessReimbursementResponse processReimbursementEvent0(ProcessReimbursementRequestType parameters) {
-        return null;
+        ProcessReimbursementResponse response = new ProcessReimbursementResponse();
+        // TODO: Fixa någon gång :)
+        response.setComment("Aha!");
+        response.setResultCode("OK");
+
+        // Transformera inkommande ProcessReimbursementRequestType till motsvarande HEJIndata enligt specifikation.
+        ReimbursementRequestToHEJIndataTransformer hejTransformer = new ReimbursementRequestToHEJIndataTransformer(codeServerCacheService.getCurrentIndex());
+        //System.out.println("Status bean?" + statusBean.getGUID().toString());
+        HEJIndata hejXml = hejTransformer.doTransform(parameters);
+
+        try {
+            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_"
+                    + parameters.getBatchId() + "_"
+                    + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + ".xml"));
+            BufferedWriter bw = Files.newBufferedWriter(file, Charset.forName("ISO-8859-1"), StandardOpenOption.WRITE);
+            HEJIndataMarshaller.unmarshalString(hejXml, bw);
+            bw.flush();
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return response;
     }
 
     /**
