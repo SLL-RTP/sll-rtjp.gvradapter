@@ -15,18 +15,16 @@
  */
 package se.sll.reimbursementadapter.hej.transform;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import se.sll.ersmo.xml.indata.ERSMOIndata;
-import se.sll.hej.xml.indata.HEJIndata;
+import java.io.Writer;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import se.sll.hej.xml.indata.HEJIndata;
 
 /**
  * Marshals a HEJIndata XML Object to a string.

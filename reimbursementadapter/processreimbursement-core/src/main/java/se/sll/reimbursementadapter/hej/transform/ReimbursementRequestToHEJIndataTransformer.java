@@ -15,9 +15,13 @@
  */
 package se.sll.reimbursementadapter.hej.transform;
 
+import java.util.Date;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
+
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.v1.CVType;
 import riv.followup.processdevelopment.reimbursement.v1.PatientType;
@@ -27,11 +31,6 @@ import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.hej.xml.indata.ObjectFactory;
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>Takes a RIV {@link ProcessReimbursementRequestType} object, probably from a WS Producer request

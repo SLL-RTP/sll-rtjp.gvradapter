@@ -57,7 +57,6 @@ public class CodeServerJobService {
      * directory as the configuration setting "pr.ftp.localPath"
      */
     @Scheduled(cron="${pr.ftp.cron}")
-    @SuppressWarnings("unused")
     public void fetchCodeServerFiles() {
         if (script.length() == 0) {
             log.warn("Batch ftp script has not been defined, please check configuration property \"pr.ftp.script\"");

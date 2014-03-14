@@ -30,7 +30,6 @@ import java.io.*;
  * source system.
  */
 @Service
-@SuppressWarnings("unused")
 public class GVRJobService {
 
     //
@@ -54,7 +53,6 @@ public class GVRJobService {
      * TODO: Break out a common method for this and CodeServerJobService.
      */
     @Scheduled(cron="${pr.ftp.gvr.cron}")
-    @SuppressWarnings("unused")
     public void ftpFetchGVRScript() {
         if (script.length() == 0) {
             log.warn("Batch ftp script has not been defined, please check configuration property \"pr.ftp.gvr.script\"");

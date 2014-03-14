@@ -1,8 +1,5 @@
 package se.sll.reimbursementadapter.gvr.reader;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
