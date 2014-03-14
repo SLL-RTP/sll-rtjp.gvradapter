@@ -15,7 +15,6 @@
  */
 package se.sll.reimbursementadapter.getadmincareevent;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static se.sll.reimbursementadapter.GvrAdapterMuleServer.getAddress;
 
@@ -23,8 +22,6 @@ import org.junit.Test;
 import org.soitoolkit.commons.mule.test.AbstractJmsTestUtil;
 import org.soitoolkit.commons.mule.test.ActiveMqJmsTestUtil;
 import org.soitoolkit.commons.mule.test.junit4.AbstractTestCase;
-
-import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
 
 /**
  * 
