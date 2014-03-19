@@ -22,6 +22,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -120,25 +122,38 @@ public class GVRFileReader {
      * @param file The GVR file to read the date from.
      * @return A {@link java.util.Date} with the date from the file name of the provided GVR file.
      */
-    public Date getDateFromGVRFileName(Path file) {
-        SimpleDateFormat gvrFormat = new SimpleDateFormat(gvrTimestampFormat);
+    public Date getDateFromGVRFile(Path file) {
         Date gvrFileDate = null;
-        if (file.getFileName().toString().contains("T")) {
-            String[] tSplit = file.getFileName().toString().split("_");
-            // According to the rules the filename must end with "T<timestamp>.xml".
-            String timeStamp = tSplit[tSplit.length - 1];
-            if (timeStamp.endsWith(".xml")) {
-                timeStamp = timeStamp.substring(0, timeStamp.length() - 4);
-                try {
-                    gvrFileDate = gvrFormat.parse(timeStamp);
-                } catch (ParseException e) {
-                    log.debug("File date could not be parsed");
+
+        if (dateFilterMethod.equals(DateFilterMethod.FILENAME)) {
+            SimpleDateFormat gvrFormat = new SimpleDateFormat(gvrTimestampFormat);
+
+            if (file.getFileName().toString().contains("T")) {
+                String[] tSplit = file.getFileName().toString().split("_");
+                // According to the rules the filename must end with "T<timestamp>.xml".
+                String timeStamp = tSplit[tSplit.length - 1];
+                if (timeStamp.endsWith(".xml")) {
+                    timeStamp = timeStamp.substring(0, timeStamp.length() - 4);
+                    try {
+                        gvrFileDate = gvrFormat.parse(timeStamp);
+                    } catch (ParseException e) {
+                        log.warn("File date could not be parsed");
+                    }
+                } else {
+                    log.warn("File is not an XML file and is not valid");
                 }
             } else {
-                log.debug("File is not an XML file and is not valid");
+                log.warn("File is not an XML file and is not valid");
             }
-        } else {
-            log.debug("File is not an XML file and is not valid");
+        } else if (dateFilterMethod.equals(DateFilterMethod.METADATA)) {
+            try {
+                BasicFileAttributeView basicAttrsView = Files.getFileAttributeView(file, BasicFileAttributeView.class);
+                BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
+                return  new Date(basicAttrs.lastModifiedTime().toMillis());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
         return gvrFileDate;
     }
@@ -156,5 +171,9 @@ public class GVRFileReader {
 
     public String getGvrTimestampFormat() {
         return gvrTimestampFormat;
+    }
+
+    public void setDateFilterMethod(DateFilterMethod method) {
+        this.dateFilterMethod = method;
     }
 }

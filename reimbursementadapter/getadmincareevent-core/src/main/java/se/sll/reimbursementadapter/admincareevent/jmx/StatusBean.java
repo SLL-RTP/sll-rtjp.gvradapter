@@ -34,7 +34,7 @@ public class StatusBean {
 
     // Släng in som anrop till någon konstruktor eller liknande. Eller skall vi köra samma namn på bönan?
     private CodeServerMEKCacheManagerService codeServerMekCacheService;
-    
+
     //
     private int historyLength = 1000;
 

@@ -106,7 +106,7 @@ public class AbstractProducer {
         Date currentDate = null;
 
         for (Path currentFile : pathList) {
-            currentDate = gvrFileReader.getDateFromGVRFileName(currentFile);
+            currentDate = gvrFileReader.getDateFromGVRFile(currentFile);
 
             try (Reader fileContent = gvrFileReader.GetReaderForFile(currentFile)) {
                 ERSMOIndata xmlObject = ERSMOIndataUnMarshaller.unmarshalString(fileContent);
