@@ -165,7 +165,7 @@ public class GVRFileReader {
      * @param path The full path to the file to be read.
      * @return A initialized Reader (ISO-8859-1) for reading the contents of the provided file.
      */
-    public Reader GetReaderForFile(Path path) throws IOException {
+    public Reader getReaderForFile(Path path) throws IOException {
         return Files.newBufferedReader(path, Charset.forName("ISO-8859-1"));
     }
 
@@ -176,4 +176,8 @@ public class GVRFileReader {
     public void setDateFilterMethod(DateFilterMethod method) {
         this.dateFilterMethod = method;
     }
+
+    public String getLocalPath() { return localPath; }
+
+    public void setLocalPath(String localPath) { this.localPath = localPath; }
 }

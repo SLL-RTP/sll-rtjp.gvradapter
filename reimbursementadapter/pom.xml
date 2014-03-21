@@ -42,6 +42,9 @@
         <spring.version>3.1.1.RELEASE</spring.version>
         <cxf-codegen.version>2.5.1</cxf-codegen.version>
         <surefire.version>2.16</surefire.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.language>java</sonar.language>
+        <sonar.profile>Sonar way with Findbugs</sonar.profile>
     </properties>
 
     <build>

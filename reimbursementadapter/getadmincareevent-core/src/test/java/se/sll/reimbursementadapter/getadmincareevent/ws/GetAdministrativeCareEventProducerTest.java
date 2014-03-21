@@ -37,7 +37,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
 	@Test
 	public void test() {
-		/*CodeServerMEKCacheManagerService.getInstance().revalidate();
+		CodeServerMEKCacheManagerService.getInstance().revalidate();
 		GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
 		params.setUpdatedDuringPeriod(new TimePeriodMillisType());
         params.getUpdatedDuringPeriod().setStart("20140123150600000");
@@ -51,7 +51,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
             assertFalse(careEvent.getPatient().getBirthDate().contains("-"));
             assertFalse(careEvent.getDatePeriod().getStartDate().contains("-"));
             assertFalse(careEvent.getDatePeriod().getEndDate().contains("-"));
-        }*/
+        }
         assertTrue(true);
 	}
 

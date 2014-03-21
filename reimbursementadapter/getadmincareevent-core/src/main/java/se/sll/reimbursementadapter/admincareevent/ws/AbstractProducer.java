@@ -108,7 +108,7 @@ public class AbstractProducer {
         for (Path currentFile : pathList) {
             currentDate = gvrFileReader.getDateFromGVRFile(currentFile);
 
-            try (Reader fileContent = gvrFileReader.GetReaderForFile(currentFile)) {
+            try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
                 ERSMOIndata xmlObject = ERSMOIndataUnMarshaller.unmarshalString(fileContent);
 
                 // Transform all the Ersättningshändelse within the object to CareEventType and add them to the response.
@@ -231,8 +231,8 @@ public class AbstractProducer {
         } catch (NotFoundException ex) {
             status = false;
             log.error(createLogMessage(ex.getMessage()));
-        } catch (Throwable throwable) {
-            throw createSoapFault(throwable);
+        } catch (Exception exception) {
+            throw createSoapFault(exception);
         } finally {
             statusBean.stop(status);
         }
