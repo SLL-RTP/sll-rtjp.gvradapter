@@ -24,7 +24,7 @@
 	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 	<context:property-placeholder
-        location="classpath:processreimbursement-core.properties,file:///${user.home}/.processreimbursement-config.properties"
+        location="classpath:processreimbursement-core.properties,file:///${user.home}/.processreimbursement-core.properties"
         ignore-resource-not-found="true" />
 
     <context:annotation-config />
