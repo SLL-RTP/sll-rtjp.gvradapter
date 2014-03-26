@@ -50,7 +50,9 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
             }
             assertFalse(careEvent.getPatient().getBirthDate().contains("-"));
             assertFalse(careEvent.getDatePeriod().getStartDate().contains("-"));
-            assertFalse(careEvent.getDatePeriod().getEndDate().contains("-"));
+            if (careEvent.getDatePeriod().getEndDate() != null) {
+            	assertFalse(careEvent.getDatePeriod().getEndDate().contains("-"));
+            }
         }
         assertTrue(true);
 	}
