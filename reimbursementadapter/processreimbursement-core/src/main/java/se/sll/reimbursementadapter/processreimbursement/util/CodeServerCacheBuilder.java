@@ -65,7 +65,6 @@ public class CodeServerCacheBuilder {
      * @param newerThan the date that data must be newer than to be stored in index, otherwise it's ignored.
      * @return the builder.
      */
-    @SuppressWarnings("unused")
     public CodeServerCacheBuilder newerThan(Date newerThan) {
         this.newerThan = newerThan;
         return this;

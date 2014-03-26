@@ -55,7 +55,6 @@ public class AbstractProducer {
 
     /** Reference to the JAX-WS {@link javax.xml.ws.WebServiceContext}. */
     @Resource
-    @SuppressWarnings("unused")
     private WebServiceContext webServiceContext;
 
     /** The configured value for the maximum number of Care Events that the RIV Service should return. */

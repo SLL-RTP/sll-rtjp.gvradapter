@@ -15,10 +15,9 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.model;
 
-import se.sll.reimbursementadapter.parser.TermItem;
-import se.sll.reimbursementadapter.parser.TermState;
-
 import java.io.Serializable;
+
+import se.sll.reimbursementadapter.parser.TermState;
 
 /**
  * Geographical area state. The id corresponds to "basområdeskod".

@@ -15,12 +15,6 @@
  */
 package se.sll.reimbursementadapter.gvr.reader;
 
-import junit.framework.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import se.sll.reimbursementadapter.TestSupport;
-
 import java.io.Reader;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -30,6 +24,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import junit.framework.Assert;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import se.sll.reimbursementadapter.TestSupport;
 
 /**
  * Tests various functions in the GVRFileReader component.
