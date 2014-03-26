@@ -28,10 +28,11 @@ import se.sll.reimbursementadapter.admincareevent.util.CodeServerMEKCacheBuilder
 import se.sll.reimbursementadapter.parser.TermItem;
 
 /**
+ * TODO REB: 'compromising'??
  * Manages the main cache tree compromising a number of code server tables as well as a mapping
  * from the facility code used in these (Kombika) to the national HSA-id format via the MEK file.<p>
  * 
- * The index is built from code-server master XML files, and a the result is saved/cached on local disk.
+ * The index is built from code-server master XML files, and the result is saved/cached on local disk.
  * The local cache is always used if it exists, and the only way to rebuild the index is to 
  * invoke the <code>revalidate</code> method, which is intended to be called by an external scheduled
  * job.
@@ -47,6 +48,7 @@ public class CodeServerMEKCacheManagerService {
     @Value("${pr.ftp.localPath:}")
     private String localPath;
 
+    // TODO REB: Remove hard coded default value?
     @Value("${pr.indexFile:/tmp/hsa-index.gz}")
     private String fileName;
 
@@ -112,7 +114,7 @@ public class CodeServerMEKCacheManagerService {
     }
 
     /**
-     * Rebuilds the index form XML source. <p>
+     * Rebuilds the index from XML source. <p>
      * 
      * Can only be invoked once, i.e. if a rebuild process is ongoing
      * this method returns without doing anything.

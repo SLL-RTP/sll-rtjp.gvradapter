@@ -35,9 +35,11 @@ public class GVRJobService {
     //
     private static final Logger log = LoggerFactory.getLogger(GVRJobService.class);
 
+    // TODO REB: Is it safe to remove the ':' at the end of this property or is it needed?
     @Value("${pr.ftp.gvr.script:}")
     private String script;
 
+    // TODO REB: Remove the hard coded default path in this property?
     @Value("${pr.ftp.gvr.localPath:/tmp/gvr/in}")
     private String localPath;
 
@@ -45,11 +47,11 @@ public class GVRJobService {
     private StatusBean statusBean;
 
     /**
-     * Invokes and externally managed script to fetch master data, and
+     * Invokes an externally managed script to fetch master data, and
      * then revalidates the index. <p>
      *
-     * The actual cron expression is configurable "pr.ftp.gvr.cron", and the script runs in the current working
-     * directory as the configuration setting "pr.ftp.gvr.localPath"
+     * The actual cron expression is configurable using "pr.ftp.gvr.cron", and the script runs in the current working
+     * directory as the configuration setting "pr.ftp.gvr.localPath".
      * TODO: Break out a common method for this and CodeServerJobService.
      */
     @Scheduled(cron="${pr.ftp.gvr.cron}")
@@ -63,6 +65,7 @@ public class GVRJobService {
         statusBean.start(script);
         try {
             //final Process p = Runtime.getRuntime().exec(script, null, new File(gvrLocalPath));
+        	// TODO REB: Only include file separator if needed? (Check if the localPath parameter already ends with one.)
             final Process p = Runtime.getRuntime().exec(localPath + System.getProperty("file.separator") + script, null);
             close(p.getOutputStream());
             handleInputStream(p.getInputStream(), false);
@@ -72,7 +75,7 @@ public class GVRJobService {
                 log.error("Script {} returned with exit code {}", script, p.exitValue());
             } else {
                 log.info("Script {} completed successfully", script);
-                //codeServerMekCacheService.revalidate();
+                //codeServerMekCacheService.revalidate();	// TODO REB: Remove or implement this?
                 success = true;
             }
         } catch (Exception e) {
@@ -81,6 +84,9 @@ public class GVRJobService {
             statusBean.stop(success);
         }
     }
+    
+    // TODO REB: The following methods (log, close, handleInputStream) are duplicates of the ones in CodeServerJobService, perhaps
+    // we should move these to a common class?
 
     /**
      * Logs input from an input stream to error or info level.
@@ -115,6 +121,7 @@ public class GVRJobService {
                 c.close();
             }
         } catch (IOException e) {
+        	// ignore
         }
     }
 

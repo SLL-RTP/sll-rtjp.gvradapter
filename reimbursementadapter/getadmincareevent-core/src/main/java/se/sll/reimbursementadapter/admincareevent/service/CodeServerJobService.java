@@ -50,11 +50,11 @@ public class CodeServerJobService {
     private StatusBean statusBean;
 
     /**
-     * Invokes and externally managed script to fetch master data, and
+     * Invokes an externally managed script to fetch master data, and
      * then revalidates the index. <p>
      * 
-     * The actual cron expression is configurable "pr.ftp.cron", and the script runs in the current working
-     * directory as the configuration setting "pr.ftp.localPath"
+     * The actual cron expression is configurable using "pr.ftp.cron", and the script runs in the current working
+     * directory as the configuration setting "pr.ftp.localPath".
      */
     @Scheduled(cron="${pr.ftp.cron}")
     public void fetchCodeServerFiles() {
@@ -122,6 +122,7 @@ public class CodeServerJobService {
                 c.close();
             }
         } catch (IOException e) {
+        	// ignore
         }
     }
     
