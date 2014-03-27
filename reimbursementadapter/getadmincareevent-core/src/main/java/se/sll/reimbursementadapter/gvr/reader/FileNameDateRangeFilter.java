@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * Filters a file {@link Path} on whether the timestamp found in the file name
- * falls within the provided from Date and toDate parameters.
+ * falls within the provided fromDate and toDate parameters.
  */
 public class FileNameDateRangeFilter implements  DirectoryStream.Filter<Path> {
 
@@ -43,7 +43,7 @@ public class FileNameDateRangeFilter implements  DirectoryStream.Filter<Path> {
             return false;
         }
 
-        // Read the date om the provided file name according to the spec.
+        // Read the date from the provided file name according to the spec.
         Date gvrFileDate = fileReader.getDateFromGVRFile(entry);
         if (gvrFileDate == null) {
             // Invalid File, remove from filter.

@@ -27,9 +27,10 @@ import se.sll.reimbursementadapter.util.FileObjectStore;
 import java.util.Map;
 
 /**
+ * TODO REB: 'compromising'??
  * Manages the main cache tree for the processreimbursementevent compromising a single code server table (BASOMRNY).
  * 
- * The index is built from code-server master XML files, and a the result is saved/cached on local disk.
+ * The index is built from code-server master XML files, and the result is saved/cached on local disk.
  * The local cache is always used if it exists, and the only way to rebuild the index is to 
  * invoke the <code>revalidate</code> method, which is intended to be called by an external scheduled
  * job.
@@ -101,7 +102,7 @@ public class CodeServerCacheManagerService {
     }
 
     /**
-     * Rebuilds the index form XML source. <p>
+     * Rebuilds the index from XML source. <p>
      * 
      * Can only be invoked once, i.e. if a rebuild process is ongoing
      * this method returns without doing anything.

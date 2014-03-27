@@ -9,6 +9,10 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.Date;
 
+/**
+ * Filters a file {@link Path} on whether the last modified time of the file
+ * falls within the provided fromDate and toDate parameters.
+ */
 public class MetadataDateRangeFilter implements DirectoryStream.Filter<Path> {
 
     private Date fromDate;

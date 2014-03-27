@@ -24,7 +24,8 @@ import riv.followup.processdevelopment.reimbursement.getadministrativecareeventr
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 
 /**
- * Tom producer för GetAdministrativeCareEvent som endast returnerar en tom response som det fristående Mule-flödet sedan fyller på.
+ * Empty producer for GetAdministrativeCareEvent that only returns an empty
+ * response which the stand-alone Mule flow then loads with data.
  */
 public class GetAdministrativeCareEventEmptyProducer implements
 		GetAdministrativeCareEventResponderInterface {

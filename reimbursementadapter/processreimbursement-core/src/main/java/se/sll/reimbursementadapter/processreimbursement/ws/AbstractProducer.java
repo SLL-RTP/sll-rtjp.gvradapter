@@ -62,7 +62,7 @@ public class AbstractProducer {
 
     /** The configured value for the maximum number of Care Events that the RIV Service should return. */
     @Value("${pr.gvr.maximumSupportedCareEvents:10000}")
-    private int maximumSupportedCareEvents;
+    private int maximumSupportedCareEvents;  // TODO REB: Is this used? If not, remove it and the property as well.
 
     //
     static class NotFoundException extends RuntimeException {
