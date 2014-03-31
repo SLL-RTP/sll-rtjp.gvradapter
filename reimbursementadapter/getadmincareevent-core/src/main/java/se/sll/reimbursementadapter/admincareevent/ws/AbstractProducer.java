@@ -26,7 +26,7 @@ import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
-import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToReimbursementEventTransformer;
+import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 
@@ -111,7 +111,7 @@ public class AbstractProducer {
                 ERSMOIndata xmlObject = ERSMOIndataUnMarshaller.unmarshalString(fileContent);
 
                 // Transform all the Ersättningshändelse within the object to CareEventType and add them to the response.
-                List<CareEventType> careEventList = ERSMOIndataToReimbursementEventTransformer.doTransform(xmlObject, currentDate);
+                List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject, currentDate);
 
                 if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
                     // Truncate response if we reached the configured limit for care events in the response.

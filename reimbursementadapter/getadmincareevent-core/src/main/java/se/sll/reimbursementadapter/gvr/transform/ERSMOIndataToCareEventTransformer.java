@@ -46,9 +46,9 @@ import javax.xml.namespace.QName;
  * Transforms a single ERSMOIndata XML object to a number of CareEventType XML objects.
  * Transformation rules implement the "inrapportering_gvr_meddelandeinnehall_0.3"-specification.
  */
-public class ERSMOIndataToReimbursementEventTransformer {
+public class ERSMOIndataToCareEventTransformer {
 	
-	private static final Logger log = LoggerFactory.getLogger(ERSMOIndataToReimbursementEventTransformer.class);
+	private static final Logger log = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
 
     /**
      * Transforms a single {@link se.sll.ersmo.xml.indata.ERSMOIndata} object to a list of
@@ -61,7 +61,7 @@ public class ERSMOIndataToReimbursementEventTransformer {
      * @return The transformed list of {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} objects
      */
 	public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime) {
-		log.debug("Entering ERSMOIndataToReimbursementEventTransformer.doTransform()");
+		log.debug("Entering ERSMOIndataToCareEventTransformer.doTransform()");
 		// Instantiate the Cache Manager.
 		CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
 		// Create the response object.
@@ -141,6 +141,13 @@ public class ERSMOIndataToReimbursementEventTransformer {
             currentEvent.getPatient().getAny().add(extrasElement);
         }
 
+        // Care Unit Local Id
+        currentEvent.setCareUnit(of.createCareUnitType());
+
+        currentEvent.getCareUnit().setCareUnitLocalId(of.createCVType());
+        currentEvent.getCareUnit().getCareUnitLocalId().setCode(currentErsh.getSlutverksamhet());
+        currentEvent.getCareUnit().getCareUnitLocalId().setCodeSystem("no.oid (KOMBIKA)");
+
         // TODO: Use the date for the reimbursement event instead?
         Date stateDate = new Date();
         TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(currentErsh.getSlutverksamhet());
@@ -168,14 +175,8 @@ public class ERSMOIndataToReimbursementEventTransformer {
                 }
             }
 
-            // Care Unit HSA-id
-            currentEvent.setCareUnit(of.createCareUnitType());
+            // Care Unit HSA-id from MEK
             currentEvent.getCareUnit().setCareUnitHsaId(mappedFacilities.getState(new Date()).getHSAMapping().getState(new Date()).getHsaId());
-
-            // Care Unit Local Id
-            currentEvent.getCareUnit().setCareUnitLocalId(of.createCVType());
-            currentEvent.getCareUnit().getCareUnitLocalId().setCode(currentErsh.getSlutverksamhet());
-            currentEvent.getCareUnit().getCareUnitLocalId().setCodeSystem("no.oid (KOMBIKA)");
         }
 
         // Last updated time
