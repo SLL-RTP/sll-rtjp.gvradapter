@@ -27,8 +27,7 @@ import se.sll.reimbursementadapter.util.FileObjectStore;
 import java.util.Map;
 
 /**
- * TODO REB: 'compromising'??
- * Manages the main cache tree for the processreimbursementevent compromising a single code server table (BASOMRNY).
+ * Manages the main cache tree for the processreimbursementevent consisting of a single code server table (BASOMRNY).
  * 
  * The index is built from code-server master XML files, and the result is saved/cached on local disk.
  * The local cache is always used if it exists, and the only way to rebuild the index is to 
@@ -41,31 +40,41 @@ import java.util.Map;
 @Service
 public class CodeServerCacheManagerService {
 
+    /** The local path to read GVR files from. */
     @Value("${pr.ftp.localPath:}")
     private String localPath;
-
+    /** The local file to write the HSA-index to. */
     @Value("${pr.indexFile:/tmp/hsa-index.gz}")
     private String fileName;
-
+    /** The file name for the Geographical Area file. */
     @Value("${pr.geographicalAreaFile:BASOMRNY.XML}")
     private String geographicalAreaFile;
 
+    /** Flag indicating if the service is currently processing. */
     private boolean busy;
+    /** The singleton instance of this class. */
     private static CodeServerCacheManagerService instance;
+    /** Logger. */
     private static final Logger log = LoggerFactory.getLogger(CodeServerCacheManagerService.class);
-
-
+    /** The current index. */
     private Map<String, TermItem<GeographicalAreaState>> currentIndex;
+    /** The build lock object. */
     private final Object buildLock = new Object();
+    /** The {@link se.sll.reimbursementadapter.util.FileObjectStore} to write the HSA-index with. */
     private FileObjectStore fileObjectStore = new FileObjectStore();
 
+    /** Constructor needed to setup the Mule and some unit test context that are not launched via Spring. */
     public CodeServerCacheManagerService() {
-        log.debug("constructor");
         if (instance == null) {
             instance = this;
         }
     }
 
+    /**
+     * Returns a full path for a given file name using the configured values.
+     * @param name The File name to read.
+     * @return A String with the full path to the file.
+     */
     private String path(String name) {
         return localPath + (localPath.endsWith("/") ? "" : "/") + name;
     }
@@ -113,6 +122,7 @@ public class CodeServerCacheManagerService {
         if (isBusy()) {
             return;
         }
+
         synchronized (buildLock) {
             if (isBusy()) {
                 return;

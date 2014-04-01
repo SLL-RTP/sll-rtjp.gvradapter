@@ -30,11 +30,18 @@ public class GeographicalAreaState extends TermState implements Serializable {
      */
     private String medicalServiceArea = null;
 
-
+    /**
+     * Returns the Medical Services Area connected to this Geographical area.
+     * @return the Medical Services Area connected to this Geographical area.
+     */
     public String getMedicalServiceArea() {
         return medicalServiceArea;
     }
 
+    /**
+     * Sets the Medical Services Area connected to this Geographical area.
+     * @param medicalServiceArea The Medical Services Area to set.
+     */
     public void setMedicalServiceArea(String medicalServiceArea) {
         this.medicalServiceArea = medicalServiceArea;
     }

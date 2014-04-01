@@ -25,10 +25,17 @@ import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
 import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
 import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
+/**
+ * Tests the ProcessReimbursementProducer via AbstractProducer.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:processreimbursement-core-spring-context.xml")
 public class ProcessReimbursementProducerTest extends AbstractProducer {
 
+    /**
+     * Does a full RIV call to the service and checks for errors.
+     * @throws Exception e
+     */
     @Test
     public void testProcessReimbursement() throws Exception {
         CodeServerCacheManagerService instance = CodeServerCacheManagerService.getInstance();

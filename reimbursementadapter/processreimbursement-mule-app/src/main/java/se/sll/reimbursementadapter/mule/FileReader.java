@@ -30,11 +30,10 @@ public class FileReader {
 
 		Path folderToIterate = FileSystems.getDefault().getPath("c:\\Temp");
 
-		String str = requestParam;
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-		Date date = null;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+		Date date;
 		try {
-			date = df.parse(str);
+			date = df.parse(requestParam);
 		} catch (ParseException e1) {
 			throw new InvalidParameterException("The date parameter was not valid: " + requestParam);
 		}
@@ -52,7 +51,7 @@ public class FileReader {
 			}
 		};
 
-		List<Path> response = new ArrayList<Path>();
+		List<Path> response = new ArrayList<>();
 		DirectoryStream<Path> ds = null;
 		try  {
 			ds = Files.newDirectoryStream(folderToIterate, filter);
@@ -79,14 +78,14 @@ public class FileReader {
 	public static String readFile(Path path) {
 		Charset charset = Charset.forName("ISO-8859-1");
 		CharsetDecoder decoder = charset.newDecoder();
-		StringBuffer response = new StringBuffer();
+		StringBuilder response = new StringBuilder();
 		BufferedReader reader = null;
 		try {
 			reader = Files.newBufferedReader(path, charset);
-			String line = null;
+			String line;
 			while ((line = reader.readLine()) != null) {
 				CharBuffer convert = decoder.decode(ByteBuffer.wrap(line.getBytes()));
-				response.append(convert + System.getProperty("line.separator"));
+				response.append(convert).append(System.getProperty("line.separator"));
 			}
 		} catch (IOException x) {
 			System.err.format("IOException: %s%n", x);

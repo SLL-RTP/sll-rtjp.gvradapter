@@ -26,17 +26,23 @@ import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheM
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * Tests the cache builder by doing some transformations between basområde and Betjäningsområde.
+ */
 public class CodeServerCacheBuilderTest extends TestSupport {
 
+    /** The CacheManager instance. */
     @Autowired
     private CodeServerCacheManagerService cacheManagerService;
 
+    /** Tests the GeographicalArea to MedicalServicesArea cache mapping. */
     @Test
     public void geographicalAreaToMedicalServicesArea() {
         cacheManagerService.revalidate();
 
         Map<String, TermItem<GeographicalAreaState>> codeCache = cacheManagerService.getCurrentIndex();
 
+        // Existing truths from the test file :)
         String geographicalArea = "2242363";
         String expectedMedicalServicesArea = "131103";
 

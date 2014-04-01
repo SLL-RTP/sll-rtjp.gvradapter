@@ -32,12 +32,17 @@ import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
  */
 @Path("/")
 public class AdminService {
+    /** The code server cache instance. */
     @Autowired
-    private CodeServerMEKCacheManagerService codeServerMekCacheService;
-
+    private CodeServerMEKCacheManagerService codeServerMEKCacheManagerService;
+    /** The Status Bean to use for reporting request status. */
     @Autowired
     private StatusBean statusBean;
 
+    /**
+     * Rebuilds the current code server index.
+     * @return A {@link javax.ws.rs.core.Response} object with response information.
+     */
     @GET
     @Produces("application/json")
     @Path("/revalidate-index")
@@ -45,7 +50,7 @@ public class AdminService {
         boolean success = false;
         statusBean.start("/revalidate-index");
         try {
-            codeServerMekCacheService.revalidate();
+            codeServerMEKCacheManagerService.revalidate();
             return Response.ok().build();
         } finally {
             statusBean.stop(success);

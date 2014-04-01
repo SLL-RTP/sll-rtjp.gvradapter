@@ -87,10 +87,7 @@ public abstract class TermState implements Comparable<TermState>, Serializable {
     }
     
     public boolean isNewerThan(TermState anotherItem) {
-        if (anotherItem == null) {
-            return true;
-        }        
-        return isNewerThan(anotherItem.getValidTo());
+        return anotherItem == null || isNewerThan(anotherItem.getValidTo());
     }
     
     public boolean isNewerThan(Date date) {

@@ -15,26 +15,26 @@
  */
 package se.sll.reimbursementadapter.admincareevent.model;
 
+import se.sll.reimbursementadapter.parser.TermItem;
+import se.sll.reimbursementadapter.parser.TermState;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.sll.reimbursementadapter.parser.TermItem;
-import se.sll.reimbursementadapter.parser.TermState;
-
 /**
  * Facility state. The id corresponds to "kombikaid"
- * 
- * @author Peter
  *
+ * @author Peter
  */
 public class FacilityState extends TermState implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * The list of commissions.
+     *
      * @serial
      */
-    private List<TermItem<CommissionState>> commissions = new ArrayList<TermItem<CommissionState>>();
+    private List<TermItem<CommissionState>> commissions = new ArrayList<>();
     private TermItem<HSAMappingState> hsaMapping;
 
 
@@ -44,13 +44,13 @@ public class FacilityState extends TermState implements Serializable {
 
     public void setCommissions(List<TermItem<CommissionState>> commissions) {
         this.commissions = commissions;
-    }        
-    
-    public TermItem<HSAMappingState> getHSAMapping() {
-    	return hsaMapping;
     }
-    
+
+    public TermItem<HSAMappingState> getHSAMapping() {
+        return hsaMapping;
+    }
+
     public void setHSAMapping(TermItem<HSAMappingState> hsaMapping) {
-    	this.hsaMapping = hsaMapping;
+        this.hsaMapping = hsaMapping;
     }
 }

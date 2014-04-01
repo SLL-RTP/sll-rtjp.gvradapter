@@ -52,7 +52,7 @@
 	<spring:bean id="AppContextNotificationListener"
 		class="se.sll.reimbursementadapter.mule.AppContextNotificationListener" />
 
-	<spring:bean id="codeServerMekCacheService"
+	<spring:bean id="codeServerMEKCacheManagerService"
 		class="se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService" />
 
 

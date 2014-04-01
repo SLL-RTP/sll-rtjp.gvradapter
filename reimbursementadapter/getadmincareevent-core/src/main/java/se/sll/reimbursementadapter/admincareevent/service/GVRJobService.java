@@ -95,7 +95,7 @@ public class GVRJobService {
      * @param err if it's error, otherwise is info assumed.
      */
     private void log(final InputStream is, final boolean err) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is));) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             String line = reader.readLine();
             while (line != null) {
                 if (err) {

@@ -19,6 +19,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+/**
+ * Support class that handles the Spring configuration so that the other tests don't have to bother.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:processreimbursement-core-spring-context.xml")
 public abstract class TestSupport {

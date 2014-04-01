@@ -38,7 +38,7 @@ public class TermItem<T extends TermState> implements Serializable {
      * The time series of state.
      * @serial
      */
-    private List<T> stateVector = new ArrayList<T>();
+    private List<T> stateVector = new ArrayList<>();
     
     public String getId() {
         return id;
@@ -82,9 +82,6 @@ public class TermItem<T extends TermState> implements Serializable {
         if (this == another) {
             return true;
         }
-        if (another instanceof TermItem) { 
-            return getId().equals(((TermItem<?>)another).getId());
-        }
-        return false;
+        return another instanceof TermItem && getId().equals(((TermItem<?>) another).getId());
     }
 }

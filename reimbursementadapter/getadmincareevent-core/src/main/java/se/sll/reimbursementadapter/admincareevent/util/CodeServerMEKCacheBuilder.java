@@ -168,7 +168,7 @@ public class CodeServerMEKCacheBuilder {
                 final List<CodeServerCode> codes = codeServiceEntry.getCodes(SAMVERKS);
                 if (codes != null) {
                     // filter out non-existing SAMVERKS associations 
-                    if (codes.size() == 1 && NO_COMMISSION_ID.equals(codes.get(0))) {
+                    if (codes.size() == 1 && NO_COMMISSION_ID.equals(codes.get(0).getValue())) {
                         return;
                     }
                     TermItem<FacilityState> avd = index.get(codeServiceEntry.getId());

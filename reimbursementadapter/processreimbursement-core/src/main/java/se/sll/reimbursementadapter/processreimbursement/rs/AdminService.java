@@ -31,12 +31,17 @@ import javax.ws.rs.core.Response;
  */
 @Path("/")
 public class AdminService {
+    /** The code server cache instance. */
     @Autowired
     private CodeServerCacheManagerService codeServerCacheService;
-
+    /** The Status Bean to use for reporting request status. */
     @Autowired
     private StatusBean statusBean;
 
+    /**
+     * Rebuilds the current code server index.
+     * @return A {@link javax.ws.rs.core.Response} object with response information.
+     */
     @GET
     @Produces("application/json")
     @Path("/revalidate-index")

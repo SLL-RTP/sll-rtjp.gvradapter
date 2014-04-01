@@ -180,7 +180,7 @@ public class CodeServiceXMLParser {
     }
 
     //
-    private void parse0() throws FileNotFoundException, XMLStreamException {
+    private void parse0() throws XMLStreamException {
         while (reader.hasNext()) {
             final XMLEvent e = reader.nextEvent();
             switch (e.getEventType()) {

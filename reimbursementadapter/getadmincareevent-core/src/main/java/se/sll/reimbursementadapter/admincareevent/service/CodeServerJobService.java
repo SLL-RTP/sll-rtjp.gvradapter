@@ -15,48 +15,49 @@
  */
 package se.sll.reimbursementadapter.admincareevent.service;
 
-import java.io.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
+
+import java.io.*;
 
 /**
  * Service executing batch jobs. Currently it's only about fetching master data files, and rebuild
  * the index.
- * 
+ *
  * @author Peter
  */
 @Service
 public class CodeServerJobService {
-    //
+    /** The Logger. */
     private static final Logger log = LoggerFactory.getLogger(CodeServerJobService.class);
 
+    /** The script file name to execute for fetching CodeServer files. */
     @Value("${pr.ftp.script:}")
     private String script;
-    
+    /** The local path to store fetched CodeServer files (and read files from). */
     @Value("${pr.ftp.localPath}")
     private String localPath;
+    /** The CacheServce instance. */
 
     @Autowired
-    private CodeServerMEKCacheManagerService codeServerMekCacheService;
-    
+    private CodeServerMEKCacheManagerService codeServerMEKCacheManagerService;
+    /** The StatusBean for reporting execution status. */
     @Autowired
     private StatusBean statusBean;
 
     /**
      * Invokes an externally managed script to fetch master data, and
-     * then revalidates the index. <p>
-     * 
+     * then revalidates the index.
+     * <p/>
      * The actual cron expression is configurable using "pr.ftp.cron", and the script runs in the current working
      * directory as the configuration setting "pr.ftp.localPath".
      */
-    @Scheduled(cron="${pr.ftp.cron}")
+    @Scheduled(cron = "${pr.ftp.cron}")
     public void fetchCodeServerFiles() {
         if (script.length() == 0) {
             log.warn("Batch ftp script has not been defined, please check configuration property \"pr.ftp.script\"");
@@ -75,7 +76,7 @@ public class CodeServerJobService {
                 log.error("Script {} returned with exit code {}", script, p.exitValue());
             } else {
                 log.info("Script {} completed successfully", script);
-                codeServerMekCacheService.revalidate();
+                codeServerMEKCacheManagerService.revalidate();
                 success = true;
             }
         } catch (Exception e) {
@@ -87,8 +88,8 @@ public class CodeServerJobService {
 
     /**
      * Logs input from an input stream to error or info level.
-     * 
-     * @param is the input stream.
+     *
+     * @param is  the input stream.
      * @param err if it's error, otherwise is info assumed.
      */
     private void log(final InputStream is, final boolean err) {
@@ -99,11 +100,11 @@ public class CodeServerJobService {
             while (line != null) {
                 if (err) {
                     log.error(line);
-                }  else {
+                } else {
                     log.info(line);
                 }
                 line = reader.readLine();
-            }    
+            }
         } catch (Exception e) {
             log.error("Error while reading input stream", e);
         } finally {
@@ -113,7 +114,7 @@ public class CodeServerJobService {
 
     /**
      * Force a close operation and ignore errors.
-     * 
+     *
      * @param c the closeable to close.
      */
     private void close(Closeable c) {
@@ -122,14 +123,14 @@ public class CodeServerJobService {
                 c.close();
             }
         } catch (IOException e) {
-        	// ignore
+            // ignore
         }
     }
-    
+
     /**
      * Reads an input stream in the background (separate thread).
-     * 
-     * @param is the input stream.
+     *
+     * @param is  the input stream.
      * @param err if it's about errors, otherwise is info assumed.
      */
     private void handleInputStream(final InputStream is, final boolean err) {
@@ -139,6 +140,6 @@ public class CodeServerJobService {
                 log(is, err);
             }
 
-        }).run();        
+        }).run();
     }
 }

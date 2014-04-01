@@ -82,7 +82,7 @@ public class GVRFileReaderTest extends TestSupport {
         List<Path> pathList = gvrFileReader.getFileList("20140101000000000", "20140405000000000");
         Assert.assertTrue(pathList.size() == 8);
 
-        List<String> testList = new ArrayList<String>();
+        List<String> testList = new ArrayList<>();
         testList.add("Vardansvar_2014-01-01T090000.xml");
         testList.add("Vardkontakt_2014-02-01T100000.xml");
         testList.add("Vardkontakt_2014-02-02T100000.xml");
@@ -104,7 +104,7 @@ public class GVRFileReaderTest extends TestSupport {
         List<Path> pathList = gvrFileReader.getFileList("20140202100000001", "20140404095959999");
         Assert.assertTrue(pathList.size() == 4);
 
-        List<String> testList = new ArrayList<String>();
+        List<String> testList = new ArrayList<>();
         testList.add("Vardkontakt_2014-02-03T100000.xml");
         testList.add("Vardkontakt_2014-02-04T100000.xml");
         testList.add("Vardkontakt_2014-02-05T100000.xml");

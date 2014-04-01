@@ -24,16 +24,21 @@ import se.sll.reimbursementadapter.parser.TermState;
  */
 public class HSAMappingState extends TermState implements Serializable {
     private static final long serialVersionUID = 1L;
-    /**
-     * The HSA-id for the favility.
-     * @serial
-     */
+    /** The HSA id for the facility. */
     private String hsaId;
 
+    /**
+     * Returns the HSA id for the facility.
+     * @return the HSA id for the facility.
+     */
     public String getHsaId() {
         return hsaId;
     }
 
+    /**
+     * Sets the HSA id for the facility.
+     * @param hsaId the HSA id for the facility.
+     */
     public void setHsaId(String hsaId) {
         this.hsaId = hsaId;
     }

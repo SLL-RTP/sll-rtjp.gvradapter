@@ -54,9 +54,8 @@ public class GetAdministrativeCareEventTestConsumer extends AbstractTestConsumer
         ts.setStart("20140201095959999");
         ts.setEnd("20140405095959999");
         request.setUpdatedDuringPeriod(ts);
-        final GetAdministrativeCareEventResponse response = _service.getAdministrativeCareEvent("1234", request);
 
-        return response;
+        return _service.getAdministrativeCareEvent("1234", request);
     }
 
 }

@@ -20,25 +20,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
-import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1
+        .GetAdministrativeCareEventResponse;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1
+        .GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
+import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
-import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 
 import javax.annotation.Resource;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 import java.io.Reader;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the other shell producers.
+ * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the
+ * other shell producers.
  */
 public class AbstractProducer {
 
@@ -62,7 +67,7 @@ public class AbstractProducer {
     private int maximumSupportedCareEvents;
 
     //
-    static class NotFoundException extends RuntimeException {
+    private static class NotFoundException extends RuntimeException {
         private static final long serialVersionUID = 1L;
 
         /**
@@ -83,7 +88,8 @@ public class AbstractProducer {
      * @param parameters The incoming parameters from the RIV service.
      * @return A complete GetAdministrativeCareEventResponse.
      */
-    public GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType parameters) {
+    protected GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType
+                                                                                     parameters) {
         GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         response.setResultCode("OK");
         response.setResponseTimePeriod(new TimePeriodMillisType());
@@ -92,7 +98,8 @@ public class AbstractProducer {
 
         List<Path> pathList = null;
         try {
-            pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(), parameters.getUpdatedDuringPeriod().getEnd());
+            pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(),
+                    parameters.getUpdatedDuringPeriod().getEnd());
         } catch (Exception e) {
             // TODO: Try again?
             log.error("Error when listing files in GVR directory", e);
@@ -110,8 +117,10 @@ public class AbstractProducer {
             try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
                 ERSMOIndata xmlObject = ERSMOIndataUnMarshaller.unmarshalString(fileContent);
 
-                // Transform all the Ersättningshändelse within the object to CareEventType and add them to the response.
-                List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject, currentDate);
+                // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
+                // response.
+                List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject,
+                        currentDate);
 
                 if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
                     // Truncate response if we reached the configured limit for care events in the response.
@@ -120,10 +129,12 @@ public class AbstractProducer {
                         // period to the start of the request to indicate that nothing was processed.
                         response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
                     } else {
-                        response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
+                        response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent()
+                                .size() - 1).getLastUpdatedTime());
                     }
                     response.setResultCode("TRUNCATED");
-                    response.setComment("Response was truncated due to hitting the maximum configured number of Care Events of " + maximumSupportedCareEvents);
+                    response.setComment("Response was truncated due to hitting the maximum configured number of Care " +
+                            "Events of " + maximumSupportedCareEvents);
                     return response;
                 }
 
@@ -139,7 +150,8 @@ public class AbstractProducer {
         }
 
         if (response.getCareEvent().size() > 0) {
-            response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1).getLastUpdatedTime());
+            response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1)
+                    .getLastUpdatedTime());
         }
 
         return response;
@@ -183,7 +195,6 @@ public class AbstractProducer {
     /**
      * Returns the actual message context.
      *
-     *
      * @return the message context.
      */
     protected MessageContext getMessageContext() {
@@ -191,13 +202,12 @@ public class AbstractProducer {
     }
 
     /**
-     *
      * Logs message context information.
      *
      * @param messageContext the context.
      */
     private void log(MessageContext messageContext) {
-        final Map<?, ?> headers = (Map<?, ?>)messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
+        final Map<?, ?> headers = (Map<?, ?>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
         log.info(createLogMessage(headers.get(SERVICE_CONSUMER_HEADER_NAME)));
         log.debug("HTTP Headers {}", headers);
     }
@@ -209,7 +219,8 @@ public class AbstractProducer {
      * @return the log message.
      */
     protected String createLogMessage(Object msg) {
-        return String.format("%s - %s - \"%s\"", statusBean.getName(), statusBean.getGUID(), (msg == null) ? "NA" : msg);
+        return String.format("%s - %s - \"%s\"", statusBean.getName(), statusBean.getGUID(),
+                (msg == null) ? "NA" : msg);
     }
 
     /**
@@ -220,7 +231,7 @@ public class AbstractProducer {
      */
     protected boolean fulfill(final Runnable runnable) {
         final MessageContext messageContext = getMessageContext();
-        final String path = (String)messageContext.get(MessageContext.PATH_INFO);
+        final String path = (String) messageContext.get(MessageContext.PATH_INFO);
         statusBean.start(path);
         log(messageContext);
         boolean status = false;
