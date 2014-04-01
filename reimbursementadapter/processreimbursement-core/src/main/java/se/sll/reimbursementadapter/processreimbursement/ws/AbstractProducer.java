@@ -44,11 +44,18 @@ import se.sll.reimbursementadapter.hej.transform.ReimbursementRequestToHEJIndata
 import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
 import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
+/**
+ * Abstract producer for the ProcessReimbursementEvent service. Implements and isolates the actual logic for the
+ * other shell producers.
+ */
 public class AbstractProducer {
 
+    /** The Logger. */
     private static final Logger log = LoggerFactory.getLogger("WS-API");
+    /** The service consumer header name to report via JMX. */
     private static final String SERVICE_CONSUMER_HEADER_NAME = "x-rivta-original-serviceconsumer-hsaid";
 
+    /** The pre initialized Cache service to use in the mapping process. */
     @Autowired
     private CodeServerCacheManagerService codeServerCacheService;
 
@@ -60,11 +67,33 @@ public class AbstractProducer {
     @Resource
     private WebServiceContext webServiceContext;
 
-    /** The configured value for the maximum number of Care Events that the RIV Service should return. */
-    @Value("${pr.gvr.maximumSupportedCareEvents:10000}")
-    private int maximumSupportedCareEvents;  // TODO REB: Is this used? If not, remove it and the property as well.
+    /** The configured value for the maximum number of Care Events that the RIV Service allows. */
+    @Value("${pr.riv.maximumSupportedCareEvents:10000}")
+    private int maximumSupportedCareEvents;
 
-    //
+    /** The path where HEJ should write its files. */
+    @Value("${pr.hej.outPath:/tmp/hej/out}")
+    private String hejFileOutputPath;
+
+    /** The prefix for the created files. */
+    @Value("${pr.hej.filePrefix:HEJIndata-}")
+    private String hejFilePrefix;
+
+    /** The suffix for the created files. */
+    @Value("${pr.hej.fileSuffix:.xml}")
+    private String hejFileSuffix;
+
+    /** Number of retries when writing files to disk. */
+    @Value("${pr.hej.io.numRetries:10}")
+    private int hejNumberOfRetries;
+
+    /** The delay between retries when writing files to disk. */
+    @Value("${pr.hej.io.retryInterval:100}")
+    private long hejRetryInterval;
+
+    /**
+     * Simple exception used by #fullfill().
+     */
     static class NotFoundException extends RuntimeException {
         private static final long serialVersionUID = 1L;
 
@@ -79,27 +108,60 @@ public class AbstractProducer {
 
     }
 
+    /**
+     * Creates a complete {@link ProcessReimbursementResponse} object from the request information taken from the
+     * provided 'parameters' parameter.
+     * @param parameters a filled in {@link ProcessReimbursementRequestType} object with the request parameters from
+     *                   the WS service.
+     * @return a completely transformed {@link ProcessReimbursementResponse} object.
+     */
     public ProcessReimbursementResponse processReimbursementEvent0(ProcessReimbursementRequestType parameters) {
+        log.trace("Entering AbstractProducer.processReimbursementEvent0");
         ProcessReimbursementResponse response = new ProcessReimbursementResponse();
-        // TODO: Fixa någon gång :)
-        //response.setComment("");
         response.setResultCode("OK");
 
         // Transforms the incoming ProcessReimbursementRequestType to the equivivalent HEJIndata according to the specification (TODO: version?)
         ReimbursementRequestToHEJIndataTransformer hejTransformer = new ReimbursementRequestToHEJIndataTransformer(codeServerCacheService.getCurrentIndex());
         HEJIndata hejXml = hejTransformer.doTransform(parameters);
 
-        try {
-            // TODO: Make the file name configurable
-            Path file = Files.createFile(FileSystems.getDefault().getPath("/tmp", "hej", "out", "Ersättningshändelse_"
-                    + parameters.getBatchId() + "_"
-                    + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + ".xml"));
-            BufferedWriter bw = Files.newBufferedWriter(file, Charset.forName("ISO-8859-1"), StandardOpenOption.WRITE);
-            HEJIndataMarshaller.unmarshalString(hejXml, bw);
-            bw.flush();
-            bw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Try writing the files according to the configured values, retrying if it fails with an IOException.
+        BufferedWriter bw = null;
+        for (int currentTry = 0; currentTry < hejNumberOfRetries; currentTry++) {
+            try {
+                // Create a file according to the configured pattern.
+                Path file = Files.createFile(FileSystems.getDefault().getPath(hejFileOutputPath, hejFilePrefix
+                        + parameters.getBatchId() + "_"
+                        + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date()) + hejFileSuffix));
+                // Create a new bufferedwriter connected to the file with the correct Charset.
+                bw = Files.newBufferedWriter(file, Charset.forName("ISO-8859-1"), StandardOpenOption.WRITE);
+                // Unmarshal the transformed HEJ XML directly into the created BufferedWriter.
+                HEJIndataMarshaller.unmarshalString(hejXml, bw);
+                // If no exception, do not retry. (could probably just return here aswell)
+                break;
+            } catch (IOException e) {
+                log.error("IOException when writing the result file to disk.", e);
+                response.setResultCode("ERROR");
+
+                // If this is not the last try, and we have a configured hejRetryInterval that is not 0, sleep for a bit.
+                if ((hejNumberOfRetries - currentTry) > 1) {
+                    if (hejRetryInterval > 0) {
+                        try {
+                            log.debug("Sleeping for " + hejRetryInterval + " milliseconds.");
+                            Thread.sleep(hejRetryInterval);
+                        } catch (InterruptedException e1) {
+                        }
+                    }
+                }
+            } finally {
+                try {
+                    if (bw != null) {
+                        bw.flush();
+                        bw.close();
+                    }
+                } catch (IOException e) {
+                    log.error("IOException when closing BufferedWriter", e);
+                }
+            }
         }
 
         return response;

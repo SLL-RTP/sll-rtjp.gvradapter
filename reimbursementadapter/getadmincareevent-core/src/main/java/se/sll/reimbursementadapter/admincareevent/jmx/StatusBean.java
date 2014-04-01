@@ -17,6 +17,7 @@ package se.sll.reimbursementadapter.admincareevent.jmx;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jmx.export.annotation.*;
 import org.springframework.jmx.support.MetricType;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,7 @@ public class StatusBean {
 
     private static final Logger log = LoggerFactory.getLogger(StatusBean.class);
 
-    // Släng in som anrop till någon konstruktor eller liknande. Eller skall vi köra samma namn på bönan?
+    @Autowired
     private CodeServerMEKCacheManagerService codeServerMekCacheService;
 
     //

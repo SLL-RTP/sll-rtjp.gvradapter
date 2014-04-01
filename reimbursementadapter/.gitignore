@@ -1,4 +1,5 @@
-
+# HEJIndata test output files.
+HEJIndata*.xml
 
 # Eclipse
 .classpath
