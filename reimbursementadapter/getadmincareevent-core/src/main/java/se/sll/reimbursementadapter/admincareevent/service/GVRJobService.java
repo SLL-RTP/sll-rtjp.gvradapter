@@ -35,12 +35,10 @@ public class GVRJobService {
     //
     private static final Logger log = LoggerFactory.getLogger(GVRJobService.class);
 
-    // TODO REB: Is it safe to remove the ':' at the end of this property or is it needed?
-    @Value("${pr.ftp.gvr.script:}")
+    @Value("${pr.gvr.ftp.script:}")
     private String script;
 
-    // TODO REB: Remove the hard coded default path in this property?
-    @Value("${pr.ftp.gvr.localPath:/tmp/gvr/in}")
+    @Value("${pr.gvr.ftp.localPath}")
     private String localPath;
 
     @Autowired
@@ -54,7 +52,7 @@ public class GVRJobService {
      * directory as the configuration setting "pr.ftp.gvr.localPath".
      * TODO: Break out a common method for this and CodeServerJobService.
      */
-    @Scheduled(cron="${pr.ftp.gvr.cron}")
+    @Scheduled(cron="${pr.gvr.ftp.cron}")
     public void ftpFetchGVRScript() {
         if (script.length() == 0) {
             log.warn("Batch ftp script has not been defined, please check configuration property \"pr.ftp.gvr.script\"");

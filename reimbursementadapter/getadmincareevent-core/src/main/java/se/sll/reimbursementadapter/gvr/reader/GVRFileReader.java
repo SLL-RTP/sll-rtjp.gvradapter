@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Handles listing all the GVR files that are newer (last changed) than the
  * incoming date parameter as well as reading a specified file (Path).
@@ -48,19 +50,40 @@ public class GVRFileReader {
     private static final Logger log = LoggerFactory.getLogger(GVRFileReader.class);
 
     /** Local path to the directory where GVR files are stored. */
-    @Value("${pr.ftp.gvr.localPath:/tmp/gvr/in}")
+    @Value("${pr.gvr.ftp.localPath:/tmp/gvr/in}")
     private String localPath;
 
-    /** Timestamp format that comes from the RIV schema request. */
+    /** Timestamp format from the RIV schema request. Used for listing the files within the parameter period. */
     @Value("${pr.riv.timestampFormat:yyyyMMddHHmmssSSS}")
     private String rivTimestampFormat;
 
-    /** Timestamp format that is embedded in the GVR file names (if DateFilterMethod.FILENAME is used). */
-    @Value("${pr.gvr.timestampFormat:yyyy-MM-dd'T'HHmmss}")
+    /** Timestamp format that is embedded in the GVR file names (only if DateFilterMethod.FILENAME is used). */
+    @Value("${pr.gvr.io.timestampFormat:yyyy-MM-dd'T'HHmmss}")
     private String gvrTimestampFormat;
 
+    /** Regex for extracting a timestamp of the above format from a GVR file (only if DateFilterMethod.FILENAME is used).
+     *  Uses the first capture group from the expression as the timestamp. */
+    @Value("${pr.gvr.io.timestampExtractionRegEx}")
+    private String gvrTimestampExtractionRegEx;
+
+    /** Regex for extracting a timestamp of the above format from a GVR file (only if DateFilterMethod.FILENAME is used).
+     *  Uses the first capture group from the expression as the timestamp. */
+    @Value("${pr.gvr.io.filterMethod}")
+    private String gvrFilterMethod;
+
     /** The configured {@link DateFilterMethod} for the class. METADATA or FILENAME. */
-    private DateFilterMethod dateFilterMethod = DateFilterMethod.FILENAME;
+    private DateFilterMethod dateFilterMethod;
+
+    /**
+     * Post construct initiator for setting the dateFilterMethod enum based on the injected contents of gvrFilterMethod.
+     */
+    @PostConstruct
+    private void init() {
+        if (gvrFilterMethod == null || "".equals(gvrFilterMethod)) {
+            log.error("DateFilterMethod for filtering GVR files on dates is not set!");
+        }
+        this.dateFilterMethod = DateFilterMethod.valueOf(gvrFilterMethod);
+    }
 
     /**
      * Gets a list of file {@link java.nio.file.Path}s in a configured directory that has a modified
@@ -95,18 +118,22 @@ public class GVRFileReader {
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
      */
     public List<Path> getFileList(final Date fromDate, final Date toDate) throws InvalidParameterException {
-        Path folderToIterate = FileSystems.getDefault().getPath(localPath);
+        Path directoryToIterate = FileSystems.getDefault().getPath(localPath);
 
-        log.debug("Reading files from date: " + fromDate + " and path: " + folderToIterate.toString());
+        log.debug("Reading files from date: " + fromDate + " and path: " + directoryToIterate.toString());
 
-        // Filter all the files in the configured in directory.
+        // Read all the wanted files from the current directory.
         List<Path> response = new ArrayList<>();
 
-        try(DirectoryStream<Path> ds = Files.newDirectoryStream(folderToIterate,
-                dateFilterMethod.equals(DateFilterMethod.METADATA) ?
+        // Create the appropriate directory filter that matches the current configuration (DateFilterMethod).
+        DirectoryStream.Filter<Path> configuresDirectoryFilter = dateFilterMethod.equals(DateFilterMethod.METADATA) ?
                 new MetadataDateRangeFilter(fromDate, toDate) :
-                new FileNameDateRangeFilter(fromDate, toDate, this)))  {
+                new FileNameDateRangeFilter(fromDate, toDate, this);
+
+        // Create a new DirectoryStream for the configured directory and corresponding filter.
+        try(DirectoryStream<Path> ds = Files.newDirectoryStream(directoryToIterate, configuresDirectoryFilter))  {
             for (Path p : ds) {
+                // Add every non-filtered file to the response list.
                 response.add(p);
             }
         } catch (IOException e) {
@@ -128,22 +155,12 @@ public class GVRFileReader {
         if (dateFilterMethod.equals(DateFilterMethod.FILENAME)) {
             SimpleDateFormat gvrFormat = new SimpleDateFormat(gvrTimestampFormat);
 
-            if (file.getFileName().toString().contains("T")) {
-                String[] tSplit = file.getFileName().toString().split("_");
-                // According to the rules the filename must end with "T<timestamp>.xml".
-                String timeStamp = tSplit[tSplit.length - 1];
-                if (timeStamp.endsWith(".xml")) {
-                    timeStamp = timeStamp.substring(0, timeStamp.length() - 4);
-                    try {
-                        gvrFileDate = gvrFormat.parse(timeStamp);
-                    } catch (ParseException e) {
-                        log.warn("File date could not be parsed");
-                    }
-                } else {
-                    log.warn("File is not an XML file and is not valid");
-                }
-            } else {
-                log.warn("File is not an XML file and is not valid");
+            String fileName = file.getFileName().toString();
+            String fileTimestamp = fileName.replaceFirst(gvrTimestampExtractionRegEx, "$1");
+            try {
+                gvrFileDate = gvrFormat.parse(fileTimestamp);
+            } catch (ParseException e) {
+                log.error("The timestamp of format: " + gvrTimestampFormat + " could not be parsed from file name: " + fileName);
             }
         } else if (dateFilterMethod.equals(DateFilterMethod.METADATA)) {
             try {

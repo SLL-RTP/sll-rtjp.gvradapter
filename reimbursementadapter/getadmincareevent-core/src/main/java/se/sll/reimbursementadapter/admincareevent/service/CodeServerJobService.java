@@ -37,10 +37,10 @@ public class CodeServerJobService {
     private static final Logger log = LoggerFactory.getLogger(CodeServerJobService.class);
 
     /** The script file name to execute for fetching CodeServer files. */
-    @Value("${pr.ftp.script:}")
+    @Value("${pr.cs.ftp.script:}")
     private String script;
     /** The local path to store fetched CodeServer files (and read files from). */
-    @Value("${pr.ftp.localPath}")
+    @Value("${pr.cs.ftp.localPath}")
     private String localPath;
     /** The CacheServce instance. */
 
@@ -57,7 +57,7 @@ public class CodeServerJobService {
      * The actual cron expression is configurable using "pr.ftp.cron", and the script runs in the current working
      * directory as the configuration setting "pr.ftp.localPath".
      */
-    @Scheduled(cron = "${pr.ftp.cron}")
+    @Scheduled(cron = "${pr.cs.ftp.cron}")
     public void fetchCodeServerFiles() {
         if (script.length() == 0) {
             log.warn("Batch ftp script has not been defined, please check configuration property \"pr.ftp.script\"");

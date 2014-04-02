@@ -42,19 +42,19 @@ import java.util.Map;
 public class CodeServerMEKCacheManagerService {
 
     /** The local path to read GVR files from. */
-    @Value("${pr.ftp.localPath:}")
+    @Value("${pr.cs.ftp.localPath:}")
     private String localPath;
     /** The local file to write the HSA-index to. */
-    @Value("${pr.indexFile:/tmp/hsa-index.gz}")
+    @Value("${pr.cs.indexFile:/tmp/hsa-index.gz}")
     private String fileName;
     /** The file name for the Commission file. */
-    @Value("${pr.commissionFile}")
+    @Value("${pr.cs.commissionFile}")
     private String commissionFile;
     /** The file name for the Commission Type file. */
-    @Value("${pr.commissionTypeFile}")
+    @Value("${pr.cs.commissionTypeFile}")
     private String commissionTypeFile;
     /** The file name for the Facility file. */
-    @Value("${pr.facilityFile}")
+    @Value("${pr.cs.facilityFile}")
     private String facilityFile;
     /** The file name for the MEK file. */
     @Value("${pr.mekFile}")

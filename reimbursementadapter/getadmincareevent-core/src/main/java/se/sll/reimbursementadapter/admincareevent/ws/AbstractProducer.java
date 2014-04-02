@@ -63,8 +63,12 @@ public class AbstractProducer {
     private WebServiceContext webServiceContext;
 
     /** The configured value for the maximum number of Care Events that the RIV Service should return. */
-    @Value("${pr.gvr.maximumSupportedCareEvents:10000}")
+    @Value("${pr.riv.maximumSupportedCareEvents:10000}")
     private int maximumSupportedCareEvents;
+
+    /** The configured value for the maximum number of Care Events that the RIV Service should return. */
+    @Value("${pr.riv.maximumSupportedCareEvents:10000}")
+    private int gvrNumRetries;
 
     //
     private static class NotFoundException extends RuntimeException {
@@ -101,7 +105,6 @@ public class AbstractProducer {
             pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(),
                     parameters.getUpdatedDuringPeriod().getEnd());
         } catch (Exception e) {
-            // TODO: Try again?
             log.error("Error when listing files in GVR directory", e);
             throw createSoapFault("Internal error when listing files in GVR directory", e);
             //response.setResultCode("ERROR");
@@ -140,7 +143,6 @@ public class AbstractProducer {
 
                 response.getCareEvent().addAll(careEventList);
             } catch (Exception e) {
-                // TODO: Try again?
                 log.error("Error when creating Reader for file: " + currentFile.getFileName(), e);
                 throw createSoapFault("Internal error when creating Reader for file: " + currentFile.getFileName(), e);
                 //response.setResultCode("ERROR");
