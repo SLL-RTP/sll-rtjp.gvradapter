@@ -66,10 +66,6 @@ public class AbstractProducer {
     @Value("${pr.riv.maximumSupportedCareEvents:10000}")
     private int maximumSupportedCareEvents;
 
-    /** The configured value for the maximum number of Care Events that the RIV Service should return. */
-    @Value("${pr.riv.maximumSupportedCareEvents:10000}")
-    private int gvrNumRetries;
-
     //
     private static class NotFoundException extends RuntimeException {
         private static final long serialVersionUID = 1L;

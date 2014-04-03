@@ -15,6 +15,7 @@
  */
 package se.sll.reimbursementadapter.gvr.reader;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.Charset;
@@ -71,6 +72,14 @@ public class GVRFileReader {
     @Value("${pr.gvr.io.filterMethod}")
     private String gvrFilterMethod;
 
+    /** The number of retries before failing when listing GVR files from disk. */
+    @Value("${pr.gvr.io.numRetries}")
+    private int gvrNumRetries;
+
+    /** The delay between each retry when listing GVR files from disk. */
+    @Value("${pr.gvr.io.retryInterval}")
+    private int gvrRetryInterval;
+
     /** The configured {@link DateFilterMethod} for the class. METADATA or FILENAME. */
     private DateFilterMethod dateFilterMethod;
 
@@ -95,7 +104,8 @@ public class GVRFileReader {
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
      * @throws ParseException When the supplied date parameters could not be parsed.
      */
-    public List<Path> getFileList(String fromDateString, String toDateString) throws InvalidParameterException, ParseException {
+    public List<Path> getFileList(String fromDateString, String toDateString)
+            throws InvalidParameterException, ParseException, IOException {
         SimpleDateFormat df = new SimpleDateFormat(rivTimestampFormat);
         Date fromDate = null;
         Date toDate = null;
@@ -117,7 +127,8 @@ public class GVRFileReader {
      * @return a List of {@link java.nio.file.Path} objects.
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
      */
-    public List<Path> getFileList(final Date fromDate, final Date toDate) throws InvalidParameterException {
+    public List<Path> getFileList(final Date fromDate, final Date toDate) throws IOException {
+        // TODO: Retry if fail
         Path directoryToIterate = FileSystems.getDefault().getPath(localPath);
 
         log.debug("Reading files from date: " + fromDate + " and path: " + directoryToIterate.toString());
@@ -131,13 +142,28 @@ public class GVRFileReader {
                 new FileNameDateRangeFilter(fromDate, toDate, this);
 
         // Create a new DirectoryStream for the configured directory and corresponding filter.
-        try(DirectoryStream<Path> ds = Files.newDirectoryStream(directoryToIterate, configuresDirectoryFilter))  {
-            for (Path p : ds) {
-                // Add every non-filtered file to the response list.
-                response.add(p);
+        for (int currentTry = 0; currentTry < gvrNumRetries; currentTry++) {
+            try(DirectoryStream<Path> ds = Files.newDirectoryStream(directoryToIterate, configuresDirectoryFilter))  {
+                for (Path p : ds) {
+                    // Add every non-filtered file to the response list.
+                    response.add(p);
+                }
+                break;
+            } catch (IOException e) {
+                // If within the retry count, warn and sleep for a bit, then try again.
+                if (currentTry < (gvrNumRetries - 1)) {
+                    log.warn("IOException while filtering the files in the current directory.", e);
+                    if (gvrRetryInterval != 0) {
+                        try {
+                            Thread.sleep(gvrRetryInterval);
+                        } catch (InterruptedException e1) { }
+                    }
+                } else if (currentTry==(gvrNumRetries - 1)) {
+                    // If this was the final try, error log for alert and rethrow the exception to the WS stack.
+                    log.error("IOException while filtering the files in the current directory.", e);
+                    throw e;
+                }
             }
-        } catch (IOException e) {
-            log.error("IOException while filtering the files in the current directory.", e);
         }
 
         return response;
@@ -183,7 +209,31 @@ public class GVRFileReader {
      * @return A initialized Reader (ISO-8859-1) for reading the contents of the provided file.
      */
     public Reader getReaderForFile(Path path) throws IOException {
-        return Files.newBufferedReader(path, Charset.forName("ISO-8859-1"));
+        // TODO: Retry if fail
+
+        BufferedReader bufferedReader = null;
+        // Create a new DirectoryStream for the configured directory and corresponding filter.
+        for (int currentTry = 0; currentTry < gvrNumRetries; currentTry++) {
+            try {
+                bufferedReader = Files.newBufferedReader(path, Charset.forName("ISO-8859-1"));
+                break;
+            } catch (IOException e) {
+                // If within the retry count, warn and sleep for a bit, then try again.
+                if (currentTry < (gvrNumRetries - 1)) {
+                    log.warn("IOException while fetching reader for file: " + path, e);
+                    if (gvrRetryInterval != 0) {
+                        try {
+                            Thread.sleep(gvrRetryInterval);
+                        } catch (InterruptedException e1) { }
+                    }
+                } else if (currentTry==(gvrNumRetries - 1)) {
+                    // If this was the final try, error log for alert and rethrow the exception to the WS stack.
+                    log.error("IOException while fetching reader for file: " + path, e);
+                    throw e;
+                }
+            }
+        }
+        return bufferedReader;
     }
 
     public String getGvrTimestampFormat() {

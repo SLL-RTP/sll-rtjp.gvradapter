@@ -65,7 +65,6 @@ public class ReimbursementRequestToHEJIndataTransformer {
      */
     public HEJIndata doTransform(ProcessReimbursementRequestType request) {
         log.info("Entering ReimbursementRequestToHEJIndataTransformer.doTransform");
-        log.debug("Cache test: " + codeServerCache.get("2242363"));
 
         // Create and populate the base response object
         ObjectFactory of = new ObjectFactory();

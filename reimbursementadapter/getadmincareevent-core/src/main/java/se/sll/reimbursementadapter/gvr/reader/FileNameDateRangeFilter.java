@@ -15,7 +15,7 @@ import java.util.Date;
 public class FileNameDateRangeFilter implements  DirectoryStream.Filter<Path> {
 
     /** Logger */
-    private static final Logger log = LoggerFactory.getLogger(GVRFileReader.class);
+    private static final Logger log = LoggerFactory.getLogger(FileNameDateRangeFilter.class);
 
     private Date fromDate;
     private Date toDate;
