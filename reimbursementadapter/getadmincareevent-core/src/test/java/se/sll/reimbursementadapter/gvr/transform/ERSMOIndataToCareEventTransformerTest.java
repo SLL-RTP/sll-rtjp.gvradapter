@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * Tests the ERSMOIndataToCareEventTransformer with different
- * transformation scenarios using the test files in the project.
+ * transformation scenarios using the test filles in the project.
  */
 public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
@@ -78,14 +78,14 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
         // Contracts
         Assert.assertEquals("Number of contracts", 1, careEventType.getContracts().getContract().size());
-        Assert.assertEquals("Contract #1 id", "8564", careEventType.getContracts().getContract().get(0).getId().getExtension());
-        Assert.assertEquals("Contract #1 type name", "Husläkarverksamhet - Auktoriserad", careEventType.getContracts().getContract().get(0).getContractType().getDisplayName());
-        Assert.assertEquals("Contract #1 type code", "300", careEventType.getContracts().getContract().get(0).getContractType().getOriginalText());
-        Assert.assertEquals("Contract #1 type providerOrg", "19108011000", careEventType.getContracts().getContract().get(0).getProviderOrganization());
+        Assert.assertEquals("Contract #1 id", "9081", careEventType.getContracts().getContract().get(0).getId().getExtension());
+        Assert.assertEquals("Contract #1 type name", "Ryggkirurgi, vårdval", careEventType.getContracts().getContract().get(0).getContractType().getDisplayName().trim());
+        Assert.assertEquals("Contract #1 type code", "615", careEventType.getContracts().getContract().get(0).getContractType().getOriginalText());
+        Assert.assertEquals("Contract #1 type providerOrg", "30216311002", careEventType.getContracts().getContract().get(0).getProviderOrganization());
 
-        // Care Unit
-        Assert.assertEquals("Kombika", "19108011000", careEventType.getCareUnit().getCareUnitLocalId().getCode());
-        Assert.assertEquals("Care Unit HSA Id", "SE2321000016-14L1", careEventType.getCareUnit().getCareUnitHsaId());
+        // Care Unit (spine center öv)
+        Assert.assertEquals("Kombika", "30216311002", careEventType.getCareUnit().getCareUnitLocalId().getCode());
+        Assert.assertEquals("Care Unit HSA Id", "SE2321000016-15CQ", careEventType.getCareUnit().getCareUnitHsaId());
 
         // Updated time (taken from the filename)
         Assert.assertEquals("UpdatedTime", "20140202100000000", careEventType.getLastUpdatedTime());
@@ -94,9 +94,9 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Deleted", false, careEventType.isDeleted());
 
         // Date Period
-        Assert.assertEquals("Date Period start", "20080311", careEventType.getDatePeriod().getStartDate());
+        Assert.assertEquals("Date Period start", "20140202", careEventType.getDatePeriod().getStartDate());
         Assert.assertEquals("Time Period start", null, careEventType.getDatePeriod().getStartTime());
-        Assert.assertEquals("Date Period end", "20080311", careEventType.getDatePeriod().getEndDate());
+        Assert.assertEquals("Date Period end", "20140203", careEventType.getDatePeriod().getEndDate());
         Assert.assertEquals("Time Period end", null, careEventType.getDatePeriod().getEndTime());
 
         // Involved Professions

@@ -148,8 +148,8 @@ public class ERSMOIndataToCareEventTransformer {
         currentEvent.getCareUnit().getCareUnitLocalId().setCode(currentErsh.getSlutverksamhet());
         currentEvent.getCareUnit().getCareUnitLocalId().setCodeSystem("no.oid (KOMBIKA)");
 
-        // TODO: Use the date for the reimbursement event instead?
-        Date stateDate = new Date();
+        // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
+        Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
         TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(currentErsh.getSlutverksamhet());
         if (mappedFacilities != null) {
             // Contract
@@ -176,7 +176,7 @@ public class ERSMOIndataToCareEventTransformer {
             }
 
             // Care Unit HSA-id from MEK
-            currentEvent.getCareUnit().setCareUnitHsaId(mappedFacilities.getState(new Date()).getHSAMapping().getState(new Date()).getHsaId());
+            currentEvent.getCareUnit().setCareUnitHsaId(mappedFacilities.getState(stateDate).getHSAMapping().getState(stateDate).getHsaId());
         }
 
         // Last updated time

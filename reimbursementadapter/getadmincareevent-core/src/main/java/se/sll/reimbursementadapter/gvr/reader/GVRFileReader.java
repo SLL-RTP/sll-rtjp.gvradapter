@@ -128,7 +128,6 @@ public class GVRFileReader {
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
      */
     public List<Path> getFileList(final Date fromDate, final Date toDate) throws IOException {
-        // TODO: Retry if fail
         Path directoryToIterate = FileSystems.getDefault().getPath(localPath);
 
         log.debug("Reading files from date: " + fromDate + " and path: " + directoryToIterate.toString());
@@ -209,8 +208,6 @@ public class GVRFileReader {
      * @return A initialized Reader (ISO-8859-1) for reading the contents of the provided file.
      */
     public Reader getReaderForFile(Path path) throws IOException {
-        // TODO: Retry if fail
-
         BufferedReader bufferedReader = null;
         // Create a new DirectoryStream for the configured directory and corresponding filter.
         for (int currentTry = 0; currentTry < gvrNumRetries; currentTry++) {

@@ -117,11 +117,11 @@ public class ReimbursementRequestToHEJIndataTransformer {
                 log.debug("Element value: " + anyElement.getTextContent());
                 if (anyElement.getNodeName().equals("Extras")) {
                     ersh.getPatient().setBasområde(anyElement.getTextContent());
-
                     TermItem<GeographicalAreaState> geographicalAreaStateTermItem = codeServerCache.get(anyElement.getTextContent());
                     if (geographicalAreaStateTermItem != null) {
-
-                        final GeographicalAreaState state = geographicalAreaStateTermItem.getState(new Date());
+                        // TODO: Fix lookup date for mapping! (None available in request atm)
+                        Date careEventDate = new Date();
+                        final GeographicalAreaState state = geographicalAreaStateTermItem.getState(careEventDate);
                         if (state != null) {
                             ersh.setKundKod("01" + state.getMedicalServiceArea());
                         } else {

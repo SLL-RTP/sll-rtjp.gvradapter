@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?> 
 <ERSMOIndata Källa="GVR" ID="0000001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ERSMOIndata1.0.xsd">
 	<Ersättningshändelse ID="STOR3.1" TillhörVårdansvar="2345678" 
-		Makulerad="false" Startdatum="2008-03-11" Slutdatum="2008-03-11" 
+		Makulerad="false" Startdatum="2014-02-06" Slutdatum="2014-02-07"
 		Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
 		<Patient ID="191212121212" Lkf="010203" Basområde="1234567" 
 			Födelsedatum="1912-12-12"  Kön="M"/> 
@@ -43,7 +43,7 @@
 		</Händelseklass>
 	</Ersättningshändelse>
 	<Ersättningshändelse ID="STOR3.2" TillhörVårdansvar="2345678" 
-		Makulerad="false" Startdatum="2008-03-11" Slutdatum="2008-03-11" 
+		Makulerad="false" Startdatum="2014-02-06" Slutdatum="2014-02-07"
 		Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
 		<Patient ID="191212121212" Lkf="010203" Basområde="1234567" 
 			Födelsedatum="1912-12-12"  Kön="M"/> 
@@ -85,7 +85,7 @@
 		</Händelseklass>
 	</Ersättningshändelse>
 	<Ersättningshändelse ID="STOR3.3" TillhörVårdansvar="2345678" 
-		Makulerad="false" Startdatum="2008-03-11" Slutdatum="2008-03-11" 
+		Makulerad="false" Startdatum="2014-02-06" Slutdatum="2014-02-07"
 		Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
 		<Patient ID="191212121212" Lkf="010203" Basområde="1234567" 
 			Födelsedatum="1912-12-12"  Kön="M"/> 
@@ -127,7 +127,7 @@
 		</Händelseklass>
 	</Ersättningshändelse>
 	<Ersättningshändelse ID="STOR3.4" TillhörVårdansvar="2345678" 
-		Makulerad="false" Startdatum="2008-03-11" Slutdatum="2008-03-11" 
+		Makulerad="false" Startdatum="2014-02-06" Slutdatum="2014-02-07"
 		Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
 		<Patient ID="191212121212" Lkf="010203" Basområde="1234567" 
 			Födelsedatum="1912-12-12"  Kön="M"/> 
@@ -169,7 +169,7 @@
 		</Händelseklass>
 	</Ersättningshändelse>
 	<Ersättningshändelse ID="STOR3.5" TillhörVårdansvar="2345678" 
-		Makulerad="false" Startdatum="2008-03-11" Slutdatum="2008-03-11" 
+		Makulerad="false" Startdatum="2014-02-06" Slutdatum="2014-02-07"
 		Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
 		<Patient ID="191212121212" Lkf="010203" Basområde="1234567" 
 			Födelsedatum="1912-12-12"  Kön="M"/> 

@@ -134,7 +134,7 @@ public class AbstractProducer {
                 // Create a file according to the configured pattern.
                 Path file = Files.createFile(FileSystems.getDefault().getPath(hejFileOutputPath,
                      hejFilePrefix
-                     + parameters.getBatchId() + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'hhmmssSSS")).format(new Date())
+                     + parameters.getBatchId() + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'HHmmssSSS")).format(new Date())
                      + hejFileSuffix
                 ));
                 // Create a new buffered writer connected to the file with the correct Charset.

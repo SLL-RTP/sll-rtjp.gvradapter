@@ -40,7 +40,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 		CodeServerMEKCacheManagerService.getInstance().revalidate();
 		GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
 		params.setUpdatedDuringPeriod(new TimePeriodMillisType());
-        params.getUpdatedDuringPeriod().setStart("20140123150600000");
+        params.getUpdatedDuringPeriod().setStart("20140201100000000");
+        params.getUpdatedDuringPeriod().setEnd("20140201110000000");
 
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
