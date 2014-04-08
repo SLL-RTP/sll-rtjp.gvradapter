@@ -29,6 +29,7 @@ import riv.followup.processdevelopment.reimbursement.v1.ProductType;
 import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.hej.xml.indata.ObjectFactory;
+import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
 
@@ -42,7 +43,7 @@ import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaSt
 public class ReimbursementRequestToHEJIndataTransformer {
 
     /** Logger. */
-    private static final Logger log = LoggerFactory.getLogger(ReimbursementRequestToHEJIndataTransformer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ReimbursementRequestToHEJIndataTransformer.class);
 
     /** The code server cache. */
     public Map<String, TermItem<GeographicalAreaState>> codeServerCache;
@@ -63,8 +64,8 @@ public class ReimbursementRequestToHEJIndataTransformer {
      * @param request The ProcessReimbursementRequestType that should be transformed.
      * @return The fully transformed HEJIndata object.
      */
-    public HEJIndata doTransform(ProcessReimbursementRequestType request) {
-        log.info("Entering ReimbursementRequestToHEJIndataTransformer.doTransform");
+    public HEJIndata doTransform(ProcessReimbursementRequestType request, int maxNumberOfCareEvents) throws NumberOfCareEventsExceededException {
+        LOG.info("Entering ReimbursementRequestToHEJIndataTransformer.doTransform");
 
         // Create and populate the base response object
         ObjectFactory of = new ObjectFactory();
@@ -74,10 +75,13 @@ public class ReimbursementRequestToHEJIndataTransformer {
 
         // For each reimbursement event in the request, transform to Ersättningshändelse and add to the response list.
         for (ReimbursementEventType currentReimbursementEvent : request.getReimbursementEvent()) {
+            if (response.getErsättningshändelse().size() >= maxNumberOfCareEvents) {
+                throw new NumberOfCareEventsExceededException("The number of allowed care events (" + maxNumberOfCareEvents + ") has been exceeded.");
+            }
             response.getErsättningshändelse().add(transformReimbursementEventToErsättningshändelse(currentReimbursementEvent));
         }
 
-        log.info("Exiting ReimbursementRequestToHEJIndataTransformer.doTransform");
+        LOG.info("Exiting ReimbursementRequestToHEJIndataTransformer.doTransform");
 
         return response;
     }
@@ -110,11 +114,11 @@ public class ReimbursementRequestToHEJIndataTransformer {
         // Currently done via the Extras xs:any tag.
         if (currentReimbursementEvent.getPatient().getAny().size() > 0) {
             Object anyObject = currentReimbursementEvent.getPatient().getAny().get(0);
-            log.debug("Any class type: " + anyObject.getClass());
+            LOG.debug("Any class type: " + anyObject.getClass());
             if (anyObject instanceof Element) {
                 Element anyElement = (Element) anyObject;
-                log.debug("Element name: " + anyElement.getNodeName());
-                log.debug("Element value: " + anyElement.getTextContent());
+                LOG.debug("Element name: " + anyElement.getNodeName());
+                LOG.debug("Element value: " + anyElement.getTextContent());
                 if (anyElement.getNodeName().equals("Extras")) {
                     ersh.getPatient().setBasområde(anyElement.getTextContent());
                     TermItem<GeographicalAreaState> geographicalAreaStateTermItem = codeServerCache.get(anyElement.getTextContent());
@@ -125,12 +129,13 @@ public class ReimbursementRequestToHEJIndataTransformer {
                         if (state != null) {
                             ersh.setKundKod("01" + state.getMedicalServiceArea());
                         } else {
-                            log.error("Could not find any Medical Services code matching the requested geographical area code : (" + anyElement.getTextContent() + ")." +
+                            LOG.error("Could not find any Medical Services code matching the requested geographical " +
+                                    "area code : (" + anyElement.getTextContent() + ")." +
                                     "Please check the code server mapping for the geographical area code!");
                             // TODO: What to do in this case?
                         }
                     } else {
-                        log.error("Could not lookup the Geographical Area code in the cache from the requested code (" + anyElement.getTextContent() + ")");
+                        LOG.error("Could not lookup the Geographical Area code in the cache from the requested code (" + anyElement.getTextContent() + ")");
                         // TODO: What to do in this case?
                     }
 

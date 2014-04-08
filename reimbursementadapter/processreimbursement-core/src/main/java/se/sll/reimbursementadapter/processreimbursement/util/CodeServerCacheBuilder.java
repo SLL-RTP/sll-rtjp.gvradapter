@@ -45,7 +45,7 @@ public class CodeServerCacheBuilder {
     /** The configured Date for which the returned codes should be newer than. Default is CodeServiceXMLParser.ONE_YEAR_BACK. */
     private Date newerThan = CodeServiceXMLParser.ONE_YEAR_BACK;
     /** Logger. */
-    private static final Logger log = LoggerFactory.getLogger(CodeServerCacheBuilder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CodeServerCacheBuilder.class);
 
     /**
      * Input file for mapping BASOMRNY (Basområde). Mandatory.
@@ -77,9 +77,9 @@ public class CodeServerCacheBuilder {
      */
     public Map<String, TermItem<GeographicalAreaState>> build() {
 
-        log.info("build CodeServerCache from: {}", geoAreaFile);
+        LOG.info("build CodeServerCache from: {}", geoAreaFile);
         final HashMap<String, TermItem<GeographicalAreaState>> avdIndex = createGeographicalAreaIndex();
-        log.info("hsaMappingIndex size: {}", avdIndex.size());
+        LOG.info("hsaMappingIndex size: {}", avdIndex.size());
         return avdIndex;
     }
 
@@ -90,7 +90,7 @@ public class CodeServerCacheBuilder {
      */
     protected HashMap<String, TermItem<GeographicalAreaState>> createGeographicalAreaIndex() {
         File testFile = new File(this.geoAreaFile);
-        log.debug("Using geoAreaFile: " + testFile.getAbsolutePath());
+        LOG.debug("Using geoAreaFile: " + testFile.getAbsolutePath());
         final HashMap<String, TermItem<GeographicalAreaState>> index = new HashMap<>();
 
         // Define a Code Server parser implementation for reading the file.

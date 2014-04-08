@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
+import se.sll.reimbursementadapter.service.JobServiceUtilities;
 
 import java.io.*;
 
@@ -34,7 +35,7 @@ import java.io.*;
 @Service
 public class CodeServerJobService {
     /** The Logger. */
-    private static final Logger log = LoggerFactory.getLogger(CodeServerJobService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CodeServerJobService.class);
 
     /** The script file name to execute for fetching CodeServer files. */
     @Value("${pr.cs.ftp.script:}")
@@ -59,87 +60,31 @@ public class CodeServerJobService {
      */
     @Scheduled(cron = "${pr.cs.ftp.cron}")
     public void fetchCodeServerFiles() {
+        JobServiceUtilities jobServiceUtilities = new JobServiceUtilities();
         if (script.length() == 0) {
-            log.warn("Batch ftp script has not been defined, please check configuration property \"pr.ftp.script\"");
+            LOG.warn("Batch ftp script has not been defined, please check configuration property \"pr.ftp.script\"");
             return;
         }
-        log.info("Fetch files using script {}", script);
+        LOG.info("Fetch files using script {}", script);
         boolean success = false;
         statusBean.start(script);
         try {
             final Process p = Runtime.getRuntime().exec(script, null, new File(localPath));
-            close(p.getOutputStream());
-            handleInputStream(p.getInputStream(), false);
-            handleInputStream(p.getErrorStream(), true);
+            jobServiceUtilities.close(p.getOutputStream());
+            jobServiceUtilities.handleInputStream(p.getInputStream(), false);
+            jobServiceUtilities.handleInputStream(p.getErrorStream(), true);
             p.waitFor();
             if (p.exitValue() != 0) {
-                log.error("Script {} returned with exit code {}", script, p.exitValue());
+                LOG.error("Script {} returned with exit code {}", script, p.exitValue());
             } else {
-                log.info("Script {} completed successfully", script);
+                LOG.info("Script {} completed successfully", script);
                 codeServerMEKCacheManagerService.revalidate();
                 success = true;
             }
         } catch (Exception e) {
-            log.error("Unable to update from master data " + script, e);
+            LOG.error("Unable to update from master data " + script, e);
         } finally {
             statusBean.stop(success);
         }
-    }
-
-    /**
-     * Logs input from an input stream to error or info level.
-     *
-     * @param is  the input stream.
-     * @param err if it's error, otherwise is info assumed.
-     */
-    private void log(final InputStream is, final boolean err) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(is));
-            String line = reader.readLine();
-            while (line != null) {
-                if (err) {
-                    log.error(line);
-                } else {
-                    log.info(line);
-                }
-                line = reader.readLine();
-            }
-        } catch (Exception e) {
-            log.error("Error while reading input stream", e);
-        } finally {
-            close(reader);
-        }
-    }
-
-    /**
-     * Force a close operation and ignore errors.
-     *
-     * @param c the closeable to close.
-     */
-    private void close(Closeable c) {
-        try {
-            if (c != null) {
-                c.close();
-            }
-        } catch (IOException e) {
-            // ignore
-        }
-    }
-
-    /**
-     * Reads an input stream in the background (separate thread).
-     *
-     * @param is  the input stream.
-     * @param err if it's about errors, otherwise is info assumed.
-     */
-    private void handleInputStream(final InputStream is, final boolean err) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                log(is, err);
-            }
-
-        }).run();
     }
 }

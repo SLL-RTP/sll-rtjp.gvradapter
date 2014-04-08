@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * @author Peter
  */
 public class FileObjectStore {
-    private static final Logger log = LoggerFactory.getLogger(FileObjectStore.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FileObjectStore.class);
 
     /**
      * Reads an object from file.
@@ -51,7 +51,7 @@ public class FileObjectStore {
             is = new ObjectInputStream(new GZIPInputStream(new FileInputStream(fileName)));
             return (T) is.readObject();
         } catch (Exception e) {
-            log.warn(e.toString());
+            LOG.warn(e.toString());
         } finally {
             close(is);
         }
@@ -71,7 +71,7 @@ public class FileObjectStore {
             os = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(fileName)));
             os.writeObject(object);
         } catch (Exception e) {
-            log.error("Unable to write HSA index to file: " + fileName, e);
+            LOG.error("Unable to write HSA index to file: " + fileName, e);
         } finally {
             close(os);
         }

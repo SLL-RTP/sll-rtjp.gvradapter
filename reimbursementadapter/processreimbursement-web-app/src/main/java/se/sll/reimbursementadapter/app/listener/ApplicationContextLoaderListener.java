@@ -34,7 +34,7 @@ import java.util.List;
  *
  */
 public class ApplicationContextLoaderListener extends ContextLoaderListener {
-    private static final Logger log = LoggerFactory.getLogger(ApplicationContextLoaderListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationContextLoaderListener.class);
 
     
     @Override
@@ -44,19 +44,19 @@ public class ApplicationContextLoaderListener extends ContextLoaderListener {
             final WebApplicationContext wc = getWebRequest(event.getServletContext());
             final CodeServerCacheManagerService codeServerMekCacheService = wc.getBean(CodeServerCacheManagerService.class);
             if (codeServerMekCacheService.getCurrentIndex() == null) {
-                log.info("Index needs to be revalidated, takes some time please be patient");
+                LOG.info("Index needs to be revalidated, takes some time please be patient");
                 codeServerMekCacheService.revalidate();
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
+        } catch (Exception e) {
+            LOG.error("Exception when initializing WebApplicationContext.", e);
         }
-        log.info("======== ProcessReimbursement Application :: Started ========");
+        LOG.info("======== ProcessReimbursement Application :: Started ========");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         super.contextDestroyed(event);
-        log.info("======== ProcessReimbursement Application :: Stopped ========");
+        LOG.info("======== ProcessReimbursement Application :: Stopped ========");
     }
 
 

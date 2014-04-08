@@ -31,7 +31,7 @@ import se.sll.hej.xml.indata.HEJIndata;
  */
 public class HEJIndataMarshaller {
 	
-	private static final Logger log = LoggerFactory.getLogger(HEJIndataMarshaller.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HEJIndataMarshaller.class);
 
     /**
      * Marshals the HEJIndata to a string, and writes the string to the provided writer.
@@ -40,7 +40,7 @@ public class HEJIndataMarshaller {
      * @param writer The Writer to write the result to.
      */
     public static void unmarshalString(HEJIndata src, Writer writer) {
-        log.info("Starting to unmarshal contents of source Reader.");
+        LOG.info("Starting to unmarshal contents of source Reader.");
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(HEJIndata.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
@@ -48,7 +48,7 @@ public class HEJIndataMarshaller {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(src, writer);
         } catch (JAXBException e) {
-            log.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
+            LOG.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
         }
     }
 

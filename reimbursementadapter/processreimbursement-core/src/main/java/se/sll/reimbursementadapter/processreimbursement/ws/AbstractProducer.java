@@ -23,6 +23,8 @@ import org.springframework.beans.factory.annotation.Value;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
 import se.sll.hej.xml.indata.HEJIndata;
+import se.sll.reimbursementadapter.exception.NotFoundException;
+import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;
 import se.sll.reimbursementadapter.hej.transform.HEJIndataMarshaller;
 import se.sll.reimbursementadapter.hej.transform.ReimbursementRequestToHEJIndataTransformer;
 import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
@@ -49,7 +51,7 @@ import java.util.Map;
 public class AbstractProducer {
 
     /** The Logger. */
-    private static final Logger log = LoggerFactory.getLogger("WS-API");
+    private static final Logger LOG = LoggerFactory.getLogger("WS-API");
     /** The service consumer header name to report via JMX. */
     private static final String SERVICE_CONSUMER_HEADER_NAME = "x-rivta-original-serviceconsumer-hsaid";
 
@@ -66,8 +68,8 @@ public class AbstractProducer {
     private WebServiceContext webServiceContext;
 
     /** The configured value for the maximum number of Care Events that the RIV Service allows. */
-    //@Value("${pr.riv.maximumSupportedCareEvents:10000}")
-    //private int maximumSupportedCareEvents;
+    @Value("${pr.riv.maximumSupportedCareEvents:10000}")
+    private int maximumSupportedCareEvents;
 
     /** The path where HEJ should write its files. */
     @Value("${pr.hej.outPath:/tmp/hej/out}")
@@ -90,23 +92,6 @@ public class AbstractProducer {
     private long hejRetryInterval;
 
     /**
-     * Simple exception used by #fullfill().
-     */
-    private static class NotFoundException extends RuntimeException {
-        private static final long serialVersionUID = 1L;
-
-        /**
-         * Creates an exception.
-         *
-         * @param message the user message in plain text.
-         */
-        protected NotFoundException(String message) {
-            super(message);
-        }
-
-    }
-
-    /**
      * Creates a complete {@link ProcessReimbursementResponse} object from the request information taken from the
      * provided 'parameters' parameter.
      *
@@ -115,7 +100,7 @@ public class AbstractProducer {
      * @return a completely transformed {@link ProcessReimbursementResponse} object.
      */
     public ProcessReimbursementResponse processReimbursementEvent0(ProcessReimbursementRequestType parameters) {
-        log.trace("Entering AbstractProducer.processReimbursementEvent0");
+        LOG.trace("Entering AbstractProducer.processReimbursementEvent0");
         ProcessReimbursementResponse response = new ProcessReimbursementResponse();
         response.setResultCode("OK");
 
@@ -123,7 +108,18 @@ public class AbstractProducer {
         // specification (TODO: version?)
         ReimbursementRequestToHEJIndataTransformer hejTransformer =
                 new ReimbursementRequestToHEJIndataTransformer(codeServerCacheService.getCurrentIndex());
-        HEJIndata hejXml = hejTransformer.doTransform(parameters);
+        HEJIndata hejXml = null;
+        try {
+            hejXml = hejTransformer.doTransform(parameters, maximumSupportedCareEvents);
+        } catch (NumberOfCareEventsExceededException e) {
+           LOG.error("THe number of supported care events has been exceeded. Returning controlled error response to " +
+                   "client.");
+            response.setResultCode("ERROR");
+            response.setComment(e.getMessage());
+        } catch (Exception e) {
+            LOG.error("Unknown exception occurred when transforming request to HEJ format.", e);
+            createSoapFault("Unknown exception occurred when transforming request to HEJ format.", e);
+        }
 
         // TODO catch exception from the transformer when the number of care events are met.
 
@@ -144,7 +140,7 @@ public class AbstractProducer {
                 // If no exception, do not retry. (could probably just return here aswell)
                 break;
             } catch (IOException e) {
-                log.error("IOException when writing the result file to disk.", e);
+                LOG.error("IOException when writing the result file to disk.", e);
                 response.setResultCode("ERROR");
 
                 // If this is not the last try, and we have a configured hejRetryInterval that is not 0,
@@ -152,7 +148,7 @@ public class AbstractProducer {
                 if ((hejNumberOfRetries - currentTry) > 1) {
                     if (hejRetryInterval > 0) {
                         try {
-                            log.debug("Sleeping for " + hejRetryInterval + " milliseconds.");
+                            LOG.debug("Sleeping for " + hejRetryInterval + " milliseconds.");
                             Thread.sleep(hejRetryInterval);
                         } catch (InterruptedException e1) {
                         }
@@ -165,7 +161,7 @@ public class AbstractProducer {
                         bw.close();
                     }
                 } catch (IOException e) {
-                    log.error("IOException when closing BufferedWriter", e);
+                    LOG.error("IOException when closing BufferedWriter", e);
                 }
             }
         }
@@ -181,7 +177,7 @@ public class AbstractProducer {
      */
     protected SoapFault createSoapFault(Throwable throwable) {
         final String msg = createLogMessage(throwable.toString());
-        log.error(msg, throwable);
+        LOG.error(msg, throwable);
 
         return createSoapFault(msg);
     }
@@ -193,7 +189,7 @@ public class AbstractProducer {
      * @return the soap fault object.
      */
     protected SoapFault createSoapFault(String msg, Throwable throwable) {
-        log.error(msg, throwable);
+        LOG.error(msg, throwable);
 
         return createSoapFault(msg);
     }
@@ -224,15 +220,15 @@ public class AbstractProducer {
      */
     private void log(MessageContext messageContext) {
         final Map<?, ?> headers = (Map<?, ?>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-        log.info(createLogMessage(headers.get(SERVICE_CONSUMER_HEADER_NAME)));
-        log.debug("HTTP Headers {}", headers);
+        LOG.info(createLogMessage(headers.get(SERVICE_CONSUMER_HEADER_NAME)));
+        LOG.debug("HTTP Headers {}", headers);
     }
 
     /**
-     * Creates a log message.
+     * Creates a LOG message.
      *
      * @param msg the message.
-     * @return the log message.
+     * @return the LOG message.
      */
     protected String createLogMessage(Object msg) {
         return String.format("%s - %s - \"%s\"", statusBean.getName(), statusBean.getGUID(),
@@ -256,14 +252,14 @@ public class AbstractProducer {
             status = true;
         } catch (NotFoundException ex) {
             status = false;
-            log.error(createLogMessage(ex.getMessage()));
-        } catch (Throwable throwable) {
-            throw createSoapFault(throwable);
+            LOG.error(createLogMessage(ex.getMessage()));
+        } catch (Exception e) {
+            throw createSoapFault(e);
         } finally {
             statusBean.stop(status);
         }
 
-        log.debug("stats: {}", statusBean.getPerformanceMetricsAsJSON());
+        LOG.debug("stats: {}", statusBean.getPerformanceMetricsAsJSON());
 
         return status;
     }

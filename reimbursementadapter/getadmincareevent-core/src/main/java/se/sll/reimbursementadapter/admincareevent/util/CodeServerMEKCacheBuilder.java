@@ -55,7 +55,7 @@ public class CodeServerMEKCacheBuilder {
     private static final String SAMVERKS = "SAMVERKS";
     private static final String SHORTNAME = "shortname";
 
-    private static final Logger log = LoggerFactory.getLogger(CodeServerMEKCacheBuilder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CodeServerMEKCacheBuilder.class);
 
     private String mekFile;
     private String facilityFile;
@@ -128,9 +128,9 @@ public class CodeServerMEKCacheBuilder {
      */
     public Map<String, TermItem<FacilityState>> build() {
 
-        log.info("build hsaMappingIndex from: {}", mekFile);
+        LOG.info("build hsaMappingIndex from: {}", mekFile);
         final HashMap<String, TermItem<FacilityState>> avdIndex = createFacilityIndex();
-        log.info("hsaMappingIndex size: {}", avdIndex.size());
+        LOG.info("hsaMappingIndex size: {}", avdIndex.size());
 
         return avdIndex;
     }
@@ -147,18 +147,19 @@ public class CodeServerMEKCacheBuilder {
             return null;
         }
         if (list.size() > 1) {
-            log.warn("Expected singleton list " + list+ " has more than one entry (unsupported and unexpected behavior as result)");
+            LOG.warn("Expected singleton list " + list + " has more than one entry (unsupported and unexpected " +
+                    "behavior as result)");
         }
         return list.get(0);
     }
 
     //
     protected HashMap<String, TermItem<FacilityState>> createFacilityIndex() {
-        log.info("build commissionIndex from: {}", commissionFile);
+        LOG.info("build commissionIndex from: {}", commissionFile);
         final HashMap<String, TermItem<CommissionState>> samverksIndex = createCommissionIndex();
         final Map<String, List<TermItem<HSAMappingState>>> hsaIndex = createHSAIndex();
         
-        log.info("commissionIndex size: {}", samverksIndex.size());
+        LOG.info("commissionIndex size: {}", samverksIndex.size());
 
         final HashMap<String, TermItem<FacilityState>> index = new HashMap<>();
 
@@ -207,7 +208,7 @@ public class CodeServerMEKCacheBuilder {
     
     //
     protected Map<String, List<TermItem<HSAMappingState>>> createHSAIndex() {
-        log.info("build HSA index from: {}", mekFile);
+        LOG.info("build HSA index from: {}", mekFile);
 
         final SimpleXMLElementParser elementParser = new SimpleXMLElementParser(this.mekFile);
         final Map<String, List<TermItem<HSAMappingState>>> map = new HashMap<>();
@@ -268,9 +269,9 @@ public class CodeServerMEKCacheBuilder {
 
         final HashMap<String, TermItem<CommissionState>> index = new HashMap<>();
 
-        log.info("build commissionTypeIndex from: {}", commissionTypeFile);
+        LOG.info("build commissionTypeIndex from: {}", commissionTypeFile);
         final HashMap<String, TermItem<CommissionTypeState>> uppdragstypIndex = createCommissionTypeIndex();
-        log.info("commissionTypeIndex size: {}", uppdragstypIndex.size());
+        LOG.info("commissionTypeIndex size: {}", uppdragstypIndex.size());
 
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.commissionFile, new CodeServiceEntryCallback() {
             @Override
@@ -278,7 +279,7 @@ public class CodeServerMEKCacheBuilder {
                 final CodeServerCode uCode = singleton(codeServiceEntry.getCodes(UPPDRAGSTYP));
                 final TermItem<CommissionTypeState> uppdragstyp = (uCode == null) ? null : uppdragstypIndex.get(uCode.getValue());
                 if (uppdragstyp == null) {
-                    log.trace("No such commission: {}",  uCode);
+                    LOG.trace("No such commission: {}", uCode);
                     return;
                 }
                 

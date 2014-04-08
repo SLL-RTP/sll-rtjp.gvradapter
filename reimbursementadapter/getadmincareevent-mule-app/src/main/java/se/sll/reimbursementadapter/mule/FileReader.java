@@ -1,5 +1,8 @@
 package se.sll.reimbursementadapter.mule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -21,13 +24,11 @@ import java.util.Date;
 import java.util.List;
 
 public class FileReader {
+
+    /** Logger */
+    private static final Logger LOG = LoggerFactory.getLogger(FileReader.class);
 	
 	public List<Path> getFileList(String requestParam) {
-		// Temporary fix for Chrome constantly requesting the non-existant favicon. TODO: Remove!
-		if ("favicon.ico".equals(requestParam)) {
-			throw new InvalidParameterException("The date parameter was not valid: " + requestParam.substring(1));
-		}
-
 		Path folderToIterate = FileSystems.getDefault().getPath("c:\\Temp");
 
 		String str = requestParam;
@@ -61,14 +62,14 @@ public class FileReader {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
+            LOG.error("Exception when reading the directory stream for the configured folder: "
+                    + folderToIterate.getFileName(), e);
 		} finally {
 			if (ds != null) {
 				try {
 					ds.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOG.error("Exception when closing DirectoryStream", e);
 				}
 			}
 		}
@@ -95,8 +96,7 @@ public class FileReader {
 				try {
 					reader.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOG.error("IOException when closing the BufferedReader.", e);
 				}
 			}
 		}

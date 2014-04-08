@@ -36,7 +36,7 @@ import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheMana
  *
  */
 public class ApplicationContextLoaderListener extends ContextLoaderListener {
-    private static final Logger log = LoggerFactory.getLogger(ApplicationContextLoaderListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationContextLoaderListener.class);
 
     
     @Override
@@ -46,19 +46,19 @@ public class ApplicationContextLoaderListener extends ContextLoaderListener {
             final WebApplicationContext wc = getWebRequest(event.getServletContext());
             final CodeServerMEKCacheManagerService codeServerMekCacheService = wc.getBean(CodeServerMEKCacheManagerService.class);
             if (codeServerMekCacheService.getCurrentIndex() == null) {
-                log.info("Index needs to be revalidated, takes some time please be patient");
+                LOG.info("Index needs to be revalidated, takes some time please be patient");
                 codeServerMekCacheService.revalidate();
             }
-        } catch (Throwable t) {
-            t.printStackTrace();
+        } catch (Exception e) {
+            LOG.error("Exception while initializing the WebApplicationContext.", e);
         }
-        log.info("======== GVRAdapter Application :: Started ========");
+        LOG.info("======== GVRAdapter Application :: Started ========");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         super.contextDestroyed(event);
-        log.info("======== GVRAdapter Application :: Stopped ========");
+        LOG.info("======== GVRAdapter Application :: Stopped ========");
     }
 
 

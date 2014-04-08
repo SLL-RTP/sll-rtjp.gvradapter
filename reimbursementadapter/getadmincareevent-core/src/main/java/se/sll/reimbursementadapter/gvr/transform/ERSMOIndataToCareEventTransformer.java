@@ -48,7 +48,7 @@ import javax.xml.namespace.QName;
  */
 public class ERSMOIndataToCareEventTransformer {
 	
-	private static final Logger log = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
 
     /**
      * Transforms a single {@link se.sll.ersmo.xml.indata.ERSMOIndata} object to a list of
@@ -61,7 +61,7 @@ public class ERSMOIndataToCareEventTransformer {
      * @return The transformed list of {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} objects
      */
 	public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime) {
-		log.debug("Entering ERSMOIndataToCareEventTransformer.doTransform()");
+		LOG.debug("Entering ERSMOIndataToCareEventTransformer.doTransform()");
 		// Instantiate the Cache Manager.
 		CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
 		// Create the response object.

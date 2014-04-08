@@ -65,7 +65,7 @@ public class CodeServerMEKCacheManagerService {
     /** The singleton instance of this class. */
     private static CodeServerMEKCacheManagerService instance;
     /** Logger. */
-    private static final Logger log = LoggerFactory.getLogger(CodeServerMEKCacheManagerService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CodeServerMEKCacheManagerService.class);
     /** The current index. */
     private Map<String, TermItem<FacilityState>> currentIndex;
     /** The build lock object. */
@@ -75,7 +75,7 @@ public class CodeServerMEKCacheManagerService {
 
     /** Constructor needed to setup the Mule and some unit test context that are not launched via Spring. */
     public CodeServerMEKCacheManagerService() {
-        log.debug("constructor");
+        LOG.debug("constructor");
         if (instance == null) {
             instance = this;
         }
@@ -86,7 +86,7 @@ public class CodeServerMEKCacheManagerService {
     }
 
     private Map<String, TermItem<FacilityState>> build() {
-        log.debug("build index");
+        LOG.debug("build index");
 
         CodeServerMEKCacheBuilder builder = new CodeServerMEKCacheBuilder()
                 .withCommissionFile(path(commissionFile))
@@ -96,7 +96,7 @@ public class CodeServerMEKCacheManagerService {
 
         final Map<String, TermItem<FacilityState>> index = builder.build();
 
-        log.debug("build index: done");
+        LOG.debug("build index: done");
 
         return index;
     }
@@ -121,7 +121,7 @@ public class CodeServerMEKCacheManagerService {
      * this method returns without doing anything.
      */
     public void revalidate() {
-        log.debug("revalidate index");
+        LOG.debug("revalidate index");
 
         if (isBusy()) {
             return;
@@ -175,6 +175,6 @@ public class CodeServerMEKCacheManagerService {
      */
     protected synchronized void setCurrentIndex(Map<String, TermItem<FacilityState>> currentIndex) {
         this.currentIndex = currentIndex;
-        log.info("current index set, size: {}", (this.currentIndex == null) ? 0 : this.currentIndex.size());
+        LOG.info("current index set, size: {}", (this.currentIndex == null) ? 0 : this.currentIndex.size());
     }
 }

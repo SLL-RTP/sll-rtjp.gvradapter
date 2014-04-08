@@ -15,6 +15,9 @@
  */
 package se.sll.reimbursementadapter.parser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -25,7 +28,6 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 
@@ -36,11 +38,15 @@ import java.util.*;
  * 
  * @see CodeServiceXMLParser.CodeServiceEntryCallback
  * 
- * @author Peter
+ * @author Peterl
  *
  */
 public class CodeServiceXMLParser {
 
+    /** Logger */
+    private static final Logger LOG = LoggerFactory.getLogger(CodeServiceXMLParser.class);
+
+    /** A Date one year back from the current system time as a default break point. */
     public static final Date ONE_YEAR_BACK;
     static { 
         final Calendar cal = Calendar.getInstance();
@@ -147,7 +153,7 @@ public class CodeServiceXMLParser {
             try {
                 reader.close();
             } catch (XMLStreamException e) {
-                e.printStackTrace();
+                LOG.error("Exception while parsing XML Stream.", e);
             }
         }
     }

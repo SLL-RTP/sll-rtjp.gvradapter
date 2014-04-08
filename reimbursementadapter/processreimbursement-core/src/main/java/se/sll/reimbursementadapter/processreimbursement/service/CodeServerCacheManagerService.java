@@ -55,7 +55,7 @@ public class CodeServerCacheManagerService {
     /** The singleton instance of this class. */
     private static CodeServerCacheManagerService instance;
     /** Logger. */
-    private static final Logger log = LoggerFactory.getLogger(CodeServerCacheManagerService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CodeServerCacheManagerService.class);
     /** The current index. */
     private Map<String, TermItem<GeographicalAreaState>> currentIndex;
     /** The build lock object. */
@@ -85,14 +85,14 @@ public class CodeServerCacheManagerService {
      * @return The index fully built from the configured master Code Server files.
      */
     private Map<String, TermItem<GeographicalAreaState>> build() {
-        log.debug("build index");
+        LOG.debug("build index");
 
         CodeServerCacheBuilder builder = new CodeServerCacheBuilder()
         .withGeographicalAreaFile(path(geographicalAreaFile));
 
         final Map<String, TermItem<GeographicalAreaState>> index = builder.build();
         
-        log.debug("build index: done");
+        LOG.debug("build index: done");
 
         return index;
     }
@@ -117,7 +117,7 @@ public class CodeServerCacheManagerService {
      * this method returns without doing anything.
      */
     public void revalidate() {
-        log.debug("revalidate index");
+        LOG.debug("revalidate index");
 
         if (isBusy()) {
             return;
@@ -172,6 +172,6 @@ public class CodeServerCacheManagerService {
      */
     protected synchronized void setCurrentIndex(Map<String, TermItem<GeographicalAreaState>> currentIndex) {
         this.currentIndex = currentIndex;
-        log.info("current index set, size: {}", (this.currentIndex == null) ? 0 : this.currentIndex.size());
+        LOG.info("current index set, size: {}", (this.currentIndex == null) ? 0 : this.currentIndex.size());
     }
 }

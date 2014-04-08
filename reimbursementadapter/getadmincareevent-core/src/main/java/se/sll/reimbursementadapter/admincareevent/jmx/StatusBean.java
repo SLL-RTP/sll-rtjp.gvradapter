@@ -34,7 +34,7 @@ import java.util.*;
 public class StatusBean {
 
     /** Logger. */
-    private static final Logger log = LoggerFactory.getLogger(StatusBean.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StatusBean.class);
     /** A copy of the current code server cache. */
     @Autowired
     private CodeServerMEKCacheManagerService codeServerMEKCacheManagerService;
@@ -64,18 +64,18 @@ public class StatusBean {
         for (int i = 0; i < bytes.length; i++) {
             bytes[i] = (byte)0xff;
         }
-        log.info("health-check memory alloc: OK");
+        LOG.info("health-check memory alloc: OK");
     }
 
     /**
-     * Check the ability to log.
+     * Check the ability to LOG.
      */
     private void checkLog() {
-        final String msg = "health-check log: OK";
-        log.error(msg);
-        log.debug(msg);
-        log.trace(msg);
-        log.info(msg);
+        final String msg = "health-check LOG: OK";
+        LOG.error(msg);
+        LOG.debug(msg);
+        LOG.trace(msg);
+        LOG.info(msg);
     }
 
     /**

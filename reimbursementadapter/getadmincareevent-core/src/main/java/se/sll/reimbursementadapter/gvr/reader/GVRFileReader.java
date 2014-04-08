@@ -48,7 +48,7 @@ import javax.annotation.PostConstruct;
 public class GVRFileReader {
 
     /** Logger */
-    private static final Logger log = LoggerFactory.getLogger(GVRFileReader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GVRFileReader.class);
 
     /** Local path to the directory where GVR files are stored. */
     @Value("${pr.gvr.ftp.localPath:/tmp/gvr/in}")
@@ -89,7 +89,7 @@ public class GVRFileReader {
     @PostConstruct
     private void init() {
         if (gvrFilterMethod == null || "".equals(gvrFilterMethod)) {
-            log.error("DateFilterMethod for filtering GVR files on dates is not set!");
+            LOG.error("DateFilterMethod for filtering GVR files on dates is not set!");
         }
         this.dateFilterMethod = DateFilterMethod.valueOf(gvrFilterMethod);
     }
@@ -130,7 +130,7 @@ public class GVRFileReader {
     public List<Path> getFileList(final Date fromDate, final Date toDate) throws IOException {
         Path directoryToIterate = FileSystems.getDefault().getPath(localPath);
 
-        log.debug("Reading files from date: " + fromDate + " and path: " + directoryToIterate.toString());
+        LOG.debug("Reading files from date: " + fromDate + " and path: " + directoryToIterate.toString());
 
         // Read all the wanted files from the current directory.
         List<Path> response = new ArrayList<>();
@@ -151,15 +151,15 @@ public class GVRFileReader {
             } catch (IOException e) {
                 // If within the retry count, warn and sleep for a bit, then try again.
                 if (currentTry < (gvrNumRetries - 1)) {
-                    log.warn("IOException while filtering the files in the current directory.", e);
+                    LOG.warn("IOException while filtering the files in the current directory.", e);
                     if (gvrRetryInterval != 0) {
                         try {
                             Thread.sleep(gvrRetryInterval);
                         } catch (InterruptedException e1) { }
                     }
                 } else if (currentTry==(gvrNumRetries - 1)) {
-                    // If this was the final try, error log for alert and rethrow the exception to the WS stack.
-                    log.error("IOException while filtering the files in the current directory.", e);
+                    // If this was the final try, error LOG for alert and rethrow the exception to the WS stack.
+                    LOG.error("IOException while filtering the files in the current directory.", e);
                     throw e;
                 }
             }
@@ -185,7 +185,8 @@ public class GVRFileReader {
             try {
                 gvrFileDate = gvrFormat.parse(fileTimestamp);
             } catch (ParseException e) {
-                log.error("The timestamp of format: " + gvrTimestampFormat + " could not be parsed from file name: " + fileName);
+                LOG.error("The timestamp of format: " + gvrTimestampFormat + " could not be parsed from file name: "
+                        + fileName);
             }
         } else if (dateFilterMethod.equals(DateFilterMethod.METADATA)) {
             try {
@@ -193,7 +194,7 @@ public class GVRFileReader {
                 BasicFileAttributes basicAttrs =  basicAttrsView.readAttributes();
                 return  new Date(basicAttrs.lastModifiedTime().toMillis());
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error while reading the BasicFileAttributes from the current file: " + file.getFileName());
             }
 
         }
@@ -217,15 +218,15 @@ public class GVRFileReader {
             } catch (IOException e) {
                 // If within the retry count, warn and sleep for a bit, then try again.
                 if (currentTry < (gvrNumRetries - 1)) {
-                    log.warn("IOException while fetching reader for file: " + path, e);
+                    LOG.warn("IOException while fetching reader for file: " + path, e);
                     if (gvrRetryInterval != 0) {
                         try {
                             Thread.sleep(gvrRetryInterval);
                         } catch (InterruptedException e1) { }
                     }
                 } else if (currentTry==(gvrNumRetries - 1)) {
-                    // If this was the final try, error log for alert and rethrow the exception to the WS stack.
-                    log.error("IOException while fetching reader for file: " + path, e);
+                    // If this was the final try, error LOG for alert and rethrow the exception to the WS stack.
+                    LOG.error("IOException while fetching reader for file: " + path, e);
                     throw e;
                 }
             }

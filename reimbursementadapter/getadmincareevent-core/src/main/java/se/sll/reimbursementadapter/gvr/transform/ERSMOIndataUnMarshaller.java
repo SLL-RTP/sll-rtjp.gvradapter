@@ -31,17 +31,17 @@ import se.sll.ersmo.xml.indata.ERSMOIndata;
  */
 public class ERSMOIndataUnMarshaller {
 	
-	private static final Logger log = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
 
     public static ERSMOIndata unmarshalString(Reader src) {
-        log.debug("Starting to unmarshal contents of source Reader.");
+        LOG.debug("Starting to unmarshal contents of source Reader.");
         ERSMOIndata indata = null;
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             indata = (ERSMOIndata) unmarshaller.unmarshal(src);
         } catch (JAXBException e) {
-            log.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
+            LOG.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
         }
         return indata;
     }

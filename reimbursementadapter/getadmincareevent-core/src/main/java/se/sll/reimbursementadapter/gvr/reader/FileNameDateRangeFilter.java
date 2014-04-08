@@ -15,7 +15,7 @@ import java.util.Date;
 public class FileNameDateRangeFilter implements  DirectoryStream.Filter<Path> {
 
     /** Logger */
-    private static final Logger log = LoggerFactory.getLogger(FileNameDateRangeFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FileNameDateRangeFilter.class);
 
     private Date fromDate;
     private Date toDate;
@@ -47,7 +47,7 @@ public class FileNameDateRangeFilter implements  DirectoryStream.Filter<Path> {
         Date gvrFileDate = fileReader.getDateFromGVRFile(entry);
         if (gvrFileDate == null) {
             // Invalid File, remove from filter.
-            log.info("File " + entry.toString() + " does not have a valid date and will therefore be filtered away");
+            LOG.info("File " + entry.toString() + " does not have a valid date and will therefore be filtered away");
             return false;
         }
 

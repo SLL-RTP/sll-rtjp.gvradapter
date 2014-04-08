@@ -28,6 +28,7 @@ import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
+import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
@@ -47,7 +48,7 @@ import java.util.Map;
  */
 public class AbstractProducer {
 
-    private static final Logger log = LoggerFactory.getLogger("WS-API");
+    private static final Logger LOG = LoggerFactory.getLogger("WS-API");
     private static final String SERVICE_CONSUMER_HEADER_NAME = "x-rivta-original-serviceconsumer-hsaid";
 
     /** Handles all the JMX stuff. */
@@ -65,21 +66,6 @@ public class AbstractProducer {
     /** The configured value for the maximum number of Care Events that the RIV Service should return. */
     @Value("${pr.riv.maximumSupportedCareEvents:10000}")
     private int maximumSupportedCareEvents;
-
-    //
-    private static class NotFoundException extends RuntimeException {
-        private static final long serialVersionUID = 1L;
-
-        /**
-         * Creates an exception.
-         *
-         * @param message the user message in plain text.
-         */
-        protected NotFoundException(String message) {
-            super(message);
-        }
-
-    }
 
     /**
      * Creates a GetAdministrativeCareEventResponse from the provided GetAdministrativeCareEventType parameter.
@@ -101,7 +87,7 @@ public class AbstractProducer {
             pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(),
                     parameters.getUpdatedDuringPeriod().getEnd());
         } catch (Exception e) {
-            log.error("Error when listing files in GVR directory", e);
+            LOG.error("Error when listing files in GVR directory", e);
             throw createSoapFault("Internal error when listing files in GVR directory", e);
             //response.setResultCode("ERROR");
             //response.setComment("Internal error in the service when reading files from disk: " + e.getMessage());
@@ -139,7 +125,7 @@ public class AbstractProducer {
 
                 response.getCareEvent().addAll(careEventList);
             } catch (Exception e) {
-                log.error("Error when creating Reader for file: " + currentFile.getFileName(), e);
+                LOG.error("Error when creating Reader for file: " + currentFile.getFileName(), e);
                 throw createSoapFault("Internal error when creating Reader for file: " + currentFile.getFileName(), e);
                 //response.setResultCode("ERROR");
                 //response.setComment("Internal error in the service when reading a source file: " + e.getMessage());
@@ -163,7 +149,7 @@ public class AbstractProducer {
      */
     protected SoapFault createSoapFault(Throwable throwable) {
         final String msg = createLogMessage(throwable.toString());
-        log.error(msg, throwable);
+        LOG.error(msg, throwable);
 
         return createSoapFault(msg);
     }
@@ -175,7 +161,7 @@ public class AbstractProducer {
      * @return the soap fault object.
      */
     protected SoapFault createSoapFault(String msg, Throwable throwable) {
-        log.error(msg, throwable);
+        LOG.error(msg, throwable);
 
         return createSoapFault(msg);
     }
@@ -206,15 +192,15 @@ public class AbstractProducer {
      */
     private void log(MessageContext messageContext) {
         final Map<?, ?> headers = (Map<?, ?>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
-        log.info(createLogMessage(headers.get(SERVICE_CONSUMER_HEADER_NAME)));
-        log.debug("HTTP Headers {}", headers);
+        LOG.info(createLogMessage(headers.get(SERVICE_CONSUMER_HEADER_NAME)));
+        LOG.debug("HTTP Headers {}", headers);
     }
 
     /**
-     * Creates a log message.
+     * Creates a LOG message.
      *
      * @param msg the message.
-     * @return the log message.
+     * @return the LOG message.
      */
     protected String createLogMessage(Object msg) {
         return String.format("%s - %s - \"%s\"", statusBean.getName(), statusBean.getGUID(),
@@ -238,14 +224,14 @@ public class AbstractProducer {
             status = true;
         } catch (NotFoundException ex) {
             status = false;
-            log.error(createLogMessage(ex.getMessage()));
+            LOG.error(createLogMessage(ex.getMessage()));
         } catch (Exception exception) {
             throw createSoapFault(exception);
         } finally {
             statusBean.stop(status);
         }
 
-        log.debug("stats: {}", statusBean.getPerformanceMetricsAsJSON());
+        LOG.debug("stats: {}", statusBean.getPerformanceMetricsAsJSON());
 
         return status;
     }
