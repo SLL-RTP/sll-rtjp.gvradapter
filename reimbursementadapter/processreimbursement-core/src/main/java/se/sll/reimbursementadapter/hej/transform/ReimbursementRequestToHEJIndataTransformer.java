@@ -23,10 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
-import riv.followup.processdevelopment.reimbursement.v1.CVType;
-import riv.followup.processdevelopment.reimbursement.v1.PatientType;
-import riv.followup.processdevelopment.reimbursement.v1.ProductType;
-import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
+import riv.followup.processdevelopment.reimbursement.v1.*;
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.hej.xml.indata.ObjectFactory;
 import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;
@@ -98,21 +95,40 @@ public class ReimbursementRequestToHEJIndataTransformer {
         HEJIndata.Ersättningshändelse ersh = of.createHEJIndataErsättningshändelse();
 
         // Populate root variables according to the spec.
-        ersh.setKälla(currentReimbursementEvent.getId().getSource());
-        ersh.setID(currentReimbursementEvent.getId().getValue());
-        ersh.setAkut(currentReimbursementEvent.isEmergency() ? "J" : "N");
-        ersh.setHändelseform(currentReimbursementEvent.getEventType().getMainType().getCode());
-        ersh.setTyp(currentReimbursementEvent.getEventType().getSubType().getCode());
+        if (currentReimbursementEvent.getId() != null) {
+            ersh.setKälla(currentReimbursementEvent.getId().getSource());
+            ersh.setID(currentReimbursementEvent.getId().getValue());
+        }
+
+        if (currentReimbursementEvent.isEmergency() != null) {
+            ersh.setAkut(currentReimbursementEvent.isEmergency() ? "J" : "N");
+        }
+        if (currentReimbursementEvent.getEventType() != null) {
+            if (currentReimbursementEvent.getEventType().getMainType() != null) {
+                ersh.setHändelseform(currentReimbursementEvent.getEventType().getMainType().getCode());
+            }
+            if (currentReimbursementEvent.getEventType().getSubType() != null) {
+                ersh.setTyp(currentReimbursementEvent.getEventType().getSubType().getCode());
+            }
+        }
 
         // Create and populate the Patient tag.
-        ersh.setPatient(of.createHEJIndataErsättningshändelsePatient());
-        ersh.getPatient().setID(currentReimbursementEvent.getPatient().getId().getId());
-        PatientType.Residency residency = currentReimbursementEvent.getPatient().getResidency();
-        ersh.getPatient().setLkf(residency.getRegion() + residency.getMunicipality() + residency.getParish());
+        if (currentReimbursementEvent.getPatient() != null) {
+            ersh.setPatient(of.createHEJIndataErsättningshändelsePatient());
+
+            if (currentReimbursementEvent.getPatient().getId() != null) {
+                ersh.getPatient().setID(currentReimbursementEvent.getPatient().getId().getId());
+            }
+
+            ResidenceType residency = currentReimbursementEvent.getPatient().getResidence();
+            if (residency != null) {
+                ersh.getPatient().setLkf(residency.getRegion().getCode() + residency.getMunicipality().getCode() + residency.getParish().getCode());
+            }
+        }
 
         // Fetch the geographical area and lookup the medical services area from it.
         // Currently done via the Extras xs:any tag.
-        if (currentReimbursementEvent.getPatient().getAny().size() > 0) {
+        if (currentReimbursementEvent.getPatient() != null && currentReimbursementEvent.getPatient().getAny().size() > 0) {
             Object anyObject = currentReimbursementEvent.getPatient().getAny().get(0);
             LOG.debug("Any class type: " + anyObject.getClass());
             if (anyObject instanceof Element) {
@@ -145,23 +161,29 @@ public class ReimbursementRequestToHEJIndataTransformer {
 
         // Map professions
         int professionIndex = 1;
-        ersh.setYrkeskategorier(of.createHEJIndataErsättningshändelseYrkeskategorier());
-        for (CVType profession : currentReimbursementEvent.getInvolvedProfessions().getProfession()) {
-            HEJIndata.Ersättningshändelse.Yrkeskategorier.Yrkeskategori yk = of.createHEJIndataErsättningshändelseYrkeskategorierYrkeskategori();
-            yk.setKod(profession.getCode());
-            yk.setOrdnNr("" + professionIndex++);
-            ersh.getYrkeskategorier().getYrkeskategori().add(yk);
+        if (currentReimbursementEvent.getInvolvedProfessions() != null) {
+            ersh.setYrkeskategorier(of.createHEJIndataErsättningshändelseYrkeskategorier());
+            for (ProfessionType profession : currentReimbursementEvent.getInvolvedProfessions().getProfession()) {
+                HEJIndata.Ersättningshändelse.Yrkeskategorier.Yrkeskategori yk = of.createHEJIndataErsättningshändelseYrkeskategorierYrkeskategori();
+
+                yk.setKod(profession.getCode());
+                yk.setOrdnNr("" + professionIndex++);
+                ersh.getYrkeskategorier().getYrkeskategori().add(yk);
+            }
         }
 
         // Map activities.
         int activityIndex = 1;
-        ersh.setÅtgärder(of.createHEJIndataErsättningshändelseÅtgärder());
-        for (CVType activity : currentReimbursementEvent.getActivities().getActivity()) {
-            HEJIndata.Ersättningshändelse.Åtgärder.Åtgärd åtgärd = of.createHEJIndataErsättningshändelseÅtgärderÅtgärd();
-            åtgärd.setDatum("???");
-            åtgärd.setOrdnNr("" + activityIndex++);
-            åtgärd.setKod(activity.getCode());
-            ersh.getÅtgärder().getÅtgärd().add(åtgärd);
+        if (currentReimbursementEvent.getActivities() != null) {
+            ersh.setÅtgärder(of.createHEJIndataErsättningshändelseÅtgärder());
+            for (ActivityType activity : currentReimbursementEvent.getActivities().getActivity()) {
+                HEJIndata.Ersättningshändelse.Åtgärder.Åtgärd åtgärd = of.createHEJIndataErsättningshändelseÅtgärderÅtgärd();
+
+                åtgärd.setDatum("???");
+                åtgärd.setOrdnNr("" + activityIndex++);
+                åtgärd.setKod(activity.getActivityCode().getCode());
+                ersh.getÅtgärder().getÅtgärd().add(åtgärd);
+            }
         }
 
         // Map product sets

@@ -23,8 +23,11 @@ import riv.followup.processdevelopment.reimbursement.getadministrativecareevent.
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.ObjectFactory;
-import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
+import riv.followup.processdevelopment.reimbursement.v1.TimePeriodXSType;
 import se.sll.reimbursementadapter.AbstractTestConsumer;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 
 public class GetAdministrativeCareEventTestConsumer extends AbstractTestConsumer<GetAdministrativeCareEventResponderInterface> {
 
@@ -50,9 +53,13 @@ public class GetAdministrativeCareEventTestConsumer extends AbstractTestConsumer
 
 
         GetAdministrativeCareEventType request = of.createGetAdministrativeCareEventType();
-        TimePeriodMillisType ts = new TimePeriodMillisType();
-        ts.setStart("20140201095959999");
-        ts.setEnd("20140405095959999");
+        TimePeriodXSType ts = new TimePeriodXSType();
+        try {
+            ts.setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T09:59:59.999"));
+            ts.setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-04-05T09:59:59.999"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
         request.setUpdatedDuringPeriod(ts);
 
         return _service.getAdministrativeCareEvent("1234", request);

@@ -23,9 +23,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
-import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
+import riv.followup.processdevelopment.reimbursement.v1.TimePeriodXSType;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.admincareevent.ws.AbstractProducer;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,15 +43,19 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 	public void test() {
 		CodeServerMEKCacheManagerService.getInstance().revalidate();
 		GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
-		params.setUpdatedDuringPeriod(new TimePeriodMillisType());
-        params.getUpdatedDuringPeriod().setStart("20140201100000000");
-        params.getUpdatedDuringPeriod().setEnd("20140201110000000");
+		params.setUpdatedDuringPeriod(new TimePeriodXSType());
+        try {
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T10:00:00.000"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T11:00:00.000"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
 
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
 		for (CareEventType careEvent : response.getCareEvent()) {
             if (careEvent.getCareUnit() != null) {
-			    System.out.println("HSA-id: " + careEvent.getCareUnit().getCareUnitHsaId());
+			    System.out.println("HSA-id: " + careEvent.getCareUnit().getCareUnitId());
             }
             assertFalse(careEvent.getPatient().getBirthDate().contains("-"));
             assertFalse(careEvent.getDatePeriod().getStartDate().contains("-"));

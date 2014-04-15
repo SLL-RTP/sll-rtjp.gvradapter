@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="ProcessReimbursementInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ProcessReimbursementResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21}ProcessReimbursementResponderBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/GitRepos/sll-rtjp.gvradapter/gvradapter/gvradapter-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\GitRepos\sll-rtjp.gvradapter\gvradapter\gvradapter-schemas\src\main\resources\schemas\interactions\ProcessReimbursementInteraction\ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:\C:\GitRepos\sll-rtjp.gvradapter\gvradapter\gvradapter-schemas\src\main\resources\schemas\interactions\ProcessReimbursementInteraction\ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
+<con:soapui-project activeEnvironment="Default" name="ProcessReimbursementInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="5.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ProcessReimbursementResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21}ProcessReimbursementResponderBinding" soapVersion="1_1" anonymous="optional" definition="/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements. See the NOTICE file
  distributed with this work for additional information
  regarding copyright ownership. Sveriges Kommuner och Landsting licenses this file
@@ -19,7 +19,7 @@
   <xs:annotation>
     <xs:documentation>Tjänsteinteraktionens namn: ProcessReimbursementInteraction
 			 Beskrivning: 
-			   Hämtar all vårdersättningsinformation för en given tidsperiod.
+			   Rapporterar in en eller flera underlag för ersättningshantering.
 			 Revisioner: 
 			 Tjänstedomän: followup:processdevelopment:reimbursement
 			 Tjänsteinteraktionstyp: Fråga-Svar
@@ -65,7 +65,7 @@
       <soap:address location="http://tempuri.org"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\GitRepos\sll-rtjp.gvradapter\gvradapter\gvradapter-schemas\src\main\resources\schemas\interactions\ProcessReimbursementInteraction\ProcessReimbursementResponder_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementResponder_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
 <!--Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements. See the NOTICE file
  distributed with this work for additional information
@@ -104,13 +104,13 @@
   </xs:element>
   <xs:complexType name="ProcessReimbursementRequestType">
     <xs:sequence>
-      <xs:element name="sourceSystem" type="core:SourceType"/>
+      <xs:element name="sourceSystem" type="core:SourceSystemType"/>
       <xs:element name="batchId" type="xs:string"/>
       <xs:element name="reimbursementEvent" type="core:ReimbursementEventType" minOccurs="0" maxOccurs="unbounded"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\GitRepos\sll-rtjp.gvradapter\gvradapter\gvradapter-schemas\src\main\resources\schemas\core_components\followup_processdevelopment_reimbursement_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/core_components/followup_processdevelopment_reimbursement_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
 <!--Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements. See the NOTICE file
  distributed with this work for additional information
@@ -137,7 +137,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element name="sourceSystem" type="tns:SourceType"/>
+      <xs:element name="sourceSystem" type="tns:SourceSystemType"/>
       <xs:element name="patient" type="tns:PatientType"/>
       <xs:element name="emergency" type="xs:boolean"/>
       <xs:element name="eventType" type="tns:eventTypeType"/>
@@ -145,42 +145,39 @@
       <xs:element name="contracts">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="contract" type="tns:ContractType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="contract" type="tns:CareContractType" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="careUnit" type="tns:CareUnitType"/>
-      <xs:element name="lastUpdatedTime" type="tns:TimeStampMillisType"/>
+      <xs:element name="lastUpdatedTime" type="xs:dateTime"/>
       <xs:element name="deleted" type="xs:boolean"/>
       <xs:element name="datePeriod" type="tns:SplitDatePeriodType"/>
       <xs:element name="involvedProfessions" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>Should we register separate types for these instead? Do we need to names as well at some point?</xs:documentation>
-        </xs:annotation>
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="profession" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="profession" type="tns:ProfessionType" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="diagnoses" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="diagnosis" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="diagnosis" type="tns:DiagnosisType" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="conditions" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="condition" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="condition" type="tns:ConditionType" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="activities" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="activity" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="activity" type="tns:ActivityType" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -220,21 +217,21 @@
       <xs:element name="involvedProfessions" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="profession" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="profession" type="tns:ProfessionType" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="activities" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="activity" type="tns:CVType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="activity" type="tns:ActivityType" minOccurs="0" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
       <xs:element name="productSet" maxOccurs="unbounded">
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="product" type="tns:ProductType"/>
+            <xs:element name="product" type="tns:ProductType" maxOccurs="unbounded"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -246,17 +243,25 @@
       <xs:element name="id" type="tns:PersonIdType"/>
       <xs:element name="birthDate" type="tns:DateType" minOccurs="0"/>
       <xs:element name="gender" type="tns:GenderType" minOccurs="0"/>
-      <xs:element name="residency" minOccurs="0">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="region" type="xs:string"/>
-            <xs:element name="municipality" type="xs:string"/>
-            <xs:element name="parish" type="xs:string"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="localResidence" type="xs:string" minOccurs="0"/>
+      <xs:element name="residence" type="tns:ResidenceType" minOccurs="0"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ProfessionType">
+    <xs:complexContent>
+      <xs:extension base="tns:CVType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DiagnosisType">
+    <xs:complexContent>
+      <xs:extension base="tns:CVType"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ConditionType">
+    <xs:complexContent>
+      <xs:extension base="tns:CVType"/>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="CVType">
     <xs:annotation>
@@ -373,30 +378,7 @@
       <xs:pattern value="(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])(0[0-9]|1[0-9]|2[0123])([0-5])([0-9])([0-5])([0-9])"/>
     </xs:restriction>
   </xs:simpleType>
-  <xs:complexType name="TimePeriodType">
-    <xs:annotation>
-      <xs:documentation>Used to specify a time interval using a start and an end timestamp.
-                Used to specify a time interval using a start and an end timestamp.
-                
-                start: 
-                The start time of the format YYYYMMDDhhmmss
-                end: 
-                The end time of the format YYYYMMDDhhmmss</xs:documentation>
-    </xs:annotation>
-  </xs:complexType>
-  <xs:simpleType name="TimeStampMillisType">
-    <xs:annotation>
-      <xs:documentation>A quantity specifying a point on the axis of natural time.
-                A point in time is most often represented as a calendar
-                expression.
-                
-                The time has the format YYYYMMDDhhmmssMMM</xs:documentation>
-    </xs:annotation>
-    <xs:restriction base="xs:string">
-      <xs:pattern value="(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])(0[0-9]|1[0-9]|2[0123])([0-5])([0-9])([0-5])([0-9])([0-9])([0-9])([0-9])"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:complexType name="TimePeriodMillisType">
+  <xs:complexType name="TimePeriodXSType">
     <xs:annotation>
       <xs:documentation>Used to specify a time interval using a start and an end timestamp.
                 Used to specify a time interval using a start and an end timestamp.
@@ -407,8 +389,8 @@
                 The end time of the format YYYYMMDDhhmmssMMM</xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="start" type="tns:TimeStampMillisType"/>
-      <xs:element name="end" type="tns:TimeStampMillisType"/>
+      <xs:element name="start" type="xs:dateTime"/>
+      <xs:element name="end" type="xs:dateTime"/>
     </xs:sequence>
   </xs:complexType>
   <xs:simpleType name="GenderType">
@@ -418,7 +400,7 @@
       <xs:enumeration value="U"/>
     </xs:restriction>
   </xs:simpleType>
-  <xs:complexType name="SourceType">
+  <xs:complexType name="SourceSystemType">
     <xs:sequence>
       <xs:element name="organization" type="tns:HSAIdType"/>
       <xs:element name="name" type="xs:string"/>
@@ -432,19 +414,19 @@
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="ContractType">
+  <xs:complexType name="CareContractType">
     <xs:sequence>
       <xs:element name="id" type="tns:IIType"/>
       <xs:element name="name" type="xs:string" minOccurs="0"/>
-      <xs:element name="contractType" type="tns:CVType"/>
-      <xs:element name="providerOrganization" type="tns:HSAIdType"/>
-      <xs:element name="payorOrganization" type="tns:HSAIdType"/>
-      <xs:element name="requesterOrganization" type="tns:HSAIdType"/>
+      <xs:element name="contractType" type="tns:CVType" minOccurs="0"/>
+      <xs:element name="providerOrganization" type="tns:HSAIdType" minOccurs="0"/>
+      <xs:element name="payorOrganization" type="tns:HSAIdType" minOccurs="0"/>
+      <xs:element name="requesterOrganization" type="tns:HSAIdType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="CareUnitType">
     <xs:sequence>
-      <xs:element name="careUnitHsaId" type="tns:HSAIdType"/>
+      <xs:element name="careUnitId" type="tns:HSAIdType"/>
       <xs:element name="careUnitLocalId" type="tns:CVType" minOccurs="0"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
@@ -471,7 +453,22 @@
       <xs:element name="model" type="tns:CVType"/>
     </xs:sequence>
   </xs:complexType>
-</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\GitRepos\sll-rtjp.gvradapter\gvradapter\gvradapter-schemas\src\main\resources\schemas\core_components\itintegration_registry_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
+  <xs:complexType name="ActivityType">
+    <xs:sequence>
+      <xs:element name="activityCode" type="tns:CVType"/>
+      <xs:element name="date" type="tns:DateType" minOccurs="0"/>
+      <xs:element name="activityTime" type="tns:TimeStampType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ResidenceType">
+    <xs:sequence>
+      <xs:element name="region" type="tns:CVType"/>
+      <xs:element name="municipality" type="tns:CVType"/>
+      <xs:element name="parish" type="tns:CVType"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/core_components/itintegration_registry_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
 <xs:schema targetNamespace="urn:riv:itintegration:registry:1" elementFormDefault="qualified" version="1.0" xmlns="urn:riv:itintegration:registry:1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>Beskrivning: 	Grundläggande informationsobjekt för domänen itintegration:registry (adressering av tjänster)
@@ -509,7 +506,6 @@
          <urn1:sourceSystem>
             <urn2:organization>1.2.3.4.5.5.7</urn2:organization>
             <urn2:name>ERA</urn2:name>
-            <!--You may enter ANY elements at this point-->
          </urn1:sourceSystem>
          <urn1:batchId>1</urn1:batchId>
          <!--Zero or more repetitions:-->
@@ -548,11 +544,17 @@
                <!--Optional:-->
                <urn2:gender>M</urn2:gender>
                <!--Optional:-->
-               <urn2:residency>
-                  <urn2:region>01</urn2:region>
-                  <urn2:municipality>80</urn2:municipality>
-                  <urn2:parish>01</urn2:parish>
-               </urn2:residency>
+               <urn2:residence>
+                  <urn2:region>
+                     <urn2:code>01</urn2:code>
+                  </urn2:region>
+                  <urn2:municipality>
+                     <urn2:code>80</urn2:code>
+                  </urn2:municipality>
+                  <urn2:parish>
+                     <urn2:code>01</urn2:code>
+                  </urn2:parish>
+               </urn2:residence>
                <!--You may enter ANY elements at this point-->
                <Extras>2242363</Extras>
             </urn2:patient>
@@ -583,15 +585,19 @@
                <!--Zero or more repetitions:-->
                <urn2:activity>
                   <!--Optional:-->
-                  <urn2:code>NHP09</urn2:code>
-                  <!--Optional:-->
-                  <urn2:codeSystem>1.2.3.4.5.7</urn2:codeSystem>
+                  <urn2:activityCode>
+                     <urn2:code>NHP09</urn2:code>
+                     <!--Optional:-->
+                     <urn2:codeSystem>1.2.3.4.5.7</urn2:codeSystem>
+                  </urn2:activityCode>
                </urn2:activity>
                <urn2:activity>
-                  <!--Optional:-->
-                  <urn2:code>PE009</urn2:code>
-                  <!--Optional:-->
-                  <urn2:codeSystem>1.2.3.4.5.7</urn2:codeSystem>
+                  <urn2:activityCode>
+                     <!--Optional:-->
+                     <urn2:code>PE009</urn2:code>
+                     <!--Optional:-->
+                     <urn2:codeSystem>1.2.3.4.5.7</urn2:codeSystem>
+                  </urn2:activityCode>
                </urn2:activity>
             </urn2:activities>
             <!--1 or more repetitions:-->
@@ -604,7 +610,7 @@
                      <urn2:codeSystem>1.2.4.6.8</urn2:codeSystem>
                   </urn2:code>
                   <urn2:careUnit>
-                     <urn2:careUnitHsaId>SE012301231</urn2:careUnitHsaId>
+                     <urn2:careUnitId>SE012301231</urn2:careUnitId>
                      <!--Optional:-->
                      <urn2:careUnitLocalId>
                         <!--Optional:-->
@@ -634,10 +640,9 @@
             </urn2:productSet>
             <!--You may enter ANY elements at this point-->
          </urn1:reimbursementEvent>
-         <!--You may enter ANY elements at this point-->
       </urn1:ProcessReimbursementRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1:ProcessReimbursement"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="ProcessReimbursementResponderBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ProcessReimbursement TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="ProcessReimbursement"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ProcessReimbursementResponderBinding</con:interface><con:operation>ProcessReimbursement</con:operation><con:request name="ProcessReimbursement"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:20001/ws/processReimbursementEvent/v1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:riv:itintegration:registry:1" xmlns:urn1="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1" xmlns:urn2="urn:riv:followup:processdevelopment:reimbursement:1">
+</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1:ProcessReimbursement"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="ProcessReimbursementResponderBinding TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ProcessReimbursement TestCase" searchProperties="true"><con:settings/><con:testStep type="request" name="ProcessReimbursement"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ProcessReimbursementResponderBinding</con:interface><con:operation>ProcessReimbursement</con:operation><con:request name="ProcessReimbursement"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:20001/ws/processReimbursementEvent/v1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:riv:itintegration:registry:1" xmlns:urn1="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1" xmlns:urn2="urn:riv:followup:processdevelopment:reimbursement:1">
    <soapenv:Header>
       <urn:LogicalAddress>?</urn:LogicalAddress>
    </soapenv:Header>
@@ -646,176 +651,8 @@
          <urn1:sourceSystem>
             <urn2:organization>?</urn2:organization>
             <urn2:name>?</urn2:name>
-            <!--You may enter ANY elements at this point-->
          </urn1:sourceSystem>
          <urn1:batchId>?</urn1:batchId>
-         <!--Zero or more repetitions:-->
-         <urn1:reimbursementEvent>
-            <urn2:id>
-               <urn2:organization>?</urn2:organization>
-               <urn2:source>?</urn2:source>
-               <urn2:value>?</urn2:value>
-            </urn2:id>
-            <!--Optional:-->
-            <urn2:emergency>?</urn2:emergency>
-            <urn2:eventType>
-               <urn2:mainType>
-                  <!--Optional:-->
-                  <urn2:code>?</urn2:code>
-                  <!--Optional:-->
-                  <urn2:codeSystem>?</urn2:codeSystem>
-                  <!--Optional:-->
-                  <urn2:codeSystemName>?</urn2:codeSystemName>
-                  <!--Optional:-->
-                  <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                  <!--Optional:-->
-                  <urn2:displayName>?</urn2:displayName>
-                  <!--Optional:-->
-                  <urn2:originalText>?</urn2:originalText>
-                  <!--You may enter ANY elements at this point-->
-               </urn2:mainType>
-               <!--Optional:-->
-               <urn2:subType>
-                  <!--Optional:-->
-                  <urn2:code>?</urn2:code>
-                  <!--Optional:-->
-                  <urn2:codeSystem>?</urn2:codeSystem>
-                  <!--Optional:-->
-                  <urn2:codeSystemName>?</urn2:codeSystemName>
-                  <!--Optional:-->
-                  <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                  <!--Optional:-->
-                  <urn2:displayName>?</urn2:displayName>
-                  <!--Optional:-->
-                  <urn2:originalText>?</urn2:originalText>
-                  <!--You may enter ANY elements at this point-->
-               </urn2:subType>
-               <!--You may enter ANY elements at this point-->
-            </urn2:eventType>
-            <urn2:patient>
-               <urn2:id>
-                  <urn2:id>?</urn2:id>
-                  <urn2:type>?</urn2:type>
-                  <!--You may enter ANY elements at this point-->
-               </urn2:id>
-               <!--Optional:-->
-               <urn2:birthDate>?</urn2:birthDate>
-               <!--Optional:-->
-               <urn2:gender>?</urn2:gender>
-               <!--Optional:-->
-               <urn2:residency>
-                  <urn2:region>?</urn2:region>
-                  <urn2:municipality>?</urn2:municipality>
-                  <urn2:parish>?</urn2:parish>
-               </urn2:residency>
-               <!--You may enter ANY elements at this point-->
-            </urn2:patient>
-            <!--Optional:-->
-            <urn2:involvedProfessions>
-               <!--Zero or more repetitions:-->
-               <urn2:profession>
-                  <!--Optional:-->
-                  <urn2:code>?</urn2:code>
-                  <!--Optional:-->
-                  <urn2:codeSystem>?</urn2:codeSystem>
-                  <!--Optional:-->
-                  <urn2:codeSystemName>?</urn2:codeSystemName>
-                  <!--Optional:-->
-                  <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                  <!--Optional:-->
-                  <urn2:displayName>?</urn2:displayName>
-                  <!--Optional:-->
-                  <urn2:originalText>?</urn2:originalText>
-                  <!--You may enter ANY elements at this point-->
-               </urn2:profession>
-            </urn2:involvedProfessions>
-            <!--Optional:-->
-            <urn2:activities>
-               <!--Zero or more repetitions:-->
-               <urn2:activity>
-                  <!--Optional:-->
-                  <urn2:code>?</urn2:code>
-                  <!--Optional:-->
-                  <urn2:codeSystem>?</urn2:codeSystem>
-                  <!--Optional:-->
-                  <urn2:codeSystemName>?</urn2:codeSystemName>
-                  <!--Optional:-->
-                  <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                  <!--Optional:-->
-                  <urn2:displayName>?</urn2:displayName>
-                  <!--Optional:-->
-                  <urn2:originalText>?</urn2:originalText>
-                  <!--You may enter ANY elements at this point-->
-               </urn2:activity>
-            </urn2:activities>
-            <!--1 or more repetitions:-->
-            <urn2:productSet>
-               <urn2:product>
-                  <urn2:code>
-                     <!--Optional:-->
-                     <urn2:code>?</urn2:code>
-                     <!--Optional:-->
-                     <urn2:codeSystem>?</urn2:codeSystem>
-                     <!--Optional:-->
-                     <urn2:codeSystemName>?</urn2:codeSystemName>
-                     <!--Optional:-->
-                     <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                     <!--Optional:-->
-                     <urn2:displayName>?</urn2:displayName>
-                     <!--Optional:-->
-                     <urn2:originalText>?</urn2:originalText>
-                     <!--You may enter ANY elements at this point-->
-                  </urn2:code>
-                  <urn2:careUnit>
-                     <urn2:careUnitHsaId>?</urn2:careUnitHsaId>
-                     <!--Optional:-->
-                     <urn2:careUnitLocalId>
-                        <!--Optional:-->
-                        <urn2:code>?</urn2:code>
-                        <!--Optional:-->
-                        <urn2:codeSystem>?</urn2:codeSystem>
-                        <!--Optional:-->
-                        <urn2:codeSystemName>?</urn2:codeSystemName>
-                        <!--Optional:-->
-                        <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                        <!--Optional:-->
-                        <urn2:displayName>?</urn2:displayName>
-                        <!--Optional:-->
-                        <urn2:originalText>?</urn2:originalText>
-                        <!--You may enter ANY elements at this point-->
-                     </urn2:careUnitLocalId>
-                     <!--You may enter ANY elements at this point-->
-                  </urn2:careUnit>
-                  <urn2:contract>
-                     <!--Optional:-->
-                     <urn2:id>
-                        <urn2:root>?</urn2:root>
-                        <!--Optional:-->
-                        <urn2:extension>?</urn2:extension>
-                        <!--You may enter ANY elements at this point-->
-                     </urn2:id>
-                     <urn2:name>?</urn2:name>
-                  </urn2:contract>
-                  <urn2:model>
-                     <!--Optional:-->
-                     <urn2:code>?</urn2:code>
-                     <!--Optional:-->
-                     <urn2:codeSystem>?</urn2:codeSystem>
-                     <!--Optional:-->
-                     <urn2:codeSystemName>?</urn2:codeSystemName>
-                     <!--Optional:-->
-                     <urn2:codeSystemVersion>?</urn2:codeSystemVersion>
-                     <!--Optional:-->
-                     <urn2:displayName>?</urn2:displayName>
-                     <!--Optional:-->
-                     <urn2:originalText>?</urn2:originalText>
-                     <!--You may enter ANY elements at this point-->
-                  </urn2:model>
-               </urn2:product>
-            </urn2:productSet>
-            <!--You may enter ANY elements at this point-->
-         </urn1:reimbursementEvent>
-         <!--You may enter ANY elements at this point-->
       </urn1:ProcessReimbursementRequest>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1:ProcessReimbursement" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1:ProcessReimbursement" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

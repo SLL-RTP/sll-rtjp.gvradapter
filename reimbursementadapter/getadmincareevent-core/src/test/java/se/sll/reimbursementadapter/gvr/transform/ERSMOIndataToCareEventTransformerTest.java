@@ -2,7 +2,10 @@ package se.sll.reimbursementadapter.gvr.transform;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.GenderType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
@@ -11,10 +14,11 @@ import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheMana
 import se.sll.reimbursementadapter.gvr.reader.DateFilterMethod;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 
+import javax.xml.datatype.DatatypeFactory;
 import java.io.Reader;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.*;
 
 /**
  * Tests the ERSMOIndataToCareEventTransformer with different
@@ -62,9 +66,9 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Patient ID Type", "1.2.752.129.2.1.3.1", careEventType.getPatient().getId().getType());
         Assert.assertEquals("Patient Birthdate", "19121212", careEventType.getPatient().getBirthDate());
         Assert.assertEquals("Patient Gender", GenderType.M, careEventType.getPatient().getGender());
-        Assert.assertEquals("Patient Residency region", "01", careEventType.getPatient().getResidency().getRegion());
-        Assert.assertEquals("Patient Residency municipality", "02", careEventType.getPatient().getResidency().getMunicipality());
-        Assert.assertEquals("Patient Residency parish", "03", careEventType.getPatient().getResidency().getParish());
+        Assert.assertEquals("Patient Residency region", "01", careEventType.getPatient().getResidence().getRegion().getCode());
+        Assert.assertEquals("Patient Residency municipality", "02", careEventType.getPatient().getResidence().getMunicipality().getCode());
+        Assert.assertEquals("Patient Residency parish", "03", careEventType.getPatient().getResidence().getParish().getCode());
 
         // Emergency
         Assert.assertEquals("Emergency", true, careEventType.isEmergency());
@@ -85,10 +89,10 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
         // Care Unit (spine center öv)
         Assert.assertEquals("Kombika", "30216311002", careEventType.getCareUnit().getCareUnitLocalId().getCode());
-        Assert.assertEquals("Care Unit HSA Id", "SE2321000016-15CQ", careEventType.getCareUnit().getCareUnitHsaId());
+        Assert.assertEquals("Care Unit HSA Id", "SE2321000016-15CQ", careEventType.getCareUnit().getCareUnitId());
 
         // Updated time (taken from the filename)
-        Assert.assertEquals("UpdatedTime", "20140202100000000", careEventType.getLastUpdatedTime());
+        Assert.assertEquals("UpdatedTime", "2014-02-02T10:00:00.000+0" + ((TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings()) / 1000 / 60 / 60) + ":00", careEventType.getLastUpdatedTime().toXMLFormat());
 
         // Deleted
         Assert.assertEquals("Deleted", false, careEventType.isDeleted());
@@ -119,14 +123,14 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
         // Activities
         Assert.assertEquals("Number of activities", 4, careEventType.getActivities().getActivity().size());
-        Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getCode());
-        Assert.assertEquals("Activity #1 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(0).getCodeSystem());
-        Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getCode());
-        Assert.assertEquals("Activity #2 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(1).getCodeSystem());
-        Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getCode());
-        Assert.assertEquals("Activity #3 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(2).getCodeSystem());
-        Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getCode());
-        Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getCodeSystem());
+        Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getActivityCode().getCode());
+        Assert.assertEquals("Activity #1 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(0).getActivityCode().getCodeSystem());
+        Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getActivityCode().getCode());
+        Assert.assertEquals("Activity #2 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(1).getActivityCode().getCodeSystem());
+        Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getActivityCode().getCode());
+        Assert.assertEquals("Activity #3 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(2).getActivityCode().getCodeSystem());
+        Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getActivityCode().getCode());
+        Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getActivityCode().getCodeSystem());
 
         // Referred from
         Assert.assertEquals("Referred from", "1.2.752.97.??:17101011M04", careEventType.getReferredFrom());
@@ -139,6 +143,5 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
         // Deceased
         Assert.assertEquals("Deceased", false, careEventType.isDeceased());
-
     }
 }

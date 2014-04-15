@@ -25,7 +25,7 @@ import riv.followup.processdevelopment.reimbursement.getadministrativecareeventr
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1
         .GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
-import riv.followup.processdevelopment.reimbursement.v1.TimePeriodMillisType;
+import riv.followup.processdevelopment.reimbursement.v1.TimePeriodXSType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 import se.sll.reimbursementadapter.exception.NotFoundException;
@@ -78,14 +78,14 @@ public class AbstractProducer {
                                                                                      parameters) {
         GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         response.setResultCode("OK");
-        response.setResponseTimePeriod(new TimePeriodMillisType());
+        response.setResponseTimePeriod(new TimePeriodXSType());
         response.getResponseTimePeriod().setStart(parameters.getUpdatedDuringPeriod().getStart());
         response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
 
         List<Path> pathList = null;
         try {
-            pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart(),
-                    parameters.getUpdatedDuringPeriod().getEnd());
+            pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart().toGregorianCalendar().getTime(),
+                    parameters.getUpdatedDuringPeriod().getEnd().toGregorianCalendar().getTime());
         } catch (Exception e) {
             LOG.error("Error when listing files in GVR directory", e);
             throw createSoapFault("Internal error when listing files in GVR directory", e);

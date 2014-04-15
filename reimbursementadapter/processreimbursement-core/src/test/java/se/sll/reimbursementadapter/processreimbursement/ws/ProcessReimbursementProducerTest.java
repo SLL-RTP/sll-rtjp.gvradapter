@@ -45,7 +45,7 @@ public class ProcessReimbursementProducerTest extends AbstractProducer {
 
         ProcessReimbursementRequestType req = rivOf.createProcessReimbursementRequestType();
         req.setBatchId("1");
-        req.setSourceSystem(of.createSourceType());
+        req.setSourceSystem(of.createSourceSystemType());
         req.getSourceSystem().setName("haha");
         req.getBatchId();
         req.getSourceSystem().setOrganization("1.2.3.5");

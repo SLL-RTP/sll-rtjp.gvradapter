@@ -31,15 +31,17 @@ import se.sll.reimbursementadapter.service.JobServiceUtilities;
 @Service
 public class GVRJobService {
 
-    //
+    /** The Logger. */
     private static final Logger LOG = LoggerFactory.getLogger(GVRJobService.class);
 
+    /** The script file name to execute for fetching files from GVR. */
     @Value("${pr.gvr.ftp.script:}")
     private String script;
-
+    /** The local path to store fetched GVR-files (and read files from). */
     @Value("${pr.gvr.ftp.localPath}")
     private String localPath;
 
+    /** The StatusBean for reporting execution status. */
     @Autowired
     private StatusBean statusBean;
 
@@ -61,18 +63,25 @@ public class GVRJobService {
         boolean success = false;
         statusBean.start(script);
         try {
-            //final Process p = Runtime.getRuntime().exec(script, null, new File(gvrLocalPath));
-        	// TODO REB: Only include file separator if needed? (Check if the localPath parameter already ends with one.)
-            final Process p = Runtime.getRuntime().exec(localPath + System.getProperty("file.separator") + script, null);
+            // Append a file.separator to the end of the localPath if one is not configured.
+            if (!localPath.endsWith("/") && !localPath.endsWith("\\")) {
+                localPath += System.getProperty("file.separator");
+            }
+
+            // Start the process and run the configured script.
+            final Process p = Runtime.getRuntime().exec(localPath + script, null);
+
+            // Pipe the output stream from the script to the logger.
             jobServiceUtilities.close(p.getOutputStream());
             jobServiceUtilities.handleInputStream(p.getInputStream(), false);
             jobServiceUtilities.handleInputStream(p.getErrorStream(), true);
+
+            // Wait for the process to finish executing and handle any error status response.
             p.waitFor();
             if (p.exitValue() != 0) {
                 LOG.error("Script {} returned with exit code {}", script, p.exitValue());
             } else {
                 LOG.info("Script {} completed successfully", script);
-                //codeServerMekCacheService.revalidate();	// TODO REB: Remove or implement this?
                 success = true;
             }
         } catch (Exception e) {
