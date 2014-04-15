@@ -40,7 +40,7 @@
 	</xs:element>
 	<xs:complexType name="ProcessReimbursementRequestType">
 		<xs:sequence>
-			<xs:element name="sourceSystem" type="core:SourceType"/>
+			<xs:element name="sourceSystem" type="core:SourceSystemType"/>
 			<xs:element name="batchId" type="xs:string"/>
 			<xs:element name="reimbursementEvent" type="core:ReimbursementEventType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>

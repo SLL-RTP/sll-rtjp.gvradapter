@@ -22,7 +22,7 @@
     <xs:documentation>
 			 Tjänsteinteraktionens namn: ProcessReimbursementInteraction
 			 Beskrivning: 
-			   Hämtar all vårdersättningsinformation för en given tidsperiod.
+			   Rapporterar in en eller flera underlag för ersättningshantering.
 			 Revisioner: 
 			 Tjänstedomän: followup:processdevelopment:reimbursement
 			 Tjänsteinteraktionstyp: Fråga-Svar

@@ -35,14 +35,14 @@
 					</xs:simpleType>
 				</xs:element>
 				<xs:element name="comment" type="xs:string" minOccurs="0"/>
-				<xs:element name="responseTimePeriod" type="core:TimePeriodMillisType"/>
+				<xs:element name="responseTimePeriod" type="core:TimePeriodXSType"/>
 				<xs:element name="careEvent" type="core:CareEventType" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	<xs:complexType name="GetAdministrativeCareEventType">
 		<xs:sequence>
-			<xs:element name="updatedDuringPeriod" type="core:TimePeriodMillisType"/>
+			<xs:element name="updatedDuringPeriod" type="core:TimePeriodXSType"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
