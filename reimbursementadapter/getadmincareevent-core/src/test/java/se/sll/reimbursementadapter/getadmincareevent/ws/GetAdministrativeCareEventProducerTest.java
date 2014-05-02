@@ -29,7 +29,6 @@ import se.sll.reimbursementadapter.admincareevent.ws.AbstractProducer;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

@@ -101,7 +101,7 @@ public class ERSMOIndataToCareEventTransformer {
 
         // Source System
         currentEvent.setSourceSystem(of.createSourceSystemType());
-        currentEvent.getSourceSystem().setOrganization("1.2.752.97.??");
+        currentEvent.getSourceSystem().setOrganization("SE2321000016-39KJ");
         currentEvent.getSourceSystem().setName(ersmoIndata.getKälla());
 
         // Patient
@@ -149,7 +149,7 @@ public class ERSMOIndataToCareEventTransformer {
         currentEvent.setCareUnit(of.createCareUnitType());
         currentEvent.getCareUnit().setCareUnitLocalId(new IIType());
         currentEvent.getCareUnit().getCareUnitLocalId().setRoot("1.2.752.129.2.1.2.1");
-        currentEvent.getCareUnit().getCareUnitLocalId().setExtension("SLL.OID+" + currentErsh.getSlutverksamhet()); // TODO: SLL OID
+        currentEvent.getCareUnit().getCareUnitLocalId().setExtension("SE2321000016-39KJ+" + currentErsh.getSlutverksamhet());
 
         // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
         Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
@@ -158,31 +158,49 @@ public class ERSMOIndataToCareEventTransformer {
             // Contract
             currentEvent.setContracts(of.createCareEventTypeContracts());
 
-            for (TermItem<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
-                if ("06".equals(commissionState.getState(stateDate).getAssignmentType())
-                        || "07".equals(commissionState.getState(stateDate).getAssignmentType())
-                        || "08".equals(commissionState.getState(stateDate).getAssignmentType())) {
-                    CareContractType currentContract = of.createCareContractType();
+            if (mappedFacilities.getState(stateDate) != null) {
+                for (TermItem<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
+                    if ("06".equals(commissionState.getState(stateDate).getAssignmentType())
+                            || "07".equals(commissionState.getState(stateDate).getAssignmentType())
+                            || "08".equals(commissionState.getState(stateDate).getAssignmentType())) {
+                        CareContractType currentContract = of.createCareContractType();
 
-                    currentContract.setId(of.createIIType());
-                    currentContract.getId().setRoot("1.2.752.129.2.1.2.1");
-                    currentContract.getId().setExtension("SLL.OID+" + commissionState.getId()); // TODO: SLL OID
+                        currentContract.setId(of.createIIType());
+                        currentContract.getId().setRoot("1.2.752.129.2.1.2.1");
+                        currentContract.getId().setExtension("SE2321000016-39KJ+" + commissionState.getId());
 
-                    currentContract.setContractType(of.createCVType());
-                    currentContract.getContractType().setCodeSystem("SLL.CS.UPPDRAGSTYP");
-                    currentContract.getContractType().setCodeSystemName("SLL Code Server definition from the 'UPPDRAGSTYP' table.");
-                    currentContract.getContractType().setCode(commissionState.getState(stateDate).getCommissionType().getId());
-                    currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
+                        currentContract.setContractType(of.createCVType());
+                        currentContract.getContractType().setCodeSystem("SLL.CS.UPPDRAGSTYP");
+                        currentContract.getContractType().setCodeSystemName("SLL Code Server definition from the 'UPPDRAGSTYP' table.");
+                        currentContract.getContractType().setCode(commissionState.getState(stateDate).getCommissionType().getId());
+                        currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
-                    // TODO: Mappa till HSA.
-                    currentContract.setProviderOrganization(currentErsh.getSlutverksamhet());
+                        // TODO: Map to HSA.
+                        currentContract.setProviderOrganization(currentErsh.getSlutverksamhet());
 
-                    currentEvent.getContracts().getContract().add(currentContract);
+                        currentEvent.getContracts().getContract().add(currentContract);
+                    }
                 }
-            }
 
-            // Care Unit HSA-id from MEK
-            currentEvent.getCareUnit().setCareUnitId(mappedFacilities.getState(stateDate).getHSAMapping().getState(stateDate).getHsaId());
+                // Care Unit HSA-id from MEK
+                currentEvent.getCareUnit().setCareUnitId(mappedFacilities.getState(stateDate).getHSAMapping().getState(stateDate).getHsaId());
+            } else {
+                // No mapped facilities for the date, error state?
+                LOG.error("No mapped facilities found for the care event date. Transformation could not be completed.");
+                // TODO: throw mapping exception
+            }
+        }
+
+        // Set up mapping for the contact referral care unit to HSA-id.
+        if (currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre() != null) {
+            TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre().getKod());
+
+            if (mappedFacilitiesForReferral != null) {
+                String referralHsaId = mappedFacilitiesForReferral.getState(stateDate).getHSAMapping().getState(stateDate).getHsaId();
+
+                // Referred From (HSA-id)
+                currentEvent.setReferredFrom(referralHsaId);
+            }
         }
 
         // Last updated time
@@ -203,11 +221,11 @@ public class ERSMOIndataToCareEventTransformer {
         currentEvent.setDeleted(currentErsh.isMakulerad());
 
         // Date Period
-        /*currentEvent.setDatePeriod(of.createDatePeriodType());
-        currentEvent.getDatePeriod().setStartDate(currentErsh.getStartdatum().toXMLFormat().replace("-", ""));
+        currentEvent.setDatePeriod(of.createDatePeriodType());
+        currentEvent.getDatePeriod().setStart(currentErsh.getStartdatum().toXMLFormat().replace("-", ""));
         if (currentErsh.getSlutdatum() != null) {
-            currentEvent.getDatePeriod().setEndDate(currentErsh.getSlutdatum().toXMLFormat().replace("-", ""));
-        }*/
+            currentEvent.getDatePeriod().setEnd(currentErsh.getSlutdatum().toXMLFormat().replace("-", ""));
+        }
 
         if (currentErsh.getHändelseklass() != null) {
             if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
@@ -227,16 +245,20 @@ public class ERSMOIndataToCareEventTransformer {
 
                     currentEvent.getEventType().setSubType(of.createCVType());
                     // Create our locally defined OID with the "SLL.CS." + {getHändelsetyp()}
-                    currentEvent.getEventType().getSubType().setCodeSystem("SLL.CS." + currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp());
-                    currentEvent.getEventType().getSubType().setCodeSystem("SLL Code Server definition from the '" + currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp() + "' table.");
+                    String nameOfHandelseTyp = mapNumericHändelsetypToTextRepresentation(currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp());
+                    currentEvent.getEventType().getSubType().setCodeSystem("SLL.CS." + nameOfHandelseTyp);
+                    currentEvent.getEventType().getSubType().setCodeSystemName("SLL Code Server definition from the '" + currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp() + "' table.");
                     currentEvent.getEventType().getSubType().setCode(currentErsh.getHändelseklass().getVårdkontakt().getTyp());
                 }
 
                 // Fee Category
                 currentEvent.setFeeCategory(of.createCVType());
-                currentEvent.getFeeCategory().setOriginalText(currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass());
-                //currentEvent.getFeeCategory().setCode(currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass());
-                //currentEvent.getFeeCategory().setCodeSystem("????");
+                currentEvent.getFeeCategory().setCode(currentErsh.getHändelseklass().getVårdkontakt().getPatientavgift());
+                if (currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass().equals("006")) {
+                    currentEvent.getFeeCategory().setCodeSystem("SLL.CS.TAXA");
+                } else {
+                    currentEvent.getFeeCategory().setCodeSystem("NO.OID: " + currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass());
+                }
 
                 // Involved Professions
                 currentEvent.setInvolvedProfessions(of.createCareEventTypeInvolvedProfessions());
@@ -271,7 +293,11 @@ public class ERSMOIndataToCareEventTransformer {
                 if (currentErsh.getHändelseklass().getVårdkontakt().getTillståndslista() != null && currentErsh.getHändelseklass().getVårdkontakt().getTillståndslista().getTillstånd() != null && currentErsh.getHändelseklass().getVårdkontakt().getTillståndslista().getTillstånd().size() > 0) {
                     for (Tillstånd tillstånd : currentErsh.getHändelseklass().getVårdkontakt().getTillståndslista().getTillstånd()) {
                         ConditionType currentCondition = of.createConditionType();
-                        currentCondition.setCodeSystem("NO.OID: " + tillstånd.getKlass()); // TODO: Convert to OID
+                        if (tillstånd.getKlass().equals("010")) {
+                            currentCondition.setCodeSystem("SLL.CS.TILLSTAND");
+                        } else {
+                            currentCondition.setCodeSystem("NO.OID: " + tillstånd.getKlass());
+                        }
                         currentCondition.setCode(tillstånd.getKod());
                         currentEvent.getConditions().getCondition().add(currentCondition);
                     }
@@ -301,18 +327,15 @@ public class ERSMOIndataToCareEventTransformer {
                     }
                 }
 
-                // Referred From
-                currentEvent.setReferredFrom("1.2.752.97.??:" + currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre().getKod());
-
                 // Stay Before
                 currentEvent.setStayBefore(of.createCVType());
                 currentEvent.getStayBefore().setCode(currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre().getKod());
-                currentEvent.getStayBefore().setCodeSystem("NO.OID: " + currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre().getKod());
+                currentEvent.getStayBefore().setCodeSystem("SLL.CS.IKOD");
 
                 // Stay After
                 currentEvent.setStayAfter(of.createCVType());
                 currentEvent.getStayAfter().setCode(currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter().getKod());
-                currentEvent.getStayAfter().setCodeSystem("NO.OID: " + currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter().getKod());
+                currentEvent.getStayAfter().setCodeSystem("SLL.CS.UKOD");
 
                 // Deceased
                 //currentEvent.setDeceased(true); TODO: Mapping??
@@ -343,5 +366,15 @@ public class ERSMOIndataToCareEventTransformer {
         return "";
     }
 
+    public static String mapNumericHändelsetypToTextRepresentation(String händelsetyp) {
+        String trimmedInput = händelsetyp.trim();
+        if ("013".equals(trimmedInput)) {
+            return "BTYP";
+        } else if ("014".equals(trimmedInput)) {
+            return "VKTYP";
+        }
+
+        return "";
+    }
 }
 

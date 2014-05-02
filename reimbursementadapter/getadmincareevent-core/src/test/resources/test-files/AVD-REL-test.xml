@@ -845,5 +845,52 @@
 <attribute type="externallink" datatype="CV" begindate="2009-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="1000014" codesystem="SAMVERKS" codesystemversion="1" referenceid="Sammanhållen verksamhet" /></attribute>
 <attribute type="externallink" datatype="CV" begindate="2011-05-01T00:00:01.0" expirationdate="2011-12-31T23:59:59.0"><codedvalue code="302163211" codesystem="FAVD" codesystemversion="1" referenceid="Fysisk avdelning/mottagning" /></attribute>
 </termitementry>
+<termitementry id="17101011M04" language="fi" createdate="2007-01-23T00:00:00.0" begindate="2008-05-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2012-01-30T09:30:59.0" lastmodifiedby="Ottosson, Thomas">
+    <attribute type="status" datatype="ST">1</attribute>
+    <attribute type="shortname" datatype="ST" language="fi">S:t Eriks vårdcentral; DL Sandahl Johan</attribute>
+    <attribute type="longname" datatype="ST" language="fi">Distr.läkare Sandahl Johan, S:t Eriks vårdcentral</attribute>
+    <attribute type="abbreviation" datatype="ST" language="fi">S:t Eriks vårdcentral; DL Sandahl Johan</attribute>
+    <attribute type="hierarchylevel" datatype="ST">0</attribute>
+    <attribute type="parentid" datatype="ST" language="fi" />
+    <attribute type="description" datatype="ST" language="fi" />
+    <attribute type="EKOD" datatype="ST" language="sv">E9085</attribute>
+    <attribute type="Ägare" datatype="ST" language="sv">total</attribute>
+    <attribute type="OKOD" datatype="ST" language="sv">CSOK</attribute>
+    <attribute type="externallink" datatype="CV" begindate="2001-10-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="VARDNIVA" codesystemversion="1" referenceid="Vårdnivå" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1995-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="17101011" codesystem="KLIN" codesystemversion="1" referenceid="Moderklinik" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1995-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="17101011" codesystem="KLIN" codesystemversion="1" referenceid="Utnyttjas av" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2002-03-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="40" codesystem="AVDTYP" codesystemversion="1" referenceid="Avdelning/mottagningstyp" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2002-03-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="801" codesystem="SPEC" codesystemversion="1" referenceid="Specialitet" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2007-02-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="17101011M04" codesystem="FAVD" codesystemversion="1" referenceid="Fysisk avdelning/mottagning" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2008-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="2008" codesystem="KUND" codesystemversion="1" referenceid="Kund" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2001-06-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="DRIFTFORM" codesystemversion="1" referenceid="Driftform" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2008-04-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="6226" codesystem="FORETAG" codesystemversion="1" referenceid="Företag" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2008-05-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="9523" codesystem="KUND" codesystemversion="1" referenceid="Kund" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2010-05-01T00:00:01.0" expirationdate="2013-02-28T23:59:59.0"><codedvalue code="9743" codesystem="SAMVERKS" codesystemversion="1" referenceid="Sammanhållen verksamhet" /></attribute>
+</termitementry>
+<termitementry id="10011101M03" language="fi" createdate="2005-04-12T00:00:00.0" begindate="1999-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2008-06-09T09:12:46.0" lastmodifiedby="TietoEnator, Admin">
+    <attribute type="status" datatype="ST">1</attribute>
+    <attribute type="shortname" datatype="ST" language="fi">Capio S:t Görans sjukhus; Hjärtmottagning</attribute>
+    <attribute type="longname" datatype="ST" language="fi">Hjärtmottagning</attribute>
+    <attribute type="abbreviation" datatype="ST" language="fi">Capio S:t Görans sjukhus; Hjärtmottagning</attribute>
+    <attribute type="hierarchylevel" datatype="ST">0</attribute>
+    <attribute type="parentid" datatype="ST" language="fi" />
+    <attribute type="description" datatype="ST" language="fi" />
+    <attribute type="OKOD" datatype="ST" language="sv">SGM1</attribute>
+    <attribute type="EKOD" datatype="ST" language="sv">M0300</attribute>
+    <attribute type="Ägare" datatype="ST" language="sv">ovr</attribute>
+    <attribute type="externallink" datatype="CV" begindate="2001-10-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="VARDNIVA" codesystemversion="1" referenceid="Vårdnivå" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2003-07-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="8060005" codesystem="SAMVERKS" codesystemversion="1" referenceid="Sammanhållen verksamhet" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1994-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="8060" codesystem="FORETAG" codesystemversion="1" referenceid="Företag" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1998-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="935700-5" codesystem="PATKONT" codesystemversion="1" referenceid="Patientkontor" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1996-02-13T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="10011101" codesystem="KLIN" codesystemversion="1" referenceid="Moderklinik" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1996-02-13T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="10011101" codesystem="KLIN" codesystemversion="1" referenceid="Utnyttjas av" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2002-03-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="40" codesystem="AVDTYP" codesystemversion="1" referenceid="Avdelning/mottagningstyp" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1999-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="10011101M03" codesystem="FAVD" codesystemversion="1" referenceid="Fysisk avdelning/mottagning" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1994-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="301" codesystem="SPEC" codesystemversion="1" referenceid="Specialitet" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2006-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="8060" codesystem="KUND" codesystemversion="1" referenceid="Kund" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1990-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="8995" codesystem="SAMVERKS" codesystemversion="1" referenceid="Sammanhållen verksamhet" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2001-06-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="DRIFTFORM" codesystemversion="1" referenceid="Driftform" /></attribute>
+</termitementry>
 </termsystem>
 </body></arb:document></arb:result>

@@ -58,7 +58,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("ID#1", "12345678901234567890", careEventType.getId());
 
         // Source system
-        Assert.assertEquals("Source System organization", "1.2.752.97.??", careEventType.getSourceSystem().getOrganization());
+        Assert.assertEquals("Source System organization", "SE2321000016-39KJ", careEventType.getSourceSystem().getOrganization());
         Assert.assertEquals("Source System Name", "GVR", careEventType.getSourceSystem().getName());
 
         // Patient
@@ -75,20 +75,23 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
         // Event type
         Assert.assertEquals("Event Main Type", "2", careEventType.getEventType().getMainType().getCode());
+        Assert.assertEquals("Event Main Type", "1.2.752.129.2.2.2.25", careEventType.getEventType().getMainType().getCodeSystem());
         Assert.assertEquals("Event Sub Type", "1", careEventType.getEventType().getSubType().getCode());
+        Assert.assertEquals("Event Sub Type", "SLL.CS.BTYP", careEventType.getEventType().getSubType().getCodeSystem());
 
         // Fee category
-        Assert.assertEquals("Fee Category", "006", careEventType.getFeeCategory().getOriginalText());
+        Assert.assertEquals("Fee Category", "12", careEventType.getFeeCategory().getCode());
+        Assert.assertEquals("Fee Category", "SLL.CS.TAXA", careEventType.getFeeCategory().getCodeSystem());
 
         // Contracts
         Assert.assertEquals("Number of contracts", 1, careEventType.getContracts().getContract().size());
-        Assert.assertEquals("Contract #1 id", "SLL.OID+9081", careEventType.getContracts().getContract().get(0).getId().getExtension()); // TODO: Check the SLL OID
+        Assert.assertEquals("Contract #1 id", "SE2321000016-39KJ+9081", careEventType.getContracts().getContract().get(0).getId().getExtension());
         Assert.assertEquals("Contract #1 type name", "Ryggkirurgi, vårdval", careEventType.getContracts().getContract().get(0).getContractType().getDisplayName().trim());
         Assert.assertEquals("Contract #1 type code", "615", careEventType.getContracts().getContract().get(0).getContractType().getCode());
         Assert.assertEquals("Contract #1 type providerOrg", "30216311002", careEventType.getContracts().getContract().get(0).getProviderOrganization());
 
         // Care Unit (spine center öv)
-        Assert.assertEquals("Kombika", "SLL.OID+30216311002", careEventType.getCareUnit().getCareUnitLocalId().getExtension()); // TODO: Add SLL OID
+        Assert.assertEquals("Kombika", "SE2321000016-39KJ+30216311002", careEventType.getCareUnit().getCareUnitLocalId().getExtension());
         Assert.assertEquals("Care Unit HSA Id", "SE2321000016-15CQ", careEventType.getCareUnit().getCareUnitId());
 
         // Updated time (taken from the filename)
@@ -98,8 +101,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Deleted", false, careEventType.isDeleted());
 
         // Date Period
-        //Assert.assertEquals("Date Period start", "20140202", careEventType.getDatePeriod().getStart()); // TODO: Check nullpointer
-        //Assert.assertEquals("Date Period end", "20140203", careEventType.getDatePeriod().getEnd());  // TODO: Check nullpointer
+        Assert.assertEquals("Date Period start", "20140202", careEventType.getDatePeriod().getStart());
+        Assert.assertEquals("Date Period end", "20140203", careEventType.getDatePeriod().getEnd());
 
         // Involved Professions
         Assert.assertEquals("Profession count", 2, careEventType.getInvolvedProfessions().getProfession().size());
@@ -130,8 +133,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getActivityCode().getCode());
         Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getActivityCode().getCodeSystem());
 
-        // Referred from
-        Assert.assertEquals("Referred from", "1.2.752.97.??:17101011M04", careEventType.getReferredFrom());
+        // Referral from (HSA-id)
+        Assert.assertEquals("Referred from", "SE2321000016-1664", careEventType.getReferredFrom());
 
         // StayBefore
         Assert.assertEquals("StayBefore code", "1", careEventType.getStayBefore().getCode());
