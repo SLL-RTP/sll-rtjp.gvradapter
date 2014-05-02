@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
-import riv.followup.processdevelopment.reimbursement.v1.TimePeriodXSType;
+import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.admincareevent.ws.AbstractProducer;
 
@@ -34,7 +34,6 @@ import java.util.GregorianCalendar;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:getadmincareevent-core-spring-context.xml")
 public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
@@ -43,7 +42,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 	public void test() {
 		CodeServerMEKCacheManagerService.getInstance().revalidate();
 		GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
-		params.setUpdatedDuringPeriod(new TimePeriodXSType());
+		params.setUpdatedDuringPeriod(new DateTimePeriodType());
         try {
             params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T10:00:00.000"));
             params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T11:00:00.000"));
@@ -58,9 +57,14 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 			    System.out.println("HSA-id: " + careEvent.getCareUnit().getCareUnitId());
             }
             assertFalse(careEvent.getPatient().getBirthDate().contains("-"));
-            assertFalse(careEvent.getDatePeriod().getStartDate().contains("-"));
-            if (careEvent.getDatePeriod().getEndDate() != null) {
-            	assertFalse(careEvent.getDatePeriod().getEndDate().contains("-"));
+
+            if (careEvent.getDatePeriod() != null) {
+                if (careEvent.getDatePeriod().getStart() != null) {
+                    assertFalse(careEvent.getDatePeriod().getStart().contains("-"));
+                }
+                if (careEvent.getDatePeriod().getEnd() != null) {
+                    assertFalse(careEvent.getDatePeriod().getEnd().contains("-"));
+                }
             }
         }
         assertTrue(true);

@@ -25,7 +25,7 @@ import riv.followup.processdevelopment.reimbursement.getadministrativecareeventr
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1
         .GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
-import riv.followup.processdevelopment.reimbursement.v1.TimePeriodXSType;
+import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 import se.sll.reimbursementadapter.exception.NotFoundException;
@@ -78,7 +78,7 @@ public class AbstractProducer {
                                                                                      parameters) {
         GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         response.setResultCode("OK");
-        response.setResponseTimePeriod(new TimePeriodXSType());
+        response.setResponseTimePeriod(new DateTimePeriodType());
         response.getResponseTimePeriod().setStart(parameters.getUpdatedDuringPeriod().getStart());
         response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
 

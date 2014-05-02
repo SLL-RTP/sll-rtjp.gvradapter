@@ -115,9 +115,9 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
         // Create the Product 1 <careUnit> type
         CareUnitType product1CareUnitType = new CareUnitType();
         product1CareUnitType.setCareUnitId(product1CareUnitHsaId);
-        product1CareUnitType.setCareUnitLocalId(new CVType());
-        product1CareUnitType.getCareUnitLocalId().setCode(product1CareUnitLocalId);
-        product1CareUnitType.getCareUnitLocalId().setCodeSystem(product1CareUnitCodeSystem);
+        product1CareUnitType.setCareUnitLocalId(new IIType());
+        product1CareUnitType.getCareUnitLocalId().setExtension(product1CareUnitLocalId);
+        product1CareUnitType.getCareUnitLocalId().setRoot(product1CareUnitCodeSystem);
         product1.setCareUnit(product1CareUnitType);
 
         // Create the Product 1 <contract> type

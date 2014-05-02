@@ -110,6 +110,7 @@ public class ERSMOIndataToCareEventTransformer {
             currentEvent.getPatient().setId(of.createPersonIdType());
             currentEvent.getPatient().getId().setId(currentErsh.getPatient().getID());
             if (currentErsh.getPatient().getID().startsWith("99")) {
+                // SLL temporary patient identification
                 currentEvent.getPatient().getId().setType("1.2.752.97.3.1.3");
             } else {
                 currentEvent.getPatient().getId().setType("1.2.752.129.2.1.3.1");
@@ -146,10 +147,9 @@ public class ERSMOIndataToCareEventTransformer {
 
         // Care Unit Local Id
         currentEvent.setCareUnit(of.createCareUnitType());
-
-        currentEvent.getCareUnit().setCareUnitLocalId(of.createCVType());
-        currentEvent.getCareUnit().getCareUnitLocalId().setCode(currentErsh.getSlutverksamhet());
-        currentEvent.getCareUnit().getCareUnitLocalId().setCodeSystem("no.oid (KOMBIKA)");
+        currentEvent.getCareUnit().setCareUnitLocalId(new IIType());
+        currentEvent.getCareUnit().getCareUnitLocalId().setRoot("1.2.752.129.2.1.2.1");
+        currentEvent.getCareUnit().getCareUnitLocalId().setExtension("SLL.OID+" + currentErsh.getSlutverksamhet()); // TODO: SLL OID
 
         // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
         Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
@@ -165,13 +165,16 @@ public class ERSMOIndataToCareEventTransformer {
                     CareContractType currentContract = of.createCareContractType();
 
                     currentContract.setId(of.createIIType());
-                    currentContract.getId().setRoot("no.oid");
-                    currentContract.getId().setExtension(commissionState.getId());
+                    currentContract.getId().setRoot("1.2.752.129.2.1.2.1");
+                    currentContract.getId().setExtension("SLL.OID+" + commissionState.getId()); // TODO: SLL OID
 
                     currentContract.setContractType(of.createCVType());
-                    currentContract.getContractType().setOriginalText(commissionState.getState(stateDate).getCommissionType().getId());
+                    currentContract.getContractType().setCodeSystem("SLL.CS.UPPDRAGSTYP");
+                    currentContract.getContractType().setCodeSystemName("SLL Code Server definition from the 'UPPDRAGSTYP' table.");
+                    currentContract.getContractType().setCode(commissionState.getState(stateDate).getCommissionType().getId());
                     currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
+                    // TODO: Mappa till HSA.
                     currentContract.setProviderOrganization(currentErsh.getSlutverksamhet());
 
                     currentEvent.getContracts().getContract().add(currentContract);
@@ -200,11 +203,11 @@ public class ERSMOIndataToCareEventTransformer {
         currentEvent.setDeleted(currentErsh.isMakulerad());
 
         // Date Period
-        currentEvent.setDatePeriod(of.createSplitDatePeriodType());
+        /*currentEvent.setDatePeriod(of.createDatePeriodType());
         currentEvent.getDatePeriod().setStartDate(currentErsh.getStartdatum().toXMLFormat().replace("-", ""));
         if (currentErsh.getSlutdatum() != null) {
             currentEvent.getDatePeriod().setEndDate(currentErsh.getSlutdatum().toXMLFormat().replace("-", ""));
-        }
+        }*/
 
         if (currentErsh.getHändelseklass() != null) {
             if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
@@ -217,12 +220,16 @@ public class ERSMOIndataToCareEventTransformer {
                 currentEvent.setEventType(of.createEventTypeType());
                 if (currentErsh.getHändelseklass().getVårdkontakt().getHändelseform() != null) {
                     currentEvent.getEventType().setMainType(of.createCVType());
-                    currentEvent.getEventType().getMainType().setCodeSystem("no.oid");
-                    currentEvent.getEventType().getMainType().setOriginalText(currentErsh.getHändelseklass().getVårdkontakt().getHändelseform().toString());
+                    currentEvent.getEventType().getMainType().setCodeSystem("1.2.752.129.2.2.2.25");
+                    currentEvent.getEventType().getMainType().setCodeSystemName("KV kontakttyp");
+                    currentEvent.getEventType().getMainType().setCode(mapErsmoKontaktFormToKvKontakttyp(
+                            currentErsh.getHändelseklass().getVårdkontakt().getHändelseform().toString()));
 
                     currentEvent.getEventType().setSubType(of.createCVType());
-                    currentEvent.getEventType().getSubType().setCodeSystem("no.oid");
-                    currentEvent.getEventType().getSubType().setOriginalText(currentErsh.getHändelseklass().getVårdkontakt().getTyp() + "+" + currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp());
+                    // Create our locally defined OID with the "SLL.CS." + {getHändelsetyp()}
+                    currentEvent.getEventType().getSubType().setCodeSystem("SLL.CS." + currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp());
+                    currentEvent.getEventType().getSubType().setCodeSystem("SLL Code Server definition from the '" + currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp() + "' table.");
+                    currentEvent.getEventType().getSubType().setCode(currentErsh.getHändelseklass().getVårdkontakt().getTyp());
                 }
 
                 // Fee Category
@@ -236,7 +243,8 @@ public class ERSMOIndataToCareEventTransformer {
                 if (currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier() != null && currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier().getYrkeskategori() != null && currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier().getYrkeskategori().size() > 0) {
                     for (Yrkeskategori kategori : currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier().getYrkeskategori()) {
                         ProfessionType currentProfession = of.createProfessionType();
-                        currentProfession.setCodeSystem("NO.OID: " + kategori.getKlass()); // TODO: Convert to OID
+                        currentProfession.setCodeSystem("SLL.CS.VDG");
+                        currentProfession.setCodeSystemName("SLL Code Server definition from the 'VDG' table.");
                         currentProfession.setCode(kategori.getKod());
                         currentEvent.getInvolvedProfessions().getProfession().add(currentProfession);
                     }
@@ -311,6 +319,28 @@ public class ERSMOIndataToCareEventTransformer {
             }
         }
         return currentEvent;
+    }
+
+    /**
+     * Maps a string representation of a care contact form (KontaktForm) from GVR to the nationally approved
+     * "KV kontakttyp" code system.
+     *
+     * @param ersmoKontaktForm The string representation of a care contact form (KontaktForm). Could be "Öppenvårdskontakt",
+     *                         "Slutenvårdstillfälle" or "Hemsjukvårdskontakt".
+     * @return The mapped "KV kontakttyp" representation (1-4).
+     */
+    public static String mapErsmoKontaktFormToKvKontakttyp(String ersmoKontaktForm) {
+        String trimmedInput = ersmoKontaktForm.trim().toLowerCase();
+
+        if ("öppenvårdskontakt".equals(trimmedInput)) {
+            return "2";
+        } else if ("slutenvårdstillfälle".equals(trimmedInput)) {
+            return "1";
+        } else if ("hemsjukvårdskontakt".equals(trimmedInput)) {
+            return "4";
+        }
+
+        return "";
     }
 
 }

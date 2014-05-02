@@ -23,7 +23,7 @@ import riv.followup.processdevelopment.reimbursement.getadministrativecareevent.
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.ObjectFactory;
-import riv.followup.processdevelopment.reimbursement.v1.TimePeriodXSType;
+import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.reimbursementadapter.AbstractTestConsumer;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -53,7 +53,7 @@ public class GetAdministrativeCareEventTestConsumer extends AbstractTestConsumer
 
 
         GetAdministrativeCareEventType request = of.createGetAdministrativeCareEventType();
-        TimePeriodXSType ts = new TimePeriodXSType();
+        DateTimePeriodType ts = new DateTimePeriodType();
         try {
             ts.setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T09:59:59.999"));
             ts.setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-04-05T09:59:59.999"));

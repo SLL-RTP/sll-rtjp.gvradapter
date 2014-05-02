@@ -193,7 +193,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
                 HEJIndata.Ersättningshändelse.Produktomgång.Produkt produkt = of.createHEJIndataErsättningshändelseProduktomgångProdukt();
                 produkt.setKod(product.getCode().getCode());
                 produkt.setAntal("???");
-                produkt.setErsVerksamhet(product.getCareUnit().getCareUnitLocalId().getCode());
+                produkt.setErsVerksamhet(product.getCareUnit().getCareUnitLocalId().getExtension());
                 //produkt.setFbPeriod("???");
                 //produkt.setFromDatum("???");
                 produkt.setUppdrag(product.getContract().getId().getRoot() + " (" + product.getContract().getName() + ")");
