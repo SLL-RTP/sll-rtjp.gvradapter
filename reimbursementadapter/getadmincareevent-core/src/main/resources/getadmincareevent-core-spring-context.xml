@@ -24,7 +24,7 @@
 	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 	<context:property-placeholder
-		location="classpath:getadmincareevent-core.properties,file:///${user.home}/.getadmincareevent-core.properties"
+		location="classpath:getadmincareevent-core.properties,classpath:getadmincareevent-core-override.properties,file:///${user.home}/.getadmincareevent-core.properties"
 		ignore-resource-not-found="true" />
 
 	<context:annotation-config />
