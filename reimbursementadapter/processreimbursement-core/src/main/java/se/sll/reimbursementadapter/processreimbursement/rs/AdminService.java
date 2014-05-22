@@ -15,14 +15,15 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.rs;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
-import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
 /**
  * Admin service to trigger revalidation of index data.

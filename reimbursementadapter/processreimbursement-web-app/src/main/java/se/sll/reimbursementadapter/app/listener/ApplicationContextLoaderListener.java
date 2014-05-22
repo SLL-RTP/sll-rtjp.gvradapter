@@ -15,17 +15,19 @@
  */
 package se.sll.reimbursementadapter.app.listener;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import java.util.Arrays;
-import java.util.List;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
 /**
  * Initializes context when starting up Web application (see WEB-INF/web.xml).

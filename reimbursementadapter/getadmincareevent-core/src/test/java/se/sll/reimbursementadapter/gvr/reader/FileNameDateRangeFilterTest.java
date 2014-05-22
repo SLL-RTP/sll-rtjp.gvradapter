@@ -15,16 +15,18 @@
  */
 package se.sll.reimbursementadapter.gvr.reader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+
 import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import se.sll.reimbursementadapter.TestSupport;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.text.SimpleDateFormat;
+import se.sll.reimbursementadapter.TestSupport;
 
 /**
  * Tests the file listing filter that uses the date in the file name to check if a given

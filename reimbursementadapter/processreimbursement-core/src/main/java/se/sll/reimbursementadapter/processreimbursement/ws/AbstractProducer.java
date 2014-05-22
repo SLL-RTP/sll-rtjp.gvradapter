@@ -15,24 +15,6 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.ws;
 
-import org.apache.cxf.binding.soap.SoapFault;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
-import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
-import se.sll.hej.xml.indata.HEJIndata;
-import se.sll.reimbursementadapter.exception.NotFoundException;
-import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;
-import se.sll.reimbursementadapter.hej.transform.HEJIndataMarshaller;
-import se.sll.reimbursementadapter.hej.transform.ReimbursementRequestToHEJIndataTransformer;
-import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
-import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
-
-import javax.annotation.Resource;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -43,6 +25,26 @@ import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+
+import org.apache.cxf.binding.soap.SoapFault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
+import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
+import se.sll.hej.xml.indata.HEJIndata;
+import se.sll.reimbursementadapter.exception.NotFoundException;
+import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;
+import se.sll.reimbursementadapter.hej.transform.HEJIndataMarshaller;
+import se.sll.reimbursementadapter.hej.transform.ReimbursementRequestToHEJIndataTransformer;
+import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
+import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
 
 /**
  * Abstract producer for the ProcessReimbursementEvent service. Implements and isolates the actual logic for the

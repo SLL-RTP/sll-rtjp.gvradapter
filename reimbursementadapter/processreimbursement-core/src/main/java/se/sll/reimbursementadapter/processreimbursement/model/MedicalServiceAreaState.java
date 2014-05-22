@@ -15,9 +15,9 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.model;
 
-import se.sll.reimbursementadapter.parser.TermState;
-
 import java.io.Serializable;
+
+import se.sll.reimbursementadapter.parser.TermState;
 
 /**
  * Medical Service Area state. The ID corresponds to the "betjäningsområdeskod".

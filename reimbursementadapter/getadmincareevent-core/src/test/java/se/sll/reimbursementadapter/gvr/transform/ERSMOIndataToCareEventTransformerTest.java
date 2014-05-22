@@ -1,11 +1,15 @@
 package se.sll.reimbursementadapter.gvr.transform;
 
+import java.io.Reader;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.TimeZone;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.GenderType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
@@ -13,12 +17,6 @@ import se.sll.reimbursementadapter.TestSupport;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.gvr.reader.DateFilterMethod;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
-
-import javax.xml.datatype.DatatypeFactory;
-import java.io.Reader;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.util.*;
 
 /**
  * Tests the ERSMOIndataToCareEventTransformer with different

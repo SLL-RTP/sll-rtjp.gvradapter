@@ -15,12 +15,12 @@
  */
 package se.sll.reimbursementadapter.admincareevent.model;
 
-import se.sll.reimbursementadapter.parser.TermItem;
-import se.sll.reimbursementadapter.parser.TermState;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import se.sll.reimbursementadapter.parser.TermItem;
+import se.sll.reimbursementadapter.parser.TermState;
 
 /**
  * Facility state. The id corresponds to "kombikaid"

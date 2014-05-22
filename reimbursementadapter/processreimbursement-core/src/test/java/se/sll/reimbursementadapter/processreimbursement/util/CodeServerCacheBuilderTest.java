@@ -15,16 +15,17 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.util;
 
+import java.util.Date;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import se.sll.reimbursementadapter.TestSupport;
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
 import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
-
-import java.util.Date;
-import java.util.Map;
 
 /**
  * Tests the cache builder by doing some transformations between basområde and Betjäningsområde.

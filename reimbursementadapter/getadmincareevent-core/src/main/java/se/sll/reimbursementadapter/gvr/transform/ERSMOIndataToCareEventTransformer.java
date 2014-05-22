@@ -15,18 +15,35 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.TimeZone;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import riv.followup.processdevelopment.reimbursement.v1.*;
+import riv.followup.processdevelopment.reimbursement.v1.ActivityType;
+import riv.followup.processdevelopment.reimbursement.v1.CVType;
 import riv.followup.processdevelopment.reimbursement.v1.CareContractType;
+import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
+import riv.followup.processdevelopment.reimbursement.v1.ConditionType;
+import riv.followup.processdevelopment.reimbursement.v1.DiagnosisType;
+import riv.followup.processdevelopment.reimbursement.v1.GenderType;
+import riv.followup.processdevelopment.reimbursement.v1.IIType;
 import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
-import se.sll.ersmo.xml.indata.*;
+import riv.followup.processdevelopment.reimbursement.v1.ProfessionType;
 import se.sll.ersmo.xml.indata.Diagnoser.Diagnos;
+import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
+import se.sll.ersmo.xml.indata.Kon;
 import se.sll.ersmo.xml.indata.Tillståndslista.Tillstånd;
 import se.sll.ersmo.xml.indata.Yrkeskategorier.Yrkeskategori;
 import se.sll.ersmo.xml.indata.Åtgärder.Åtgärd;
@@ -34,12 +51,6 @@ import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.parser.TermItem;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.namespace.QName;
 
 /**
  * Transforms a single ERSMOIndata XML object to a number of CareEventType XML objects.

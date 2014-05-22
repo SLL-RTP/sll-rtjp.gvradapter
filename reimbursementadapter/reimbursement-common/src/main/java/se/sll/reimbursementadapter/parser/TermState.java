@@ -15,11 +15,12 @@
  */
 package se.sll.reimbursementadapter.parser;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * State valid for a particular period of time.

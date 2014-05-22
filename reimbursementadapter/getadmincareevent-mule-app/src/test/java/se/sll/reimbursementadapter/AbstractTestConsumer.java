@@ -17,11 +17,11 @@ package se.sll.reimbursementadapter;
 
 import java.util.GregorianCalendar;
 
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 
 public abstract class AbstractTestConsumer<T> {
 

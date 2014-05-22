@@ -15,15 +15,24 @@
  */
 package se.sll.reimbursementadapter.admincareevent.ws;
 
+import java.io.Reader;
+import java.nio.file.Path;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+
 import org.apache.cxf.binding.soap.SoapFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1
-        .GetAdministrativeCareEventResponse;
-import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1
-        .GetAdministrativeCareEventType;
+
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
+import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
@@ -32,15 +41,6 @@ import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
-
-import javax.annotation.Resource;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-import java.io.Reader;
-import java.nio.file.Path;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the

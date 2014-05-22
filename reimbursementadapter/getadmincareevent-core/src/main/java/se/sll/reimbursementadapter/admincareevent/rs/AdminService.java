@@ -22,8 +22,8 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
+import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 
 /**
  * Admin service to trigger revalidation of index data.

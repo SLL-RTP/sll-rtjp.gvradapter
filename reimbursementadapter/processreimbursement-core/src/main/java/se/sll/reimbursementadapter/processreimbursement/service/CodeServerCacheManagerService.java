@@ -15,16 +15,17 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.service;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
 import se.sll.reimbursementadapter.processreimbursement.util.CodeServerCacheBuilder;
 import se.sll.reimbursementadapter.util.FileObjectStore;
-
-import java.util.Map;
 
 /**
  * Manages the main cache tree for the processreimbursementevent consisting of a single code server table (BASOMRNY).

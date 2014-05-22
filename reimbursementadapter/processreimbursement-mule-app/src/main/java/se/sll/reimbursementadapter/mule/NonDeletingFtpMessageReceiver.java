@@ -15,6 +15,9 @@
  */
 package se.sll.reimbursementadapter.mule;
 
+import java.io.IOException;
+import java.text.MessageFormat;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.mule.api.MuleMessage;
@@ -23,9 +26,6 @@ import org.mule.api.endpoint.InboundEndpoint;
 import org.mule.api.lifecycle.CreateException;
 import org.mule.api.transport.Connector;
 import org.mule.transport.ftp.FtpMessageReceiver;
-
-import java.io.IOException;
-import java.text.MessageFormat;
 
 /**
  * Makes sure remote files are not deleted. <p>

@@ -15,18 +15,19 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.util;
 
+import java.io.File;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import se.sll.reimbursementadapter.parser.CodeServerCode;
 import se.sll.reimbursementadapter.parser.CodeServiceEntry;
 import se.sll.reimbursementadapter.parser.CodeServiceXMLParser;
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
-
-import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Builder class that is responsible for creating the code server index for processreimbursement.

@@ -17,17 +17,18 @@ package se.sll.reimbursementadapter.getadmincareevent;
 
 import static se.sll.reimbursementadapter.GvrAdapterMuleServer.getAddress;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import riv.followup.processdevelopment.reimbursement.getadministrativecareevent.v1.rivtabp21.GetAdministrativeCareEventResponderInterface;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.ObjectFactory;
 import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.reimbursementadapter.AbstractTestConsumer;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 
 public class GetAdministrativeCareEventTestConsumer extends AbstractTestConsumer<GetAdministrativeCareEventResponderInterface> {
 

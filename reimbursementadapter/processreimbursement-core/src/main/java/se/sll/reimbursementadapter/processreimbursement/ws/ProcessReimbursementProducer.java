@@ -15,11 +15,11 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.ws;
 
+import javax.jws.WebParam;
+
 import riv.followup.processdevelopment.reimbursement.processreimbursement.v1.rivtabp21.ProcessReimbursementResponderInterface;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
-
-import javax.jws.WebParam;
 
 /**
  * Standard producer implementation for {@link ProcessReimbursementResponderInterface}.

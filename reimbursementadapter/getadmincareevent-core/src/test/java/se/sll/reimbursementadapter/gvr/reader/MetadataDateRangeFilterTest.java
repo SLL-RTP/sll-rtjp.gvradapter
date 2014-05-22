@@ -15,16 +15,18 @@
  */
 package se.sll.reimbursementadapter.gvr.reader;
 
-import junit.framework.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Value;
-import se.sll.reimbursementadapter.TestSupport;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
+
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Value;
+
+import se.sll.reimbursementadapter.TestSupport;
 
 /**
  * Tests the file listing filter that uses file metadata to check if a given

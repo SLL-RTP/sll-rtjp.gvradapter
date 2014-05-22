@@ -15,16 +15,17 @@
  */
 package se.sll.reimbursementadapter.admincareevent.service;
 
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 import se.sll.reimbursementadapter.service.JobServiceUtilities;
-
-import java.io.*;
 
 /**
  * Service executing batch jobs. Currently it's only about fetching master data files, and rebuild

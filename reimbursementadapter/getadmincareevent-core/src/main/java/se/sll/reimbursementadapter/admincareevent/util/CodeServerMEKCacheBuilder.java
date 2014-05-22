@@ -29,9 +29,14 @@ import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionTypeState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
-import se.sll.reimbursementadapter.parser.*;
+import se.sll.reimbursementadapter.parser.CodeServerCode;
+import se.sll.reimbursementadapter.parser.CodeServiceEntry;
+import se.sll.reimbursementadapter.parser.CodeServiceXMLParser;
 import se.sll.reimbursementadapter.parser.CodeServiceXMLParser.CodeServiceEntryCallback;
+import se.sll.reimbursementadapter.parser.SimpleXMLElementParser;
 import se.sll.reimbursementadapter.parser.SimpleXMLElementParser.ElementMatcherCallback;
+import se.sll.reimbursementadapter.parser.TermItem;
+import se.sll.reimbursementadapter.parser.TermState;
 
 /**
  * Builds HSA Mapping index. <p>

@@ -17,10 +17,10 @@ package se.sll.reimbursementadapter;
 
  
 import org.mockftpserver.stub.StubFtpServer;
-import org.soitoolkit.commons.mule.test.StandaloneMuleServer;
-import org.soitoolkit.commons.mule.util.RecursiveResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.soitoolkit.commons.mule.test.StandaloneMuleServer;
+import org.soitoolkit.commons.mule.util.RecursiveResourceBundle;
 
 
 public class GvrAdapterMuleServer {
