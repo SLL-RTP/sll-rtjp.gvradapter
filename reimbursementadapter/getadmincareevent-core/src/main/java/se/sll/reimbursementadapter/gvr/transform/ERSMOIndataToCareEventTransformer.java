@@ -185,7 +185,8 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.getContractType().setCodeSystemName("SLL Code Server definition from the 'UPPDRAGSTYP' table.");
                         currentContract.getContractType().setCode(commissionState.getState(stateDate).getCommissionType().getId());
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
-
+                        // TODO: Option to skip code names? Up for discussion.
+                        
                         // TODO: Map to HSA.
                         currentContract.setProviderOrganization(currentErsh.getSlutverksamhet());
 
@@ -203,6 +204,7 @@ public class ERSMOIndataToCareEventTransformer {
         }
 
         // Set up mapping for the contact referral care unit to HSA-id.
+        // TODO Vårdansvar => NullPointerException, how to handle? Can we skip this ersh from here somehow?
         if (currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre() != null) {
             TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre().getKod());
 
