@@ -31,7 +31,7 @@
 			<xs:element name="sourceSystem" type="tns:SourceSystemType"/>
 			<xs:element name="patient" type="tns:PatientType"/>
 			<xs:element name="emergency" type="xs:boolean"/>
-			<xs:element name="eventType" type="tns:eventTypeType"/>
+			<xs:element name="eventType" type="tns:eventTypeType"/><!-- TODO roos: It is CVType careEvent/eventTypeMain, CVType careEvent/eventTypeSub, EventTypeType was removed. 
 			<xs:element name="feeCategory" type="tns:CVType" minOccurs="0"/>
 			<xs:element name="contracts">
 				<xs:complexType>
