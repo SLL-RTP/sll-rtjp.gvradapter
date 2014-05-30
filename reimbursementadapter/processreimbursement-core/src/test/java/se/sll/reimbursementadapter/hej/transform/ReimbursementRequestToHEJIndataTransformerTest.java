@@ -8,7 +8,6 @@ import riv.followup.processdevelopment.reimbursement.processreimbursementrespond
 import riv.followup.processdevelopment.reimbursement.v1.ActivityType;
 import riv.followup.processdevelopment.reimbursement.v1.CVType;
 import riv.followup.processdevelopment.reimbursement.v1.CareUnitType;
-import riv.followup.processdevelopment.reimbursement.v1.EventTypeType;
 import riv.followup.processdevelopment.reimbursement.v1.GenderType;
 import riv.followup.processdevelopment.reimbursement.v1.IIType;
 import riv.followup.processdevelopment.reimbursement.v1.PatientType;
@@ -73,13 +72,12 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
         ReimbursementEventType event1 = new ReimbursementEventType();
         event1.setId(eventId);
         event1.setEmergency(emergency);
-        event1.setEventType(new EventTypeType());
-        event1.getEventType().setMainType(new CVType());
-        event1.getEventType().getMainType().setCode(mainEventType);
-        event1.getEventType().getMainType().setCodeSystem(mainEventTypeCodeSystem);
-        event1.getEventType().setSubType(new CVType());
-        event1.getEventType().getSubType().setCode(subEventType);
-        event1.getEventType().getSubType().setCodeSystem(subEventTypeCodeSystem);
+        event1.setEventTypeMain(new CVType());
+        event1.getEventTypeMain().setCode(mainEventType);
+        event1.getEventTypeMain().setCodeSystem(mainEventTypeCodeSystem);
+        event1.setEventTypeSub(new CVType());
+        event1.getEventTypeSub().setCode(subEventType);
+        event1.getEventTypeSub().setCodeSystem(subEventTypeCodeSystem);
 
         event1.setPatient(new PatientType());
         event1.getPatient().setId(new PersonIdType());

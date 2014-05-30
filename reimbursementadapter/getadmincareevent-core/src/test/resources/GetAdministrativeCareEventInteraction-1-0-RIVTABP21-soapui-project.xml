@@ -140,7 +140,8 @@
       <xs:element name="sourceSystem" type="tns:SourceSystemType"/>
       <xs:element name="patient" type="tns:PatientType"/>
       <xs:element name="emergency" type="xs:boolean"/>
-      <xs:element name="eventType" type="tns:eventTypeType"/>
+      <xs:element name="eventTypeMain" type="tns:CVType"/>
+      <xs:element name="eventTypeSub" type="tns:CVType"/>
       <xs:element name="feeCategory" type="tns:CVType" minOccurs="0"/>
       <xs:element name="contracts">
         <xs:complexType>
@@ -192,7 +193,8 @@
     <xs:sequence>
       <xs:element name="id" type="xs:string"/>
       <xs:element name="emergency" type="xs:boolean" minOccurs="0"/>
-      <xs:element name="eventType" type="tns:eventTypeType"/>
+      <xs:element name="eventTypeMain" type="tns:CVType"/>
+      <xs:element name="eventTypeSub" type="tns:CVType"/>
       <xs:element name="patient" type="tns:PatientType" minOccurs="0"/>
       <xs:element name="involvedProfessions" minOccurs="0">
         <xs:complexType>
@@ -387,21 +389,14 @@
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="eventTypeType">
-    <xs:sequence>
-      <xs:element name="mainType" type="tns:CVType"/>
-      <xs:element name="subType" type="tns:CVType" minOccurs="0"/>
-      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="CareContractType">
     <xs:sequence>
       <xs:element name="id" type="tns:IIType"/>
       <xs:element name="name" type="xs:string" minOccurs="0"/>
       <xs:element name="contractType" type="tns:CVType" minOccurs="0"/>
-      <xs:element name="providerOrganization" type="tns:HSAIdType" minOccurs="0"/>
-      <xs:element name="payorOrganization" type="tns:HSAIdType" minOccurs="0"/>
-      <xs:element name="requesterOrganization" type="tns:HSAIdType" minOccurs="0"/>
+      <xs:element name="providerOrganization" type="tns:HSAIdType"/>
+      <xs:element name="payorOrganization" type="tns:HSAIdType"/>
+      <xs:element name="requesterOrganization" type="tns:HSAIdType"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="CareUnitType">
@@ -533,9 +528,9 @@ declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdmi
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:emergency</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Main Event Type"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventType/ns1:mainType/ns1:code</path><content>2</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Sub Event Type"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventTypeMain/ns1:code</path><content>2</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Sub Event Type"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventType/ns1:subType/ns1:code</path><content>1</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Fee Category"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventTypeSub/ns1:code</path><content>1</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Fee Category"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:feeCategory/ns1:code</path><content>12</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Contracts"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
@@ -565,9 +560,9 @@ declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdmi
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:sourceSystem/ns1:org</path><content>SE2321000016-39KJ</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Main Event Type Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventType/ns1:mainType/ns1:codeSystem</path><content>1.2.752.129.2.2.2.25</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Sub Event Type Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventTypeMain/ns1:codeSystem</path><content>1.2.752.129.2.2.2.25</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Sub Event Type Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventType/ns1:subType/ns1:codeSystem</path><content>SLL.CS.BTYP</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Fee Category Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventTypeSub/ns1:codeSystem</path><content>SLL.CS.BTYP</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Fee Category Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:feeCategory/ns1:codeSystem</path><content>SLL.CS.TAXA</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Care Unit Local Id Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
@@ -633,7 +628,9 @@ declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdmi
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:deceased</path><content>false</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Contract 1 type codesystem"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:contracts/ns1:contract[1]/ns1:contractType/ns1:codeSystem</path><content>SLL.CS.UPPDRAGSTYP</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="Truncation Test #1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>GetAdministrativeCareEventResponderBinding</con:interface><con:operation>GetAdministrativeCareEvent</con:operation><con:request name="Truncation Test #1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/getadmincareevent-web-app/ws/getAdministrativeCareEvent/v1</con:endpoint><con:request><![CDATA[<!-- Observe that this test requires that the server uses the test
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:contracts/ns1:contract[1]/ns1:contractType/ns1:codeSystem</path><content>SLL.CS.UPPDRAGSTYP</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Contract 1 name"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:contracts/ns1:contract[1]/ns1:name</path><content>Stockholm Spine center; Ryggkir</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="Truncation Test #1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>GetAdministrativeCareEventResponderBinding</con:interface><con:operation>GetAdministrativeCareEvent</con:operation><con:request name="Truncation Test #1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/getadmincareevent-web-app/ws/getAdministrativeCareEvent/v1</con:endpoint><con:request><![CDATA[<!-- Observe that this test requires that the server uses the test
      configuration for Max Care Events of 10! -->
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:riv:itintegration:registry:1" xmlns:urn1="urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1" xmlns:urn2="urn:riv:followup:processdevelopment:reimbursement:1">
    <soapenv:Header>

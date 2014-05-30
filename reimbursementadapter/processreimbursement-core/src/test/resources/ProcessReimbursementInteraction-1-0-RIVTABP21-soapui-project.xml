@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="ProcessReimbursementInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ProcessReimbursementResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21}ProcessReimbursementResponderBinding" soapVersion="1_1" anonymous="optional" definition="C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
+<con:soapui-project activeEnvironment="Default" name="ProcessReimbursementInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ProcessReimbursementResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21}ProcessReimbursementResponderBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements. See the NOTICE file
  distributed with this work for additional information
  regarding copyright ownership. Sveriges Kommuner och Landsting licenses this file
@@ -140,7 +140,8 @@
       <xs:element name="sourceSystem" type="tns:SourceSystemType"/>
       <xs:element name="patient" type="tns:PatientType"/>
       <xs:element name="emergency" type="xs:boolean"/>
-      <xs:element name="eventType" type="tns:eventTypeType"/>
+      <xs:element name="eventTypeMain" type="tns:CVType"/>
+      <xs:element name="eventTypeSub" type="tns:CVType"/>
       <xs:element name="feeCategory" type="tns:CVType" minOccurs="0"/>
       <xs:element name="contracts">
         <xs:complexType>
@@ -192,7 +193,8 @@
     <xs:sequence>
       <xs:element name="id" type="xs:string"/>
       <xs:element name="emergency" type="xs:boolean" minOccurs="0"/>
-      <xs:element name="eventType" type="tns:eventTypeType"/>
+      <xs:element name="eventTypeMain" type="tns:CVType"/>
+      <xs:element name="eventTypeSub" type="tns:CVType"/>
       <xs:element name="patient" type="tns:PatientType" minOccurs="0"/>
       <xs:element name="involvedProfessions" minOccurs="0">
         <xs:complexType>
@@ -387,21 +389,14 @@
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="eventTypeType">
-    <xs:sequence>
-      <xs:element name="mainType" type="tns:CVType"/>
-      <xs:element name="subType" type="tns:CVType" minOccurs="0"/>
-      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-  </xs:complexType>
   <xs:complexType name="CareContractType">
     <xs:sequence>
       <xs:element name="id" type="tns:IIType"/>
       <xs:element name="name" type="xs:string" minOccurs="0"/>
       <xs:element name="contractType" type="tns:CVType" minOccurs="0"/>
-      <xs:element name="providerOrganization" type="tns:HSAIdType" minOccurs="0"/>
-      <xs:element name="payorOrganization" type="tns:HSAIdType" minOccurs="0"/>
-      <xs:element name="requesterOrganization" type="tns:HSAIdType" minOccurs="0"/>
+      <xs:element name="providerOrganization" type="tns:HSAIdType"/>
+      <xs:element name="payorOrganization" type="tns:HSAIdType"/>
+      <xs:element name="requesterOrganization" type="tns:HSAIdType"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="CareUnitType">

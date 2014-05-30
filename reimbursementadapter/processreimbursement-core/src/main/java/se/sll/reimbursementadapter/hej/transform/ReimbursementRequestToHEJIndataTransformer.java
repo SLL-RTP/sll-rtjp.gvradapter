@@ -106,13 +106,12 @@ public class ReimbursementRequestToHEJIndataTransformer {
         if (currentReimbursementEvent.isEmergency() != null) {
             ersh.setAkut(currentReimbursementEvent.isEmergency() ? "J" : "N");
         }
-        if (currentReimbursementEvent.getEventType() != null) {
-            if (currentReimbursementEvent.getEventType().getMainType() != null) {
-                ersh.setHändelseform(currentReimbursementEvent.getEventType().getMainType().getCode());
-            }
-            if (currentReimbursementEvent.getEventType().getSubType() != null) {
-                ersh.setTyp(currentReimbursementEvent.getEventType().getSubType().getCode());
-            }
+
+        if (currentReimbursementEvent.getEventTypeMain() != null) {
+            ersh.setHändelseform(currentReimbursementEvent.getEventTypeMain().getCode());
+        }
+        if (currentReimbursementEvent.getEventTypeSub() != null) {
+            ersh.setTyp(currentReimbursementEvent.getEventTypeSub().getCode());
         }
 
         // Create and populate the Patient tag.

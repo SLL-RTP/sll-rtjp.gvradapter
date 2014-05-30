@@ -241,20 +241,19 @@ public class ERSMOIndataToCareEventTransformer {
                 }
 
                 // Event Type
-                currentEvent.setEventType(of.createEventTypeType());
                 if (currentErsh.getHändelseklass().getVårdkontakt().getHändelseform() != null) {
-                    currentEvent.getEventType().setMainType(of.createCVType());
-                    currentEvent.getEventType().getMainType().setCodeSystem("1.2.752.129.2.2.2.25");
-                    currentEvent.getEventType().getMainType().setCodeSystemName("KV kontakttyp");
-                    currentEvent.getEventType().getMainType().setCode(mapErsmoKontaktFormToKvKontakttyp(
+                    currentEvent.setEventTypeMain(of.createCVType());
+                    currentEvent.getEventTypeMain().setCodeSystem("1.2.752.129.2.2.2.25");
+                    currentEvent.getEventTypeMain().setCodeSystemName("KV kontakttyp");
+                    currentEvent.getEventTypeMain().setCode(mapErsmoKontaktFormToKvKontakttyp(
                             currentErsh.getHändelseklass().getVårdkontakt().getHändelseform().toString()));
 
-                    currentEvent.getEventType().setSubType(of.createCVType());
+                    currentEvent.setEventTypeSub(of.createCVType());
                     // Create our locally defined OID with the "SLL.CS." + {getHändelsetyp()}
                     String nameOfHandelseTyp = mapNumericHändelsetypToTextRepresentation(currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp());
-                    currentEvent.getEventType().getSubType().setCodeSystem("SLL.CS." + nameOfHandelseTyp);
-                    currentEvent.getEventType().getSubType().setCodeSystemName("SLL Code Server definition from the '" + currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp() + "' table.");
-                    currentEvent.getEventType().getSubType().setCode(currentErsh.getHändelseklass().getVårdkontakt().getTyp());
+                    currentEvent.getEventTypeSub().setCodeSystem("SLL.CS." + nameOfHandelseTyp);
+                    currentEvent.getEventTypeSub().setCodeSystemName("SLL Code Server definition from the '" + currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp() + "' table.");
+                    currentEvent.getEventTypeSub().setCode(currentErsh.getHändelseklass().getVårdkontakt().getTyp());
                 }
 
                 // Fee Category

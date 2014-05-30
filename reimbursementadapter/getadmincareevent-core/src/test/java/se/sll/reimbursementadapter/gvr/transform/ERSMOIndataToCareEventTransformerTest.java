@@ -72,10 +72,10 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Emergency", true, careEventType.isEmergency());
 
         // Event type
-        Assert.assertEquals("Event Main Type", "2", careEventType.getEventType().getMainType().getCode());
-        Assert.assertEquals("Event Main Type", "1.2.752.129.2.2.2.25", careEventType.getEventType().getMainType().getCodeSystem());
-        Assert.assertEquals("Event Sub Type", "1", careEventType.getEventType().getSubType().getCode());
-        Assert.assertEquals("Event Sub Type", "SLL.CS.BTYP", careEventType.getEventType().getSubType().getCodeSystem());
+        Assert.assertEquals("Event Main Type", "2", careEventType.getEventTypeMain().getCode());
+        Assert.assertEquals("Event Main Type", "1.2.752.129.2.2.2.25", careEventType.getEventTypeMain().getCodeSystem());
+        Assert.assertEquals("Event Sub Type", "1", careEventType.getEventTypeSub().getCode());
+        Assert.assertEquals("Event Sub Type", "SLL.CS.BTYP", careEventType.getEventTypeSub().getCodeSystem());
 
         // Fee category
         Assert.assertEquals("Fee Category", "12", careEventType.getFeeCategory().getCode());
