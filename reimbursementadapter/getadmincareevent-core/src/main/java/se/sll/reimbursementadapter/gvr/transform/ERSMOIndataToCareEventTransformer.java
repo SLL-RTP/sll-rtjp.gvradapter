@@ -110,11 +110,15 @@ public class ERSMOIndataToCareEventTransformer {
             currentEvent.getPatient().setId(of.createPersonIdType());
             currentEvent.getPatient().getId().setId(currentErsh.getPatient().getID());
             if (currentErsh.getPatient().getID().startsWith("99")) {
-                // SLL temporary patient identification
+                // SLL temporary patient identification (reservnummer)
                 currentEvent.getPatient().getId().setType("1.2.752.97.3.1.3");
+            } else if (Integer.valueOf(currentErsh.getPatient().getID().substring(6,8)) > 60) {
+                // National co-ordination number (samordningsnummer) - the bith day has 60 added to it in order to identify it.
+                currentEvent.getPatient().getId().setType("1.2.752.129.2.1.3.3");
             } else {
+                // Regular person identificator (personnummer)
                 currentEvent.getPatient().getId().setType("1.2.752.129.2.1.3.1");
-            } // TODO: Fix the logic and add OID:s for temporary identities.
+            }
             if (currentErsh.getPatient().getFödelsedatum() != null) {
                 currentEvent.getPatient().setBirthDate(currentErsh.getPatient().getFödelsedatum().toXMLFormat().replace("-", ""));
             }
@@ -168,6 +172,8 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.setId(of.createIIType());
                         currentContract.getId().setRoot("1.2.752.129.2.1.2.1");
                         currentContract.getId().setExtension("SE2321000016-39KJ+" + commissionState.getId());
+                        currentContract.setName(commissionState.getState(stateDate).getName());
+
 
                         currentContract.setContractType(of.createCVType());
                         currentContract.getContractType().setCodeSystem("SLL.CS.UPPDRAGSTYP");
@@ -319,8 +325,7 @@ public class ERSMOIndataToCareEventTransformer {
                             currentActivity.setCodeSystem("no.oid: " + åtgärd.getKlass());
                         }
                         currentActivity.setCode(åtgärd.getKod());
-                        // TODO: Mapping
-                        currentActivity.setDate("???");
+                        currentActivity.setDate(åtgärd.getDatum().toXMLFormat());
                         currentEvent.getActivities().getActivity().add(currentActivity);
                     }
                 }
@@ -336,7 +341,7 @@ public class ERSMOIndataToCareEventTransformer {
                 currentEvent.getStayAfter().setCodeSystem("SLL.CS.UKOD");
 
                 // Deceased
-                //currentEvent.setDeceased(true); TODO: Mapping??
+                currentEvent.setDeceased(currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter().getKod().equals("7"));
             }
         }
         return currentEvent;
