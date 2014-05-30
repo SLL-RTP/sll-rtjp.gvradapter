@@ -81,30 +81,10 @@
 	</xs:complexType>
 	<xs:complexType name="ReimbursementEventType">
 		<xs:sequence>
-			<xs:element name="id">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="organization" type="tns:HSAIdType"/>
-						<xs:element name="source">
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:maxLength value="8"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:element>
-						<xs:element name="value">
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:maxLength value="20"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
+			<xs:element name="id" type="xs:string"/>
 			<xs:element name="emergency" type="xs:boolean" minOccurs="0"/>
 			<xs:element name="eventType" type="tns:eventTypeType"/>
-			<xs:element name="patient" type="tns:PatientType"/>
+			<xs:element name="patient" type="tns:PatientType" minOccurs="0"/>
 			<xs:element name="involvedProfessions" minOccurs="0">
 				<xs:complexType>
 					<xs:sequence>
@@ -132,7 +112,7 @@
 	<xs:complexType name="PatientType">
 		<xs:sequence>
 			<xs:element name="id" type="tns:PersonIdType"/>
-			<xs:element name="birthDate" type="tns:DateType" minOccurs="0"/><!-- TODO Spec says birthDay but this is better, why did we choose birth date? -->
+			<xs:element name="birthDate" type="tns:DateType" minOccurs="0"/>
 			<xs:element name="gender" type="tns:GenderType" minOccurs="0"/>
 			<xs:element name="localResidence" type="xs:string" minOccurs="0"/>
 			<xs:element name="residence" type="tns:ResidenceType" minOccurs="0"/>
@@ -258,7 +238,7 @@
 			  </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="id" type="xs:string"/><!--TODO Why didn't we use code/codeSystem here? Change spec? -->
+			<xs:element name="id" type="xs:string"/>
 			<xs:element name="type" type="xs:string"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
@@ -303,8 +283,8 @@
 	</xs:simpleType>
 	<xs:complexType name="SourceSystemType">
 		<xs:sequence>
-			<xs:element name="organization" type="tns:HSAIdType"/><!-- TODO Should be "org" according to spec, how to regen code from this? -->
-			<xs:element name="name" type="xs:string"/><!-- TODO Should be "id" according to spec but name is better??? -->
+			<xs:element name="org" type="tns:HSAIdType"/>
+			<xs:element name="id" type="xs:string"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -342,7 +322,7 @@
 	</xs:complexType>
 	<xs:complexType name="SimpleContractType">
 		<xs:sequence>
-			<xs:element name="id" type="tns:IIType" minOccurs="0"/>
+			<xs:element name="id" type="tns:IIType"/>
 			<xs:element name="name" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -352,13 +332,14 @@
 			<xs:element name="careUnit" type="tns:CareUnitType"/>
 			<xs:element name="contract" type="tns:SimpleContractType"/>
 			<xs:element name="model" type="tns:CVType"/>
+			<xs:element name="count" type="xs:int"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ActivityType">
 		<xs:sequence>
-			<xs:element name="activityCode" type="tns:CVType"/>
+			<xs:element name="codeSystem" type="xs:string" minOccurs="0"/>
+			<xs:element name="code" type="xs:string" minOccurs="0"/>
 			<xs:element name="date" type="tns:DateType" minOccurs="0"/>
-			<xs:element name="activityTime" type="tns:TimeStampType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ResidenceType">

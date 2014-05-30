@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="ProcessReimbursementInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ProcessReimbursementResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21}ProcessReimbursementResponderBinding" soapVersion="1_1" anonymous="optional" definition="/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
+<con:soapui-project activeEnvironment="Default" name="ProcessReimbursementInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ProcessReimbursementResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21}ProcessReimbursementResponderBinding" soapVersion="1_1" anonymous="optional" definition="C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements. See the NOTICE file
  distributed with this work for additional information
  regarding copyright ownership. Sveriges Kommuner och Landsting licenses this file
@@ -65,7 +65,7 @@
       <soap:address location="http://tempuri.org"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementResponder_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\GitRepos\sll-rtjp.gvradapter\reimbursementadapter\reimbursement-schemas\src\main\resources\schemas\interactions\ProcessReimbursementInteraction\ProcessReimbursementResponder_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
 <!--Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements. See the NOTICE file
  distributed with this work for additional information
@@ -110,7 +110,7 @@
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/core_components/followup_processdevelopment_reimbursement_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\GitRepos\sll-rtjp.gvradapter\reimbursementadapter\reimbursement-schemas\src\main\resources\schemas\core_components\followup_processdevelopment_reimbursement_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
 <!--Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements. See the NOTICE file
  distributed with this work for additional information
@@ -152,7 +152,7 @@
       <xs:element name="careUnit" type="tns:CareUnitType"/>
       <xs:element name="lastUpdatedTime" type="xs:dateTime"/>
       <xs:element name="deleted" type="xs:boolean"/>
-      <xs:element name="datePeriod" type="tns:SplitDatePeriodType"/>
+      <xs:element name="datePeriod" type="tns:DatePeriodType"/>
       <xs:element name="involvedProfessions" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
@@ -190,30 +190,10 @@
   </xs:complexType>
   <xs:complexType name="ReimbursementEventType">
     <xs:sequence>
-      <xs:element name="id">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="organization" type="tns:HSAIdType"/>
-            <xs:element name="source">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="8"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
-            <xs:element name="value">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="20"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="id" type="xs:string"/>
       <xs:element name="emergency" type="xs:boolean" minOccurs="0"/>
       <xs:element name="eventType" type="tns:eventTypeType"/>
-      <xs:element name="patient" type="tns:PatientType"/>
+      <xs:element name="patient" type="tns:PatientType" minOccurs="0"/>
       <xs:element name="involvedProfessions" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
@@ -378,7 +358,7 @@
       <xs:pattern value="(19|20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])(0[0-9]|1[0-9]|2[0123])([0-5])([0-9])([0-5])([0-9])"/>
     </xs:restriction>
   </xs:simpleType>
-  <xs:complexType name="TimePeriodXSType">
+  <xs:complexType name="DateTimePeriodType">
     <xs:annotation>
       <xs:documentation>Used to specify a time interval using a start and an end timestamp.
                 Used to specify a time interval using a start and an end timestamp.
@@ -402,8 +382,8 @@
   </xs:simpleType>
   <xs:complexType name="SourceSystemType">
     <xs:sequence>
-      <xs:element name="organization" type="tns:HSAIdType"/>
-      <xs:element name="name" type="xs:string"/>
+      <xs:element name="org" type="tns:HSAIdType"/>
+      <xs:element name="id" type="xs:string"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
@@ -427,7 +407,7 @@
   <xs:complexType name="CareUnitType">
     <xs:sequence>
       <xs:element name="careUnitId" type="tns:HSAIdType"/>
-      <xs:element name="careUnitLocalId" type="tns:CVType" minOccurs="0"/>
+      <xs:element name="careUnitLocalId" type="tns:IIType" minOccurs="0"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
@@ -441,7 +421,7 @@
   </xs:complexType>
   <xs:complexType name="SimpleContractType">
     <xs:sequence>
-      <xs:element name="id" type="tns:IIType" minOccurs="0"/>
+      <xs:element name="id" type="tns:IIType"/>
       <xs:element name="name" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
@@ -451,13 +431,14 @@
       <xs:element name="careUnit" type="tns:CareUnitType"/>
       <xs:element name="contract" type="tns:SimpleContractType"/>
       <xs:element name="model" type="tns:CVType"/>
+      <xs:element name="count" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ActivityType">
     <xs:sequence>
-      <xs:element name="activityCode" type="tns:CVType"/>
+      <xs:element name="codeSystem" type="xs:string" minOccurs="0"/>
+      <xs:element name="code" type="xs:string" minOccurs="0"/>
       <xs:element name="date" type="tns:DateType" minOccurs="0"/>
-      <xs:element name="activityTime" type="tns:TimeStampType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ResidenceType">
@@ -468,7 +449,7 @@
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
-</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:/media/sf_C_DRIVE/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/core_components/itintegration_registry_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\GitRepos\sll-rtjp.gvradapter\reimbursementadapter\reimbursement-schemas\src\main\resources\schemas\core_components\itintegration_registry_1.0.xsd</con:url><con:content><![CDATA[<!--edited with XMLSpy v2013 (x64) (http://www.altova.com) by Eric Jacobsson (Mawell)-->
 <xs:schema targetNamespace="urn:riv:itintegration:registry:1" elementFormDefault="qualified" version="1.0" xmlns="urn:riv:itintegration:registry:1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:annotation>
     <xs:documentation>Beskrivning: 	Grundläggande informationsobjekt för domänen itintegration:registry (adressering av tjänster)
@@ -510,11 +491,7 @@
          <urn1:batchId>1</urn1:batchId>
          <!--Zero or more repetitions:-->
          <urn1:reimbursementEvent>
-            <urn2:id>
-               <urn2:organization>1.2.3.4.5.6</urn2:organization>
-               <urn2:source>ERA</urn2:source>
-               <urn2:value>42342432</urn2:value>
-            </urn2:id>
+            <urn2:id>42342432</urn2:id>
             <!--Optional:-->
             <urn2:emergency>false</urn2:emergency>
             <urn2:eventType>
@@ -614,9 +591,9 @@
                      <!--Optional:-->
                      <urn2:careUnitLocalId>
                         <!--Optional:-->
-                        <urn2:code>19147021M01</urn2:code>
+                        <urn2:root>19147021M01</urn2:root>
                         <!--Optional:-->
-                        <urn2:codeSystem>1.2.3.5.7</urn2:codeSystem>
+                        <urn2:extension>1.2.3.5.7</urn2:extension>
                      </urn2:careUnitLocalId>
                      <!--You may enter ANY elements at this point-->
                   </urn2:careUnit>
@@ -636,6 +613,7 @@
                      <!--Optional:-->
                      <urn2:codeSystem>1.2.3.4.5.6</urn2:codeSystem>
                   </urn2:model>
+                  <urn2:count>1</urn2:count>
                </urn2:product>
             </urn2:productSet>
             <!--You may enter ANY elements at this point-->

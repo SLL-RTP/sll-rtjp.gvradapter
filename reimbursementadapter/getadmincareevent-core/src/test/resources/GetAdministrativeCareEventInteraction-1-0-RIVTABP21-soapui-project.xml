@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="GetAdministrativeCareEventInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="GetAdministrativeCareEventResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEvent:1:rivtabp21}GetAdministrativeCareEventResponderBinding" soapVersion="1_1" anonymous="optional" definition="C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
+<con:soapui-project activeEnvironment="Default" name="GetAdministrativeCareEventInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="GetAdministrativeCareEventResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEvent:1:rivtabp21}GetAdministrativeCareEventResponderBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl"><con:part><con:url>file:/C:/GitRepos/sll-rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/GetAdministrativeCareEventInteraction/GetAdministrativeCareEventInteraction_1.0_RIVTABP21.wsdl</con:url><con:content><![CDATA[<!--Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements. See the NOTICE file
  distributed with this work for additional information
  regarding copyright ownership. Sveriges Kommuner och Landsting licenses this file
@@ -190,30 +190,10 @@
   </xs:complexType>
   <xs:complexType name="ReimbursementEventType">
     <xs:sequence>
-      <xs:element name="id">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="organization" type="tns:HSAIdType"/>
-            <xs:element name="source">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="8"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
-            <xs:element name="value">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:maxLength value="20"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:element>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="id" type="xs:string"/>
       <xs:element name="emergency" type="xs:boolean" minOccurs="0"/>
       <xs:element name="eventType" type="tns:eventTypeType"/>
-      <xs:element name="patient" type="tns:PatientType"/>
+      <xs:element name="patient" type="tns:PatientType" minOccurs="0"/>
       <xs:element name="involvedProfessions" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
@@ -402,8 +382,8 @@
   </xs:simpleType>
   <xs:complexType name="SourceSystemType">
     <xs:sequence>
-      <xs:element name="organization" type="tns:HSAIdType"/>
-      <xs:element name="name" type="xs:string"/>
+      <xs:element name="org" type="tns:HSAIdType"/>
+      <xs:element name="id" type="xs:string"/>
       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
@@ -441,7 +421,7 @@
   </xs:complexType>
   <xs:complexType name="SimpleContractType">
     <xs:sequence>
-      <xs:element name="id" type="tns:IIType" minOccurs="0"/>
+      <xs:element name="id" type="tns:IIType"/>
       <xs:element name="name" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
@@ -451,13 +431,14 @@
       <xs:element name="careUnit" type="tns:CareUnitType"/>
       <xs:element name="contract" type="tns:SimpleContractType"/>
       <xs:element name="model" type="tns:CVType"/>
+      <xs:element name="count" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ActivityType">
     <xs:sequence>
-      <xs:element name="activityCode" type="tns:CVType"/>
+      <xs:element name="codeSystem" type="xs:string" minOccurs="0"/>
+      <xs:element name="code" type="xs:string" minOccurs="0"/>
       <xs:element name="date" type="tns:DateType" minOccurs="0"/>
-      <xs:element name="activityTime" type="tns:TimeStampType" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ResidenceType">
@@ -534,7 +515,7 @@ declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdmi
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:id</path><content>12345678901234567890</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Source System Name"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:sourceSystem/ns1:name</path><content>GVR</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient ID"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:sourceSystem/ns1:id</path><content>GVR</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient ID"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:patient/ns1:id/ns1:id</path><content>191212121212</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Patient ID OID"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
@@ -582,7 +563,7 @@ declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdmi
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:datePeriod/ns1:end</path><content>20140204</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Source System Organization"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:sourceSystem/ns1:organization</path><content>SE2321000016-39KJ</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Main Event Type Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:sourceSystem/ns1:org</path><content>SE2321000016-39KJ</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Main Event Type Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:eventType/ns1:mainType/ns1:codeSystem</path><content>1.2.752.129.2.2.2.25</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Sub Event Type Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
@@ -624,21 +605,21 @@ declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdmi
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/count(ns1:activity)</path><content>4</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #1 Code"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[1]/ns1:activityCode/ns1:code</path><content>NHP09</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #1 Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[1]/ns1:code</path><content>NHP09</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #1 Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[1]/ns1:activityCode/ns1:codeSystem</path><content>1.2.752.116.1.3.2.1.4</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #2 Code"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[1]/ns1:codeSystem</path><content>1.2.752.116.1.3.2.1.4</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #2 Code"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[2]/ns1:activityCode/ns1:code</path><content>PE009</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #2 Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[2]/ns1:code</path><content>PE009</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #2 Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[2]/ns1:activityCode/ns1:codeSystem</path><content>1.2.752.116.1.3.2.1.4</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #3 Code"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[2]/ns1:codeSystem</path><content>1.2.752.116.1.3.2.1.4</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #3 Code"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[3]/ns1:activityCode/ns1:code</path><content>AQ014</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #3 Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[3]/ns1:code</path><content>AQ014</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #3 Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[3]/ns1:activityCode/ns1:codeSystem</path><content>1.2.752.116.1.3.2.1.4</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #4 Code"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[3]/ns1:codeSystem</path><content>1.2.752.116.1.3.2.1.4</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #4 Code"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[4]/ns1:activityCode/ns1:code</path><content>A01AB13</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #4 Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[4]/ns1:code</path><content>A01AB13</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Activitity #4 Code System"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
-//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[4]/ns1:activityCode/ns1:codeSystem</path><content>1.2.752.129.2.2.3.1.1</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Referred From"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
+//ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:activities/ns1:activity[4]/ns1:codeSystem</path><content>1.2.752.129.2.2.3.1.1</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Referred From"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';
 //ns2:GetAdministrativeCareEventResponse/ns2:careEvent[1]/ns1:referredFrom</path><content>SE2321000016-1664</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:assertion type="XPath Match" name="Check Stay Before Code"><con:configuration><path>declare namespace ns1='urn:riv:followup:processdevelopment:reimbursement:1';
 declare namespace ns2='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1';

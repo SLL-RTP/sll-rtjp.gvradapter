@@ -20,7 +20,7 @@ import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 
 /**
  * Tests the ERSMOIndataToCareEventTransformer with different
- * transformation scenarios using the test filles in the project.
+ * transformation scenarios using the test files in the project.
  */
 public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
@@ -56,8 +56,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("ID#1", "12345678901234567890", careEventType.getId());
 
         // Source system
-        Assert.assertEquals("Source System organization", "SE2321000016-39KJ", careEventType.getSourceSystem().getOrganization());
-        Assert.assertEquals("Source System Name", "GVR", careEventType.getSourceSystem().getName());
+        Assert.assertEquals("Source System organization", "SE2321000016-39KJ", careEventType.getSourceSystem().getOrg());
+        Assert.assertEquals("Source System Name", "GVR", careEventType.getSourceSystem().getId());
 
         // Patient
         Assert.assertEquals("Patient ID", "191212121212", careEventType.getPatient().getId().getId());
@@ -122,14 +122,14 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
         // Activities
         Assert.assertEquals("Number of activities", 4, careEventType.getActivities().getActivity().size());
-        Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getActivityCode().getCode());
-        Assert.assertEquals("Activity #1 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(0).getActivityCode().getCodeSystem());
-        Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getActivityCode().getCode());
-        Assert.assertEquals("Activity #2 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(1).getActivityCode().getCodeSystem());
-        Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getActivityCode().getCode());
-        Assert.assertEquals("Activity #3 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(2).getActivityCode().getCodeSystem());
-        Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getActivityCode().getCode());
-        Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getActivityCode().getCodeSystem());
+        Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getCode());
+        Assert.assertEquals("Activity #1 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(0).getCodeSystem());
+        Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getCode());
+        Assert.assertEquals("Activity #2 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(1).getCodeSystem());
+        Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getCode());
+        Assert.assertEquals("Activity #3 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(2).getCodeSystem());
+        Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getCode());
+        Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getCodeSystem());
 
         // Referral from (HSA-id)
         Assert.assertEquals("Referred from", "SE2321000016-1664", careEventType.getReferredFrom());

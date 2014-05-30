@@ -36,9 +36,7 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
         String batchId = "BatchId";
         String sourceSystemName = "UnitTests";
         String sourceSystemOrganization = "1.2.3.4.5.6";
-        String eventOrganization = "1.2.4.5.6";
-        String eventSource = "ERA";
-        String eventValue = "432432";
+        String eventId = "EVENTID";
         boolean emergency = true;
         String mainEventType = "ÖPPENVÅRD";
         String mainEventTypeCodeSystem = "1.2.3.5.6";
@@ -70,13 +68,10 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
         ProcessReimbursementRequestType requestType = new ProcessReimbursementRequestType();
         requestType.setBatchId(batchId);
         requestType.setSourceSystem(new SourceSystemType());
-        requestType.getSourceSystem().setName(sourceSystemName);
-        requestType.getSourceSystem().setOrganization(sourceSystemOrganization);
+        requestType.getSourceSystem().setId(sourceSystemName);
+        requestType.getSourceSystem().setOrg(sourceSystemOrganization);
         ReimbursementEventType event1 = new ReimbursementEventType();
-        event1.setId(new ReimbursementEventType.Id());
-        event1.getId().setOrganization(eventOrganization);
-        event1.getId().setSource(eventSource);
-        event1.getId().setValue(eventValue);
+        event1.setId(eventId);
         event1.setEmergency(emergency);
         event1.setEventType(new EventTypeType());
         event1.getEventType().setMainType(new CVType());
@@ -109,10 +104,7 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
 
         event1.setActivities(new ReimbursementEventType.Activities());
         ActivityType activity1 = new ActivityType();
-        activity1.setActivityCode(new CVType());
-        activity1.getActivityCode().setCode(activityCode);
-        activity1.getActivityCode().setCodeSystem(activityCodeSystem);
-        // TODO: Rest of params?
+        activity1.setCode(activityCode);
         event1.getActivities().getActivity().add(activity1);
 
         // Create a new <productSet>
@@ -168,7 +160,7 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
         HEJIndata.Ersättningshändelse ersh = indata.getErsättningshändelse().get(0);
         Assert.assertNotNull(ersh);
 
-        Assert.assertEquals("CareEvent ID", eventValue, ersh.getID());
+        Assert.assertEquals("CareEvent ID", eventId, ersh.getID());
 
         // Patient
         Assert.assertEquals("Patient ID", patientId, ersh.getPatient().getID());

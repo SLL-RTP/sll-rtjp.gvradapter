@@ -71,7 +71,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
         // Create and populate the base response object
         ObjectFactory of = new ObjectFactory();
         HEJIndata response = of.createHEJIndata();
-        response.setKälla(request.getSourceSystem().getName());
+        response.setKälla(request.getSourceSystem().getId());
         response.setID(request.getBatchId());
 
         // For each reimbursement event in the request, transform to Ersättningshändelse and add to the response list.
@@ -100,8 +100,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
 
         // Populate root variables according to the spec.
         if (currentReimbursementEvent.getId() != null) {
-            ersh.setKälla(currentReimbursementEvent.getId().getSource());
-            ersh.setID(currentReimbursementEvent.getId().getValue());
+            ersh.setID(currentReimbursementEvent.getId());
         }
 
         if (currentReimbursementEvent.isEmergency() != null) {
@@ -185,7 +184,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
 
                 åtgärd.setDatum("???");
                 åtgärd.setOrdnNr("" + activityIndex++);
-                åtgärd.setKod(activity.getActivityCode().getCode());
+                åtgärd.setKod(activity.getCode());
                 ersh.getÅtgärder().getÅtgärd().add(åtgärd);
             }
         }

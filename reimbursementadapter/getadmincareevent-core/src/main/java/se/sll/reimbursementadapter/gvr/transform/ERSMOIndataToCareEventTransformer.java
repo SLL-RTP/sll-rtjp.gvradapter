@@ -15,35 +15,18 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import riv.followup.processdevelopment.reimbursement.v1.ActivityType;
-import riv.followup.processdevelopment.reimbursement.v1.CVType;
+import riv.followup.processdevelopment.reimbursement.v1.*;
 import riv.followup.processdevelopment.reimbursement.v1.CareContractType;
-import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
-import riv.followup.processdevelopment.reimbursement.v1.ConditionType;
-import riv.followup.processdevelopment.reimbursement.v1.DiagnosisType;
-import riv.followup.processdevelopment.reimbursement.v1.GenderType;
-import riv.followup.processdevelopment.reimbursement.v1.IIType;
 import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
-import riv.followup.processdevelopment.reimbursement.v1.ProfessionType;
+import se.sll.ersmo.xml.indata.*;
 import se.sll.ersmo.xml.indata.Diagnoser.Diagnos;
-import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
-import se.sll.ersmo.xml.indata.Kon;
 import se.sll.ersmo.xml.indata.Tillståndslista.Tillstånd;
 import se.sll.ersmo.xml.indata.Yrkeskategorier.Yrkeskategori;
 import se.sll.ersmo.xml.indata.Åtgärder.Åtgärd;
@@ -51,6 +34,12 @@ import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.parser.TermItem;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 
 /**
  * Transforms a single ERSMOIndata XML object to a number of CareEventType XML objects.
@@ -112,8 +101,8 @@ public class ERSMOIndataToCareEventTransformer {
 
         // Source System
         currentEvent.setSourceSystem(of.createSourceSystemType());
-        currentEvent.getSourceSystem().setOrganization("SE2321000016-39KJ");
-        currentEvent.getSourceSystem().setName(ersmoIndata.getKälla());
+        currentEvent.getSourceSystem().setOrg("SE2321000016-39KJ");
+        currentEvent.getSourceSystem().setId(ersmoIndata.getKälla());
 
         // Patient
         if (currentErsh.getPatient() != null) {
@@ -185,8 +174,7 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.getContractType().setCodeSystemName("SLL Code Server definition from the 'UPPDRAGSTYP' table.");
                         currentContract.getContractType().setCode(commissionState.getState(stateDate).getCommissionType().getId());
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
-                        // TODO: Option to skip code names? Up for discussion.
-                        
+
                         // TODO: Map to HSA.
                         currentContract.setProviderOrganization(currentErsh.getSlutverksamhet());
 
@@ -204,7 +192,6 @@ public class ERSMOIndataToCareEventTransformer {
         }
 
         // Set up mapping for the contact referral care unit to HSA-id.
-        // TODO Vårdansvar => NullPointerException, how to handle? Can we skip this ersh from here somehow?
         if (currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre() != null) {
             TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre().getKod());
 
@@ -321,21 +308,19 @@ public class ERSMOIndataToCareEventTransformer {
                 if (currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder() != null && currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd() != null && currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd().size() > 0) {
                     for (Åtgärd åtgärd : currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd()) {
                         ActivityType currentActivity = of.createActivityType();
-                        currentActivity.setActivityCode(of.createCVType());
                         if (åtgärd.getKlass().equals("007")) {
-                            currentActivity.getActivityCode().setCodeSystem("1.2.752.116.1.3.2.1.4");
-                            currentActivity.getActivityCode().setCodeSystemName("Klassifikation av vårdåtgärder (KVÅ)");
+                            currentActivity.setCodeSystem("1.2.752.116.1.3.2.1.4");
+                            //currentActivity.setCodeSystemName("Klassifikation av vårdåtgärder (KVÅ)");
                         } else if (åtgärd.getKlass().equals("020")) {
-                            currentActivity.getActivityCode().setCodeSystem("1.2.752.129.2.2.3.1.1");
-                            currentActivity.getActivityCode().setCodeSystemName("Anatomical Therapeutic Chemical " +
-                                    "classification system (ATC)");
+                            currentActivity.setCodeSystem("1.2.752.129.2.2.3.1.1");
+                            /*currentActivity.getActivityCode().setCodeSystemName("Anatomical Therapeutic Chemical " +
+                                    "classification system (ATC)");*/
                         } else {
-                            currentActivity.getActivityCode().setCodeSystem("no.oid: " + åtgärd.getKlass());
+                            currentActivity.setCodeSystem("no.oid: " + åtgärd.getKlass());
                         }
-                        currentActivity.getActivityCode().setCode(åtgärd.getKod());
+                        currentActivity.setCode(åtgärd.getKod());
                         // TODO: Mapping
                         currentActivity.setDate("???");
-                        currentActivity.setActivityTime("???");
                         currentEvent.getActivities().getActivity().add(currentActivity);
                     }
                 }
@@ -379,6 +364,11 @@ public class ERSMOIndataToCareEventTransformer {
         return "";
     }
 
+    /**
+     * Maps a numeric Händelsetyp code to the corresponding text representation.
+     * @param händelsetyp the numeric Händelsetyp code to map.
+     * @return
+     */
     public static String mapNumericHändelsetypToTextRepresentation(String händelsetyp) {
         String trimmedInput = händelsetyp.trim();
         if ("013".equals(trimmedInput)) {
