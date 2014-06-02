@@ -116,7 +116,7 @@
 			<xs:element name="id" type="tns:PersonIdType"/>
 			<xs:element name="birthDate" type="tns:DateType" minOccurs="0"/>
 			<xs:element name="gender" type="tns:GenderType" minOccurs="0"/>
-			<xs:element name="localResidence" type="xs:string" minOccurs="0"/>
+			<xs:element name="localResidence" type="xs:string" minOccurs="0"/><!-- Required of SLL, missing in xml. -->
 			<xs:element name="residence" type="tns:ResidenceType" minOccurs="0"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
