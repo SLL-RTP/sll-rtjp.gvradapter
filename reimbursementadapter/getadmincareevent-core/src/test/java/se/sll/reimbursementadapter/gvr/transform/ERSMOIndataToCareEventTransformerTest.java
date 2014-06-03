@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
-import riv.followup.processdevelopment.reimbursement.v1.GenderType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.reimbursementadapter.TestSupport;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
@@ -63,10 +62,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Patient ID", "191212121212", careEventType.getPatient().getId().getId());
         Assert.assertEquals("Patient ID Type", "1.2.752.129.2.1.3.1", careEventType.getPatient().getId().getType());
         Assert.assertEquals("Patient Birthdate", "19121212", careEventType.getPatient().getBirthDate());
-        Assert.assertEquals("Patient Gender", GenderType.M, careEventType.getPatient().getGender());
+        Assert.assertEquals("Patient Gender", "2", careEventType.getPatient().getGender().getCode());
+        Assert.assertEquals("Patient Gender CodeSystem", "1.2.752.129.2.2.1.1", careEventType.getPatient().getGender().getCodeSystem());
         Assert.assertEquals("Patient Residency region", "01", careEventType.getPatient().getResidence().getRegion().getCode());
         Assert.assertEquals("Patient Residency municipality", "02", careEventType.getPatient().getResidence().getMunicipality().getCode());
         Assert.assertEquals("Patient Residency parish", "03", careEventType.getPatient().getResidence().getParish().getCode());
+        Assert.assertEquals("Patient Local residence", "1210151", careEventType.getPatient().getLocalResidence());
 
         // Emergency
         Assert.assertEquals("Emergency", true, careEventType.isEmergency());
@@ -87,7 +88,9 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Contract #1 name", "Stockholm Spine center; Ryggkir", careEventType.getContracts().getContract().get(0).getName());
         Assert.assertEquals("Contract #1 type name", "Ryggkirurgi, vårdval", careEventType.getContracts().getContract().get(0).getContractType().getDisplayName().trim());
         Assert.assertEquals("Contract #1 type code", "615", careEventType.getContracts().getContract().get(0).getContractType().getCode());
-        Assert.assertEquals("Contract #1 type providerOrg", "30216311002", careEventType.getContracts().getContract().get(0).getProviderOrganization());
+        Assert.assertEquals("Contract #1 type providerOrg", "SE2321000016-15CQ", careEventType.getContracts().getContract().get(0).getProviderOrganization());
+        //Assert.assertEquals("Contract #1 type payorOrg", "HSF", careEventType.getContracts().getContract().get(0).getProviderOrganization()); // TODO!
+        Assert.assertEquals("Contract #1 type requesterOrg", "HSF", careEventType.getContracts().getContract().get(0).getRequesterOrganization());
 
         // Care Unit (spine center öv)
         Assert.assertEquals("Kombika", "SE2321000016-39KJ+30216311002", careEventType.getCareUnit().getCareUnitLocalId().getExtension());
@@ -125,16 +128,16 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Number of activities", 4, careEventType.getActivities().getActivity().size());
         Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getCode());
         Assert.assertEquals("Activity #1 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(0).getCodeSystem());
-        Assert.assertEquals("Activity #1 date", "2008-03-11", careEventType.getActivities().getActivity().get(0).getDate());
+        Assert.assertEquals("Activity #1 date", "20080311", careEventType.getActivities().getActivity().get(0).getDate());
         Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getCode());
         Assert.assertEquals("Activity #2 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(1).getCodeSystem());
-        Assert.assertEquals("Activity #2 date", "2008-03-11", careEventType.getActivities().getActivity().get(1).getDate());
+        Assert.assertEquals("Activity #2 date", "20080311", careEventType.getActivities().getActivity().get(1).getDate());
         Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getCode());
         Assert.assertEquals("Activity #3 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(2).getCodeSystem());
-        Assert.assertEquals("Activity #3 date", "2008-03-11", careEventType.getActivities().getActivity().get(2).getDate());
+        Assert.assertEquals("Activity #3 date", "20080311", careEventType.getActivities().getActivity().get(2).getDate());
         Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getCode());
         Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getCodeSystem());
-        Assert.assertEquals("Activity #3 date", "2008-03-11", careEventType.getActivities().getActivity().get(3).getDate());
+        Assert.assertEquals("Activity #3 date", "20080311", careEventType.getActivities().getActivity().get(3).getDate());
 
         // Referral from (HSA-id)
         Assert.assertEquals("Referred from", "SE2321000016-1664", careEventType.getReferredFrom());

@@ -115,8 +115,8 @@
 		<xs:sequence>
 			<xs:element name="id" type="tns:PersonIdType"/>
 			<xs:element name="birthDate" type="tns:DateType" minOccurs="0"/>
-			<xs:element name="gender" type="tns:GenderType" minOccurs="0"/>
-			<xs:element name="localResidence" type="xs:string" minOccurs="0"/><!-- Required of SLL, missing in xml. -->
+			<xs:element name="gender" type="tns:CVType" minOccurs="0"/>
+			<xs:element name="localResidence" type="xs:string" minOccurs="0"/>
 			<xs:element name="residence" type="tns:ResidenceType" minOccurs="0"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
@@ -181,7 +181,7 @@
             </xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="start" type="tns:DateType"/>
+			<xs:element name="start" type="tns:DateType" minOccurs="0"/>
 			<xs:element name="end" type="tns:DateType" minOccurs="0"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
@@ -276,13 +276,6 @@
 			<xs:element name="end" type="xs:dateTime"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:simpleType name="GenderType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="M"/>
-			<xs:enumeration value="F"/>
-			<xs:enumeration value="U"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:complexType name="SourceSystemType">
 		<xs:sequence>
 			<xs:element name="org" type="tns:HSAIdType"/>
@@ -328,6 +321,11 @@
 			<xs:element name="contract" type="tns:SimpleContractType"/>
 			<xs:element name="model" type="tns:CVType"/>
 			<xs:element name="count" type="xs:int"/>
+			<xs:element name="datePeriod" type="tns:DatePeriodType">
+				<xs:annotation>
+					<xs:documentation>Both 'start' and 'end' is mandatory in the target schema, but since we take it from the national common types we are not allowed to changte it</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ActivityType">

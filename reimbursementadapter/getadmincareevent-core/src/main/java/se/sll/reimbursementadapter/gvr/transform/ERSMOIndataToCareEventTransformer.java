@@ -15,18 +15,13 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import riv.followup.processdevelopment.reimbursement.v1.*;
-import riv.followup.processdevelopment.reimbursement.v1.CareContractType;
-import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
-import se.sll.ersmo.xml.indata.*;
 import se.sll.ersmo.xml.indata.Diagnoser.Diagnos;
+import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
+import se.sll.ersmo.xml.indata.Kon;
 import se.sll.ersmo.xml.indata.Tillståndslista.Tillstånd;
 import se.sll.ersmo.xml.indata.Yrkeskategorier.Yrkeskategori;
 import se.sll.ersmo.xml.indata.Åtgärder.Åtgärd;
@@ -40,6 +35,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * Transforms a single ERSMOIndata XML object to a number of CareEventType XML objects.
@@ -48,6 +44,20 @@ import javax.xml.namespace.QName;
 public class ERSMOIndataToCareEventTransformer {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
+
+    private static final String OID_TEMPORARY_PATIENT_ID = "1.2.752.97.3.1.3";
+    private static final String OID_COORDINATION_ID = "1.2.752.129.2.1.3.3";
+    private static final String OID_PATIENT_IDENTIFIER = "1.2.752.129.2.1.3.1";
+    private static final String OID_KV_KÖN = "1.2.752.129.2.2.1.1";
+    private static final String OID_HYBRID_GUID_IDENTIFIER = "1.2.752.129.2.1.2.1";
+    private static final String OID_KV_KONTAKTTYP = "1.2.752.129.2.2.2.25";
+    private static final String OID_ICD10_SE = "1.2.752.116.1.1.1.1.3";
+    private static final String OID_KVÅ = "1.2.752.116.1.3.2.1.4";
+    private static final String OID_ATC = "1.2.752.129.2.2.3.1.1";
+
+    private static final String SLL_CAREGIVER_HSA_ID = "SE2321000016-39KJ";
+
+    private static final String HYBRID_GUI_SEPARATOR = "+";
 
     /**
      * Transforms a single {@link se.sll.ersmo.xml.indata.ERSMOIndata} object to a list of
@@ -101,7 +111,7 @@ public class ERSMOIndataToCareEventTransformer {
 
         // Source System
         currentEvent.setSourceSystem(of.createSourceSystemType());
-        currentEvent.getSourceSystem().setOrg("SE2321000016-39KJ");
+        currentEvent.getSourceSystem().setOrg(SLL_CAREGIVER_HSA_ID);
         currentEvent.getSourceSystem().setId(ersmoIndata.getKälla());
 
         // Patient
@@ -111,22 +121,24 @@ public class ERSMOIndataToCareEventTransformer {
             currentEvent.getPatient().getId().setId(currentErsh.getPatient().getID());
             if (currentErsh.getPatient().getID().startsWith("99")) {
                 // SLL temporary patient identification (reservnummer)
-                currentEvent.getPatient().getId().setType("1.2.752.97.3.1.3");
+                currentEvent.getPatient().getId().setType(OID_TEMPORARY_PATIENT_ID);
             } else if (Integer.valueOf(currentErsh.getPatient().getID().substring(6,8)) > 60) {
-                // National co-ordination number (samordningsnummer) - the bith day has 60 added to it in order to identify it.
-                currentEvent.getPatient().getId().setType("1.2.752.129.2.1.3.3");
+                // National co-ordination number (samordningsnummer) - the birth day has 60 added to it in order to identify it.
+                currentEvent.getPatient().getId().setType(OID_COORDINATION_ID);
             } else {
                 // Regular person identificator (personnummer)
-                currentEvent.getPatient().getId().setType("1.2.752.129.2.1.3.1");
+                currentEvent.getPatient().getId().setType(OID_PATIENT_IDENTIFIER);
             }
             if (currentErsh.getPatient().getFödelsedatum() != null) {
                 currentEvent.getPatient().setBirthDate(currentErsh.getPatient().getFödelsedatum().toXMLFormat().replace("-", ""));
             }
             if (currentErsh.getPatient().getKön() != null) {
+                currentEvent.getPatient().setGender(new CVType());
+                currentEvent.getPatient().getGender().setCodeSystem(OID_KV_KÖN);
                 if (currentErsh.getPatient().getKön().equals(Kon.M)) {
-                    currentEvent.getPatient().setGender(GenderType.M);
+                    currentEvent.getPatient().getGender().setCode("2");
                 } else if (currentErsh.getPatient().getKön().equals(Kon.K)) {
-                    currentEvent.getPatient().setGender(GenderType.F);
+                    currentEvent.getPatient().getGender().setCode("1");
                 }
             }
             currentEvent.getPatient().setResidence(of.createResidenceType());
@@ -140,20 +152,14 @@ public class ERSMOIndataToCareEventTransformer {
                 currentEvent.getPatient().getResidence().getParish().setCode(currentErsh.getPatient().getLkf().substring(4, 6));
             }
 
-            CVType patientExtras = of.createCVType();
-            patientExtras.setOriginalText("Not mapped yet!");
-
-            JAXBElement<CVType> extrasElement = new JAXBElement<>(new QName("urn:riv:followup:processdevelopment:reimbursement:extras:1","Extras"),
-                    CVType.class, patientExtras);
-
-            currentEvent.getPatient().getAny().add(extrasElement);
+            currentEvent.getPatient().setLocalResidence(currentErsh.getPatient().getBasområde());
         }
 
         // Care Unit Local Id
         currentEvent.setCareUnit(of.createCareUnitType());
         currentEvent.getCareUnit().setCareUnitLocalId(new IIType());
-        currentEvent.getCareUnit().getCareUnitLocalId().setRoot("1.2.752.129.2.1.2.1");
-        currentEvent.getCareUnit().getCareUnitLocalId().setExtension("SE2321000016-39KJ+" + currentErsh.getSlutverksamhet());
+        currentEvent.getCareUnit().getCareUnitLocalId().setRoot(OID_HYBRID_GUID_IDENTIFIER);
+        currentEvent.getCareUnit().getCareUnitLocalId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + currentErsh.getSlutverksamhet());
 
         // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
         Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
@@ -163,6 +169,11 @@ public class ERSMOIndataToCareEventTransformer {
             currentEvent.setContracts(of.createCareEventTypeContracts());
 
             if (mappedFacilities.getState(stateDate) != null) {
+                // Care Unit HSA-id from MEK
+                String careUnitHSAid = mappedFacilities.getState(stateDate).getHSAMapping().getState(stateDate).getHsaId();
+                currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
+
+                // Find the contract mapping with the right type
                 for (TermItem<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
                     if ("06".equals(commissionState.getState(stateDate).getAssignmentType())
                             || "07".equals(commissionState.getState(stateDate).getAssignmentType())
@@ -170,8 +181,8 @@ public class ERSMOIndataToCareEventTransformer {
                         CareContractType currentContract = of.createCareContractType();
 
                         currentContract.setId(of.createIIType());
-                        currentContract.getId().setRoot("1.2.752.129.2.1.2.1");
-                        currentContract.getId().setExtension("SE2321000016-39KJ+" + commissionState.getId());
+                        currentContract.getId().setRoot(OID_HYBRID_GUID_IDENTIFIER);
+                        currentContract.getId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + commissionState.getId());
                         currentContract.setName(commissionState.getState(stateDate).getName());
 
 
@@ -181,15 +192,14 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.getContractType().setCode(commissionState.getState(stateDate).getCommissionType().getId());
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
-                        // TODO: Map to HSA.
-                        currentContract.setProviderOrganization(currentErsh.getSlutverksamhet());
+                        currentContract.setProviderOrganization(careUnitHSAid);
+                        currentContract.setPayorOrganization("?Payor?");
+                        currentContract.setRequesterOrganization("HSF");
 
                         currentEvent.getContracts().getContract().add(currentContract);
                     }
                 }
 
-                // Care Unit HSA-id from MEK
-                currentEvent.getCareUnit().setCareUnitId(mappedFacilities.getState(stateDate).getHSAMapping().getState(stateDate).getHsaId());
             } else {
                 // No mapped facilities for the date, error state?
                 LOG.error("No mapped facilities found for the care event date. Transformation could not be completed.");
@@ -243,7 +253,7 @@ public class ERSMOIndataToCareEventTransformer {
                 // Event Type
                 if (currentErsh.getHändelseklass().getVårdkontakt().getHändelseform() != null) {
                     currentEvent.setEventTypeMain(of.createCVType());
-                    currentEvent.getEventTypeMain().setCodeSystem("1.2.752.129.2.2.2.25");
+                    currentEvent.getEventTypeMain().setCodeSystem(OID_KV_KONTAKTTYP);
                     currentEvent.getEventTypeMain().setCodeSystemName("KV kontakttyp");
                     currentEvent.getEventTypeMain().setCode(mapErsmoKontaktFormToKvKontakttyp(
                             currentErsh.getHändelseklass().getVårdkontakt().getHändelseform().toString()));
@@ -283,7 +293,7 @@ public class ERSMOIndataToCareEventTransformer {
                     for (Diagnos diagnos : currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser().getDiagnos()) {
                         DiagnosisType currentDiagnosis = of.createDiagnosisType();
                         if (diagnos.getKlass().equals("008")) {
-                            currentDiagnosis.setCodeSystem("1.2.752.116.1.1.1.1.3");
+                            currentDiagnosis.setCodeSystem(OID_ICD10_SE);
                             currentDiagnosis.setCodeSystemName("Internationell statistisk klassifikation av sjukdomar och relaterade hälsoproblem, systematisk förteckning (ICD-10-SE)");
                         } else {
                             currentDiagnosis.setCodeSystem("NO.OID: " + diagnos.getKlass());
@@ -314,17 +324,17 @@ public class ERSMOIndataToCareEventTransformer {
                     for (Åtgärd åtgärd : currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd()) {
                         ActivityType currentActivity = of.createActivityType();
                         if (åtgärd.getKlass().equals("007")) {
-                            currentActivity.setCodeSystem("1.2.752.116.1.3.2.1.4");
+                            currentActivity.setCodeSystem(OID_KVÅ);
                             //currentActivity.setCodeSystemName("Klassifikation av vårdåtgärder (KVÅ)");
                         } else if (åtgärd.getKlass().equals("020")) {
-                            currentActivity.setCodeSystem("1.2.752.129.2.2.3.1.1");
+                            currentActivity.setCodeSystem(OID_ATC);
                             /*currentActivity.getActivityCode().setCodeSystemName("Anatomical Therapeutic Chemical " +
                                     "classification system (ATC)");*/
                         } else {
                             currentActivity.setCodeSystem("no.oid: " + åtgärd.getKlass());
                         }
                         currentActivity.setCode(åtgärd.getKod());
-                        currentActivity.setDate(åtgärd.getDatum().toXMLFormat());
+                        currentActivity.setDate(åtgärd.getDatum().toXMLFormat().replaceAll("-", ""));
                         currentEvent.getActivities().getActivity().add(currentActivity);
                     }
                 }

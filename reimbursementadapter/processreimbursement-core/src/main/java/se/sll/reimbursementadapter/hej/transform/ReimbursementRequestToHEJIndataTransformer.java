@@ -23,11 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
-import riv.followup.processdevelopment.reimbursement.v1.ActivityType;
-import riv.followup.processdevelopment.reimbursement.v1.ProductType;
-import riv.followup.processdevelopment.reimbursement.v1.ProfessionType;
-import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
-import riv.followup.processdevelopment.reimbursement.v1.ResidenceType;
+import riv.followup.processdevelopment.reimbursement.v1.*;
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.hej.xml.indata.ObjectFactory;
 import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;
@@ -129,35 +125,28 @@ public class ReimbursementRequestToHEJIndataTransformer {
         }
 
         // Fetch the geographical area and lookup the medical services area from it.
-        // Currently done via the Extras xs:any tag.
-        if (currentReimbursementEvent.getPatient() != null && currentReimbursementEvent.getPatient().getAny().size() > 0) {
-            Object anyObject = currentReimbursementEvent.getPatient().getAny().get(0);
-            LOG.debug("Any class type: " + anyObject.getClass());
-            if (anyObject instanceof Element) {
-                Element anyElement = (Element) anyObject;
-                LOG.debug("Element name: " + anyElement.getNodeName());
-                LOG.debug("Element value: " + anyElement.getTextContent());
-                if (anyElement.getNodeName().equals("Extras")) {
-                    ersh.getPatient().setBasområde(anyElement.getTextContent());
-                    TermItem<GeographicalAreaState> geographicalAreaStateTermItem = codeServerCache.get(anyElement.getTextContent());
-                    if (geographicalAreaStateTermItem != null) {
-                        // TODO: Fix lookup date for mapping! (None available in request atm)
-                        Date careEventDate = new Date();
-                        final GeographicalAreaState state = geographicalAreaStateTermItem.getState(careEventDate);
-                        if (state != null) {
-                            ersh.setKundKod("01" + state.getMedicalServiceArea());
-                        } else {
-                            LOG.error("Could not find any Medical Services code matching the requested geographical " +
-                                    "area code : (" + anyElement.getTextContent() + ")." +
-                                    "Please check the code server mapping for the geographical area code!");
-                            // TODO: What to do in this case?
-                        }
-                    } else {
-                        LOG.error("Could not lookup the Geographical Area code in the cache from the requested code (" + anyElement.getTextContent() + ")");
-                        // TODO: What to do in this case?
-                    }
+        if (currentReimbursementEvent.getPatient() != null) {
+            String patientLocalResidence = currentReimbursementEvent.getPatient().getLocalResidence();
+            // Set the Basområde from the Local Residence.
+            ersh.getPatient().setBasområde(patientLocalResidence);
 
+            // Map the Basområde to a Betjäningsområde using the Codeserver cache.
+            TermItem<GeographicalAreaState> geographicalAreaStateTermItem = codeServerCache.get(patientLocalResidence);
+            if (geographicalAreaStateTermItem != null) {
+                // TODO: Fix lookup date for mapping! (None available in request atm)
+                Date careEventDate = new Date();
+                final GeographicalAreaState state = geographicalAreaStateTermItem.getState(careEventDate);
+                if (state != null) {
+                    ersh.setKundKod("01" + state.getMedicalServiceArea());
+                } else {
+                    LOG.error("Could not find any Medical Services code matching the requested geographical " +
+                            "area code : (" + patientLocalResidence + ")." +
+                            "Please check the code server mapping for the geographical area code!");
+                    // TODO: What to do in this case?
                 }
+            } else {
+                LOG.error("Could not lookup the Geographical Area code in the cache from the requested code (" + patientLocalResidence + ")");
+                // TODO: What to do in this case?
             }
         }
 
@@ -181,7 +170,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
             for (ActivityType activity : currentReimbursementEvent.getActivities().getActivity()) {
                 HEJIndata.Ersättningshändelse.Åtgärder.Åtgärd åtgärd = of.createHEJIndataErsättningshändelseÅtgärderÅtgärd();
 
-                åtgärd.setDatum("???");
+                åtgärd.setDatum(activity.getDate());
                 åtgärd.setOrdnNr("" + activityIndex++);
                 åtgärd.setKod(activity.getCode());
                 ersh.getÅtgärder().getÅtgärd().add(åtgärd);
@@ -194,16 +183,27 @@ public class ReimbursementRequestToHEJIndataTransformer {
             for (ProductType product : productSet.getProduct()) {
                 HEJIndata.Ersättningshändelse.Produktomgång.Produkt produkt = of.createHEJIndataErsättningshändelseProduktomgångProdukt();
                 produkt.setKod(product.getCode().getCode());
-                produkt.setAntal("???");
+                produkt.setAntal("" + product.getCount());
                 produkt.setErsVerksamhet(product.getCareUnit().getCareUnitLocalId().getExtension());
-                //produkt.setFbPeriod("???");
-                //produkt.setFromDatum("???");
-                produkt.setUppdrag(product.getContract().getId().getRoot() + " (" + product.getContract().getName() + ")");
+                produkt.setLevKod(product.getCareUnit().getCareUnitId());
+
+                if (product.getDatePeriod() != null) {
+                    produkt.setFromDatum(product.getDatePeriod().getStart());
+                    produkt.setTomDatum(product.getDatePeriod().getEnd());
+
+                    if (product.getDatePeriod().getEnd() != null && product.getDatePeriod().getEnd().length() > 4) {
+                        produkt.setFbPeriod(product.getDatePeriod().getEnd().substring(0, 6));
+                    } else {
+                        produkt.setFbPeriod(product.getDatePeriod().getStart().substring(0, 6));
+                    }
+                }
+
+                produkt.setUppdrag(product.getContract().getId().getRoot());
                 produkt.setModell(product.getModel().getCode());
 
                 prodOmgång.getProdukt().add(produkt);
             }
-
+            prodOmgång.setTyp("Utförare");
             ersh.getProduktomgång().add(prodOmgång);
         }
 
