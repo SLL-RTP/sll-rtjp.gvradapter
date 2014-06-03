@@ -37,6 +37,11 @@ public class FacilityState extends TermState implements Serializable {
     private List<TermItem<CommissionState>> commissions = new ArrayList<>();
     private TermItem<HSAMappingState> hsaMapping;
 
+    /**
+     * The customer code.
+     * @return
+     */
+    private String customerCode;
 
     public List<TermItem<CommissionState>> getCommissions() {
         return commissions;
@@ -52,5 +57,13 @@ public class FacilityState extends TermState implements Serializable {
 
     public void setHSAMapping(TermItem<HSAMappingState> hsaMapping) {
         this.hsaMapping = hsaMapping;
+    }
+
+    public String getCustomerCode() {
+        return customerCode;
+    }
+
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 }

@@ -80,8 +80,9 @@ public class AbstractProducer {
         response.setResultCode("OK");
         response.setResponseTimePeriod(new DateTimePeriodType());
         response.getResponseTimePeriod().setStart(parameters.getUpdatedDuringPeriod().getStart());
-        // TODO Bug: utebliven end period hateras inte (och returnerar inget vettigt felmeddelande). Fel responskod också 200 istf 500.
-        response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
+        if (parameters.getUpdatedDuringPeriod() != null) {
+            response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
+        }
 
         List<Path> pathList;
         try {

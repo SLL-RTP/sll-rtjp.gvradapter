@@ -78,8 +78,10 @@ public class ERSMOIndataToCareEventTransformer {
 		
 		// Iterate over all the ersmoIndata.getErsättningshändelse() and convert them to CareEventType.
 		for (Ersättningshändelse currentErsh : ersmoIndata.getErsättningshändelse()) {
-            CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime);
-			responseList.add(currentEvent);
+            if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
+                CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime);
+                responseList.add(currentEvent);
+            }
 		}
 
 		return responseList;
@@ -193,8 +195,9 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
                         currentContract.setProviderOrganization(careUnitHSAid);
+                        //if (mappedFacilities.getState(stateDate).)
                         currentContract.setPayorOrganization("?Payor?");
-                        currentContract.setRequesterOrganization("HSF");
+                        currentContract.setRequesterOrganization(SLL_CAREGIVER_HSA_ID);
 
                         currentEvent.getContracts().getContract().add(currentContract);
                     }

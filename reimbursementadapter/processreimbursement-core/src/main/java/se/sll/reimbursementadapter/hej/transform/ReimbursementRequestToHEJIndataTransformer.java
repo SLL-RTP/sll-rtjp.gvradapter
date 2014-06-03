@@ -198,7 +198,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
                     }
                 }
 
-                produkt.setUppdrag(product.getContract().getId().getRoot());
+                produkt.setUppdrag(product.getContract().getId().getExtension());
                 produkt.setModell(product.getModel().getCode());
 
                 prodOmgång.getProdukt().add(produkt);

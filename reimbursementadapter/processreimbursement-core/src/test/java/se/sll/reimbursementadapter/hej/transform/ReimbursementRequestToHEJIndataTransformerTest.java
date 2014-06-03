@@ -127,8 +127,8 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
         // Create the Product 1 <contract> type
         SimpleContractType product1CareContractType = new SimpleContractType();
         product1CareContractType.setId(new IIType());
-        product1CareContractType.getId().setRoot(product1ContractId);
-        product1CareContractType.getId().setExtension(product1ContractCodeSytem);
+        product1CareContractType.getId().setRoot(product1ContractCodeSytem);
+        product1CareContractType.getId().setExtension(product1ContractId);
         product1CareContractType.setName(product1ContractName);
         product1.setContract(product1CareContractType);
 

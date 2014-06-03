@@ -52,6 +52,7 @@ public class CodeServerMEKCacheBuilder {
     private static final String STYP = "STYP";
     private static final String TILL_DATUM = "TillDatum";
     private static final String FROM_DATUM = "FromDatum";
+    private static final String KUND = "KUND";
     private static final String HSA_ID = "HSAId";
     private static final String KOMBIKAKOD = "Kombikakod";
     private static final String ABBREVIATION = "abbreviation";
@@ -197,6 +198,13 @@ public class CodeServerMEKCacheBuilder {
                             state.getCommissions().add(samverks);
                         }
                     }
+
+                    List<CodeServerCode> customerCodes = codeServiceEntry.getCodes(KUND);
+                    if (customerCodes != null) {
+                        for (CodeServerCode customerCode : customerCodes) {
+                            state.setCustomerCode(customerCode.getValue());
+                        }
+                    }
                     avd.addState(state);
                 }
             }
@@ -204,6 +212,7 @@ public class CodeServerMEKCacheBuilder {
 
         parser.extractAttribute(SHORTNAME);
         parser.extractCodeSystem(SAMVERKS);
+        parser.extractCodeSystem(KUND);
         parser.setNewerThan(newerThan);
 
         parser.parse();
@@ -223,6 +232,7 @@ public class CodeServerMEKCacheBuilder {
         elements.put(HSA_ID, 2);
         elements.put(FROM_DATUM, 3);
         elements.put(TILL_DATUM, 4);
+
 
 
         elementParser.parse("mappning", elements, new ElementMatcherCallback() {
