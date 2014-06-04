@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
 
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.v1.*;
@@ -181,12 +180,16 @@ public class ReimbursementRequestToHEJIndataTransformer {
         for (ReimbursementEventType.ProductSet productSet : currentReimbursementEvent.getProductSet()) {
             HEJIndata.Ersättningshändelse.Produktomgång prodOmgång = of.createHEJIndataErsättningshändelseProduktomgång();
             for (ProductType product : productSet.getProduct()) {
+                // Create a new Produkt instance and populate it with basic values from the current 'product' variable.
                 HEJIndata.Ersättningshändelse.Produktomgång.Produkt produkt = of.createHEJIndataErsättningshändelseProduktomgångProdukt();
                 produkt.setKod(product.getCode().getCode());
                 produkt.setAntal("" + product.getCount());
                 produkt.setErsVerksamhet(product.getCareUnit().getCareUnitLocalId().getExtension());
                 produkt.setLevKod(product.getCareUnit().getCareUnitId());
+                produkt.setUppdrag(product.getContract().getId().getExtension());
+                produkt.setModell(product.getModel().getCode());
 
+                // Sate the date period, and calculate the FbPerion from this.
                 if (product.getDatePeriod() != null) {
                     produkt.setFromDatum(product.getDatePeriod().getStart());
                     produkt.setTomDatum(product.getDatePeriod().getEnd());
@@ -198,9 +201,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
                     }
                 }
 
-                produkt.setUppdrag(product.getContract().getId().getExtension());
-                produkt.setModell(product.getModel().getCode());
-
+                // Add the created Produkt to the Produktomgång.
                 prodOmgång.getProdukt().add(produkt);
             }
             prodOmgång.setTyp("Utförare");

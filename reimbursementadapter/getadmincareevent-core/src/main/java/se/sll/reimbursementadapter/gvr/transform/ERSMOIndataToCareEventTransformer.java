@@ -30,11 +30,9 @@ import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.parser.TermItem;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.namespace.QName;
 import java.util.*;
 
 /**
@@ -196,7 +194,7 @@ public class ERSMOIndataToCareEventTransformer {
 
                         currentContract.setProviderOrganization(careUnitHSAid);
                         //if (mappedFacilities.getState(stateDate).)
-                        currentContract.setPayorOrganization("?Payor?");
+                        currentContract.setPayerOrganization("?Payor?");
                         currentContract.setRequesterOrganization(SLL_CAREGIVER_HSA_ID);
 
                         currentEvent.getContracts().getContract().add(currentContract);
@@ -370,21 +368,22 @@ public class ERSMOIndataToCareEventTransformer {
     public static String mapErsmoKontaktFormToKvKontakttyp(String ersmoKontaktForm) {
         String trimmedInput = ersmoKontaktForm.trim().toLowerCase();
 
-        if ("öppenvårdskontakt".equals(trimmedInput)) {
-            return "2";
-        } else if ("slutenvårdstillfälle".equals(trimmedInput)) {
-            return "1";
-        } else if ("hemsjukvårdskontakt".equals(trimmedInput)) {
-            return "4";
+        switch (trimmedInput) {
+            case "öppenvårdskontakt":
+                return "2";
+            case "slutenvårdstillfälle":
+                return "1";
+            case "hemsjukvårdskontakt":
+                return "4";
+            default:
+                return "";
         }
-
-        return "";
     }
 
     /**
      * Maps a numeric Händelsetyp code to the corresponding text representation.
      * @param händelsetyp the numeric Händelsetyp code to map.
-     * @return
+     * @return A String with the text representation of the Händelsetyp.
      */
     public static String mapNumericHändelsetypToTextRepresentation(String händelsetyp) {
         String trimmedInput = händelsetyp.trim();

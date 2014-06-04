@@ -388,7 +388,7 @@
       <xs:element name="name" type="xs:string" minOccurs="0"/>
       <xs:element name="contractType" type="tns:CVType" minOccurs="0"/>
       <xs:element name="providerOrganization" type="tns:HSAIdType"/>
-      <xs:element name="payorOrganization" type="tns:HSAIdType"/>
+      <xs:element name="payerOrganization" type="tns:HSAIdType"/>
       <xs:element name="requesterOrganization" type="tns:HSAIdType"/>
     </xs:sequence>
   </xs:complexType>
@@ -478,8 +478,8 @@
    <soapenv:Body>
       <urn1:GetAdministrativeCareEvent>
          <urn1:updatedDuringPeriod>
-            <urn2:start>2014-02-01T09:59:59.999</urn2:start>
-            <urn2:end>2014-04-05T09:59:59.999</urn2:end>
+            <urn2:start>999999-02-01T08:59:59.999+02:00</urn2:start>
+            <urn2:end>2014-02-02T09:59:59.999+02:00</urn2:end>
          </urn1:updatedDuringPeriod>
       </urn1:GetAdministrativeCareEvent>
    </soapenv:Body>
