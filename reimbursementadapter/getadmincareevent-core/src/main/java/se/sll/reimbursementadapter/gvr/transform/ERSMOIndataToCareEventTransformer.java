@@ -52,6 +52,12 @@ public class ERSMOIndataToCareEventTransformer {
     private static final String OID_ICD10_SE = "1.2.752.116.1.1.1.1.3";
     private static final String OID_KVÅ = "1.2.752.116.1.3.2.1.4";
     private static final String OID_ATC = "1.2.752.129.2.2.3.1.1";
+    private static final String OID_KV_LÄN = "1.2.752.129.2.2.1.18";
+    private static final String OID_KV_LÄN_TEXT = "KV_LÄN - Länskod enligt SCB";
+    private static final String OID_KV_KOMMUN = "1.2.752.129.2.2.1.17";
+    private static final String OID_KV_KOMMUN_TEXT = "KV_KOMMUN - Kommunkod enligt SCB";
+    private static final String OID_KV_FÖRSAMLING = "1.2.752.129.2.2.1.16";
+    private static final String OID_KV_FÖRSAMLING_TEXT = "KV_FÖRSAMLING - Församlingskod enligt SCB";
 
     private static final String SLL_CAREGIVER_HSA_ID = "SE2321000016-39KJ";
 
@@ -144,12 +150,17 @@ public class ERSMOIndataToCareEventTransformer {
             currentEvent.getPatient().setResidence(of.createResidenceType());
             if (currentErsh.getPatient().getLkf() != null && currentErsh.getPatient().getLkf().length() >= 6) {
                 currentEvent.getPatient().getResidence().setRegion(new CVType());
-                currentEvent.getPatient().getResidence().getRegion().setCode(currentErsh.getPatient().getLkf()
-                        .substring(0, 2));
+                currentEvent.getPatient().getResidence().getRegion().setCode(currentErsh.getPatient().getLkf().substring(0, 2));
+                currentEvent.getPatient().getResidence().getRegion().setCodeSystem(OID_KV_LÄN);
+                currentEvent.getPatient().getResidence().getRegion().setCodeSystemName(OID_KV_LÄN_TEXT);
                 currentEvent.getPatient().getResidence().setMunicipality(new CVType());
                 currentEvent.getPatient().getResidence().getMunicipality().setCode(currentErsh.getPatient().getLkf().substring(2, 4));
+                currentEvent.getPatient().getResidence().getMunicipality().setCodeSystem(OID_KV_KOMMUN);
+                currentEvent.getPatient().getResidence().getMunicipality().setCodeSystemName(OID_KV_KOMMUN_TEXT);
                 currentEvent.getPatient().getResidence().setParish(new CVType());
                 currentEvent.getPatient().getResidence().getParish().setCode(currentErsh.getPatient().getLkf().substring(4, 6));
+                currentEvent.getPatient().getResidence().getParish().setCodeSystem(OID_KV_FÖRSAMLING);
+                currentEvent.getPatient().getResidence().getParish().setCodeSystemName(OID_KV_FÖRSAMLING_TEXT);
             }
 
             currentEvent.getPatient().setLocalResidence(currentErsh.getPatient().getBasområde());
@@ -193,7 +204,6 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
                         currentContract.setProviderOrganization(careUnitHSAid);
-                        //if (mappedFacilities.getState(stateDate).)
                         currentContract.setPayerOrganization("?Payor?");
                         currentContract.setRequesterOrganization(SLL_CAREGIVER_HSA_ID);
 
@@ -396,4 +406,3 @@ public class ERSMOIndataToCareEventTransformer {
         return "";
     }
 }
-
