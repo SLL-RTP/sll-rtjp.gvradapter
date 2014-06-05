@@ -46,7 +46,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         ERSMOIndata indata = ERSMOIndataUnMarshaller.unmarshalString(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile));
+        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         // Validate contents of transformed RIV objects.
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());

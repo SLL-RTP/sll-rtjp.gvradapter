@@ -107,7 +107,8 @@ public class AbstractProducer {
                 // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
                 // response.
                 List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject,
-                        currentDate);
+                                                                                                  currentDate,
+                                                                                                  currentFile);
 
                 if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
                     // Truncate response if we reached the configured limit for care events in the response.

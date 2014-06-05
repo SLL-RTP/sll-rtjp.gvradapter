@@ -337,8 +337,6 @@ public class CodeServerMEKCacheBuilder {
     //
     protected HashMap<String, TermItem<CommissionTypeState>> createCommissionTypeIndex() {
         final HashMap<String, TermItem<CommissionTypeState>> index = new HashMap<>();
-        File test = new File(this.commissionTypeFile);
-        System.out.printf("Current commission type file: %1$s \\n", test.getAbsolutePath());
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.commissionTypeFile, new CodeServiceEntryCallback() {
             @Override
             public void onCodeServiceEntry(CodeServiceEntry codeServiceEntry) {

@@ -76,7 +76,6 @@ public class CodeServerMEKCacheManagerService {
 
     /** Constructor needed to setup the Mule and some unit test context that are not launched via Spring. */
     public CodeServerMEKCacheManagerService() {
-        LOG.debug("constructor");
         if (instance == null) {
             instance = this;
         }
@@ -87,8 +86,6 @@ public class CodeServerMEKCacheManagerService {
     }
 
     private Map<String, TermItem<FacilityState>> build() {
-        LOG.debug("build index");
-
         CodeServerMEKCacheBuilder builder = new CodeServerMEKCacheBuilder()
                 .withCommissionFile(path(commissionFile))
                 .withCommissionTypeFile(path(commissionTypeFile))
@@ -96,8 +93,6 @@ public class CodeServerMEKCacheManagerService {
                 .withMekFile(path(mekFile));
 
         final Map<String, TermItem<FacilityState>> index = builder.build();
-
-        LOG.debug("build index: done");
 
         return index;
     }
@@ -122,7 +117,7 @@ public class CodeServerMEKCacheManagerService {
      * this method returns without doing anything.
      */
     public void revalidate() {
-        LOG.debug("revalidate index");
+        LOG.info("Revalidate index.");
 
         if (isBusy()) {
             return;
@@ -133,8 +128,15 @@ public class CodeServerMEKCacheManagerService {
             }
             setBusy(true);
             try {
+                LOG.info(String.format("Building index"));
                 final Map<String, TermItem<FacilityState>> index = build();
-                fileObjectStore.write(index, fileName);
+                if (fileName.trim().isEmpty()) {
+                    LOG.info(String.format("Skipping write of index, pr.cs.indexFile is empty."));
+                }
+                else {
+                    LOG.info(String.format("Writing index to %s.", fileName));
+                    fileObjectStore.write(index, fileName);
+                }
                 setCurrentIndex(index);
             } finally {
                 setBusy(false);
@@ -163,6 +165,7 @@ public class CodeServerMEKCacheManagerService {
 
     public synchronized Map<String, TermItem<FacilityState>> getCurrentIndex() {
         if (currentIndex == null) {
+            LOG.info(String.format("Reading index from %s.", fileName));
             Map<String, TermItem<FacilityState>> index = fileObjectStore.read(fileName);
             setCurrentIndex(index);
         }
@@ -176,6 +179,6 @@ public class CodeServerMEKCacheManagerService {
      */
     protected synchronized void setCurrentIndex(Map<String, TermItem<FacilityState>> currentIndex) {
         this.currentIndex = currentIndex;
-        LOG.info("current index set, size: {}", (this.currentIndex == null) ? 0 : this.currentIndex.size());
+        LOG.info("Current index set, size: {}.", (this.currentIndex == null) ? 0 : this.currentIndex.size());
     }
 }

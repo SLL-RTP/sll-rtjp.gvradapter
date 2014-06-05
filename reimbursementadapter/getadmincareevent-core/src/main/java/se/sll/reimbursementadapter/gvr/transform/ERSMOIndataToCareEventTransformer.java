@@ -17,6 +17,7 @@ package se.sll.reimbursementadapter.gvr.transform;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import riv.followup.processdevelopment.reimbursement.v1.*;
 import se.sll.ersmo.xml.indata.Diagnoser.Diagnos;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
@@ -33,6 +34,8 @@ import se.sll.reimbursementadapter.parser.TermItem;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -71,9 +74,10 @@ public class ERSMOIndataToCareEventTransformer {
      * @param fileUpdatedTime The update time for the file the ERSMOIndata was read from. This is used
      *                        for setting the "lastUpdatedTime" parameter in the transformation, which
      *                        is not available in the source data.
+     * @param currentFile 
      * @return The transformed list of {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} objects
      */
-	public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime) {
+	public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime, Path currentFile) {
 		LOG.debug("Entering ERSMOIndataToCareEventTransformer.doTransform()");
 		// Instantiate the Cache Manager.
 		CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
@@ -83,7 +87,7 @@ public class ERSMOIndataToCareEventTransformer {
 		// Iterate over all the ersmoIndata.getErsättningshändelse() and convert them to CareEventType.
 		for (Ersättningshändelse currentErsh : ersmoIndata.getErsättningshändelse()) {
             if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
-                CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime);
+                CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime, currentFile);
                 responseList.add(currentEvent);
             }
 		}
@@ -107,14 +111,20 @@ public class ERSMOIndataToCareEventTransformer {
      * @param updatedTime The update time for the file the ERSMOIndata was read from. This is used
      *                    for setting the "lastUpdatedTime" parameter in the transformation, which
      *                    is not available in the source data.
+     * @param currentFile 
      * @return The transformed {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType}.
      */
-    private static CareEventType createCareEventFromErsättningshändelse(Ersättningshändelse currentErsh, ERSMOIndata ersmoIndata, CodeServerMEKCacheManagerService cacheManager, Date updatedTime) {
+    private static CareEventType createCareEventFromErsättningshändelse(Ersättningshändelse currentErsh, 
+                                                                        ERSMOIndata ersmoIndata, 
+                                                                        CodeServerMEKCacheManagerService cacheManager, 
+                                                                        Date updatedTime, Path currentFile) {
         ObjectFactory of = new ObjectFactory();
         CareEventType currentEvent = of.createCareEventType();
 
         currentEvent.setId(currentErsh.getID());
 
+        String currentErsId = currentErsh.getID();
+        
         // Source System
         currentEvent.setSourceSystem(of.createSourceSystemType());
         currentEvent.getSourceSystem().setOrg(SLL_CAREGIVER_HSA_ID);
@@ -174,7 +184,8 @@ public class ERSMOIndataToCareEventTransformer {
 
         // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
         Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
-        TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(currentErsh.getSlutverksamhet());
+        String kombika = currentErsh.getSlutverksamhet();
+        TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
         if (mappedFacilities != null) {
             // Contract
             currentEvent.setContracts(of.createCareEventTypeContracts());
@@ -212,9 +223,11 @@ public class ERSMOIndataToCareEventTransformer {
                 }
 
             } else {
-                // No mapped facilities for the date, error state?
-                LOG.error("No mapped facilities found for the care event date. Transformation could not be completed.");
+		// No mapped facilities for the date, error state?
+                LOG.error(String.format("No mapped facilities found for the care event (%s) from (%s) with date (%s) using kombika/slutverksamhet (%s). Transformation could not be completed.",
+                                        currentErsId, currentFile, stateDate, kombika));
                 // TODO: throw mapping exception
+                // TODO roos: I am not sure the translation should continue with a translation this broken. Let's discuss it.
             }
         }
 
