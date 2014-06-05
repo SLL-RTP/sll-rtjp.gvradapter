@@ -34,7 +34,6 @@ public class ERSMOIndataUnMarshaller {
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
 
     public static ERSMOIndata unmarshalString(Reader src) {
-        LOG.debug("Starting to unmarshal contents of source Reader.");
         ERSMOIndata indata = null;
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);

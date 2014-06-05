@@ -70,4 +70,11 @@ public class CommissionState extends TermState implements Serializable {
     public void setAssignmentType(String assignmentType) {
         this.assignmentType = assignmentType;
     }   
+    
+    @Override
+    public String toString() {
+        return "CommissionState [commissionType=" + commissionType
+                + ", contractCode=" + contractCode + ", assignmentType="
+                + assignmentType + "]";
+    }
 }

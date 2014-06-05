@@ -314,7 +314,7 @@
 			<xs:element name="name" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="ProductType">
+	<xs:complexType name="ProductType"> 
 		<xs:sequence>
 			<xs:element name="code" type="tns:CVType"/>
 			<xs:element name="careUnit" type="tns:CareUnitType"/>

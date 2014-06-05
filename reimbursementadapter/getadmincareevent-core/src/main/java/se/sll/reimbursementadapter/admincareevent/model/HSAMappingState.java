@@ -42,4 +42,10 @@ public class HSAMappingState extends TermState implements Serializable {
     public void setHsaId(String hsaId) {
         this.hsaId = hsaId;
     }
+
+    @Override
+    public String toString() {
+        return "HSAMappingState [hsaId=" + hsaId + "]";
+    }
+    
 }

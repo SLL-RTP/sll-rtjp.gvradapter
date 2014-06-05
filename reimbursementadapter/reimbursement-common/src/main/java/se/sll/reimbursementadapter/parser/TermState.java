@@ -104,4 +104,12 @@ public abstract class TermState implements Comparable<TermState>, Serializable {
     public int compareTo(TermState other) {
         return getValidFrom().compareTo(other.getValidFrom());
     }
+
+    @Override
+    public String toString() {
+        return "TermState [name=" + name + ", validFrom=" + validFrom
+                + ", validTo=" + validTo + "]";
+    }
+    
+    
 }

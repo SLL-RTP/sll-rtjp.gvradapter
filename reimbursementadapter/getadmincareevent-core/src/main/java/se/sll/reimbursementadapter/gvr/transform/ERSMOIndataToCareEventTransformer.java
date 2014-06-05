@@ -77,23 +77,23 @@ public class ERSMOIndataToCareEventTransformer {
      * @param currentFile 
      * @return The transformed list of {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} objects
      */
-	public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime, Path currentFile) {
-		LOG.debug("Entering ERSMOIndataToCareEventTransformer.doTransform()");
-		// Instantiate the Cache Manager.
-		CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
-		// Create the response object.
-		List<CareEventType> responseList = new ArrayList<>();
-		
-		// Iterate over all the ersmoIndata.getErsättningshändelse() and convert them to CareEventType.
-		for (Ersättningshändelse currentErsh : ersmoIndata.getErsättningshändelse()) {
+    public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime, Path currentFile) {
+        // Instantiate the Cache Manager.
+        CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
+        // Create the response object.
+        List<CareEventType> responseList = new ArrayList<>();
+        // Iterate over all the ersmoIndata.getErsättningshändelse() and convert them to CareEventType.
+        List<Ersättningshändelse> list = ersmoIndata.getErsättningshändelse();
+        LOG.info(String.format("Transforming file %s with %d care events updated at %s.", currentFile, list.size(), fileUpdatedTime));
+        for (Ersättningshändelse currentErsh : list) {
             if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
-                CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime, currentFile);
+                CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, 
+                                                                                    fileUpdatedTime, currentFile);
                 responseList.add(currentEvent);
             }
-		}
-
-		return responseList;
-	}
+        }
+        return responseList;
+    }
 
     /**
      * <p>Transforms a single source {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse} along
@@ -221,14 +221,19 @@ public class ERSMOIndataToCareEventTransformer {
                         currentEvent.getContracts().getContract().add(currentContract);
                     }
                 }
-
             } else {
-		// No mapped facilities for the date, error state?
-                LOG.error(String.format("No mapped facilities found for the care event (%s) from (%s) with date (%s) using kombika/slutverksamhet (%s). Transformation could not be completed.",
-                                        currentErsId, currentFile, stateDate, kombika));
+                // No mapped facilities for the date, error state?
+                LOG.error(String.format("Did not find code server data with date %s for kombika %s on care event %s in %s.",
+                                        stateDate, kombika, currentErsId, currentFile));
                 // TODO: throw mapping exception
-                // TODO roos: I am not sure the translation should continue with a translation this broken. Let's discuss it.
+                // TODO roos: I am not sure the translation should continue with a translation this broken. Let's discuss it. Maybe it has to because we are translating ancient data.
             }
+        }
+        else {
+            LOG.error(String.format("Did not find code server data for kombika %s on care event %s in %s.",
+                                    kombika, currentErsId, currentFile));
+            // TODO roos: Can this happend in reality? If it can we need to change the contract because unitId is required.
+            // Also, how can this be empty now? Why is the webservice code accpeting that data is not following the xsd. 
         }
 
         // Set up mapping for the contact referral care unit to HSA-id.

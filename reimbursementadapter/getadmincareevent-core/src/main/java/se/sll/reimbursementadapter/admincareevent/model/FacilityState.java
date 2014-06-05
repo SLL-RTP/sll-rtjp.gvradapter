@@ -66,4 +66,12 @@ public class FacilityState extends TermState implements Serializable {
     public void setCustomerCode(String customerCode) {
         this.customerCode = customerCode;
     }
+
+    @Override
+    public String toString() {
+        return "FacilityState [commissions=" + commissions + ", hsaMapping="
+                + hsaMapping + ", customerCode=" + customerCode
+                + ", toString()=" + super.toString() + "]";
+    }
+    
 }

@@ -84,4 +84,9 @@ public class TermItem<T extends TermState> implements Serializable {
         }
         return another instanceof TermItem && getId().equals(((TermItem<?>) another).getId());
     }
+
+    @Override
+    public String toString() {
+        return "TermItem [id=" + id + ", stateVector=" + stateVector + "]";
+    }
 }
