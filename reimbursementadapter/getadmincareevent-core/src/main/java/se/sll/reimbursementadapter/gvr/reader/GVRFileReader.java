@@ -129,7 +129,7 @@ public class GVRFileReader {
     public List<Path> getFileList(final Date fromDate, final Date toDate) throws IOException {
         Path directoryToIterate = FileSystems.getDefault().getPath(localPath);
 
-        LOG.debug("Reading files from date: " + fromDate + " and path: " + directoryToIterate.toString());
+        LOG.info("Reading files from date: " + fromDate + " and path: " + directoryToIterate.toString());
 
         // Read all the wanted files from the current directory.
         List<Path> response = new ArrayList<>();

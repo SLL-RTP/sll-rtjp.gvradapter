@@ -99,6 +99,8 @@ public class AbstractProducer {
         Date currentDate;
 
         for (Path currentFile : pathList) {
+            // TODO roos: Bug: pathList needs to be sorted on date from gvr file or the time period in the response will be incorrect 
+            // (and the order of the care events may be incorrect as well). 
             currentDate = gvrFileReader.getDateFromGVRFile(currentFile);
 
             try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
