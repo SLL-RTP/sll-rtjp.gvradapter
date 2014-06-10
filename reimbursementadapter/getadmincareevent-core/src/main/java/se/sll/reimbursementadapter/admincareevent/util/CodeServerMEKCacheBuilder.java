@@ -15,7 +15,6 @@
  */
 package se.sll.reimbursementadapter.admincareevent.util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,10 +24,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
-import se.sll.reimbursementadapter.admincareevent.model.CommissionTypeState;
-import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
-import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
+import se.sll.reimbursementadapter.admincareevent.model.*;
 import se.sll.reimbursementadapter.parser.CodeServerCode;
 import se.sll.reimbursementadapter.parser.CodeServiceEntry;
 import se.sll.reimbursementadapter.parser.CodeServiceXMLParser;
@@ -59,6 +55,7 @@ public class CodeServerMEKCacheBuilder {
     private static final String UPPDRAGSTYP = "UPPDRAGSTYP";
     private static final String NO_COMMISSION_ID = "0000";
     private static final String SAMVERKS = "SAMVERKS";
+    private static final String MOTTAGNINGSTYP = "AVDTYP";
     private static final String SHORTNAME = "shortname";
 
     private static final Logger LOG = LoggerFactory.getLogger(CodeServerMEKCacheBuilder.class);
@@ -162,7 +159,7 @@ public class CodeServerMEKCacheBuilder {
     //
     protected HashMap<String, TermItem<FacilityState>> createFacilityIndex() {
         LOG.info("build commissionIndex from: {}", commissionFile);
-        final HashMap<String, TermItem<CommissionState>> samverksIndex = createCommissionIndex();
+        final HashMap<String, TermItemCommission<CommissionState>> samverksIndex = createCommissionIndex();
         final Map<String, List<TermItem<HSAMappingState>>> hsaIndex = createHSAIndex();
         
         LOG.info("commissionIndex size: {}", samverksIndex.size());
@@ -192,10 +189,12 @@ public class CodeServerMEKCacheBuilder {
                     	state.setHSAMapping(hsaIndex.get(codeServiceEntry.getId()).get(0));
                     }
                     for (final CodeServerCode code : codes) {
-                        final TermItem<CommissionState> samverks = samverksIndex.get(code.getValue());
+                        final TermItemCommission<CommissionState> samverks = samverksIndex.get(code.getValue());
                         // don't add the same twice
                         if (samverks != null) {
                             state.getCommissions().add(samverks);
+
+                            samverks.putBackRef(avd);
                         }
                     }
 
@@ -203,6 +202,13 @@ public class CodeServerMEKCacheBuilder {
                     if (customerCodes != null) {
                         for (CodeServerCode customerCode : customerCodes) {
                             state.setCustomerCode(customerCode.getValue());
+                        }
+                    }
+
+                    List<CodeServerCode> careUnitTypeCodes = codeServiceEntry.getCodes(MOTTAGNINGSTYP);
+                    if (careUnitTypeCodes != null) {
+                        for (CodeServerCode careUnitTypeCode : careUnitTypeCodes) {
+                            state.setCareUnitType(careUnitTypeCode.getValue());
                         }
                     }
                     avd.addState(state);
@@ -213,10 +219,10 @@ public class CodeServerMEKCacheBuilder {
         parser.extractAttribute(SHORTNAME);
         parser.extractCodeSystem(SAMVERKS);
         parser.extractCodeSystem(KUND);
+        parser.extractCodeSystem(MOTTAGNINGSTYP);
         parser.setNewerThan(newerThan);
 
         parser.parse();
-
         return index;
     }
     
@@ -280,9 +286,9 @@ public class CodeServerMEKCacheBuilder {
     }
 
     //
-    protected HashMap<String, TermItem<CommissionState>> createCommissionIndex() {
+    protected HashMap<String, TermItemCommission<CommissionState>> createCommissionIndex() {
 
-        final HashMap<String, TermItem<CommissionState>> index = new HashMap<>();
+        final HashMap<String, TermItemCommission<CommissionState>> index = new HashMap<>();
 
         LOG.info("build commissionTypeIndex from: {}", commissionTypeFile);
         final HashMap<String, TermItem<CommissionTypeState>> uppdragstypIndex = createCommissionTypeIndex();
@@ -297,10 +303,10 @@ public class CodeServerMEKCacheBuilder {
                     LOG.trace("No such commission: {}", uCode);
                     return;
                 }
-                
-                TermItem<CommissionState> commission = index.get(codeServiceEntry.getId());
+
+                TermItemCommission<CommissionState> commission = index.get(codeServiceEntry.getId());
                 if (commission == null) {
-                    commission = new TermItem<>();
+                    commission = new TermItemCommission<>();
                     commission.setId(codeServiceEntry.getId());
                     index.put(codeServiceEntry.getId(), commission);
                 }
@@ -360,5 +366,6 @@ public class CodeServerMEKCacheBuilder {
         parser.parse();
 
         return index;
-    }    
+    }
+
 }

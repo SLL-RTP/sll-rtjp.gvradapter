@@ -24,10 +24,13 @@ import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
 import se.sll.ersmo.xml.indata.Kon;
 import se.sll.ersmo.xml.indata.Tillståndslista.Tillstånd;
+import se.sll.ersmo.xml.indata.Vkhform;
 import se.sll.ersmo.xml.indata.Yrkeskategorier.Yrkeskategori;
 import se.sll.ersmo.xml.indata.Åtgärder.Åtgärd;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
+import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
+import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.parser.TermItem;
 
@@ -46,21 +49,28 @@ public class ERSMOIndataToCareEventTransformer {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
 
+    // Kodverk
     private static final String OID_TEMPORARY_PATIENT_ID = "1.2.752.97.3.1.3";
     private static final String OID_COORDINATION_ID = "1.2.752.129.2.1.3.3";
     private static final String OID_PATIENT_IDENTIFIER = "1.2.752.129.2.1.3.1";
-    private static final String OID_KV_KÖN = "1.2.752.129.2.2.1.1";
     private static final String OID_HYBRID_GUID_IDENTIFIER = "1.2.752.129.2.1.2.1";
-    private static final String OID_KV_KONTAKTTYP = "1.2.752.129.2.2.2.25";
     private static final String OID_ICD10_SE = "1.2.752.116.1.1.1.1.3";
     private static final String OID_KVÅ = "1.2.752.116.1.3.2.1.4";
     private static final String OID_ATC = "1.2.752.129.2.2.3.1.1";
+
+    // Formella kodverk enligt V-TIM 2.0.
+    private static final String OID_KV_KÖN = "1.2.752.129.2.2.1.1";
+    private static final String OID_KV_KONTAKTTYP = "1.2.752.129.2.2.2.25";
     private static final String OID_KV_LÄN = "1.2.752.129.2.2.1.18";
     private static final String OID_KV_LÄN_TEXT = "KV_LÄN - Länskod enligt SCB";
     private static final String OID_KV_KOMMUN = "1.2.752.129.2.2.1.17";
     private static final String OID_KV_KOMMUN_TEXT = "KV_KOMMUN - Kommunkod enligt SCB";
     private static final String OID_KV_FÖRSAMLING = "1.2.752.129.2.2.1.16";
     private static final String OID_KV_FÖRSAMLING_TEXT = "KV_FÖRSAMLING - Församlingskod enligt SCB";
+
+    // Egna kodverk skapade från Codeserver.
+    private static final String OID_SLL_CS_UPPDRAGSTYP = "SLL.CS.UPPDRAGSTYP";
+    private static final String OID_SLL_CS_UPPDRADSTYP_TEXT = "SLL Code Server definition from the 'UPPDRAGSTYP' table.";
 
     private static final String SLL_CAREGIVER_HSA_ID = "SE2321000016-39KJ";
 
@@ -132,48 +142,7 @@ public class ERSMOIndataToCareEventTransformer {
 
         // Patient
         if (currentErsh.getPatient() != null) {
-            currentEvent.setPatient(of.createPatientType());
-            currentEvent.getPatient().setId(of.createPersonIdType());
-            currentEvent.getPatient().getId().setId(currentErsh.getPatient().getID());
-            if (currentErsh.getPatient().getID().startsWith("99")) {
-                // SLL temporary patient identification (reservnummer)
-                currentEvent.getPatient().getId().setType(OID_TEMPORARY_PATIENT_ID);
-            } else if (Integer.valueOf(currentErsh.getPatient().getID().substring(6,8)) > 60) {
-                // National co-ordination number (samordningsnummer) - the birth day has 60 added to it in order to identify it.
-                currentEvent.getPatient().getId().setType(OID_COORDINATION_ID);
-            } else {
-                // Regular person identificator (personnummer)
-                currentEvent.getPatient().getId().setType(OID_PATIENT_IDENTIFIER);
-            }
-            if (currentErsh.getPatient().getFödelsedatum() != null) {
-                currentEvent.getPatient().setBirthDate(currentErsh.getPatient().getFödelsedatum().toXMLFormat().replace("-", ""));
-            }
-            if (currentErsh.getPatient().getKön() != null) {
-                currentEvent.getPatient().setGender(new CVType());
-                currentEvent.getPatient().getGender().setCodeSystem(OID_KV_KÖN);
-                if (currentErsh.getPatient().getKön().equals(Kon.M)) {
-                    currentEvent.getPatient().getGender().setCode("2");
-                } else if (currentErsh.getPatient().getKön().equals(Kon.K)) {
-                    currentEvent.getPatient().getGender().setCode("1");
-                }
-            }
-            currentEvent.getPatient().setResidence(of.createResidenceType());
-            if (currentErsh.getPatient().getLkf() != null && currentErsh.getPatient().getLkf().length() >= 6) {
-                currentEvent.getPatient().getResidence().setRegion(new CVType());
-                currentEvent.getPatient().getResidence().getRegion().setCode(currentErsh.getPatient().getLkf().substring(0, 2));
-                currentEvent.getPatient().getResidence().getRegion().setCodeSystem(OID_KV_LÄN);
-                currentEvent.getPatient().getResidence().getRegion().setCodeSystemName(OID_KV_LÄN_TEXT);
-                currentEvent.getPatient().getResidence().setMunicipality(new CVType());
-                currentEvent.getPatient().getResidence().getMunicipality().setCode(currentErsh.getPatient().getLkf().substring(2, 4));
-                currentEvent.getPatient().getResidence().getMunicipality().setCodeSystem(OID_KV_KOMMUN);
-                currentEvent.getPatient().getResidence().getMunicipality().setCodeSystemName(OID_KV_KOMMUN_TEXT);
-                currentEvent.getPatient().getResidence().setParish(new CVType());
-                currentEvent.getPatient().getResidence().getParish().setCode(currentErsh.getPatient().getLkf().substring(4, 6));
-                currentEvent.getPatient().getResidence().getParish().setCodeSystem(OID_KV_FÖRSAMLING);
-                currentEvent.getPatient().getResidence().getParish().setCodeSystemName(OID_KV_FÖRSAMLING_TEXT);
-            }
-
-            currentEvent.getPatient().setLocalResidence(currentErsh.getPatient().getBasområde());
+            currentEvent.setPatient(createRivPatientFromErsättningsPatient(currentErsh.getPatient()));
         }
 
         // Care Unit Local Id
@@ -192,31 +161,49 @@ public class ERSMOIndataToCareEventTransformer {
 
             if (mappedFacilities.getState(stateDate) != null) {
                 // Care Unit HSA-id from MEK
-                String careUnitHSAid = mappedFacilities.getState(stateDate).getHSAMapping().getState(stateDate).getHsaId();
-                currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
+                final FacilityState state1 = mappedFacilities.getState(stateDate);
+                if (state1 == null) {
+                    LOG.error("The specified facility code <" + mappedFacilities.getId() + "> does not exist in the Facility file.");
+                    // TODO: Throw excpetion (Facility code does not exist in Facility file)
+                }
+
+                TermItem<HSAMappingState> hsaMappingState = state1.getHSAMapping();
+                String careUnitHSAid = null;
+                if (hsaMappingState != null) {
+                    careUnitHSAid = hsaMappingState.getState(stateDate).getHsaId();
+                    currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
+                } else {
+                    LOG.info("The specified facility code <" + mappedFacilities.getId() + "> does not exist in the HSA(MEK) mapping file.");
+                }
 
                 // Find the contract mapping with the right type
-                for (TermItem<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
+                for (TermItemCommission<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
                     if ("06".equals(commissionState.getState(stateDate).getAssignmentType())
                             || "07".equals(commissionState.getState(stateDate).getAssignmentType())
                             || "08".equals(commissionState.getState(stateDate).getAssignmentType())) {
                         CareContractType currentContract = of.createCareContractType();
 
+                        // Contract Id
                         currentContract.setId(of.createIIType());
                         currentContract.getId().setRoot(OID_HYBRID_GUID_IDENTIFIER);
                         currentContract.getId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + commissionState.getId());
                         currentContract.setName(commissionState.getState(stateDate).getName());
 
-
+                        // Contract type
                         currentContract.setContractType(of.createCVType());
-                        currentContract.getContractType().setCodeSystem("SLL.CS.UPPDRAGSTYP");
-                        currentContract.getContractType().setCodeSystemName("SLL Code Server definition from the 'UPPDRAGSTYP' table.");
+                        currentContract.getContractType().setCodeSystem(OID_SLL_CS_UPPDRAGSTYP);
+                        currentContract.getContractType().setCodeSystemName(OID_SLL_CS_UPPDRADSTYP_TEXT);
                         currentContract.getContractType().setCode(commissionState.getState(stateDate).getCommissionType().getId());
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
-                        currentContract.setProviderOrganization(careUnitHSAid);
-                        currentContract.setPayerOrganization("?Payor?");
+                        // PayerOrganization
+                        currentContract.setPayerOrganization(getPayerOrganization(currentErsh.getHändelseklass().getVårdkontakt().getHändelseform() , stateDate, mappedFacilities.getState(stateDate), commissionState));
+
+                        // RequesterOrganization
                         currentContract.setRequesterOrganization(SLL_CAREGIVER_HSA_ID);
+
+                        // ProviderOrganization
+                        currentContract.setProviderOrganization(careUnitHSAid);
 
                         currentEvent.getContracts().getContract().add(currentContract);
                     }
@@ -354,11 +341,8 @@ public class ERSMOIndataToCareEventTransformer {
                         ActivityType currentActivity = of.createActivityType();
                         if (åtgärd.getKlass().equals("007")) {
                             currentActivity.setCodeSystem(OID_KVÅ);
-                            //currentActivity.setCodeSystemName("Klassifikation av vårdåtgärder (KVÅ)");
                         } else if (åtgärd.getKlass().equals("020")) {
                             currentActivity.setCodeSystem(OID_ATC);
-                            /*currentActivity.getActivityCode().setCodeSystemName("Anatomical Therapeutic Chemical " +
-                                    "classification system (ATC)");*/
                         } else {
                             currentActivity.setCodeSystem("no.oid: " + åtgärd.getKlass());
                         }
@@ -383,6 +367,148 @@ public class ERSMOIndataToCareEventTransformer {
             }
         }
         return currentEvent;
+    }
+
+    /**
+     * Creates a PatientType from the information in the incoming {@link Ersättningshändelse.Patient}.
+     *
+     * @param ersättningPatient the incoming {@link Ersättningshändelse.Patient} to map data from.
+     * @return the mapped PatientType.
+     */
+    private static PatientType createRivPatientFromErsättningsPatient(Ersättningshändelse.Patient ersättningPatient) {
+        ObjectFactory of = new ObjectFactory();
+        final PatientType rivPatient = of.createPatientType();
+
+        // Set Patient Id.
+        rivPatient.setId(of.createPersonIdType());
+
+        rivPatient.getId().setId(ersättningPatient.getID());
+
+        if (ersättningPatient.getID().startsWith("99")) {
+            // SLL temporary rivPatient identification (reservnummer)
+            rivPatient.getId().setType(OID_TEMPORARY_PATIENT_ID);
+        } else if (Integer.valueOf(ersättningPatient.getID().substring(6,8)) > 60) {
+            // National co-ordination number (samordningsnummer) - the birth day has 60 added to it in order to identify it.
+            rivPatient.getId().setType(OID_COORDINATION_ID);
+        } else {
+            // Regular person identificator (personnummer)
+            rivPatient.getId().setType(OID_PATIENT_IDENTIFIER);
+        }
+
+        // Patient birth date.
+        if (ersättningPatient.getFödelsedatum() != null) {
+            rivPatient.setBirthDate(ersättningPatient.getFödelsedatum().toXMLFormat().replace("-", ""));
+        }
+
+        // Patient gender.
+        if (ersättningPatient.getKön() != null) {
+            rivPatient.setGender(new CVType());
+            rivPatient.getGender().setCodeSystem(OID_KV_KÖN);
+            if (ersättningPatient.getKön().equals(Kon.M)) {
+                rivPatient.getGender().setCode("2");
+            } else if (ersättningPatient.getKön().equals(Kon.K)) {
+                rivPatient.getGender().setCode("1");
+            }
+        }
+
+        // Patient residence region.
+        rivPatient.setResidence(createRivResidenceFromErsättningLkf(ersättningPatient.getLkf()));
+
+        rivPatient.setLocalResidence(ersättningPatient.getBasområde());
+        return rivPatient;
+    }
+
+    /**
+     * Creates a RIV {@link ResidenceType} from the incoming string with LKF information from the
+     * source Ersättningshändelse.
+     *
+     * @param ersättningsLkf A string with LKF-information of the formnat "LLKKFF".
+     * @return The mapped {@link ResidenceType}.
+     */
+    public static ResidenceType createRivResidenceFromErsättningLkf(String ersättningsLkf) {
+        ObjectFactory of = new ObjectFactory();
+        final ResidenceType rivResidence = of.createResidenceType();
+        if (ersättningsLkf != null && ersättningsLkf.length() >= 6) {
+            // Patient residence region
+            rivResidence.setRegion(new CVType());
+            rivResidence.getRegion().setCode(ersättningsLkf.substring(0, 2));
+            rivResidence.getRegion().setCodeSystem(OID_KV_LÄN);
+            rivResidence.getRegion().setCodeSystemName(OID_KV_LÄN_TEXT);
+
+            // Patient residence municipality
+            rivResidence.setMunicipality(new CVType());
+            rivResidence.getMunicipality().setCode(ersättningsLkf.substring(2, 4));
+            rivResidence.getMunicipality().setCodeSystem(OID_KV_KOMMUN);
+            rivResidence.getMunicipality().setCodeSystemName(OID_KV_KOMMUN_TEXT);
+
+            // Patient residence parish
+            rivResidence.setParish(new CVType());
+            rivResidence.getParish().setCode(ersättningsLkf.substring(4, 6));
+            rivResidence.getParish().setCodeSystem(OID_KV_FÖRSAMLING);
+            rivResidence.getParish().setCodeSystemName(OID_KV_FÖRSAMLING_TEXT);
+        }
+        return rivResidence;
+    }
+
+    /**
+     * Returns the HSA-id for the payerOrganization for the current commissionState.
+     *
+     * @param kontaktForm The type of contact, primary care or inpatient care.
+     * @param stateDate The date to use for lookup code mapping states.
+     * @param currentFacility The currently active Facility.
+     * @param commissionState The currently active Commission.
+     * @return the HSA-id for the payerOrganization for the current commissionState.
+     */
+    public static String getPayerOrganization(Vkhform kontaktForm, Date stateDate, FacilityState currentFacility, TermItemCommission<CommissionState> commissionState) {
+        String payerOrganization = null;
+        List<String> allowedPrimaryCareUnitTypes = Arrays.asList("31", "40", "42", "43", "44", "45", "46", "48", "50", "51", "78", "90", "95", "99");
+        List<String> allowedInpatientCareUnitTypes = Arrays.asList("10", "11", "20");
+
+        for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, currentFacility, commissionState)) {
+
+            // Om det är en öppenvårdskontakt vars vårdenhetstyp finns med i allowedPrimaryCareUnitTypes, mappa.
+            if (kontaktForm.equals(Vkhform.ÖPPENVÅRDSKONTAKT)
+                    && allowedPrimaryCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
+                payerOrganization = currentPayerFacility.getHSAMapping().getState(stateDate).getHsaId();
+            }
+
+            // Om det är en slutenvårdskontakt vars vårdenhetstyp finns med i allowedInpatientCareUnitTypes, mappa.
+            if (kontaktForm.equals(Vkhform.SLUTENVÅRDSTILLFÄLLE)
+                    && allowedInpatientCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
+                payerOrganization = currentPayerFacility.getHSAMapping().getState(stateDate).getHsaId();
+            }
+        }
+        return payerOrganization;
+    }
+
+    /**
+     * Returns a list of FacilityStates that are candidates for usage as payer facilities. The logic works in two steps:
+     * 1: If the currentFacility is of the customer type '0000', then the payer facility must be located using a backreference
+     * to lookup all the care units connected to the current CommissionState. If there is a unit that has a customer code
+     * of '9175', the unit is added to the list of payer candidates.
+     * 2: If the currentFacility is of any other customer type, the currentFacility is added to the list as is.
+     *
+     * @param stateDate The date to use for lookup code mapping states.
+     * @param currentFacility The currently active Facility.
+     * @param commissionState The currently active Commission.
+     * @return A List with the FacilityState for all the potential payerFacilities.
+     */
+    public static List<FacilityState> getPotentialPayerFacilities(Date stateDate, FacilityState currentFacility, TermItemCommission<CommissionState> commissionState) {
+        List<FacilityState> payerFacilities = new ArrayList<>();
+        if (currentFacility == null || currentFacility.getCustomerCode().equals("0000")) {
+            List<TermItem<FacilityState>> backRefs = commissionState.getBackRefs();
+            for (TermItem<FacilityState> currentBackRef : backRefs) {
+                FacilityState state = currentBackRef.getState(stateDate);
+                // If the current facility has a Customer Code of 9175 "Betalningsansvar samtlig medicinsk service", add it to the map
+                // of potential payerFacilities.
+                if (state != null && state.getCustomerCode().equals("9175")) {
+                    payerFacilities.add(state);
+                }
+            }
+        } else {
+            payerFacilities.add(currentFacility);
+        }
+        return payerFacilities;
     }
 
     /**

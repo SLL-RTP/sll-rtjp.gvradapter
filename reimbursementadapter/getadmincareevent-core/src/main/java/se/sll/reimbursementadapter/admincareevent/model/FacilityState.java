@@ -34,20 +34,24 @@ public class FacilityState extends TermState implements Serializable {
      *
      * @serial
      */
-    private List<TermItem<CommissionState>> commissions = new ArrayList<>();
+    private List<TermItemCommission<CommissionState>> commissions = new ArrayList<>();
     private TermItem<HSAMappingState> hsaMapping;
 
     /**
      * The customer code.
-     * @return
      */
     private String customerCode;
 
-    public List<TermItem<CommissionState>> getCommissions() {
+    /**
+     * The type of care unit.
+     */
+    private String careUnitType;
+
+    public List<TermItemCommission<CommissionState>> getCommissions() {
         return commissions;
     }
 
-    public void setCommissions(List<TermItem<CommissionState>> commissions) {
+    public void setCommissions(List<TermItemCommission<CommissionState>> commissions) {
         this.commissions = commissions;
     }
 
@@ -65,6 +69,14 @@ public class FacilityState extends TermState implements Serializable {
 
     public void setCustomerCode(String customerCode) {
         this.customerCode = customerCode;
+    }
+
+    public String getCareUnitType() {
+        return careUnitType;
+    }
+
+    public void setCareUnitType(String careUnitType) {
+        this.careUnitType = careUnitType;
     }
 
     @Override

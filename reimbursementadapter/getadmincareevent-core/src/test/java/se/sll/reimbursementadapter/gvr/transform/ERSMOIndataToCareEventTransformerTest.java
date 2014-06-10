@@ -3,6 +3,7 @@ package se.sll.reimbursementadapter.gvr.transform;
 import java.io.Reader;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -12,10 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
+import se.sll.ersmo.xml.indata.Vkhform;
 import se.sll.reimbursementadapter.TestSupport;
+import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
+import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
+import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.gvr.reader.DateFilterMethod;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
+import se.sll.reimbursementadapter.parser.TermItem;
 
 /**
  * Tests the ERSMOIndataToCareEventTransformer with different
@@ -160,5 +166,33 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals(" slutenvårdstillfälle ", "1", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(" slutenvårdstillfälle "));
         Assert.assertEquals("Hemsjukvårdskontakt", "4", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp("Hemsjukvårdskontakt"));
         Assert.assertEquals(" hemsjukvårdskontakt ", "4", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp("hemsjukvårdskontakt "));
+    }
+
+    @Test
+    public void getPayerOrganization() {
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate(); // ??
+        Date stateDate = new Date();
+        String sourceFacilityId = "91605010010";
+        final TermItem<FacilityState> facilityState = instance.getCurrentIndex().get(sourceFacilityId);
+        final TermItemCommission<CommissionState> commissionState = facilityState.getState(stateDate).getCommissions().get(0);
+        // Not really part of this test, but it never hurts.
+        Assert.assertEquals("Facility ID", "9081", commissionState.getId());
+        Assert.assertEquals("Payer facility HSA", "SE2321000016-15CQ", ERSMOIndataToCareEventTransformer.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, null, commissionState));
+    }
+
+    @Test
+    public void getPotentialPayerFacilities() {
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate(); // ??
+        Date stateDate = new Date();
+        String sourceFacilityId = "91605010010";
+        final TermItem<FacilityState> facilityState = instance.getCurrentIndex().get(sourceFacilityId);
+        final TermItemCommission<CommissionState> commissionState = facilityState.getState(stateDate).getCommissions().get(0);
+        // Not really part of this test, but it never hurts.
+        Assert.assertEquals("Facility ID", "9081", commissionState.getId());
+
+        Assert.assertEquals("Payer facility 1", "30216311002", ERSMOIndataToCareEventTransformer.getPotentialPayerFacilities(stateDate, null, commissionState).get(0).getHSAMapping().getId());
+        Assert.assertEquals("Payer facility 1", "30216311003", ERSMOIndataToCareEventTransformer.getPotentialPayerFacilities(stateDate, null, commissionState).get(1).getHSAMapping().getId());
     }
 }
