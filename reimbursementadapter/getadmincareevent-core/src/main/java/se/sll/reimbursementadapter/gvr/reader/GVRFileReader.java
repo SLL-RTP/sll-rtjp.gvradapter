@@ -28,9 +28,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
@@ -163,6 +161,10 @@ public class GVRFileReader {
                 }
             }
         }
+
+        Collections.sort(response, dateFilterMethod.equals(DateFilterMethod.METADATA) ?
+                new FileMetadataDateSorter() :
+                new FileNameDateSorter(this));
 
         return response;
     }

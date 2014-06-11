@@ -76,7 +76,7 @@ public class GVRFileReaderTest extends TestSupport {
     }
 
     @Test
-    public void testGetFileListByFilenameAllInclusive() throws Exception {
+    public void testGetFileListByFilenameAllInclusiveSorted() throws Exception {
         gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
 
         List<Path> pathList = gvrFileReader.getFileList("20140101000000000", "20140405000000000");
@@ -92,8 +92,9 @@ public class GVRFileReaderTest extends TestSupport {
         testList.add("Vardkontakt_2014-02-06T100000.xml");
         testList.add("Vardkontakt_2014-04-04T100000.xml");
 
+        int index = 0;
         for(Path f : pathList) {
-            Assert.assertTrue(testList.contains(f.getFileName().toString()));
+            Assert.assertEquals("File index " + index, testList.get(index++), f.getFileName().toString());
         }
     }
 
@@ -148,7 +149,6 @@ public class GVRFileReaderTest extends TestSupport {
         Assert.assertEquals(expectedDate, fileDate);
         Assert.assertFalse(wrongDate.equals(fileDate));
     }
-
     @Test
     public void testGetDateFromGVRFileMetadata2() throws Exception {
         gvrFileReader.setDateFilterMethod(DateFilterMethod.METADATA);
@@ -165,6 +165,47 @@ public class GVRFileReaderTest extends TestSupport {
         Date fileDate = gvrFileReader.getDateFromGVRFile(entry);
         Assert.assertEquals(expectedDate, fileDate);
         Assert.assertFalse(wrongDate.equals(fileDate));
+    }
+
+    @Test
+    public void testGetFileListByMetadataAllInclusiveSorted() throws Exception {
+        gvrFileReader.setDateFilterMethod(DateFilterMethod.METADATA);
+
+        String localPath = gvrFileReader.getLocalPath();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+
+        // Knowingly set the dates a year back in order to not get the regular files to interfere.
+        Date expectedDate = sf.parse("20130101090000000");
+        Path entry = FileSystems.getDefault().getPath(localPath + "Vardansvar_2014-01-01T090000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+
+        // Knowingly set the date earlier here to prove that the sorting is not done by filename.
+        expectedDate = sf.parse("20120201090000000");
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+
+        expectedDate = sf.parse("20130202100000000");
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+
+        expectedDate = sf.parse("20130203100000000");
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-03T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+
+        List<Path> pathList = gvrFileReader.getFileList("20120101000000000", "20130404000000000");
+        Assert.assertEquals(pathList.size(), 4);
+
+        // Set up a list with the expected file list in the expected order.
+        List<String> testList = new ArrayList<>();
+        testList.add("Vardkontakt_2014-02-01T100000.xml");
+        testList.add("Vardansvar_2014-01-01T090000.xml");
+        testList.add("Vardkontakt_2014-02-02T100000.xml");
+        testList.add("Vardkontakt_2014-02-03T100000.xml");
+
+        int index = 0;
+        for(Path f : pathList) {
+            Assert.assertEquals("File index " + index, testList.get(index++), f.getFileName().toString());
+        }
     }
 
     @Test
