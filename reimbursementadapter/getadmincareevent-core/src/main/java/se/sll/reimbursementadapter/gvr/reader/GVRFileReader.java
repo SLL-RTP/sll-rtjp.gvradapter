@@ -126,8 +126,7 @@ public class GVRFileReader {
      */
     public List<Path> getFileList(final Date fromDate, final Date toDate) throws IOException {
         Path directoryToIterate = FileSystems.getDefault().getPath(localPath);
-
-        LOG.info("Reading files from date: " + fromDate + " and path: " + directoryToIterate.toString());
+        LOG.info(String.format("Reading files from date: %s to date: %s and path: %s", fromDate, toDate, directoryToIterate.toString()));
 
         // Read all the wanted files from the current directory.
         List<Path> response = new ArrayList<>();
@@ -162,6 +161,7 @@ public class GVRFileReader {
             }
         }
 
+        // Sort the list according to the configured DateFilterMethod.
         Collections.sort(response, dateFilterMethod.equals(DateFilterMethod.METADATA) ?
                 new FileMetadataDateSorter() :
                 new FileNameDateSorter(this));

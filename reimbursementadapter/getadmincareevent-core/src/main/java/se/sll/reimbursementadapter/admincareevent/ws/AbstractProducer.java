@@ -17,14 +17,15 @@ package se.sll.reimbursementadapter.admincareevent.ws;
 
 import java.io.Reader;
 import java.nio.file.Path;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.annotation.Resource;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
+import sun.util.calendar.Gregorian;
 
 /**
  * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the
@@ -76,6 +78,18 @@ public class AbstractProducer {
      */
     protected GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType
                                                                                      parameters) {
+        GregorianCalendar gregorianCalendarStart = parameters.getUpdatedDuringPeriod().getStart().toGregorianCalendar();
+        GregorianCalendar gregorianCalendarEnd = parameters.getUpdatedDuringPeriod().getEnd().toGregorianCalendar();
+
+        GregorianCalendar localCalendarStart = new GregorianCalendar();
+        localCalendarStart.setTimeInMillis(gregorianCalendarStart.getTimeInMillis());
+        GregorianCalendar localCalendarEnd = new GregorianCalendar();
+        localCalendarEnd.setTimeInMillis(gregorianCalendarEnd.getTimeInMillis());
+
+        Date startDate = new Date(localCalendarStart.getTime().getTime() + localCalendarStart.getTimeZone().getDSTSavings());
+        Date endDate = new Date(localCalendarEnd.getTime().getTime() + localCalendarEnd.getTimeZone().getDSTSavings());
+
+        LOG.info(String.format("Request recieved, from date: %s to date: %s", startDate, endDate));
         GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         response.setResultCode("OK");
         response.setResponseTimePeriod(new DateTimePeriodType());
@@ -86,8 +100,8 @@ public class AbstractProducer {
 
         List<Path> pathList;
         try {
-            pathList = gvrFileReader.getFileList(parameters.getUpdatedDuringPeriod().getStart().toGregorianCalendar().getTime(),
-                    parameters.getUpdatedDuringPeriod().getEnd().toGregorianCalendar().getTime());
+            pathList = gvrFileReader.getFileList(startDate,
+                    endDate);
         } catch (Exception e) {
             LOG.error("Error when listing files in GVR directory", e);
             throw createSoapFault("Internal error when listing files in GVR directory", e);
@@ -99,8 +113,6 @@ public class AbstractProducer {
         Date currentDate;
 
         for (Path currentFile : pathList) {
-            // TODO roos: Bug: pathList needs to be sorted on date from gvr file or the time period in the response will be incorrect 
-            // (and the order of the care events may be incorrect as well). 
             currentDate = gvrFileReader.getDateFromGVRFile(currentFile);
 
             try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
