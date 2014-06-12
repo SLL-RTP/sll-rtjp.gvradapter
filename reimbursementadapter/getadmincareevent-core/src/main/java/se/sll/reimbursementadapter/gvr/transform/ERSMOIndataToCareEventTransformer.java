@@ -164,7 +164,7 @@ public class ERSMOIndataToCareEventTransformer {
                 final FacilityState state1 = mappedFacilities.getState(stateDate);
                 if (state1 == null) {
                     LOG.error("The specified facility code <" + mappedFacilities.getId() + "> does not exist in the Facility file.");
-                    // TODO: Throw excpetion (Facility code does not exist in Facility file)
+                    // TODO: Throw exception (Facility code does not exist in Facility file)
                 }
 
                 TermItem<HSAMappingState> hsaMappingState = state1.getHSAMapping();
@@ -272,7 +272,7 @@ public class ERSMOIndataToCareEventTransformer {
                     currentEvent.getEventTypeMain().setCodeSystem(OID_KV_KONTAKTTYP);
                     currentEvent.getEventTypeMain().setCodeSystemName("KV kontakttyp");
                     currentEvent.getEventTypeMain().setCode(mapErsmoKontaktFormToKvKontakttyp(
-                            currentErsh.getHändelseklass().getVårdkontakt().getHändelseform().toString()));
+                            currentErsh.getHändelseklass().getVårdkontakt().getHändelseform()));
 
                     currentEvent.setEventTypeSub(of.createCVType());
                     // Create our locally defined OID with the "SLL.CS." + {getHändelsetyp()}
@@ -519,15 +519,13 @@ public class ERSMOIndataToCareEventTransformer {
      *                         "Slutenvårdstillfälle" or "Hemsjukvårdskontakt".
      * @return The mapped "KV kontakttyp" representation (1-4).
      */
-    public static String mapErsmoKontaktFormToKvKontakttyp(String ersmoKontaktForm) {
-        String trimmedInput = ersmoKontaktForm.trim().toLowerCase();
-
-        switch (trimmedInput) {
-            case "öppenvårdskontakt":
+    public static String mapErsmoKontaktFormToKvKontakttyp(Vkhform ersmoKontaktForm) {
+        switch (ersmoKontaktForm) {
+            case ÖPPENVÅRDSKONTAKT:
                 return "2";
-            case "slutenvårdstillfälle":
+            case SLUTENVÅRDSTILLFÄLLE:
                 return "1";
-            case "hemsjukvårdskontakt":
+            case HEMSJUKVÅRDSKONTAKT:
                 return "4";
             default:
                 return "";

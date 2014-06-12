@@ -160,12 +160,9 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
     @Test
     public void doTestCodeTransformer() {
-        Assert.assertEquals("Öppenvårdskontakt", "2", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp("Öppenvårdskontakt"));
-        Assert.assertEquals(" öppenvårdskontakt ", "2", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(" öppenvårdskontakt "));
-        Assert.assertEquals("Slutenvårdstillfälle", "1", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp("Slutenvårdstillfälle"));
-        Assert.assertEquals(" slutenvårdstillfälle ", "1", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(" slutenvårdstillfälle "));
-        Assert.assertEquals("Hemsjukvårdskontakt", "4", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp("Hemsjukvårdskontakt"));
-        Assert.assertEquals(" hemsjukvårdskontakt ", "4", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp("hemsjukvårdskontakt "));
+        Assert.assertEquals("Öppenvårdskontakt", "2", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(Vkhform.ÖPPENVÅRDSKONTAKT));
+        Assert.assertEquals("Slutenvårdstillfälle", "1", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(Vkhform.SLUTENVÅRDSTILLFÄLLE));
+        Assert.assertEquals("Hemsjukvårdskontakt", "4", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(Vkhform.HEMSJUKVÅRDSKONTAKT));
     }
 
     @Test

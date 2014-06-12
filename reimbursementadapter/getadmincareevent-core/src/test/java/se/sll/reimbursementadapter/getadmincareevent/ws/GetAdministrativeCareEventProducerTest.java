@@ -33,7 +33,6 @@ import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.admincareevent.ws.AbstractProducer;
-import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:getadmincareevent-core-spring-context.xml")
@@ -94,7 +93,6 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterStartExclusive() {
-        // TODO: Set the filter method?
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -116,7 +114,6 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterEndExclusive() {
-        // TODO: Set the filter method?
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -138,7 +135,6 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterInclusiveDifferentTimeZones() {
-        // TODO: Set the filter method?
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -160,7 +156,6 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterStartExclusiveDifferentTimeZones() {
-        // TODO: Set the filter method?
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -182,7 +177,6 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterEndExclusiveDifferentTimeZones() {
-        // TODO: Set the filter method?
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());

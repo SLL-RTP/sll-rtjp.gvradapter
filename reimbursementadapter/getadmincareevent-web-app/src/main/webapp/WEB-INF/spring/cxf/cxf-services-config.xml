@@ -36,7 +36,7 @@
 		implementor="se.sll.reimbursementadapter.admincareevent.ws.GetAdministrativeCareEventProducer"
 		address="/ws/getAdministrativeCareEvent/v1">
 		<jaxws:properties>
-			<entry key="schema-validation-enabled" value="false" />
+			<entry key="schema-validation-enabled" value="true" />
 		</jaxws:properties>
 	</jaxws:endpoint>
 
