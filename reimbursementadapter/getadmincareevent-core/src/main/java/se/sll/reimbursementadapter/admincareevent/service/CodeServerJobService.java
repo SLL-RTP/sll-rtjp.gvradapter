@@ -41,7 +41,7 @@ public class CodeServerJobService {
     /** The script file name to execute for fetching CodeServer files. */
     @Value("${pr.cs.ftp.script:}")
     private String script;
-    /** The local path to store fetched CodeServer files (and read files from). */
+    /** The local path to store fetched CodeServer files (and where the app reads files from). */
     @Value("${pr.cs.ftp.localPath}")
     private String localPath;
     /** The CacheServce instance. */

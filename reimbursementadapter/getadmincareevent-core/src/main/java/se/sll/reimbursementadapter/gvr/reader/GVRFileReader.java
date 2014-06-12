@@ -100,6 +100,8 @@ public class GVRFileReader {
      * @return a List of {@link java.nio.file.Path} objects.
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
      * @throws ParseException When the supplied date parameters could not be parsed.
+     * 
+     * TODO roos, unused?
      */
     public List<Path> getFileList(String fromDateString, String toDateString)
             throws InvalidParameterException, ParseException, IOException {
