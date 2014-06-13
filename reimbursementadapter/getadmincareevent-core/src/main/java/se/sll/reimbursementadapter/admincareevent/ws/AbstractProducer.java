@@ -255,4 +255,8 @@ public class AbstractProducer {
 
         return status;
     }
+
+    public GVRFileReader getGvrFileReader() {
+        return gvrFileReader;
+    }
 }

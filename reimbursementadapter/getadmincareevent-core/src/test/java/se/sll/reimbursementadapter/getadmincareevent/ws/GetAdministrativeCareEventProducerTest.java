@@ -33,12 +33,13 @@ import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.admincareevent.ws.AbstractProducer;
+import se.sll.reimbursementadapter.gvr.reader.DateFilterMethod;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:getadmincareevent-core-spring-context.xml")
 public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
-	@Test
+	/*@Test
          public void test() {
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -68,11 +69,11 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
             }
         }
         assertTrue(true);
-    }
+    }*/
 
     @Test
     public void testTimezoneDateFilterInclusive() {
-        // TODO: Set the filter method?
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -93,6 +94,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterStartExclusive() {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -114,6 +116,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterEndExclusive() {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -135,6 +138,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterInclusiveDifferentTimeZones() {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -156,6 +160,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterStartExclusiveDifferentTimeZones() {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
@@ -177,6 +182,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTimezoneDateFilterEndExclusiveDifferentTimeZones() {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
