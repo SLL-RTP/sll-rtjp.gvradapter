@@ -15,12 +15,14 @@
  */
 package se.sll.reimbursementadapter.admincareevent.ws;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.annotation.Resource;
+import javax.xml.bind.JAXBException;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
@@ -32,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.xml.sax.SAXException;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventResponse;
 import riv.followup.processdevelopment.reimbursement.getadministrativecareeventresponder.v1.GetAdministrativeCareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
@@ -100,8 +103,7 @@ public class AbstractProducer {
 
         List<Path> pathList;
         try {
-            pathList = gvrFileReader.getFileList(startDate,
-                    endDate);
+            pathList = gvrFileReader.getFileList(startDate, endDate);
         } catch (Exception e) {
             LOG.error("Error when listing files in GVR directory", e);
             throw createSoapFault("Internal error when listing files in GVR directory", e);
@@ -115,43 +117,47 @@ public class AbstractProducer {
         for (Path currentFile : pathList) {
             currentDate = gvrFileReader.getDateFromGVRFile(currentFile);
 
+            ERSMOIndata xmlObject = null;
             try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
                 ERSMOIndataUnMarshaller unmarshaller = new ERSMOIndataUnMarshaller();
-                ERSMOIndata xmlObject = unmarshaller.unmarshalString(fileContent);
-
-                // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
-                // response.
-                List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject,
-                                                                                                  currentDate,
-                                                                                                  currentFile);
-
-                if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
-                    // Truncate response if we reached the configured limit for care events in the response.
-                    if (response.getCareEvent().size() == 0) {
-                        // If we have been truncated due to a overly large first file we set the end response
-                        // period to the start of the request to indicate that nothing was processed.
-                        response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
-                    	// TODO REB: We would like to also have a different result code in this case to be able to know
-                    	// that we need to handle the overly large first file somehow. I think ERROR
-                    	// is appropriate (but still use the same comment as below).
-                    } else {
-                        response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent()
-                                .size() - 1).getLastUpdatedTime());
-                    }
-                    response.setResultCode("TRUNCATED");
-                    response.setComment("Response was truncated due to hitting the maximum configured number of Care " +
-                            "Events of " + maximumSupportedCareEvents);
-                    return response;
-                }
-
-                response.getCareEvent().addAll(careEventList);
-            } catch (Exception e) {
+                xmlObject = unmarshaller.unmarshalString(fileContent);
+            } catch (IOException e) {
                 LOG.error("Error when creating Reader for file: " + currentFile.getFileName(), e);
                 throw createSoapFault("Internal error when creating Reader for file: " + currentFile.getFileName(), e);
-                //response.setResultCode("ERROR");
-                //response.setComment("Internal error in the service when reading a source file: " + e.getMessage());
-                //return response;
+            } catch (SAXException e) {
+                LOG.error("Error when loading schema file for ERSOMIndata", e);
+                throw createSoapFault("Internal error when loading schema file for ERSOMIndata", e);
+            } catch (JAXBException e) {
+                LOG.error("JAXB Error when parsing " + currentFile.getFileName() + ", is the XML Invalid?", e);
+                throw createSoapFault("JAXB Error when parsing the source file " + currentFile.getFileName() + ", is the XML invalid?", e);
             }
+
+            // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
+            // response.
+            List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject,
+                                                                                              currentDate,
+                                                                                              currentFile);
+
+            if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
+                // Truncate response if we reached the configured limit for care events in the response.
+                if (response.getCareEvent().size() == 0) {
+                    // If we have been truncated due to a overly large first file we set the end response
+                    // period to the start of the request to indicate that nothing was processed.
+                    response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
+                    // TODO REB: We would like to also have a different result code in this case to be able to know
+                    // that we need to handle the overly large first file somehow. I think ERROR
+                    // is appropriate (but still use the same comment as below).
+                } else {
+                    response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent()
+                            .size() - 1).getLastUpdatedTime());
+                }
+                response.setResultCode("TRUNCATED");
+                response.setComment("Response was truncated due to hitting the maximum configured number of Care " +
+                        "Events of " + maximumSupportedCareEvents);
+                return response;
+            }
+
+            response.getCareEvent().addAll(careEventList);
         }
 
         if (response.getCareEvent().size() > 0) {

@@ -39,22 +39,17 @@ public class ERSMOIndataUnMarshaller {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
 
-    public ERSMOIndata unmarshalString(Reader src) {
+    public ERSMOIndata unmarshalString(Reader src) throws SAXException, JAXBException {
         ERSMOIndata indata = null;
-        try {
-            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            URL url = getClass().getClassLoader().getResource("xsd/ERSMOIndata/ERSMOIndata2.2.xsd");
-            Schema schema = sf.newSchema(url);
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        URL url = getClass().getClassLoader().getResource("xsd/ERSMOIndata/ERSMOIndata2.2.xsd");
+        Schema schema = sf.newSchema(url);
 
-            JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            unmarshaller.setSchema(schema);
-            indata = (ERSMOIndata) unmarshaller.unmarshal(src);
-        } catch (JAXBException e) {
-            LOG.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
+        JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        unmarshaller.setSchema(schema);
+        indata = (ERSMOIndata) unmarshaller.unmarshal(src);
+
         return indata;
     }
 
