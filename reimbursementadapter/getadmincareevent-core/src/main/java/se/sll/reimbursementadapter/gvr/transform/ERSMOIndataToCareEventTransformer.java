@@ -473,6 +473,9 @@ public class ERSMOIndataToCareEventTransformer {
         // select AVD that has correct (9175) KUND and AVDELNINGSTYP/MOTTAGNINSTYP is correct (in list above) in regards to öppenvård/slutenvård
         // => profit                        
 
+        // TODO roos: Bug(?): Is payer looked up wrong in the case of SLL paying? For example: 
+        // kombika 30216311003 borde ha payer SE2321000016-39KJ (SLL), men den har SE2321000016-15CQ (Stockholm Spine)
+        
         for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, currentFacility, commissionState)) {
             
             // Om det är en öppenvårdskontakt vars vårdenhetstyp finns med i allowedPrimaryCareUnitTypes, mappa.
