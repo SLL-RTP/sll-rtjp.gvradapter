@@ -49,7 +49,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "Vardkontakt_2014-02-02T100000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndata indata = ERSMOIndataUnMarshaller.unmarshalString(fileReader);
+        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);

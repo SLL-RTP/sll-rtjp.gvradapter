@@ -78,6 +78,17 @@ DON'T CHANGE THE CONTENT OF THIS COMMENT UNLESS YOU REALLY KNOW WHAT YOU ARE DOI
   </dependencies>
  
  	<build>
+
+        <resources>
+            <resource>
+                <directory>src/main/xsd</directory>
+                <targetPath>/xsd</targetPath>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.cxf</groupId>

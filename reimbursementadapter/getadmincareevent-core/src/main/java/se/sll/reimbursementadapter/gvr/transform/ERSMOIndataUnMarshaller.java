@@ -15,15 +15,21 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
+import java.io.File;
 import java.io.Reader;
+import java.net.URL;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.xml.sax.SAXException;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 
 /**
@@ -33,14 +39,21 @@ public class ERSMOIndataUnMarshaller {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
 
-    public static ERSMOIndata unmarshalString(Reader src) {
+    public ERSMOIndata unmarshalString(Reader src) {
         ERSMOIndata indata = null;
         try {
+            SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            URL url = getClass().getClassLoader().getResource("xsd/ERSMOIndata/ERSMOIndata2.2.xsd");
+            Schema schema = sf.newSchema(url);
+
             JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            unmarshaller.setSchema(schema);
             indata = (ERSMOIndata) unmarshaller.unmarshal(src);
         } catch (JAXBException e) {
             LOG.error("Error unmarshalling XML Document to ERSMOIndata XML Object.", e);
+        } catch (SAXException e) {
+            e.printStackTrace();
         }
         return indata;
     }
