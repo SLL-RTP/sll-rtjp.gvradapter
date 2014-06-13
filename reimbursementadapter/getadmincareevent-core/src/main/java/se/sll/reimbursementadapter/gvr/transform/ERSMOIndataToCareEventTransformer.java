@@ -197,6 +197,7 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
                         // PayerOrganization
+                        // TODO roos Bug: XML not following schema gives null pointer here ( getHändelseform() returns null because of a misspelled händelseform).
                         currentContract.setPayerOrganization(getPayerOrganization(currentErsh.getHändelseklass().getVårdkontakt().getHändelseform() , stateDate, mappedFacilities.getState(stateDate), commissionState));
 
                         // RequesterOrganization
