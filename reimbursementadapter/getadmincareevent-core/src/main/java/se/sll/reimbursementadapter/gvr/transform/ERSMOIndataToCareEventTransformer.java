@@ -196,6 +196,7 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.getContractType().setCode(commissionState.getState(stateDate).getCommissionType().getId());
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
+
                         // PayerOrganization
                         // TODO roos Bug: XML not following schema gives null pointer here ( getHändelseform() returns null because of a misspelled händelseform).
                         currentContract.setPayerOrganization(getPayerOrganization(currentErsh.getHändelseklass().getVårdkontakt().getHändelseform() , stateDate, mappedFacilities.getState(stateDate), commissionState));
@@ -464,14 +465,22 @@ public class ERSMOIndataToCareEventTransformer {
         List<String> allowedPrimaryCareUnitTypes = Arrays.asList("31", "40", "42", "43", "44", "45", "46", "48", "50", "51", "78", "90", "95", "99");
         List<String> allowedInpatientCareUnitTypes = Arrays.asList("10", "11", "20");
 
-        for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, currentFacility, commissionState)) {
+        // Steps to look up payer org from care event kombika:
+        // lookup of AVD from kombika
+        // lookup of SAMVERKS from AVD where SAMVERKStyp is in 06 07 08 (done before this code)
+        // lookup of all other kombika that is connected to the SAMVERKS
+        // lookup of AVDs from kombikas
+        // select AVD that has correct (9175) KUND and AVDELNINGSTYP/MOTTAGNINSTYP is correct (in list above) in regards to öppenvård/slutenvård
+        // => profit                        
 
+        for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, currentFacility, commissionState)) {
+            
             // Om det är en öppenvårdskontakt vars vårdenhetstyp finns med i allowedPrimaryCareUnitTypes, mappa.
             if (kontaktForm.equals(Vkhform.ÖPPENVÅRDSKONTAKT)
                     && allowedPrimaryCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
                 payerOrganization = currentPayerFacility.getHSAMapping().getState(stateDate).getHsaId();
             }
-
+            
             // Om det är en slutenvårdskontakt vars vårdenhetstyp finns med i allowedInpatientCareUnitTypes, mappa.
             if (kontaktForm.equals(Vkhform.SLUTENVÅRDSTILLFÄLLE)
                     && allowedInpatientCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
@@ -483,7 +492,7 @@ public class ERSMOIndataToCareEventTransformer {
 
     /**
      * Returns a list of FacilityStates that are candidates for usage as payer facilities. The logic works in two steps:
-     * 1: If the currentFacility is of the customer type '0000', then the payer facility must be located using a backreference
+     * 1: If the currentFacility is of the customer type (KUNDKOD) '0000', then the payer facility must be located using a backreference
      * to lookup all the care units connected to the current CommissionState. If there is a unit that has a customer code
      * of '9175', the unit is added to the list of payer candidates.
      * 2: If the currentFacility is of any other customer type, the currentFacility is added to the list as is.

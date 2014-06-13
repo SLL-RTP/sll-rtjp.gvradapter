@@ -71,6 +71,7 @@ public class FacilityState extends TermState implements Serializable {
         this.customerCode = customerCode;
     }
 
+    // AVDTYP
     public String getCareUnitType() {
         return careUnitType;
     }
