@@ -220,7 +220,6 @@ public class ERSMOIndataToCareEventTransformer {
             LOG.error(String.format("Did not find code server data for kombika %s on care event %s in %s.",
                                     kombika, currentErsId, currentFile));
             // TODO roos: Can this happend in reality? If it can we need to change the contract because unitId is required.
-            // Also, how can this be empty now? Why is the webservice code accpeting that data is not following the xsd. 
         }
 
         // Set up mapping for the contact referral care unit to HSA-id.
