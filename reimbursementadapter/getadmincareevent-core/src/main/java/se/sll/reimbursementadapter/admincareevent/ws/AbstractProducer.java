@@ -130,6 +130,9 @@ public class AbstractProducer {
                         // If we have been truncated due to a overly large first file we set the end response
                         // period to the start of the request to indicate that nothing was processed.
                         response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
+                    	// TODO REB: We would like to also have a different result code in this case to be able to know
+                    	// that we need to handle the overly large first file somehow. I think ERROR
+                    	// is appropriate (but still use the same comment as below).
                     } else {
                         response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent()
                                 .size() - 1).getLastUpdatedTime());
