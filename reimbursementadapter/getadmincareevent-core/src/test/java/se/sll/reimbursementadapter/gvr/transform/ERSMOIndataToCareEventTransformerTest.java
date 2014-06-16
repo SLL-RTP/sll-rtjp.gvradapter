@@ -161,9 +161,9 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
     @Test
     public void doTestCodeTransformer() {
-        Assert.assertEquals("Öppenvårdskontakt", "2", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(Vkhform.ÖPPENVÅRDSKONTAKT));
-        Assert.assertEquals("Slutenvårdstillfälle", "1", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(Vkhform.SLUTENVÅRDSTILLFÄLLE));
-        Assert.assertEquals("Hemsjukvårdskontakt", "4", ERSMOIndataToCareEventTransformer.mapErsmoKontaktFormToKvKontakttyp(Vkhform.HEMSJUKVÅRDSKONTAKT));
+        Assert.assertEquals("Öppenvårdskontakt", "2", TransformHelper.mapErsmoKontaktFormToKvKontakttyp(Vkhform.ÖPPENVÅRDSKONTAKT));
+        Assert.assertEquals("Slutenvårdstillfälle", "1", TransformHelper.mapErsmoKontaktFormToKvKontakttyp(Vkhform.SLUTENVÅRDSTILLFÄLLE));
+        Assert.assertEquals("Hemsjukvårdskontakt", "4", TransformHelper.mapErsmoKontaktFormToKvKontakttyp(Vkhform.HEMSJUKVÅRDSKONTAKT));
     }
 
     @Test
@@ -176,7 +176,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         final TermItemCommission<CommissionState> commissionState = facilityState.getState(stateDate).getCommissions().get(0);
         // Not really part of this test, but it never hurts.
         Assert.assertEquals("Facility ID", "9081", commissionState.getId());
-        Assert.assertEquals("Payer facility HSA", "SE2321000016-15CQ", ERSMOIndataToCareEventTransformer.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, null, commissionState, "SE2321000016-39KJ"));
+        Assert.assertEquals("Payer facility HSA", "SE2321000016-15CQ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, null, commissionState, "SE2321000016-39KJ"));
     }
 
     @Test
@@ -189,7 +189,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         final TermItemCommission<CommissionState> commissionState = facilityState.getState(stateDate).getCommissions().get(0);
         // Not really part of this test, but it never hurts.
         Assert.assertEquals("Facility ID", "9081", commissionState.getId());
-        Assert.assertEquals("Payer facility HSA", "SE2321000016-39KJ", ERSMOIndataToCareEventTransformer.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, facilityState.getState(stateDate), commissionState, "SE2321000016-39KJ"));
+        Assert.assertEquals("Payer facility HSA", "SE2321000016-39KJ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, facilityState.getState(stateDate), commissionState, "SE2321000016-39KJ"));
     }
 
     @Test
@@ -203,7 +203,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Not really part of this test, but it never hurts.
         Assert.assertEquals("Facility ID", "9081", commissionState.getId());
 
-        Assert.assertEquals("Payer facility 1", "30216311002", ERSMOIndataToCareEventTransformer.getPotentialPayerFacilities(stateDate, commissionState).get(0).getHSAMapping().getId());
-        Assert.assertEquals("Payer facility 1", "30216311003", ERSMOIndataToCareEventTransformer.getPotentialPayerFacilities(stateDate, commissionState).get(1).getHSAMapping().getId());
+        Assert.assertEquals("Payer facility 1", "30216311002", TransformHelper.getPotentialPayerFacilities(stateDate, commissionState).get(0).getHSAMapping().getId());
+        Assert.assertEquals("Payer facility 1", "30216311003", TransformHelper.getPotentialPayerFacilities(stateDate, commissionState).get(1).getHSAMapping().getId());
     }
 }
