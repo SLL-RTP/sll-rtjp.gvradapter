@@ -71,7 +71,7 @@ public class AbstractProducer {
 
     /** The configured value for the maximum number of Care Events that the RIV Service should return. */
     @Value("${pr.riv.maximumSupportedCareEvents:10000}")
-    private int maximumSupportedCareEvents;
+    protected int maximumSupportedCareEvents;
 
     /**
      * Creates a GetAdministrativeCareEventResponse from the provided GetAdministrativeCareEventType parameter.
@@ -82,6 +82,7 @@ public class AbstractProducer {
      */
     protected GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType
                                                                                      parameters) {
+        // Set up the incoming dates with proper timezone + DST information. (Java < 8 is not fantastic at handling this stuff)
         GregorianCalendar gregorianCalendarStart = parameters.getUpdatedDuringPeriod().getStart().toGregorianCalendar();
         GregorianCalendar gregorianCalendarEnd = parameters.getUpdatedDuringPeriod().getEnd().toGregorianCalendar();
 
@@ -94,6 +95,8 @@ public class AbstractProducer {
         Date endDate = new Date(localCalendarEnd.getTime().getTime() + localCalendarEnd.getTimeZone().getDSTSavings());
 
         LOG.info(String.format("Request recieved, from date: %s to date: %s", startDate, endDate));
+
+        // Start setting up the response
         GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         response.setResultCode("OK");
         response.setResponseTimePeriod(new DateTimePeriodType());
@@ -102,22 +105,21 @@ public class AbstractProducer {
             response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
         }
 
+        // List all the GVR files between the start- and end dates in the configured incoming directory
         List<Path> pathList;
         try {
             pathList = gvrFileReader.getFileList(startDate, endDate);
         } catch (Exception e) {
             LOG.error("Error when listing files in GVR directory", e);
             throw createSoapFault("Internal error when listing files in GVR directory", e);
-            //response.setResultCode("ERROR");
-            //response.setComment("Internal error in the service when reading files from disk: " + e.getMessage());
-            //return response;
         }
 
+        // Iterate over each file and process it. (convert to RIV format and insert into response)
         Date currentDate;
-
         for (Path currentFile : pathList) {
             currentDate = gvrFileReader.getDateFromGVRFile(currentFile);
 
+            // Get a reader for the current file, read it and then Unmarshall it into a generated ERSMOIndata object.
             ERSMOIndata xmlObject = null;
             try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
                 ERSMOIndataUnMarshaller unmarshaller = new ERSMOIndataUnMarshaller();
@@ -143,22 +145,26 @@ public class AbstractProducer {
                 throw createSoapFault(String.format("Internal transformation error when parsing %s, Cause: %s", currentFile.getFileName(), e.getMessage()), e);
             }
 
+            // If the current size of the response list plus the list that we want to add now is larger
+            // than the maximumSupportedCareEvents, we need to truncate the response.
             if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
                 // Truncate response if we reached the configured limit for care events in the response.
                 if (response.getCareEvent().size() == 0) {
                     // If we have been truncated due to a overly large first file we set the end response
                     // period to the start of the request to indicate that nothing was processed.
+                    // This is such a special case that we return an ERROR code.
                     response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
-                    // TODO REB: We would like to also have a different result code in this case to be able to know
-                    // that we need to handle the overly large first file somehow. I think ERROR
-                    // is appropriate (but still use the same comment as below).
+                    response.setResultCode("ERROR");
+                    response.setComment("Response was truncated at 0 due to hitting the maximum configured number of Care " +
+                            "Events of " + maximumSupportedCareEvents + " in the first input file.");
                 } else {
                     response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent()
                             .size() - 1).getLastUpdatedTime());
+                    response.setResultCode("TRUNCATED");
+                    response.setComment("Response was truncated due to hitting the maximum configured number of Care " +
+                            "Events of " + maximumSupportedCareEvents);
                 }
-                response.setResultCode("TRUNCATED");
-                response.setComment("Response was truncated due to hitting the maximum configured number of Care " +
-                        "Events of " + maximumSupportedCareEvents);
+
                 return response;
             }
 

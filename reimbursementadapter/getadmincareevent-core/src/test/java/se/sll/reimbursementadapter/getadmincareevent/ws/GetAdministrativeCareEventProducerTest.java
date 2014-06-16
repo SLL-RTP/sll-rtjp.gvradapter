@@ -201,4 +201,50 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
         //Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
     }
+
+    @Test
+    public void testTruncationPartResponses() {
+        this.maximumSupportedCareEvents = 8;
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-04T10:00:00.000+02:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-05T10:00:00.000+02:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Result Code", "TRUNCATED", response.getResultCode());
+        Assert.assertEquals("Result Comment", "Response was truncated due to hitting the maximum configured number of Care Events of 8", response.getComment());
+        Assert.assertEquals("Number of CareEvents", 5, response.getCareEvent().size());
+        Assert.assertEquals("StartDate 1 id", "2014-02-04T10:00:00.000+02:00",  response.getResponseTimePeriod().getStart().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-04T10:00:00.000+02:00",  response.getResponseTimePeriod().getEnd().toXMLFormat());
+        //Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
+    }
+
+    @Test
+    public void testTruncationNoResponses() {
+        this.maximumSupportedCareEvents = 3;
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-04T10:00:00.000+02:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-05T10:00:00.000+02:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Result Code", "ERROR", response.getResultCode());
+        Assert.assertEquals("Result Comment", "Response was truncated at 0 due to hitting the maximum configured number of Care Events of 3 in the first input file.", response.getComment());
+        Assert.assertEquals("Number of CareEvents", 0, response.getCareEvent().size());
+        Assert.assertEquals("StartDate 1 id", "2014-02-04T10:00:00.000+02:00",  response.getResponseTimePeriod().getStart().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-04T10:00:00.000+02:00",  response.getResponseTimePeriod().getEnd().toXMLFormat());
+        //Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
+    }
 }

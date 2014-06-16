@@ -94,14 +94,14 @@ public class GVRFileReader {
     /**
      * Gets a list of file {@link java.nio.file.Path}s in a configured directory that has a modified
      * date that is newer than the date parameter provided.
+     * Still used by the unit tests where I can't be bothered to create new Date objects for the request.
      *
      * @param fromDateString The date to compare the files with (format: yyyyMMddHHmmss).
      * @param toDateString The date to compare the files with (format: yyyyMMddHHmmss).
      * @return a List of {@link java.nio.file.Path} objects.
      * @throws java.security.InvalidParameterException If the supplied date format is not valid.
      * @throws ParseException When the supplied date parameters could not be parsed.
-     * 
-     * TODO roos, unused?
+     *
      */
     public List<Path> getFileList(String fromDateString, String toDateString)
             throws InvalidParameterException, ParseException, IOException {
