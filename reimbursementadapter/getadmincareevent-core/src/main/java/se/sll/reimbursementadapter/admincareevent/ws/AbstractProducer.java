@@ -18,16 +18,13 @@ package se.sll.reimbursementadapter.admincareevent.ws;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBException;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.apache.cxf.binding.soap.SoapFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +43,6 @@ import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
 import se.sll.reimbursementadapter.gvr.transform.TransformationException;
-import sun.util.calendar.Gregorian;
 
 /**
  * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the
