@@ -82,7 +82,7 @@ DON'T CHANGE THE CONTENT OF THIS COMMENT UNLESS YOU REALLY KNOW WHAT YOU ARE DOI
         <resources>
             <resource>
                 <directory>src/main/xsd</directory>
-                <targetPath>/xsd</targetPath>
+                <targetPath>xsd</targetPath>
                 <includes>
                     <include>**/*</include>
                 </includes>
