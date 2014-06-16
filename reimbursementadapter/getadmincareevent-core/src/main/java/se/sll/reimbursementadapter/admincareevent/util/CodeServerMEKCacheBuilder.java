@@ -43,7 +43,6 @@ import se.sll.reimbursementadapter.parser.TermState;
  */
 public class CodeServerMEKCacheBuilder {
     // attribute and element names.
-
     private static final String AVTAL = "AVTAL";
     private static final String STYP = "STYP";
     private static final String TILL_DATUM = "TillDatum";
@@ -156,41 +155,57 @@ public class CodeServerMEKCacheBuilder {
         return list.get(0);
     }
 
-    //
+    /**
+     * Builds the Facility (AVD) index that links in all the relevant connections from the other indexes.
+     * This method is responsible for creating the Commission (Samverks) and the HSA (MEK) mapping index.
+     * All the configuration is taken from class variables set in the building (pattern, not code) process.
+     *
+     * @return a Hashmap where each key represents a Facility Id (Kombika), and the value is a TermItem of
+     * type FacilityState.
+     */
     protected HashMap<String, TermItem<FacilityState>> createFacilityIndex() {
         LOG.info("build commissionIndex from: {}", commissionFile);
+        // Create underlying indexes to this one that will be linked in.
         final HashMap<String, TermItemCommission<CommissionState>> samverksIndex = createCommissionIndex();
         final Map<String, List<TermItem<HSAMappingState>>> hsaIndex = createHSAIndex();
         
         LOG.info("commissionIndex size: {}", samverksIndex.size());
 
+        // Create a index structure
         final HashMap<String, TermItem<FacilityState>> index = new HashMap<>();
 
+        // Create a CodeServiceXMLParser impl. that populates the index from the facilityFile.
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.facilityFile, new CodeServiceEntryCallback() {
             @Override
             public void onCodeServiceEntry(CodeServiceEntry codeServiceEntry) {
+                // Get all SAMVERKS links from the current codeServiceEntry (facility).
                 final List<CodeServerCode> codes = codeServiceEntry.getCodes(SAMVERKS);
                 if (codes != null) {
-                    // filter out non-existing SAMVERKS associations 
+                    // Filter out non-existing SAMVERKS associations.
                     if (codes.size() == 1 && NO_COMMISSION_ID.equals(codes.get(0).getValue())) {
                         return;
                     }
+                    // See if the Facility id already exists in the index. If not, add a new TermItem.
                     TermItem<FacilityState> avd = index.get(codeServiceEntry.getId());
                     if (avd == null) {
                         avd = new TermItem<>();
                         avd.setId(codeServiceEntry.getId());
                         index.put(codeServiceEntry.getId(), avd);
                     }
+
+                    // Create a new FacilityState and populate the base values from the current codeServiceEntry.
                     final FacilityState state = new FacilityState();
                     state.setName(codeServiceEntry.getAttribute(SHORTNAME));
                     state.setValidFrom(codeServiceEntry.getValidFrom());
                     state.setValidTo(codeServiceEntry.getValidTo());
+                    // If the HSA mapping does not already exist, create and populate it from the hsaIndex.
                     if (hsaIndex.get(codeServiceEntry.getId()) != null && hsaIndex.get(codeServiceEntry.getId()).size() > 0) {
                     	state.setHSAMapping(hsaIndex.get(codeServiceEntry.getId()).get(0));
                     }
+                    // Loop over every each previously fetched samverks code in the facility.
                     for (final CodeServerCode code : codes) {
+                        // If the connection doesn't exist, fetch from the samverksIndex and populate it.
                         final TermItemCommission<CommissionState> samverks = samverksIndex.get(code.getValue());
-                        // don't add the same twice
                         if (samverks != null) {
                             state.getCommissions().add(samverks);
 
@@ -198,6 +213,7 @@ public class CodeServerMEKCacheBuilder {
                         }
                     }
 
+                    // Set the base parameter customer code.
                     List<CodeServerCode> customerCodes = codeServiceEntry.getCodes(KUND);
                     if (customerCodes != null) {
                         for (CodeServerCode customerCode : customerCodes) {
@@ -205,6 +221,7 @@ public class CodeServerMEKCacheBuilder {
                         }
                     }
 
+                    // Set the base parameter care unit type.
                     List<CodeServerCode> careUnitTypeCodes = codeServiceEntry.getCodes(MOTTAGNINGSTYP);
                     if (careUnitTypeCodes != null) {
                         for (CodeServerCode careUnitTypeCode : careUnitTypeCodes) {
@@ -216,23 +233,33 @@ public class CodeServerMEKCacheBuilder {
             }
         });
 
+        // Set the attributes and code systems that will be extracted in the parser.
         parser.extractAttribute(SHORTNAME);
         parser.extractCodeSystem(SAMVERKS);
         parser.extractCodeSystem(KUND);
         parser.extractCodeSystem(MOTTAGNINGSTYP);
         parser.setNewerThan(newerThan);
 
+        // Execure the parsing of the source XML.
         parser.parse();
         return index;
     }
-    
-    //
+
+    /**
+     * Creates an index for mapping between Facility Id:s (Kombika) to the national HSA-id format.
+     * The index is created by parsing the MEK XML File, mekFile.
+     *
+     * @return A Map where the key is a string with the Facility Id and with the value of the corresponding
+     * HSAMappingState that holds the actual mapping information to HSA.
+     */
     protected Map<String, List<TermItem<HSAMappingState>>> createHSAIndex() {
         LOG.info("build HSA index from: {}", mekFile);
 
+        // Create the parser and point it to the mekFile.
         final SimpleXMLElementParser elementParser = new SimpleXMLElementParser(this.mekFile);
         final Map<String, List<TermItem<HSAMappingState>>> map = new HashMap<>();
 
+        // Create a map with the mappings from the attriture names in the XML to the index used in the parser below.
         final Map<String, Integer> elements = new HashMap<>();
         elements.put(KOMBIKAKOD, 1);
         elements.put(HSA_ID, 2);
@@ -240,7 +267,7 @@ public class CodeServerMEKCacheBuilder {
         elements.put(TILL_DATUM, 4);
 
 
-
+        // Parse the XML with a new ElementMatcherCallback set to the  <mappning> element in the XML file.
         elementParser.parse("mappning", elements, new ElementMatcherCallback() {
             private TermItem<HSAMappingState> mapping = null;
             private HSAMappingState state = null;
@@ -285,7 +312,14 @@ public class CodeServerMEKCacheBuilder {
         return map;
     }
 
-    //
+    /**
+     * Builds the Commission (Samverks) index that links in all the relevant connections from the lower indexes in the tree.
+     * This method is responsible for creating the Commission Type (Samverkstyp) index.
+     * All the configuration is taken from class variables set in the building (pattern, not code) process.
+     *
+     * @return a Hashmap where each key represents a Commission id (Samverks-id), and the value is a TermItem of
+     * type CommissionState.
+     */
     protected HashMap<String, TermItemCommission<CommissionState>> createCommissionIndex() {
 
         final HashMap<String, TermItemCommission<CommissionState>> index = new HashMap<>();
@@ -340,7 +374,13 @@ public class CodeServerMEKCacheBuilder {
         return index;
     }
 
-    //
+    /**
+     * Builds the Commission Type (Samverkstyp) index. This index is the bottom node, and will not link in any other trees.
+     * All the configuration is taken from class variables set in the building (pattern, not code) process.
+     *
+     * @return a Hashmap where each key represents a Commission Type id (Samverkstypsid), and the value is a TermItem of
+     * type CommissionTypeState.
+     */
     protected HashMap<String, TermItem<CommissionTypeState>> createCommissionTypeIndex() {
         final HashMap<String, TermItem<CommissionTypeState>> index = new HashMap<>();
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.commissionTypeFile, new CodeServiceEntryCallback() {

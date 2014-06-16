@@ -15,15 +15,11 @@
  */
 package se.sll.reimbursementadapter.getadmincareevent.util;
 
-import java.util.Map;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se.sll.reimbursementadapter.TestSupport;
-import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
-import se.sll.reimbursementadapter.parser.TermItem;
 
 public class HSAMappingIndexBuilderTest extends TestSupport {
    
@@ -33,6 +29,6 @@ public class HSAMappingIndexBuilderTest extends TestSupport {
     @Test
     public void parse_success() {
         hsaMappingService.revalidate();
-        final Map<String, TermItem<FacilityState>> index = hsaMappingService.getCurrentIndex();
+        hsaMappingService.getCurrentIndex();
     }
 }

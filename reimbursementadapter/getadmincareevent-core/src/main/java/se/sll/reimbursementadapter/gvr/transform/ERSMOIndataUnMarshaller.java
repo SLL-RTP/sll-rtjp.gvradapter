@@ -15,7 +15,6 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
-import java.io.File;
 import java.io.Reader;
 import java.net.URL;
 
@@ -40,17 +39,19 @@ public class ERSMOIndataUnMarshaller {
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
 
     public ERSMOIndata unmarshalString(Reader src) throws SAXException, JAXBException {
-        ERSMOIndata indata = null;
+        LOG.info("Entering ERSMOIndataUnMarshaller with Reader: " + src);
+
+        // Read the schema from the XSD to apply the validation to the unmarshalled XML object.
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         URL url = getClass().getClassLoader().getResource("xsd/ERSMOIndata/ERSMOIndata2.2.xsd");
         Schema schema = sf.newSchema(url);
 
+        // Create a new JAXB Unmarshaller for ERSMOIndata and unmarshal the source XML.
         JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         unmarshaller.setSchema(schema);
-        indata = (ERSMOIndata) unmarshaller.unmarshal(src);
 
-        return indata;
+        return (ERSMOIndata) unmarshaller.unmarshal(src);
     }
 
 }

@@ -168,7 +168,7 @@ public class ERSMOIndataToCareEventTransformer {
                 }
 
                 TermItem<HSAMappingState> hsaMappingState = state1.getHSAMapping();
-                String careUnitHSAid = null;
+                String careUnitHSAid;
                 if (hsaMappingState != null) {
                     careUnitHSAid = hsaMappingState.getState(stateDate).getHsaId();
                     currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
@@ -237,7 +237,7 @@ public class ERSMOIndataToCareEventTransformer {
         }
 
         // Last updated time
-        XMLGregorianCalendar date2 = null;
+        XMLGregorianCalendar date2;
         try {
             GregorianCalendar c = new GregorianCalendar();
             c.setTime(updatedTime);

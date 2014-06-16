@@ -116,7 +116,7 @@ public class AbstractProducer {
             currentDate = gvrFileReader.getDateFromGVRFile(currentFile);
 
             // Get a reader for the current file, read it and then Unmarshall it into a generated ERSMOIndata object.
-            ERSMOIndata xmlObject = null;
+            ERSMOIndata xmlObject;
             try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
                 ERSMOIndataUnMarshaller unmarshaller = new ERSMOIndataUnMarshaller();
                 xmlObject = unmarshaller.unmarshalString(fileContent);
@@ -133,7 +133,7 @@ public class AbstractProducer {
 
             // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
             // response.
-            List<CareEventType> careEventList = null;
+            List<CareEventType> careEventList;
             try {
                 careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject, currentDate, currentFile);
             } catch (TransformationException e) {

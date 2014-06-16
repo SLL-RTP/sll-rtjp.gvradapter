@@ -92,9 +92,7 @@ public class CodeServerMEKCacheManagerService {
                 .withFacilityFile(path(facilityFile))
                 .withMekFile(path(mekFile));
 
-        final Map<String, TermItem<FacilityState>> index = builder.build();
-
-        return index;
+        return builder.build();
     }
 
     /**
