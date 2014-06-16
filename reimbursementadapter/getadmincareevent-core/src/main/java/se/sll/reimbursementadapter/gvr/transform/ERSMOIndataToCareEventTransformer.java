@@ -87,7 +87,7 @@ public class ERSMOIndataToCareEventTransformer {
      * @param currentFile 
      * @return The transformed list of {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} objects
      */
-    public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime, Path currentFile) {
+    public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime, Path currentFile) throws TransformationException {
         // Instantiate the Cache Manager.
         CodeServerMEKCacheManagerService cacheManager = CodeServerMEKCacheManagerService.getInstance();
         // Create the response object.
@@ -127,7 +127,7 @@ public class ERSMOIndataToCareEventTransformer {
     private static CareEventType createCareEventFromErsättningshändelse(Ersättningshändelse currentErsh, 
                                                                         ERSMOIndata ersmoIndata, 
                                                                         CodeServerMEKCacheManagerService cacheManager, 
-                                                                        Date updatedTime, Path currentFile) {
+                                                                        Date updatedTime, Path currentFile) throws TransformationException {
         ObjectFactory of = new ObjectFactory();
         CareEventType currentEvent = of.createCareEventType();
 
@@ -163,8 +163,8 @@ public class ERSMOIndataToCareEventTransformer {
                 // Care Unit HSA-id from MEK
                 final FacilityState state1 = mappedFacilities.getState(stateDate);
                 if (state1 == null) {
-                    LOG.error("The specified facility code <" + mappedFacilities.getId() + "> does not exist in the Facility file.");
-                    // TODO: Throw exception (Facility code does not exist in Facility file)
+                    LOG.error(String.format("The specified facility code '%s' does not exist in the Facility file for the date '%s'.", mappedFacilities.getId(), stateDate));
+                    throw new TransformationException(String.format("The specified Facility (Kombika) code '%s' does not exist in the Facility (AVD) file for the date '%s'. Source file %s and care event %s.", mappedFacilities.getId(), stateDate, currentErsId, currentFile));
                 }
 
                 TermItem<HSAMappingState> hsaMappingState = state1.getHSAMapping();
@@ -174,6 +174,7 @@ public class ERSMOIndataToCareEventTransformer {
                     currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
                 } else {
                     LOG.info("The specified facility code <" + mappedFacilities.getId() + "> does not exist in the HSA(MEK) mapping file.");
+                    throw new TransformationException(String.format("The specified Facility code (Kombika) '%s' does not exist in the Facility (AVD) file for the date '%s'. Source file %s and care event %s.", mappedFacilities.getId(), stateDate, currentErsId, currentFile));
                 }
 
                 // Find the contract mapping with the right type
@@ -197,12 +198,11 @@ public class ERSMOIndataToCareEventTransformer {
                         currentContract.getContractType().setDisplayName(commissionState.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
 
-                        // PayerOrganization
-                        // TODO roos Bug: XML not following schema gives null pointer here ( getHändelseform() returns null because of a misspelled händelseform).
-                        currentContract.setPayerOrganization(getPayerOrganization(currentErsh.getHändelseklass().getVårdkontakt().getHändelseform() , stateDate, mappedFacilities.getState(stateDate), commissionState));
-
                         // RequesterOrganization
                         currentContract.setRequesterOrganization(SLL_CAREGIVER_HSA_ID);
+
+                        // PayerOrganization
+                        currentContract.setPayerOrganization(getPayerOrganization(currentErsh.getHändelseklass().getVårdkontakt().getHändelseform() , stateDate, mappedFacilities.getState(stateDate), commissionState, currentContract.getRequesterOrganization()));
 
                         // ProviderOrganization
                         currentContract.setProviderOrganization(careUnitHSAid);
@@ -211,17 +211,17 @@ public class ERSMOIndataToCareEventTransformer {
                     }
                 }
             } else {
-                // No mapped facilities for the date, error state?
                 LOG.error(String.format("Did not find code server data with date %s for kombika %s on care event %s in %s.",
                                         stateDate, kombika, currentErsId, currentFile));
-                // TODO: throw mapping exception
-                // TODO roos: I am not sure the translation should continue with a translation this broken. Let's discuss it. Maybe it has to because we are translating ancient data.
+                throw new TransformationException(String.format("Did not find code server data with date %s for kombika %s on care event %s in %s.",
+                        stateDate, kombika, currentErsId, currentFile));
             }
         }
         else {
             LOG.error(String.format("Did not find code server data for kombika %s on care event %s in %s.",
                                     kombika, currentErsId, currentFile));
-            // TODO roos: Can this happend in reality? If it can we need to change the contract because unitId is required.
+            throw new TransformationException(String.format("Did not find code server data for kombika %s on care event %s in %s.",
+                    kombika, currentErsId, currentFile));
         }
 
         // Set up mapping for the contact referral care unit to HSA-id.
@@ -245,8 +245,8 @@ public class ERSMOIndataToCareEventTransformer {
             date2.setTimezone((TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings()) / 1000 / 60);
 
         } catch (DatatypeConfigurationException e) {
-            // TODO: Fix
-            e.printStackTrace();
+            LOG.error("DatatypeConfigurationException occured when creating a new DatatypeFactory.", e);
+            throw new TransformationException("Internal occured when creating a new DatatypeFactory.");
         }
         currentEvent.setLastUpdatedTime(date2);
 
@@ -460,7 +460,7 @@ public class ERSMOIndataToCareEventTransformer {
      * @param commissionState The currently active Commission.
      * @return the HSA-id for the payerOrganization for the current commissionState.
      */
-    public static String getPayerOrganization(Vkhform kontaktForm, Date stateDate, FacilityState currentFacility, TermItemCommission<CommissionState> commissionState) {
+    public static String getPayerOrganization(Vkhform kontaktForm, Date stateDate, FacilityState currentFacility, TermItemCommission<CommissionState> commissionState, String requesterOrgHsa) {
         String payerOrganization = null;
         List<String> allowedPrimaryCareUnitTypes = Arrays.asList("31", "40", "42", "43", "44", "45", "46", "48", "50", "51", "78", "90", "95", "99");
         List<String> allowedInpatientCareUnitTypes = Arrays.asList("10", "11", "20");
@@ -471,12 +471,13 @@ public class ERSMOIndataToCareEventTransformer {
         // lookup of all other kombika that is connected to the SAMVERKS
         // lookup of AVDs from kombikas
         // select AVD that has correct (9175) KUND and AVDELNINGSTYP/MOTTAGNINSTYP is correct (in list above) in regards to öppenvård/slutenvård
-        // => profit                        
+        // => profit
 
-        // TODO roos: Bug(?): Is payer looked up wrong in the case of SLL paying? For example: 
-        // kombika 30216311003 borde ha payer SE2321000016-39KJ (SLL), men den har SE2321000016-15CQ (Stockholm Spine)
+        if (currentFacility != null && !"0000".equals(currentFacility.getCustomerCode())) {
+            return requesterOrgHsa;
+        }
         
-        for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, currentFacility, commissionState)) {
+        for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, commissionState)) {
             
             // Om det är en öppenvårdskontakt vars vårdenhetstyp finns med i allowedPrimaryCareUnitTypes, mappa.
             if (kontaktForm.equals(Vkhform.ÖPPENVÅRDSKONTAKT)
@@ -498,16 +499,14 @@ public class ERSMOIndataToCareEventTransformer {
      * 1: If the currentFacility is of the customer type (KUNDKOD) '0000', then the payer facility must be located using a backreference
      * to lookup all the care units connected to the current CommissionState. If there is a unit that has a customer code
      * of '9175', the unit is added to the list of payer candidates.
-     * 2: If the currentFacility is of any other customer type, the currentFacility is added to the list as is.
      *
      * @param stateDate The date to use for lookup code mapping states.
-     * @param currentFacility The currently active Facility.
      * @param commissionState The currently active Commission.
      * @return A List with the FacilityState for all the potential payerFacilities.
      */
-    public static List<FacilityState> getPotentialPayerFacilities(Date stateDate, FacilityState currentFacility, TermItemCommission<CommissionState> commissionState) {
+    public static List<FacilityState> getPotentialPayerFacilities(Date stateDate, TermItemCommission<CommissionState> commissionState) {
         List<FacilityState> payerFacilities = new ArrayList<>();
-        if (currentFacility == null || currentFacility.getCustomerCode().equals("0000")) {
+        if (commissionState != null) {
             List<TermItem<FacilityState>> backRefs = commissionState.getBackRefs();
             for (TermItem<FacilityState> currentBackRef : backRefs) {
                 FacilityState state = currentBackRef.getState(stateDate);
@@ -517,8 +516,6 @@ public class ERSMOIndataToCareEventTransformer {
                     payerFacilities.add(state);
                 }
             }
-        } else {
-            payerFacilities.add(currentFacility);
         }
         return payerFacilities;
     }

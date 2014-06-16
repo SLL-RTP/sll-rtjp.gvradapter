@@ -45,6 +45,7 @@ import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
+import se.sll.reimbursementadapter.gvr.transform.TransformationException;
 import sun.util.calendar.Gregorian;
 
 /**
@@ -134,9 +135,13 @@ public class AbstractProducer {
 
             // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
             // response.
-            List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject,
-                                                                                              currentDate,
-                                                                                              currentFile);
+            List<CareEventType> careEventList = null;
+            try {
+                careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject, currentDate, currentFile);
+            } catch (TransformationException e) {
+                LOG.error(String.format("TransformationException when parsing %s: %s", currentFile.getFileName(), e.getMessage()), e);
+                throw createSoapFault(String.format("Internal transformation error when parsing %s, Cause: %s", currentFile.getFileName(), e.getMessage()), e);
+            }
 
             if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
                 // Truncate response if we reached the configured limit for care events in the response.
