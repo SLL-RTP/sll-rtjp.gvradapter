@@ -96,7 +96,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Contract #1 type name", "Ryggkirurgi, vårdval", careEventType.getContracts().getContract().get(0).getContractType().getDisplayName().trim());
         Assert.assertEquals("Contract #1 type code", "615", careEventType.getContracts().getContract().get(0).getContractType().getCode());
         Assert.assertEquals("Contract #1 type providerOrg", "SE2321000016-15CQ", careEventType.getContracts().getContract().get(0).getProviderOrganization());
-        //Assert.assertEquals("Contract #1 type payerOrg", "HSF", careEventType.getContracts().getContract().get(0).getPayerOrganization()); // TODO!
+        Assert.assertEquals("Contract #1 type payerOrg", "SE2321000016-39KJ", careEventType.getContracts().getContract().get(0).getPayerOrganization());
         Assert.assertEquals("Contract #1 type requesterOrg", "SE2321000016-39KJ", careEventType.getContracts().getContract().get(0).getRequesterOrganization());
 
         // Care Unit (spine center öv)

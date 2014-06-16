@@ -41,8 +41,7 @@ public class GetAdministrativeCareEventProducer extends AbstractProducer impleme
 	public GetAdministrativeCareEventResponse getAdministrativeCareEvent(
 			@WebParam(partName = "LogicalAddress", name = "LogicalAddress", targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
 			@WebParam(partName = "parameters", name = "GetAdministrativeCareEvent", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1") final GetAdministrativeCareEventType parameters) {
-        // TODO REB: Remove the status variable?
-		boolean status = fulfill(new Runnable() {
+		fulfill(new Runnable() {
             @Override
             public void run() {
                 response = getAdministrativeCareEvent0(parameters);
