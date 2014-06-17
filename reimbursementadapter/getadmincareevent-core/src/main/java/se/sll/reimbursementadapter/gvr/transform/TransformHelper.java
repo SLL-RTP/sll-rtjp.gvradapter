@@ -267,6 +267,8 @@ public class TransformHelper {
             } else if (ersättningPatient.getKön().equals(Kon.K)) {
                 rivPatient.getGender().setCode("1");
             }
+            // TODO Reb: According to TKB gender code can also be 0 (Unknown) or 9 (Not applicable), set to 0 if not M or K.
+            // Not sure when we should set it to 9 though..?
         }
 
         // Patient residence region.
