@@ -1,3 +1,18 @@
+/**
+ *  Copyright (c) 2013 SLL <http://sll.se/>
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
 package se.sll.reimbursementadapter.gvr.transform;
 
 import riv.followup.processdevelopment.reimbursement.v1.*;
@@ -8,7 +23,6 @@ import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.parser.TermItem;
-import sun.security.x509.OIDMap;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -16,12 +30,23 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * Contains most of the actual transformation logic for the {@link ERSMOIndataToCareEventTransformer}
+ * Contains only static methods and thus is completely stateless.
+ */
 public class TransformHelper {
 
     protected static final String SLL_CAREGIVER_HSA_ID = "SE2321000016-39KJ";
     protected static final String HYBRID_GUI_SEPARATOR = "+";
     private static final ObjectFactory of = new ObjectFactory();
 
+    /**
+     * Creates the SourceSystem structure in the incoming {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} using information from
+     * the incoming {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse}.
+     *
+     * @param ersmoIndata The {@link se.sll.ersmo.xml.indata.ERSMOIndata} to read information from.
+     * @param currentEvent The {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} to write the new structure in.
+     */
     protected static void createSourceSystemStructure(ERSMOIndata ersmoIndata, CareEventType currentEvent) {
         currentEvent.setSourceSystem(of.createSourceSystemType());
         currentEvent.getSourceSystem().setOrg(SLL_CAREGIVER_HSA_ID);
@@ -52,8 +77,8 @@ public class TransformHelper {
      */
     protected static ProfessionType getProfessionFromYrkeskategori(Yrkeskategorier.Yrkeskategori kategori) {
         ProfessionType currentProfession = of.createProfessionType();
-        currentProfession.setCodeSystem(OIDList.OID_SLL_CS_VDG);
-        currentProfession.setCodeSystemName(OIDList.OID_SLL_CS_VDG_TEXT);
+        currentProfession.setCodeSystem(OIDList.getOid(CodeSystem.SLL_CS_VDG));
+        currentProfession.setCodeSystemName(OIDList.getName(CodeSystem.SLL_CS_VDG));
         currentProfession.setCode(kategori.getKod());
         return currentProfession;
     }
@@ -69,7 +94,7 @@ public class TransformHelper {
         // Care Unit Local Id
         currentEvent.setCareUnit(of.createCareUnitType());
         currentEvent.getCareUnit().setCareUnitLocalId(new IIType());
-        currentEvent.getCareUnit().getCareUnitLocalId().setRoot(OIDList.OID_HYBRID_GUID_IDENTIFIER);
+        currentEvent.getCareUnit().getCareUnitLocalId().setRoot(OIDList.getOid(CodeSystem.HYBRID_GUID_IDENTIFIER));
         currentEvent.getCareUnit().getCareUnitLocalId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + currentErsh.getSlutverksamhet());
 
         // Care Unit HSA-id from MEK
@@ -110,9 +135,9 @@ public class TransformHelper {
     protected static ActivityType getActivityFromÅtgärd(Åtgärder.Åtgärd åtgärd) {
         ActivityType currentActivity = of.createActivityType();
         if (åtgärd.getKlass().equals("007")) {
-            currentActivity.setCodeSystem(OIDList.OID_KVÅ);
+            currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.KVÅ));
         } else if (åtgärd.getKlass().equals("020")) {
-            currentActivity.setCodeSystem(OIDList.OID_ATC);
+            currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.ATC));
         } else {
             currentActivity.setCodeSystem("no.oid: " + åtgärd.getKlass());
         }
@@ -147,8 +172,8 @@ public class TransformHelper {
     protected static ConditionType getConditionFromTillstånd(Tillståndslista.Tillstånd tillstånd) {
         ConditionType currentCondition = of.createConditionType();
         if (tillstånd.getKlass().equals("010")) {
-            currentCondition.setCodeSystem(OIDList.OID_SLL_CS_TILLSTAND);
-            currentCondition.setCodeSystemName(OIDList.OID_SLL_CS_TILLSTAND_TEXT);
+            currentCondition.setCodeSystem(OIDList.getOid(CodeSystem.SLL_CS_TILLSTÅND));
+            currentCondition.setCodeSystemName(OIDList.getName(CodeSystem.SLL_CS_TILLSTÅND));
         } else {
             currentCondition.setCodeSystem("NO.OID: " + tillstånd.getKlass());
         }
@@ -181,8 +206,8 @@ public class TransformHelper {
     protected static DiagnosisType getDiagnosisFromDiagnos(Diagnoser.Diagnos diagnos) {
         DiagnosisType currentDiagnosis = of.createDiagnosisType();
         if (diagnos.getKlass().equals("008")) {
-            currentDiagnosis.setCodeSystem(OIDList.OID_ICD10_SE);
-            currentDiagnosis.setCodeSystemName(OIDList.OID_ICD10_SE_TEXT);
+            currentDiagnosis.setCodeSystem(OIDList.getOid(CodeSystem.ICD10_SE));
+            currentDiagnosis.setCodeSystemName(OIDList.getName(CodeSystem.ICD10_SE));
         } else {
             currentDiagnosis.setCodeSystem("NO.OID: " + diagnos.getKlass());
         }
@@ -205,14 +230,14 @@ public class TransformHelper {
 
         // Contract Id
         currentContract.setId(of.createIIType());
-        currentContract.getId().setRoot(OIDList.OID_HYBRID_GUID_IDENTIFIER);
+        currentContract.getId().setRoot(OIDList.getOid(CodeSystem.HYBRID_GUID_IDENTIFIER));
         currentContract.getId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + commissionType.getId());
         currentContract.setName(commissionType.getState(stateDate).getName());
 
         // Contract type
         currentContract.setContractType(of.createCVType());
-        currentContract.getContractType().setCodeSystem(OIDList.OID_SLL_CS_UPPDRAGSTYP);
-        currentContract.getContractType().setCodeSystemName(OIDList.OID_SLL_CS_UPPDRADSTYP_TEXT);
+        currentContract.getContractType().setCodeSystem(OIDList.getOid(CodeSystem.SLL_CS_UPPDRAGSTYP));
+        currentContract.getContractType().setCodeSystemName(OIDList.getName(CodeSystem.SLL_CS_UPPDRAGSTYP));
         currentContract.getContractType().setCode(commissionType.getState(stateDate).getCommissionType().getId());
         currentContract.getContractType().setDisplayName(commissionType.getState(stateDate).getCommissionType().getState(stateDate).getName());
 
@@ -244,13 +269,13 @@ public class TransformHelper {
 
         if (ersättningPatient.getID().startsWith("99")) {
             // SLL temporary rivPatient identification (reservnummer)
-            rivPatient.getId().setType(OIDList.OID_TEMPORARY_PATIENT_ID);
+            rivPatient.getId().setType(OIDList.getOid(CodeSystem.RESERVNUMMER_SLL));
         } else if (Integer.valueOf(ersättningPatient.getID().substring(6,8)) > 60) {
             // National co-ordination number (samordningsnummer) - the birth day has 60 added to it in order to identify it.
-            rivPatient.getId().setType(OIDList.OID_COORDINATION_ID);
+            rivPatient.getId().setType(OIDList.getOid(CodeSystem.SAMORDNINGSNUMMER));
         } else {
             // Regular person identificator (personnummer)
-            rivPatient.getId().setType(OIDList.OID_PATIENT_IDENTIFIER);
+            rivPatient.getId().setType(OIDList.getOid(CodeSystem.PERSONNUMMER));
         }
 
         // Patient birth date.
@@ -261,7 +286,8 @@ public class TransformHelper {
         // Patient gender.
         if (ersättningPatient.getKön() != null) {
             rivPatient.setGender(new CVType());
-            rivPatient.getGender().setCodeSystem(OIDList.OID_KV_KÖN);
+            rivPatient.getGender().setCodeSystem(OIDList.getOid(CodeSystem.KV_KÖN));
+            rivPatient.getGender().setCodeSystemName(OIDList.getName(CodeSystem.KV_KÖN));
             if (ersättningPatient.getKön().equals(Kon.M)) {
                 rivPatient.getGender().setCode("2");
             } else if (ersättningPatient.getKön().equals(Kon.K)) {
@@ -293,20 +319,20 @@ public class TransformHelper {
             // Patient residence region
             rivResidence.setRegion(new CVType());
             rivResidence.getRegion().setCode(ersättningsLkf.substring(0, 2));
-            rivResidence.getRegion().setCodeSystem(OIDList.OID_KV_LÄN);
-            rivResidence.getRegion().setCodeSystemName(OIDList.OID_KV_LÄN_TEXT);
+            rivResidence.getRegion().setCodeSystem(OIDList.getOid(CodeSystem.KV_LÄN));
+            rivResidence.getRegion().setCodeSystemName(OIDList.getName(CodeSystem.KV_LÄN));
 
             // Patient residence municipality
             rivResidence.setMunicipality(new CVType());
             rivResidence.getMunicipality().setCode(ersättningsLkf.substring(2, 4));
-            rivResidence.getMunicipality().setCodeSystem(OIDList.OID_KV_KOMMUN);
-            rivResidence.getMunicipality().setCodeSystemName(OIDList.OID_KV_KOMMUN_TEXT);
+            rivResidence.getMunicipality().setCodeSystem(OIDList.getOid(CodeSystem.KV_KOMMUN));
+            rivResidence.getMunicipality().setCodeSystemName(OIDList.getName(CodeSystem.KV_KOMMUN));
 
             // Patient residence parish
             rivResidence.setParish(new CVType());
             rivResidence.getParish().setCode(ersättningsLkf.substring(4, 6));
-            rivResidence.getParish().setCodeSystem(OIDList.OID_KV_FÖRSAMLING);
-            rivResidence.getParish().setCodeSystemName(OIDList.OID_KV_FÖRSAMLING_TEXT);
+            rivResidence.getParish().setCodeSystem(OIDList.getOid(CodeSystem.KV_FÖRSAMLING));
+            rivResidence.getParish().setCodeSystemName(OIDList.getName(CodeSystem.KV_FÖRSAMLING));
         }
         return rivResidence;
     }
@@ -449,8 +475,8 @@ public class TransformHelper {
      */
     static void createEventTypeStructure(ERSMOIndata.Ersättningshändelse currentErsh, CareEventType careEventType, Vkhform händelseform, String händelsetyp) {
         careEventType.setEventTypeMain(of.createCVType());
-        careEventType.getEventTypeMain().setCodeSystem(OIDList.OID_KV_KONTAKTTYP);
-        careEventType.getEventTypeMain().setCodeSystemName(OIDList.OID_KV_KONTAKTTYP_TEXT);
+        careEventType.getEventTypeMain().setCodeSystem(OIDList.getOid(CodeSystem.KV_KONTAKTTYP));
+        careEventType.getEventTypeMain().setCodeSystemName(OIDList.getName(CodeSystem.KV_KONTAKTTYP));
         careEventType.getEventTypeMain().setCode(mapErsmoKontaktFormToKvKontakttyp(
                 händelseform));
 

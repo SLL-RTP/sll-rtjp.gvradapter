@@ -55,6 +55,7 @@ public class FileNameDateRangeFilter implements  DirectoryStream.Filter<Path> {
 
         // Return false if not an XML-file, to make the filter below easier.
         if (!isXML) {
+            LOG.warn("File " + entry.toString() + " is not an XML file and will therefore be filtered away");
             return false;
         }
 
@@ -62,7 +63,7 @@ public class FileNameDateRangeFilter implements  DirectoryStream.Filter<Path> {
         Date gvrFileDate = fileReader.getDateFromGVRFile(entry);
         if (gvrFileDate == null) {
             // Invalid File, remove from filter.
-            LOG.info("File " + entry.toString() + " does not have a valid date and will therefore be filtered away");
+            LOG.warn("File " + entry.toString() + " does not have a valid date and will therefore be filtered away");
             return false;
         }
 
@@ -73,6 +74,7 @@ public class FileNameDateRangeFilter implements  DirectoryStream.Filter<Path> {
         boolean hasFileTimestampBeforeLocalToDate = toDate == null
                                                     || gvrFileDate.before(toDate)
                                                     || gvrFileDate.equals(toDate);
+                
         return hasFileTimestampAfterLocalFromDate && hasFileTimestampBeforeLocalToDate;
     }
 }
