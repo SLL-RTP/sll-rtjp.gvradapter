@@ -19,6 +19,7 @@ package se.sll.reimbursementadapter.gvr.transform;
  * Exception thrown from a Transformator when the transformation for some reason
  * cannot finish the transformation properly.
  */
+@SuppressWarnings("serial")
 public class TransformationException extends Exception {
 
     /**

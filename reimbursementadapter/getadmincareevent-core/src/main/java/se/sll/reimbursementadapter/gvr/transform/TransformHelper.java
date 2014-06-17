@@ -329,8 +329,8 @@ public class TransformHelper {
             // Patient residence parish
             rivResidence.setParish(new CVType());
             rivResidence.getParish().setCode(ersättningsLkf.substring(4, 6));
-            rivResidence.getParish().setCodeSystem(OIDList.getOid(CodeSystem.KV_LÄN));
-            rivResidence.getParish().setCodeSystemName(OIDList.getName(CodeSystem.KV_LÄN));
+            rivResidence.getParish().setCodeSystem(OIDList.getOid(CodeSystem.KV_FÖRSAMLING));
+            rivResidence.getParish().setCodeSystemName(OIDList.getName(CodeSystem.KV_FÖRSAMLING));
         }
         return rivResidence;
     }
