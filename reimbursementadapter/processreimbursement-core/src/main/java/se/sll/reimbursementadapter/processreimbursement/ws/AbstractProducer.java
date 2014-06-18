@@ -43,6 +43,7 @@ import riv.followup.processdevelopment.reimbursement.processreimbursementrespond
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;
+import se.sll.reimbursementadapter.exception.TransformationException;
 import se.sll.reimbursementadapter.hej.transform.HEJIndataMarshaller;
 import se.sll.reimbursementadapter.hej.transform.ReimbursementRequestToHEJIndataTransformer;
 import se.sll.reimbursementadapter.processreimbursement.jmx.StatusBean;
@@ -87,6 +88,10 @@ public class AbstractProducer {
     @Value("${pr.hej.fileSuffix:.xml}")
     private String hejFileSuffix;
 
+    /** The format for the timestamp in the created files. */
+    @Value("${pr.hej.timestampFormat:yyyy'-'MM'-'dd'T'HHmmssSSS}")
+    private String hejFileTimestampFormat;
+
     /** Number of retries when writing files to disk. */
     @Value("${pr.hej.io.numRetries:10}")
     private int hejNumberOfRetries;
@@ -94,6 +99,8 @@ public class AbstractProducer {
     /** The delay between retries when writing files to disk. */
     @Value("${pr.hej.io.retryInterval:100}")
     private long hejRetryInterval;
+
+    private Path lastWrittenFile;
 
     /**
      * Creates a complete {@link ProcessReimbursementResponse} object from the request information taken from the
@@ -116,25 +123,29 @@ public class AbstractProducer {
         try {
             hejXml = hejTransformer.doTransform(parameters, maximumSupportedCareEvents);
         } catch (NumberOfCareEventsExceededException e) {
-           LOG.error("THe number of supported care events has been exceeded. Returning controlled error response to " +
+           LOG.error("The number of supported care events has been exceeded. Returning controlled error response to " +
                    "client.");
             response.setResultCode("ERROR");
             response.setComment(e.getMessage());
-        } catch (Exception e) {
+
+        } catch (TransformationException e) {
+            LOG.error("TransformationException exception occurred when transforming request to HEJ format.", e);
+            createSoapFault("Internal transformation error occurred when transforming request to HEJIndata format.", e);
+        }
+        catch (Exception e) {
             LOG.error("Unknown exception occurred when transforming request to HEJ format.", e);
             createSoapFault("Unknown exception occurred when transforming request to HEJ format.", e);
         }
 
-        // TODO catch exception from the transformer when the number of care events are met.
-
         // Try writing the files according to the configured values, retrying if it fails with an IOException.
         BufferedWriter bw = null;
+        Path file = null;
         for (int currentTry = 0; currentTry < hejNumberOfRetries; currentTry++) {
             try {
                 // Create a file according to the configured pattern.
-                Path file = Files.createFile(FileSystems.getDefault().getPath(hejFileOutputPath,
+                file = Files.createFile(FileSystems.getDefault().getPath(hejFileOutputPath,
                      hejFilePrefix
-                     + parameters.getBatchId() + "_" + (new SimpleDateFormat("yyyy'-'MM'-'dd'T'HHmmssSSS")).format(new Date())
+                     + parameters.getBatchId() + "_" + (new SimpleDateFormat(hejFileTimestampFormat)).format(new Date())
                      + hejFileSuffix
                 ));
                 // Create a new buffered writer connected to the file with the correct Charset.
@@ -142,18 +153,15 @@ public class AbstractProducer {
                 // Unmarshal the transformed HEJ XML directly into the created BufferedWriter.
                 HEJIndataMarshaller marshaller = new HEJIndataMarshaller();
                 marshaller.unmarshalString(hejXml, bw);
-                // If no exception, do not retry. (could probably just return here aswell)
+                // If no exception, do not retry. (could probably just return here as well)
+                lastWrittenFile = file;
                 break;
             } catch (IOException e) {
                 LOG.error("IOException when writing the result file to disk.", e);
                 response.setResultCode("ERROR");
-            } catch (SAXException e) {
-                LOG.error("Error when loading schema file for HEJIndata", e);
-                throw createSoapFault("Internal error when loading schema file for HEJIndata", e);
-            } catch (JAXBException e) {
-                LOG.error("JAXB Error when writing the result XML (HEJIndata)", e);
-                throw createSoapFault("JAXB Error when writing the result XML (HEJIndata), is the XML invalid?", e);
-            } finally {
+                if (file != null) {
+                    file.toFile().delete();
+                }
                 // If this is not the last try, and we have a configured hejRetryInterval that is not 0,
                 // sleep for a bit.
                 if ((hejNumberOfRetries - currentTry) > 1) {
@@ -165,7 +173,21 @@ public class AbstractProducer {
                         }
                     }
                 }
-
+            } catch (SAXException e) {
+                LOG.error("Error when loading schema file for HEJIndata", e);
+                //response.setResultCode("ERROR");
+                if (file != null) {
+                    file.toFile().delete();
+                }
+                throw createSoapFault("Internal error when loading schema file for HEJIndata", e);
+            } catch (JAXBException e) {
+                LOG.error("JAXB Error when writing the result XML (HEJIndata)", e);
+                //response.setResultCode("ERROR");
+                if (file != null) {
+                    file.toFile().delete();
+                }
+                throw createSoapFault("JAXB Error when writing the result XML (HEJIndata), is the XML invalid?", e);
+            } finally {
                 try {
                     if (bw != null) {
                         bw.flush();
@@ -273,5 +295,9 @@ public class AbstractProducer {
         LOG.debug("stats: {}", statusBean.getPerformanceMetricsAsJSON());
 
         return status;
+    }
+
+    protected Path getLastWrittenFile() {
+        return lastWrittenFile;
     }
 }

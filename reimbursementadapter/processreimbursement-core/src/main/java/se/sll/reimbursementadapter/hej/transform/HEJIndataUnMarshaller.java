@@ -15,48 +15,42 @@
  */
 package se.sll.reimbursementadapter.hej.transform;
 
-import java.io.Writer;
-import java.net.URL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
+import se.sll.ersmo.xml.indata.ERSMOIndata;
+import se.sll.hej.xml.indata.HEJIndata;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.xml.sax.SAXException;
-import se.sll.hej.xml.indata.HEJIndata;
+import java.io.Reader;
+import java.net.URL;
 
 /**
- * Marshals a HEJIndata XML Object to a string.
+ * Unmarshals an XML Document in the form of a String to a HEJIndata XML Object.
  */
-public class HEJIndataMarshaller {
+public class HEJIndataUnMarshaller {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(HEJIndataMarshaller.class);
+	private static final Logger LOG = LoggerFactory.getLogger(HEJIndata.class);
 
-    /**
-     * Marshals the HEJIndata to a string, and writes the string to the provided writer.
-     *
-     * @param src The HEJIndata object to marshall.
-     * @param writer The Writer to write the result to.
-     */
-    public void unmarshalString(HEJIndata src, Writer writer) throws SAXException, JAXBException {
-        LOG.info("Starting to unmarshal contents of source Reader.");
+    public HEJIndata unmarshalString(Reader src) throws SAXException, JAXBException {
+        LOG.info("Entering HEJIndataUnMarshaller with Reader: " + src);
+
         // Read the schema from the XSD to apply the validation to the unmarshalled XML object.
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         URL url = getClass().getClassLoader().getResource("xsd/HEJIndata/HEJIndata2.0.xsd");
         Schema schema = sf.newSchema(url);
 
+        // Create a new JAXB Unmarshaller for ERSMOIndata and unmarshal the source XML.
         JAXBContext jaxbContext = JAXBContext.newInstance(HEJIndata.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.setProperty("jaxb.encoding", "ISO-8859-1");
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.setSchema(schema);
-        marshaller.marshal(src, writer);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        unmarshaller.setSchema(schema);
+
+        return (HEJIndata) unmarshaller.unmarshal(src);
     }
 
 }

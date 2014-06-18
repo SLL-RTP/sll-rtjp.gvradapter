@@ -26,6 +26,7 @@ import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
+import se.sll.reimbursementadapter.exception.TransformationException;
 import se.sll.reimbursementadapter.parser.TermItem;
 
 import java.nio.file.Path;

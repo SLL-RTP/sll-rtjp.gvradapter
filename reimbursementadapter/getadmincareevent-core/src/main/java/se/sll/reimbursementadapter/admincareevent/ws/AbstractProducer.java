@@ -42,7 +42,7 @@ import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
-import se.sll.reimbursementadapter.gvr.transform.TransformationException;
+import se.sll.reimbursementadapter.exception.TransformationException;
 
 /**
  * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the

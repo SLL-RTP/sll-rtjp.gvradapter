@@ -26,6 +26,7 @@ import riv.followup.processdevelopment.reimbursement.v1.*;
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.hej.xml.indata.ObjectFactory;
 import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;
+import se.sll.reimbursementadapter.exception.TransformationException;
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.processreimbursement.model.GeographicalAreaState;
 
@@ -58,9 +59,16 @@ public class ReimbursementRequestToHEJIndataTransformer {
      * {@link HEJIndata} response.
      *
      * @param request The ProcessReimbursementRequestType that should be transformed.
+     *
      * @return The fully transformed HEJIndata object.
+     *
+     * @throws NumberOfCareEventsExceededException when the number of written care events exceed the maximum
+     * allowed number configured.
+     *
+     * @throws TransformationException when an error or validation failure occurs during the transformation.
      */
-    public HEJIndata doTransform(ProcessReimbursementRequestType request, int maxNumberOfCareEvents) throws NumberOfCareEventsExceededException {
+    public HEJIndata doTransform(ProcessReimbursementRequestType request, int maxNumberOfCareEvents)
+            throws NumberOfCareEventsExceededException, TransformationException {
         LOG.info("Entering ReimbursementRequestToHEJIndataTransformer.doTransform");
 
         // Create and populate the base response object
@@ -87,8 +95,10 @@ public class ReimbursementRequestToHEJIndataTransformer {
      *
      * @param currentReimbursementEvent The reimbursement event to transform.a
      * @return The transformed HEJIndata.Ersättningshändelse.
+     * @throws TransformationException when an error or validation failure occurs during the transformation.
      */
-    public HEJIndata.Ersättningshändelse transformReimbursementEventToErsättningshändelse(ReimbursementEventType currentReimbursementEvent) {
+    public HEJIndata.Ersättningshändelse transformReimbursementEventToErsättningshändelse(ReimbursementEventType currentReimbursementEvent)
+            throws TransformationException {
         // Create response object.
         ObjectFactory of = new ObjectFactory();
         HEJIndata.Ersättningshändelse ersh = of.createHEJIndataErsättningshändelse();
@@ -144,11 +154,13 @@ public class ReimbursementRequestToHEJIndataTransformer {
                     LOG.error("Could not find any Medical Services code matching the requested geographical " +
                             "area code : (" + patientLocalResidence + ")." +
                             "Please check the code server mapping for the geographical area code!");
-                    // TODO: What to do in this case?
+                    throw new TransformationException("Could not find any Medical Services code in the cache matching the requested geographical " +
+                            "area code : (" + patientLocalResidence + ")." +
+                            "Please check the code server mapping for the geographical area code!");
                 }
             } else {
                 LOG.error("Could not lookup the Geographical Area code in the cache from the requested code (" + patientLocalResidence + ")");
-                // TODO: What to do in this case?
+                throw new TransformationException("Could not lookup the Geographical Area code in the cache from the requested code (" + patientLocalResidence + ")");
             }
         }
 

@@ -22,6 +22,7 @@ import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
+import se.sll.reimbursementadapter.exception.TransformationException;
 import se.sll.reimbursementadapter.parser.TermItem;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -284,18 +285,21 @@ public class TransformHelper {
         }
 
         // Patient gender.
-        if (ersättningPatient.getKön() != null) {
-            rivPatient.setGender(new CVType());
-            rivPatient.getGender().setCodeSystem(OIDList.getOid(CodeSystem.KV_KÖN));
-            rivPatient.getGender().setCodeSystemName(OIDList.getName(CodeSystem.KV_KÖN));
-            if (ersättningPatient.getKön().equals(Kon.M)) {
-                rivPatient.getGender().setCode("2");
-            } else if (ersättningPatient.getKön().equals(Kon.K)) {
-                rivPatient.getGender().setCode("1");
-            }
-            // TODO Reb: According to TKB gender code can also be 0 (Unknown) or 9 (Not applicable), set to 0 if not M or K.
-            // Not sure when we should set it to 9 though..?
+        rivPatient.setGender(new CVType());
+        rivPatient.getGender().setCodeSystem(OIDList.getOid(CodeSystem.KV_KÖN));
+        rivPatient.getGender().setCodeSystemName(OIDList.getName(CodeSystem.KV_KÖN));
+
+        if (ersättningPatient.getKön() == null) {
+            // Unknown
+            rivPatient.getGender().setCode("0");
+        } else if (ersättningPatient.getKön().equals(Kon.M)) {
+            // Male
+            rivPatient.getGender().setCode("2");
+        } else if (ersättningPatient.getKön().equals(Kon.K)) {
+            // Female
+            rivPatient.getGender().setCode("1");
         }
+
 
         // Patient residence region.
         rivPatient.setResidence(createRivResidenceFromErsättningLkf(ersättningPatient.getLkf()));
@@ -448,7 +452,7 @@ public class TransformHelper {
      * incoming Date.
      * @param inDate The date to convert from.
      * @return The converted XMLGregorianCalendar result.
-     * @throws se.sll.reimbursementadapter.gvr.transform.TransformationException When the calendar object could not be instansiated.
+     * @throws se.sll.reimbursementadapter.exception.TransformationException When the calendar object could not be instansiated.
      */
     protected static XMLGregorianCalendar createXMLCalendarFromDate(Date inDate) throws TransformationException {
         XMLGregorianCalendar xmlGregorianCalendar;
