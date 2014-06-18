@@ -489,14 +489,14 @@
             <urn2:emergency>1</urn2:emergency>
             <urn2:eventTypeMain>
                <!--Optional:-->
-               <urn2:code>Slutenvårdskontakt</urn2:code>
+               <urn2:code>typeMain</urn2:code>
                <!--Optional:-->
                <urn2:codeSystem>1.2.752.129.2.2.2.25</urn2:codeSystem>
             </urn2:eventTypeMain>
             <!--Optional:-->
             <urn2:eventTypeSub>
                <!--Optional:-->
-               <urn2:code>VårdkontaktTyp</urn2:code>
+               <urn2:code>typeSub</urn2:code>
                <!--Optional:-->
                <urn2:codeSystem>SLL.CS.VTYP</urn2:codeSystem>
             </urn2:eventTypeSub>

@@ -85,7 +85,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
     /**
      * Transforms a single {@link ReimbursementEventType} object to a single {@link HEJIndata.Ersättningshändelse} object.
      *
-     * @param currentReimbursementEvent The reimbursement event to transform.
+     * @param currentReimbursementEvent The reimbursement event to transform.a
      * @return The transformed HEJIndata.Ersättningshändelse.
      */
     public HEJIndata.Ersättningshändelse transformReimbursementEventToErsättningshändelse(ReimbursementEventType currentReimbursementEvent) {
@@ -106,8 +106,11 @@ public class ReimbursementRequestToHEJIndataTransformer {
             ersh.setHändelseform(currentReimbursementEvent.getEventTypeMain().getCode());
         }
         if (currentReimbursementEvent.getEventTypeSub() != null) {
-            ersh.setTyp(currentReimbursementEvent.getEventTypeSub().getCode());
+            ersh.setHändelsetyp(currentReimbursementEvent.getEventTypeSub().getCode());
         }
+
+        // Since we only allow Vårdkontakter in the GetAdminCareEvent logic, we can hard code this here.
+        ersh.setHändelseklass("Vårdkontakt");
 
         // Create and populate the Patient tag.
         if (currentReimbursementEvent.getPatient() != null) {

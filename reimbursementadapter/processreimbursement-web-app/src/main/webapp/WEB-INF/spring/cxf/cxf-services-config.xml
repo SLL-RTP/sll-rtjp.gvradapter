@@ -36,7 +36,7 @@
 		implementor="se.sll.reimbursementadapter.processreimbursement.ws.ProcessReimbursementProducer"
 		address="/ws/processReimbursement/v1">
 		<jaxws:properties>
-			<entry key="schema-validation-enabled" value="false" />
+			<entry key="schema-validation-enabled" value="true" />
 		</jaxws:properties>
 	</jaxws:endpoint>
 

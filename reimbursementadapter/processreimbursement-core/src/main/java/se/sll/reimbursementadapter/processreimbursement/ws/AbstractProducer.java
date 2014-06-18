@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.xml.bind.JAXBException;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
@@ -36,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.xml.sax.SAXException;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
 import se.sll.hej.xml.indata.HEJIndata;
@@ -138,13 +140,20 @@ public class AbstractProducer {
                 // Create a new buffered writer connected to the file with the correct Charset.
                 bw = Files.newBufferedWriter(file, Charset.forName("ISO-8859-1"), StandardOpenOption.WRITE);
                 // Unmarshal the transformed HEJ XML directly into the created BufferedWriter.
-                HEJIndataMarshaller.unmarshalString(hejXml, bw);
+                HEJIndataMarshaller marshaller = new HEJIndataMarshaller();
+                marshaller.unmarshalString(hejXml, bw);
                 // If no exception, do not retry. (could probably just return here aswell)
                 break;
             } catch (IOException e) {
                 LOG.error("IOException when writing the result file to disk.", e);
                 response.setResultCode("ERROR");
-
+            } catch (SAXException e) {
+                LOG.error("Error when loading schema file for HEJIndata", e);
+                throw createSoapFault("Internal error when loading schema file for HEJIndata", e);
+            } catch (JAXBException e) {
+                LOG.error("JAXB Error when writing the result XML (HEJIndata)", e);
+                throw createSoapFault("JAXB Error when writing the result XML (HEJIndata), is the XML invalid?", e);
+            } finally {
                 // If this is not the last try, and we have a configured hejRetryInterval that is not 0,
                 // sleep for a bit.
                 if ((hejNumberOfRetries - currentTry) > 1) {
@@ -156,7 +165,7 @@ public class AbstractProducer {
                         }
                     }
                 }
-            } finally {
+
                 try {
                     if (bw != null) {
                         bw.flush();
