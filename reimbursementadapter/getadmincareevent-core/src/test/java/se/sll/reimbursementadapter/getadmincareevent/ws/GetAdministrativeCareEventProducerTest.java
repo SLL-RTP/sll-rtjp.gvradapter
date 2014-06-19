@@ -31,6 +31,13 @@ import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheMana
 import se.sll.reimbursementadapter.admincareevent.ws.AbstractProducer;
 import se.sll.reimbursementadapter.gvr.reader.DateFilterMethod;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:getadmincareevent-core-spring-context.xml")
 public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
@@ -133,6 +140,98 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
     }
 
     @Test
+    public void testTimezoneDateFilterInclusiveMetadata() throws Exception {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date expectedDate = sf.parse("20140201100000000");
+        Date expectedDate2    = sf.parse("20140202100000000");
+        String localPath = this.getGvrFileReader().getLocalPath();
+        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
+
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            // All times decreased by the offset, but it is still the same datetime instances as the preceding test.
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T10:00:00.000+02:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-02T10:00:00.000+02:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Number of CareEvents", 2, response.getCareEvent().size());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+    }
+
+    @Test
+    public void testTimezoneDateFilterStartExclusiveMetadata() throws Exception {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date expectedDate = sf.parse("20140201100000000");
+        Date expectedDate2    = sf.parse("20140202100000000");
+        String localPath = this.getGvrFileReader().getLocalPath();
+        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
+
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            // All times decreased by the offset, but it is still the same datetime instances as the preceding test.
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T10:00:00.001+02:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-02T10:00:00.000+02:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+    }
+
+    @Test
+    public void testTimezoneDateFilterEndExclusiveMetadata() throws Exception {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date expectedDate = sf.parse("20140201100000000");
+        Date expectedDate2    = sf.parse("20140202100000000");
+        String localPath = this.getGvrFileReader().getLocalPath();
+        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
+
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            // All times decreased by the offset, but it is still the same datetime instances as the preceding test.
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T10:00:00.000+02:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-02T09:59:59.999+02:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        //Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+    }
+
+    @Test
     public void testTimezoneDateFilterInclusiveDifferentTimeZones() {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
@@ -155,7 +254,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
     }
 
     @Test
-    public void testTimezoneDateFilterStartExclusiveDifferentTimeZones() {
+         public void testTimezoneDateFilterStartExclusiveDifferentTimeZones() {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -196,6 +295,98 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
         Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
         //Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
+    }
+
+    @Test
+    public void testTimezoneDateFilterInclusiveDifferentTimeZonesMetadata() throws Exception {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date expectedDate = sf.parse("20140201100000000");
+        Date expectedDate2    = sf.parse("20140202100000000");
+        String localPath = this.getGvrFileReader().getLocalPath();
+        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
+
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            // All times decreased by the offset, but it is still the same datetime instances as the preceding test.
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T13:00:00.000+05:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-02T04:00:00.000-04:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Number of CareEvents", 2, response.getCareEvent().size());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+    }
+
+    @Test
+    public void testTimezoneDateFilterStartExclusiveDifferentTimeZonesMetadata() throws Exception {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date expectedDate = sf.parse("20140201100000000");
+        Date expectedDate2    = sf.parse("20140202100000000");
+        String localPath = this.getGvrFileReader().getLocalPath();
+        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
+
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            // All times decreased by the offset, but it is still the same datetime instances as the preceding test.
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T13:00:00.001+05:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-02T04:00:00.000-04:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+    }
+
+    @Test
+    public void testTimezoneDateFilterEndExclusiveDifferentTimeZonesMetadata() throws Exception {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date expectedDate = sf.parse("20140201100000000");
+        Date expectedDate2    = sf.parse("20140202100000000");
+        String localPath = this.getGvrFileReader().getLocalPath();
+        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
+        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
+
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            // All times decreased by the offset, but it is still the same datetime instances as the preceding test.
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T13:00:00.000+05:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-02T03:59:59.999-04:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        //Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test

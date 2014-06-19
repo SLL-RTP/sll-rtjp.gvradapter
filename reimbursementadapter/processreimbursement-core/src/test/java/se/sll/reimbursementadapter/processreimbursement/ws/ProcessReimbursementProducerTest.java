@@ -97,8 +97,7 @@ public class ProcessReimbursementProducerTest extends AbstractProducer {
         ProcessReimbursementResponse response = processReimbursementEvent0(createRequestType());
 
         // Read the file..
-        Path writtenFile = getLastWrittenFile();
-        BufferedReader bufferedReader = Files.newBufferedReader(writtenFile, Charset.forName("ISO-8859-1"));
+        BufferedReader bufferedReader = Files.newBufferedReader(getLastWrittenFile(), Charset.forName("ISO-8859-1"));
 
         // Unmarshall the file to a HEJIndata object.
         HEJIndataUnMarshaller unMarshaller = new HEJIndataUnMarshaller();
