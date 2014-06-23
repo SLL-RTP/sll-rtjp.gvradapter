@@ -48,7 +48,7 @@ public class ERSMOIndataToCareEventTransformer {
      * @param fileUpdatedTime The update time for the file the ERSMOIndata was read from. This is used
      *                        for setting the "lastUpdatedTime" parameter in the transformation, which
      *                        is not available in the source data.
-     * @param currentFile 
+     * @param currentFile The current file that the ersmoIndata originates from. Used for logging.
      * @return The transformed list of {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} objects
      */
     public static List<CareEventType> doTransform(ERSMOIndata ersmoIndata, Date fileUpdatedTime, Path currentFile) throws TransformationException {
@@ -85,7 +85,7 @@ public class ERSMOIndataToCareEventTransformer {
      * @param updatedTime The update time for the file the ERSMOIndata was read from. This is used
      *                    for setting the "lastUpdatedTime" parameter in the transformation, which
      *                    is not available in the source data.
-     * @param currentFile
+     * @param currentFile The current file that the ersmoIndata originates from. Used for logging.
      * @return The transformed {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType}.
      */
     static CareEventType createCareEventFromErsättningshändelse(ERSMOIndata.Ersättningshändelse currentErsh,

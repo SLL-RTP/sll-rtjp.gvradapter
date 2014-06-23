@@ -81,8 +81,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
         params.setUpdatedDuringPeriod(new DateTimePeriodType());
         try {
-            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T10:00:00.000+02:00"));
-            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-03T10:00:00.000+02:00"));
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T08:00:00.000+00:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-03T08:00:00.000+00:00"));
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
         }
@@ -90,9 +90,10 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 3, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00", response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
+        // Datumen är inte under sommartid, därför kommer svaren inte vara i sommartid heller.
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T09:00:00.000+01:00", response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T09:00:00.000+01:00", response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-03T09:00:00.000+01:00", response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test
@@ -113,8 +114,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 2, response.getCareEvent().size());
         //Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-03T09:00:00.000+01:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test
@@ -134,8 +135,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 2, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
         //Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
     }
 
@@ -144,13 +145,13 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
 
-        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        Date expectedDate = sf.parse("20140201100000000");
-        Date expectedDate2    = sf.parse("20140202100000000");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSSZ");
+        Date expectedDate = sf.parse("20140201080000000+0000");
+        Date expectedDate2    = sf.parse("20140202080000000+0000");
         String localPath = this.getGvrFileReader().getLocalPath();
-        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Path entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-01T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
-        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-02T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
 
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -166,8 +167,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 2, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test
@@ -175,13 +176,13 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
 
-        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        Date expectedDate = sf.parse("20140201100000000");
-        Date expectedDate2    = sf.parse("20140202100000000");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSSZ");
+        Date expectedDate = sf.parse("20140201080000000+0000");
+        Date expectedDate2    = sf.parse("20140202080000000+0000");
         String localPath = this.getGvrFileReader().getLocalPath();
-        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Path entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-01T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
-        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-02T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
 
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -197,7 +198,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test
@@ -205,13 +206,13 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
 
-        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        Date expectedDate = sf.parse("20140201100000000");
-        Date expectedDate2    = sf.parse("20140202100000000");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSSZ");
+        Date expectedDate = sf.parse("20140201080000000+0000");
+        Date expectedDate2    = sf.parse("20140202080000000+0000");
         String localPath = this.getGvrFileReader().getLocalPath();
-        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Path entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-01T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
-        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-02T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
 
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -227,7 +228,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
         //Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
     }
 
@@ -248,13 +249,33 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 3, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-03T09:00:00.000+01:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test
-         public void testTimezoneDateFilterStartExclusiveDifferentTimeZones() {
+    public void testTimezoneDateFilterInclusiveDST() {
+        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
+        CodeServerMEKCacheManagerService.getInstance().revalidate();
+        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
+        params.setUpdatedDuringPeriod(new DateTimePeriodType());
+        try {
+            // All times decreased by the offset, but it is still the same datetime instances as the preceding test.
+            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-07-01T08:00:00.000+00:00"));
+            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-07-01T08:00:00.000+00:00"));
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
+        Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
+        Assert.assertEquals("CareEvent 1 id", "2014-07-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+    }
+
+    @Test
+    public void testTimezoneDateFilterStartExclusiveDifferentTimeZones() {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -271,8 +292,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 2, response.getCareEvent().size());
         //Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-03T09:00:00.000+01:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test
@@ -292,8 +313,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 2, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
         //Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
     }
 
@@ -302,13 +323,13 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
 
-        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        Date expectedDate = sf.parse("20140201100000000");
-        Date expectedDate2    = sf.parse("20140202100000000");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSSZ");
+        Date expectedDate = sf.parse("20140201080000000+0000");
+        Date expectedDate2    = sf.parse("20140202080000000+0000");
         String localPath = this.getGvrFileReader().getLocalPath();
-        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Path entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-01T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
-        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-02T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
 
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -324,8 +345,8 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 2, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test
@@ -333,13 +354,13 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
 
-        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        Date expectedDate = sf.parse("20140201100000000");
-        Date expectedDate2    = sf.parse("20140202100000000");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSSZ");
+        Date expectedDate = sf.parse("20140201080000000+0000");
+        Date expectedDate2    = sf.parse("20140202080000000+0000");
         String localPath = this.getGvrFileReader().getLocalPath();
-        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Path entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-01T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
-        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-02T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
 
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -355,7 +376,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-02T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
     }
 
     @Test
@@ -363,13 +384,13 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
 
-        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        Date expectedDate = sf.parse("20140201100000000");
-        Date expectedDate2    = sf.parse("20140202100000000");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSSZ");
+        Date expectedDate = sf.parse("20140201080000000+0000");
+        Date expectedDate2    = sf.parse("20140202080000000+0000");
         String localPath = this.getGvrFileReader().getLocalPath();
-        Path entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-01T100000.xml");
+        Path entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-01T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
-        entry = FileSystems.getDefault().getPath(localPath + "Vardkontakt_2014-02-02T100000.xml");
+        entry = FileSystems.getDefault().getPath(localPath + "ERSMO_2014-02-02T080000.000+0000.xml");
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate2.getTime()));
 
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -385,7 +406,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
         Assert.assertEquals("Number of CareEvents", 1, response.getCareEvent().size());
-        Assert.assertEquals("CareEvent 1 id", "2014-02-01T10:00:00.000+02:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("CareEvent 1 id", "2014-02-01T09:00:00.000+01:00",  response.getCareEvent().get(0).getLastUpdatedTime().toXMLFormat());
         //Assert.assertEquals("CareEvent 2 id", "2014-02-02T10:00:00.000+02:00",  response.getCareEvent().get(1).getLastUpdatedTime().toXMLFormat());
     }
 
@@ -408,7 +429,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         Assert.assertEquals("Result Comment", "Response was truncated due to hitting the maximum configured number of Care Events of 8", response.getComment());
         Assert.assertEquals("Number of CareEvents", 5, response.getCareEvent().size());
         Assert.assertEquals("StartDate 1 id", "2014-02-04T10:00:00.000+02:00",  response.getResponseTimePeriod().getStart().toXMLFormat());
-        Assert.assertEquals("CareEvent 2 id", "2014-02-04T10:00:00.000+02:00",  response.getResponseTimePeriod().getEnd().toXMLFormat());
+        Assert.assertEquals("CareEvent 2 id", "2014-02-04T09:00:00.000+01:00",  response.getResponseTimePeriod().getEnd().toXMLFormat());
         //Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
     }
 

@@ -105,7 +105,7 @@ public class GVRFileReader {
      */
     public List<Path> getFileList(String fromDateString, String toDateString)
             throws InvalidParameterException, ParseException, IOException {
-        SimpleDateFormat df = new SimpleDateFormat(rivTimestampFormat);
+        SimpleDateFormat df = new SimpleDateFormat(gvrTimestampFormat);
         Date fromDate = null;
         Date toDate = null;
         if (fromDateString != null && !fromDateString.equals("")) {

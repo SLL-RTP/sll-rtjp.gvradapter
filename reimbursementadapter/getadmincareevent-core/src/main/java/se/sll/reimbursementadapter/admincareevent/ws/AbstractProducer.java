@@ -22,6 +22,7 @@ import java.util.*;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
@@ -43,6 +44,7 @@ import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
 import se.sll.reimbursementadapter.exception.TransformationException;
+import sun.util.TimeZoneNameUtility;
 
 /**
  * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the
@@ -87,8 +89,8 @@ public class AbstractProducer {
         GregorianCalendar localCalendarEnd = new GregorianCalendar();
         localCalendarEnd.setTimeInMillis(gregorianCalendarEnd.getTimeInMillis());
 
-        Date startDate = new Date(localCalendarStart.getTime().getTime() + localCalendarStart.getTimeZone().getDSTSavings());
-        Date endDate = new Date(localCalendarEnd.getTime().getTime() + localCalendarEnd.getTimeZone().getDSTSavings());
+        Date startDate = new Date(localCalendarStart.getTime().getTime()); //+ localCalendarStart.getTimeZone().getDSTSavings());
+        Date endDate = new Date(localCalendarEnd.getTime().getTime()); //+ localCalendarEnd.getTimeZone().getDSTSavings());
 
         LOG.info(String.format("Request recieved, from date: %s to date: %s", startDate, endDate));
 

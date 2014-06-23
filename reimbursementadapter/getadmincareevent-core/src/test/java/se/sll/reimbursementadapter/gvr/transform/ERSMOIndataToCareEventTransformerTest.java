@@ -47,7 +47,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
 
         // Read a given ERSMOIndata file and marshal to an XML-object.
-        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "Vardkontakt_2014-02-02T100000.xml");
+        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-02-02T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
         ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
         ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
@@ -104,7 +104,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Care Unit HSA Id", "SE2321000016-15CQ", careEventType.getCareUnit().getCareUnitId());
 
         // Updated time (taken from the filename)
-        Assert.assertEquals("UpdatedTime", "2014-02-02T10:00:00.000+0" + ((TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings()) / 1000 / 60 / 60) + ":00", careEventType.getLastUpdatedTime().toXMLFormat());
+        Assert.assertEquals("UpdatedTime", "2014-02-02T09:00:00.000+01:00", careEventType.getLastUpdatedTime().toXMLFormat());
 
         // Deleted
         Assert.assertEquals("Deleted", false, careEventType.isDeleted());

@@ -38,20 +38,20 @@ public class FileNameDateRangeFilterTest extends TestSupport {
     @Autowired
     private GVRFileReader gvrFileReader;
 
-    /** Timestamp format that comes from the RIV schema request. */
-    @Value("${pr.riv.timestampFormat:yyyyMMddHHmmssSSS}")
-    private String rivTimestampFormat;
+    /** Timestamp format that is in the GVR files. */
+    @Value("${pr.gvr.io.timestampFormat:yyyy-MM-dd'T'HHmmss.SSSZZZZ}")
+    private String gvrTimestampFormat;
 
     /** Filter start date. */
-    private String fromDate = "20140211000000000";
+    private String fromDate = "2014-02-11T000000.000+0200";
     /** Filter end date. */
-    private String toDate = "20140211235959000";
+    private String toDate = "2014-02-11T235959.000+0200";
 
     // File name dates in the format yyyy-MM-dd'T'HHmmss
-    private String dateLowInvalid = "2014-02-10T235959";
-    private String dateLowValid = "2014-02-11T000000";
-    private String dateHighValid = "2014-02-11T235959";
-    private String dateHighInvalid = "2014-02-12T000000";
+    private String dateLowInvalid = "2014-02-10T235959.000+0200";
+    private String dateLowValid = "2014-02-11T000000.000+0200";
+    private String dateHighValid = "2014-02-11T235959.000+0200";
+    private String dateHighInvalid = "2014-02-12T000000.000+0200";
 
     /** The filter to be used. */
     private FileNameDateRangeFilter filter;
@@ -61,7 +61,7 @@ public class FileNameDateRangeFilterTest extends TestSupport {
     @Before
     public void before() throws Exception {
         gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
-        df = new SimpleDateFormat(rivTimestampFormat);
+        df = new SimpleDateFormat(gvrTimestampFormat);
         filter = new FileNameDateRangeFilter(df.parse(fromDate), df.parse(toDate), gvrFileReader);
     }
 

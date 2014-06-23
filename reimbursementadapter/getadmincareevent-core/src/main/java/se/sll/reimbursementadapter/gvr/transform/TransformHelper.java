@@ -460,7 +460,7 @@ public class TransformHelper {
             GregorianCalendar c = new GregorianCalendar();
             c.setTime(inDate);
             xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-            xmlGregorianCalendar.setTimezone((TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings()) / 1000 / 60);
+            //xmlGregorianCalendar.setTimezone((TimeZone.getDefault().getRawOffset() /*+ TimeZone.getDefault().getDSTSavings()*/) / 1000 / 60);
 
         } catch (DatatypeConfigurationException e) {
             throw new TransformationException("DatatypeConfigurationException occured when creating a new DatatypeFactory.");
