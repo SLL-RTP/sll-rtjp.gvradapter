@@ -104,9 +104,7 @@ public class ERSMOIndataToCareEventTransformer {
 
         // If the Händelseklass is null och the Händelseklass is not of type "Vårdkontakt", throw a mapping exception.
         if (currentErsh.getHändelseklass() == null || currentErsh.getHändelseklass().getVårdkontakt() == null) {
-            String msg = String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.", currentErsId, currentFile);
-            ERSMOIndataToCareEventTransformer.LOG.error(msg);
-            throw new TransformationException(msg);
+            fatal(String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.", currentErsId, currentFile));
         }
 
         // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
@@ -114,27 +112,19 @@ public class ERSMOIndataToCareEventTransformer {
         String kombika = currentErsh.getSlutverksamhet();
         TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
         if (mappedFacilities == null) {
-            String msg = String.format("Did not find code server data for kombika %s on care event %s in %s.",
-                    kombika, currentErsId, currentFile);
-            ERSMOIndataToCareEventTransformer.LOG.error(msg);
-            throw new TransformationException(msg);
-
+            fatal(String.format("Did not find code server data for kombika %s on care event %s in %s.",
+                                kombika, currentErsId, currentFile));
         }
 
         if (mappedFacilities.getState(stateDate) == null) {
-            String msg = String.format("Did not find code server data for kombika %s and date %s on care event %s in %s.",
-                    kombika, stateDate, currentErsId, currentFile);
-            ERSMOIndataToCareEventTransformer.LOG.error(msg);
-            throw new TransformationException(msg);
-
+            fatal(String.format("Did not find code server data for kombika %s and date %s on care event %s in %s.",
+                                kombika, stateDate, currentErsId, currentFile));
         }
         
         FacilityState mappedFacility = mappedFacilities.getState(stateDate);
         if (mappedFacility == null) {
-            String msg = String.format("Did not find code server data for kombika %s for date %s on care event %s in %s.",
-                    kombika, stateDate, currentErsId, currentFile);
-            ERSMOIndataToCareEventTransformer.LOG.error(msg);
-            throw new TransformationException(msg);
+            fatal(String.format("Did not find code server data for kombika %s for date %s on care event %s in %s.",
+                                kombika, stateDate, currentErsId, currentFile));
         }
 
         // Patient            
@@ -210,12 +200,14 @@ public class ERSMOIndataToCareEventTransformer {
         }
 
         // Fee Category
-        currentEvent.setFeeCategory(of.createCVType());
-        currentEvent.getFeeCategory().setCode(currentErsh.getHändelseklass().getVårdkontakt().getPatientavgift());
-        if (currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass().equals("006")) {
+        String avgiftsklass = currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass();
+        if (avgiftsklass == null || "006".equals(avgiftsklass)) {
+            currentEvent.setFeeCategory(of.createCVType());
             currentEvent.getFeeCategory().setCodeSystem("SLL.CS.TAXA");
-        } else {
-            currentEvent.getFeeCategory().setCodeSystem("NO.OID: " + currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass());
+            currentEvent.getFeeCategory().setCode(currentErsh.getHändelseklass().getVårdkontakt().getPatientavgift());
+        }
+        else {
+            fatal(String.format("Found unexpected Avgiftsklass %s on care event %s in %s.", avgiftsklass, currentErsId, currentFile));
         }
 
         // Involved Professions
@@ -244,6 +236,12 @@ public class ERSMOIndataToCareEventTransformer {
         currentEvent.setDeceased(currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter().getKod().equals("7"));
 
         return currentEvent;
+    }
+
+    private static void fatal(String msg) throws TransformationException 
+    {
+        ERSMOIndataToCareEventTransformer.LOG.error(msg);
+        throw new TransformationException(msg);
     }
 
 }
