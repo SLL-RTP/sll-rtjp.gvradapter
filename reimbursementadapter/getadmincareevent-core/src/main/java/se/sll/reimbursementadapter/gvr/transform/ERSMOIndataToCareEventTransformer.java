@@ -123,7 +123,7 @@ public class ERSMOIndataToCareEventTransformer {
 
         if (mappedFacilities.getState(stateDate) == null) {
             String msg = String.format("Did not find code server data for kombika %s and date %s on care event %s in %s.",
-                    kombika, currentErsId, stateDate, currentFile);
+                    kombika, stateDate, currentErsId, currentFile);
             ERSMOIndataToCareEventTransformer.LOG.error(msg);
             throw new TransformationException(msg);
 
@@ -137,7 +137,8 @@ public class ERSMOIndataToCareEventTransformer {
             throw new TransformationException(msg);
         }
 
-        // Patient
+        // Patient            
+
         if (currentErsh.getPatient() != null) {
             currentEvent.setPatient(TransformHelper.createRivPatientFromErsättningsPatient(currentErsh.getPatient()));
         }
@@ -151,9 +152,18 @@ public class ERSMOIndataToCareEventTransformer {
         // Find the contract mapping with the right type
         Vkhform händelseform = currentErsh.getHändelseklass().getVårdkontakt().getHändelseform();
         for (TermItemCommission<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
-            if ("06".equals(commissionState.getState(stateDate).getAssignmentType())
-                    || "07".equals(commissionState.getState(stateDate).getAssignmentType())
-                    || "08".equals(commissionState.getState(stateDate).getAssignmentType())) {
+
+            // TODO roos Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
+            if (commissionState == null) {
+                continue;
+            }
+            CommissionState filteredCommissionState = commissionState.getState(stateDate);
+            if (filteredCommissionState == null) {
+                continue;
+            }
+            
+            String assignmentType = filteredCommissionState.getAssignmentType();
+            if ("06".equals(assignmentType) || "07".equals(assignmentType) || "08".equals(assignmentType)) {
                 // Lookup the payer organisation. Extracted from getCareContractFromState due to number of parameters.
                 String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, mappedFacilities.getState(stateDate), commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID);
 
