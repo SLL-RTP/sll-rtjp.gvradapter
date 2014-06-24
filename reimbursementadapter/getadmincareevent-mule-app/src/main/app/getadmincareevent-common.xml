@@ -119,6 +119,4 @@
 		class="org.soitoolkit.commons.mule.soap.CreateSoapFaultIfExceptionTransformer"
 		name="createSoapFaultIfException" />
 
-
-	<!-- TODO: Add global definitions here -->
 </mule>
