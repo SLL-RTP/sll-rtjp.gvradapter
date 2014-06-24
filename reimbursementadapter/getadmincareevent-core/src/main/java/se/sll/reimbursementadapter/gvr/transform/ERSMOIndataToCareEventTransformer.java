@@ -104,30 +104,37 @@ public class ERSMOIndataToCareEventTransformer {
 
         // If the Händelseklass is null och the Händelseklass is not of type "Vårdkontakt", throw a mapping exception.
         if (currentErsh.getHändelseklass() == null || currentErsh.getHändelseklass().getVårdkontakt() == null) {
-            ERSMOIndataToCareEventTransformer.LOG.error(String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.",
-                    currentErsId, currentFile));
-            throw new TransformationException(String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.",
-                    currentErsId, currentFile));
+            String msg = String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.", currentErsId, currentFile);
+            ERSMOIndataToCareEventTransformer.LOG.error(msg);
+            throw new TransformationException(msg);
         }
 
         // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
         Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
         String kombika = currentErsh.getSlutverksamhet();
         TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
-        if (mappedFacilities == null || mappedFacilities.getState(stateDate) == null) {
-            ERSMOIndataToCareEventTransformer.LOG.error(String.format("Did not find code server data for kombika %s on care event %s in %s.",
-                    kombika, currentErsId, currentFile));
-            throw new TransformationException(String.format("Did not find code server data for kombika %s on care event %s in %s.",
-                    kombika, currentErsId, currentFile));
+        if (mappedFacilities == null) {
+            String msg = String.format("Did not find code server data for kombika %s on care event %s in %s.",
+                    kombika, currentErsId, currentFile);
+            ERSMOIndataToCareEventTransformer.LOG.error(msg);
+            throw new TransformationException(msg);
 
         }
 
+        if (mappedFacilities.getState(stateDate) == null) {
+            String msg = String.format("Did not find code server data for kombika %s and date %s on care event %s in %s.",
+                    kombika, currentErsId, stateDate, currentFile);
+            ERSMOIndataToCareEventTransformer.LOG.error(msg);
+            throw new TransformationException(msg);
+
+        }
+        
         FacilityState mappedFacility = mappedFacilities.getState(stateDate);
         if (mappedFacility == null) {
-            ERSMOIndataToCareEventTransformer.LOG.error(String.format("Did not find code server data for kombika %s for date %s on care event %s in %s.",
-                    kombika, stateDate, currentErsId, currentFile));
-            throw new TransformationException(String.format("Did not find code server data for kombika %s for date %s on care event %s in %s.",
-                    kombika, stateDate, currentErsId, currentFile));
+            String msg = String.format("Did not find code server data for kombika %s for date %s on care event %s in %s.",
+                    kombika, stateDate, currentErsId, currentFile);
+            ERSMOIndataToCareEventTransformer.LOG.error(msg);
+            throw new TransformationException(msg);
         }
 
         // Patient

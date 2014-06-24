@@ -163,6 +163,11 @@ public class CodeServerMEKCacheManagerService {
 
     public synchronized Map<String, TermItem<FacilityState>> getCurrentIndex() {
         if (currentIndex == null) {
+            if (fileName == null || fileName.trim().isEmpty()) {
+                LOG.info("Skipping read of index, filename is empty.");
+                return null;
+            }
+            
             LOG.info(String.format("Reading index from %s.", fileName));
             Map<String, TermItem<FacilityState>> index = fileObjectStore.read(fileName);
             setCurrentIndex(index);

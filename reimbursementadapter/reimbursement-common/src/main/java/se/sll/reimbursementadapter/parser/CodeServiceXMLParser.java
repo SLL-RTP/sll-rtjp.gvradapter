@@ -35,6 +35,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 
 /**
@@ -51,17 +52,17 @@ public class CodeServiceXMLParser {
 
     /** Logger */
     private static final Logger LOG = LoggerFactory.getLogger(CodeServiceXMLParser.class);
-
+    
     /** A Date one year back from the current system time as a default break point. */
-    public static final Date ONE_YEAR_BACK;
+    public static final Date BREAK_POINT;
     static { 
         final Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.YEAR, -10);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        ONE_YEAR_BACK = cal.getTime();
+        BREAK_POINT = cal.getTime();
     }
 
 
@@ -82,7 +83,7 @@ public class CodeServiceXMLParser {
     private Set<String> extractFilter = new HashSet<>();
     private Map<String, QName> names = new HashMap<>();
     private CodeServiceEntryCallback codeServiceEntryCallback;
-    private Date newerThan = ONE_YEAR_BACK;
+    private Date newerThan = BREAK_POINT;
 
     /**
      * Parsing callback interface

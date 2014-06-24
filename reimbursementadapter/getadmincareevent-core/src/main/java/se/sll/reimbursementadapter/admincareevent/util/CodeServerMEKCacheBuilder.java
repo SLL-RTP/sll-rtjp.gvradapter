@@ -64,7 +64,7 @@ public class CodeServerMEKCacheBuilder {
     private String commissionFile;
     private String commissionTypeFile;
     
-    private Date newerThan = CodeServiceXMLParser.ONE_YEAR_BACK;
+    private Date newerThan = CodeServiceXMLParser.BREAK_POINT;
 
     /**
      * Input file for mapping (MEK) data (mandatory).
@@ -130,9 +130,7 @@ public class CodeServerMEKCacheBuilder {
      */
     public Map<String, TermItem<FacilityState>> build() {
 
-        LOG.info("build hsaMappingIndex from: {}", mekFile);
         final HashMap<String, TermItem<FacilityState>> avdIndex = createFacilityIndex();
-        LOG.info("hsaMappingIndex size: {}", avdIndex.size());
 
         return avdIndex;
     }
@@ -167,10 +165,12 @@ public class CodeServerMEKCacheBuilder {
         LOG.info("build commissionIndex from: {}", commissionFile);
         // Create underlying indexes to this one that will be linked in.
         final HashMap<String, TermItemCommission<CommissionState>> samverksIndex = createCommissionIndex();
-        final Map<String, List<TermItem<HSAMappingState>>> hsaIndex = createHSAIndex();
-        
         LOG.info("commissionIndex size: {}", samverksIndex.size());
+        
+        final Map<String, List<TermItem<HSAMappingState>>> hsaIndex = createHSAIndex();
 
+        LOG.info("build facilityIndex from: {}", facilityFile);
+        
         // Create a index structure
         final HashMap<String, TermItem<FacilityState>> index = new HashMap<>();
 
@@ -242,6 +242,9 @@ public class CodeServerMEKCacheBuilder {
 
         // Execure the parsing of the source XML.
         parser.parse();
+        
+        LOG.info("facilityIndex size: {}", index.size());
+        
         return index;
     }
 
@@ -308,6 +311,8 @@ public class CodeServerMEKCacheBuilder {
                 mapping = new TermItem<>();
             }
         });
+
+        LOG.info("hsaMappingIndex size: {}", map.size());
 
         return map;
     }

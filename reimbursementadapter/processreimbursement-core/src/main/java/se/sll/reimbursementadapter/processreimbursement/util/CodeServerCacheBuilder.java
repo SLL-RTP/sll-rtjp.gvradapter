@@ -44,7 +44,7 @@ public class CodeServerCacheBuilder {
     /** The configured file with codes for Geographical Areas. */
     private String geoAreaFile;
     /** The configured Date for which the returned codes should be newer than. Default is CodeServiceXMLParser.ONE_YEAR_BACK. */
-    private Date newerThan = CodeServiceXMLParser.ONE_YEAR_BACK;
+    private Date newerThan = CodeServiceXMLParser.BREAK_POINT;
     /** Logger. */
     private static final Logger LOG = LoggerFactory.getLogger(CodeServerCacheBuilder.class);
 
