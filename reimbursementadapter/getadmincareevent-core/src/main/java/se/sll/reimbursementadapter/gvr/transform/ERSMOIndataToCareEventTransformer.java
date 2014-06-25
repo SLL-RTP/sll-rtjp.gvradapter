@@ -24,6 +24,7 @@ import se.sll.ersmo.xml.indata.*;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
+import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.exception.TransformationException;
@@ -164,14 +165,20 @@ public class ERSMOIndataToCareEventTransformer {
         }
 
         // Set up mapping for the contact referral care unit to HSA-id.
-        if (currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre() != null) {
-            TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre().getKod());
+        RemissFöre referralBefore = currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre();
+        if (referralBefore != null) {
+            TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(referralBefore.getKod());
 
             if (mappedFacilitiesForReferral != null) {
-                String referralHsaId = mappedFacilitiesForReferral.getState(stateDate).getHSAMapping().getState(stateDate).getHsaId();
-
-                // Referred From (HSA-id)
-                currentEvent.setReferredFrom(referralHsaId);
+                // TODO roos stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
+                FacilityState facilityState = mappedFacilitiesForReferral.getState(stateDate);
+                if (facilityState != null) {
+                    HSAMappingState hsaMappingState = facilityState.getHSAMapping().getState(stateDate);
+                    if (hsaMappingState != null) {
+                        // Referred From (HSA-id)
+                        currentEvent.setReferredFrom(hsaMappingState.getHsaId());
+                    }
+                }
             }
         }
 
