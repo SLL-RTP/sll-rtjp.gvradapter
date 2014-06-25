@@ -99,15 +99,16 @@ public class TransformHelper {
         currentEvent.getCareUnit().getCareUnitLocalId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + currentErsh.getSlutverksamhet());
 
         // Care Unit HSA-id from MEK
-        TermItem<HSAMappingState> hsaMappingState = mappedFacility.getHSAMapping();
-        String careUnitHSAid;
-        if (hsaMappingState != null) {
-            careUnitHSAid = hsaMappingState.getState(stateDate).getHsaId();
-            currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
-        } else {
-            throw new TransformationException(String.format("The specified Facility code (Kombika) '%s' does not exist in the Facility (AVD) file for the date '%s'. Source file %s and care event %s.", mappedFacility.toString(), stateDate, currentErsId, currentFile));
+        TermItem<HSAMappingState> hsaMapping = mappedFacility.getHSAMapping();
+        if (hsaMapping != null) {
+            HSAMappingState hsaMappingState = hsaMapping.getState(stateDate);
+            if (hsaMappingState != null) {
+                String careUnitHSAid = hsaMappingState.getHsaId();
+                currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
+                return careUnitHSAid;
+            }
         }
-        return careUnitHSAid;
+        return null;
     }
 
     /**
@@ -249,7 +250,9 @@ public class TransformHelper {
         currentContract.setPayerOrganization(payerOrganization);
 
         // ProviderOrganization
-        currentContract.setProviderOrganization(careUnitHSAid);
+        if (careUnitHSAid != null) {
+            currentContract.setProviderOrganization(careUnitHSAid);
+        }
 
         return currentContract;
     }

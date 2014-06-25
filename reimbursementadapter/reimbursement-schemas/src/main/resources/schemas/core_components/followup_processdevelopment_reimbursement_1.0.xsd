@@ -295,7 +295,7 @@
 	</xs:complexType>
 	<xs:complexType name="CareUnitType">
 		<xs:sequence>
-			<xs:element name="careUnitId" type="tns:HSAIdType"/>
+			<xs:element name="careUnitId" type="tns:HSAIdType" minOccurs="0"/>
 			<xs:element name="careUnitLocalId" type="tns:IIType" minOccurs="0"/>
 			<xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
