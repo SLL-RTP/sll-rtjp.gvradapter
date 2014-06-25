@@ -481,14 +481,15 @@ public class TransformHelper {
         careEventType.setEventTypeMain(of.createCVType());
         careEventType.getEventTypeMain().setCodeSystem(OIDList.getOid(CodeSystem.KV_KONTAKTTYP));
         careEventType.getEventTypeMain().setCodeSystemName(OIDList.getName(CodeSystem.KV_KONTAKTTYP));
-        careEventType.getEventTypeMain().setCode(mapErsmoKontaktFormToKvKontakttyp(
-                händelseform));
+        careEventType.getEventTypeMain().setCode(mapErsmoKontaktFormToKvKontakttyp(händelseform));
 
-        careEventType.setEventTypeSub(of.createCVType());
-        // Create our locally defined OID with the "SLL.CS." + {getHändelsetyp()}
-        String nameOfHandelseTyp = mapNumericHändelsetypToTextRepresentation(händelsetyp);
-        careEventType.getEventTypeSub().setCodeSystem("SLL.CS." + nameOfHandelseTyp);
-        careEventType.getEventTypeSub().setCodeSystemName("SLL Code Server definition from the '" + händelsetyp + "' table.");
-        careEventType.getEventTypeSub().setCode(currentErsh.getHändelseklass().getVårdkontakt().getTyp());
+        if (händelsetyp != null) {
+            careEventType.setEventTypeSub(of.createCVType());
+            // Create our locally defined OID with the "SLL.CS." + {getHändelsetyp()}
+            String nameOfHandelseTyp = mapNumericHändelsetypToTextRepresentation(händelsetyp);
+            careEventType.getEventTypeSub().setCodeSystem("SLL.CS." + nameOfHandelseTyp);
+            careEventType.getEventTypeSub().setCodeSystemName("SLL Code Server definition from the '" + händelsetyp + "' table.");
+            careEventType.getEventTypeSub().setCode(currentErsh.getHändelseklass().getVårdkontakt().getTyp());
+        }
     }
 }

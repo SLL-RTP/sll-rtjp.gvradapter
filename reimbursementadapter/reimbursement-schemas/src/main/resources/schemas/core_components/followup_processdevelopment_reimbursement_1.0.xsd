@@ -85,7 +85,7 @@
 			<xs:element name="id" type="xs:string"/>
 			<xs:element name="emergency" type="xs:boolean" minOccurs="0"/>
 			<xs:element name="eventTypeMain" type="tns:CVType"/>
-			<xs:element name="eventTypeSub" type="tns:CVType"/>
+			<xs:element name="eventTypeSub" type="tns:CVType" minOccurs="0"/>
 			<xs:element name="patient" type="tns:PatientType" minOccurs="0"/>
 			<xs:element name="involvedProfessions" minOccurs="0">
 				<xs:complexType>
