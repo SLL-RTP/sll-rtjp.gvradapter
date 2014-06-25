@@ -141,35 +141,8 @@ public class ERSMOIndataToCareEventTransformer {
             // Care Unit
             String careUnitHSAid = TransformHelper.createCareUnitStructure(currentErsh, currentFile, currentEvent, currentErsId, stateDate, mappedFacility);
 
-            // Contract
-            currentEvent.setContracts(of.createCareEventTypeContracts());
-
-            // Find the contract mapping with the right type
-            Vkhform händelseform = currentErsh.getHändelseklass().getVårdkontakt().getHändelseform();
-            for (TermItemCommission<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
-
-                // TODO roos Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
-                if (commissionState == null) {
-                    continue;
-                }
-                CommissionState filteredCommissionState = commissionState.getState(stateDate);
-                if (filteredCommissionState == null) {
-                    continue;
-                }
-
-                String assignmentType = filteredCommissionState.getAssignmentType();
-                if ("06".equals(assignmentType) || "07".equals(assignmentType) || "08".equals(assignmentType)) {
-                    // Lookup the payer organisation. Extracted from getCareContractFromState due to number of parameters.
-                    String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, mappedFacilities.getState(stateDate), 
-                                                                                    commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID);
-
-                    // Map the current commission information to a CareContractType and add it to the currentEvent list.
-                    CareContractType currentContract = TransformHelper.getCareContractFromState(stateDate, careUnitHSAid, commissionState, payerOrganization);
-                    currentEvent.getContracts().getContract().add(currentContract);
-                }
-            }
-
             // Set up mapping for the contact referral care unit to HSA-id.
+            String referredFromHsaId = null;
             RemissFöre referralBefore = currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre();
             if (referralBefore != null) {
                 TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(referralBefore.getKod());
@@ -183,10 +156,40 @@ public class ERSMOIndataToCareEventTransformer {
                             HSAMappingState hsaMappingState = hsaMapping.getState(stateDate);
                             if (hsaMappingState != null) {
                                 // Referred From (HSA-id)
-                                currentEvent.setReferredFrom(hsaMappingState.getHsaId());
+                                referredFromHsaId = hsaMappingState.getHsaId();
+                                currentEvent.setReferredFrom(referredFromHsaId);
                             }
                         }
                     }
+                }
+            }
+            
+            // Contract
+            currentEvent.setContracts(of.createCareEventTypeContracts());
+            
+            // Find the contract mapping with the right type
+            Vkhform händelseform = currentErsh.getHändelseklass().getVårdkontakt().getHändelseform();
+            for (TermItemCommission<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
+                
+                // TODO roos Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
+                if (commissionState == null) {
+                    continue;
+                }
+                CommissionState filteredCommissionState = commissionState.getState(stateDate);
+                if (filteredCommissionState == null) {
+                    continue;
+                }
+                
+                String assignmentType = filteredCommissionState.getAssignmentType();
+                if ("06".equals(assignmentType) || "07".equals(assignmentType) || "08".equals(assignmentType)) {
+                    // Lookup the payer organisation. Extracted from getCareContractFromState due to number of parameters.
+                    String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, mappedFacilities.getState(stateDate), 
+                                                                                    commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID, referredFromHsaId,
+                                                                                    kombika, currentErsId, currentFile);
+                    
+                    // Map the current commission information to a CareContractType and add it to the currentEvent list.
+                    CareContractType currentContract = TransformHelper.getCareContractFromState(stateDate, careUnitHSAid, commissionState, payerOrganization);
+                    currentEvent.getContracts().getContract().add(currentContract);
                 }
             }
 

@@ -50,7 +50,7 @@ public class TransformHelperTest extends TestSupport {
         final TermItemCommission<CommissionState> commissionState = facilityState.getState(stateDate).getCommissions().get(0);
         // Not really part of this test, but it never hurts.
         Assert.assertEquals("Facility ID", "9081", commissionState.getId());
-        Assert.assertEquals("Payer facility HSA", "SE2321000016-15CQ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, null, commissionState, "SE2321000016-39KJ"));
+        Assert.assertEquals("Payer facility HSA", "SE2321000016-15CQ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, null, commissionState, "SE2321000016-39KJ", null, null, null, null));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class TransformHelperTest extends TestSupport {
         final TermItemCommission<CommissionState> commissionState = facilityState.getState(stateDate).getCommissions().get(0);
         // Not really part of this test, but it never hurts.
         Assert.assertEquals("Facility ID", "9081", commissionState.getId());
-        Assert.assertEquals("Payer facility HSA", "SE2321000016-39KJ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, facilityState.getState(stateDate), commissionState, "SE2321000016-39KJ"));
+        Assert.assertEquals("Payer facility HSA", "SE2321000016-39KJ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, facilityState.getState(stateDate), commissionState, "SE2321000016-39KJ", null, null, null, null));
     }
 
     @Test

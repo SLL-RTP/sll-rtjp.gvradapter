@@ -28,6 +28,10 @@ import se.sll.reimbursementadapter.parser.TermItem;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.file.Path;
 import java.util.*;
 
@@ -40,6 +44,8 @@ public class TransformHelper {
     protected static final String SLL_CAREGIVER_HSA_ID = "SE2321000016-39KJ";
     protected static final String HYBRID_GUI_SEPARATOR = "+";
     private static final ObjectFactory of = new ObjectFactory();
+    
+    private static final Logger LOG = LoggerFactory.getLogger(TransformHelper.class);
 
     /**
      * Creates the SourceSystem structure in the incoming {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} using information from
@@ -351,10 +357,16 @@ public class TransformHelper {
      * @param stateDate The date to use for lookup code mapping states.
      * @param currentFacility The currently active Facility.
      * @param commissionState The currently active Commission.
+     * @param referredFromHsaId Previously looked up hsa id, may be null. 
+     * @param currentFile 
+     * @param currentErsId 
+     * @param kombika 
      * @return the HSA-id for the payerOrganization for the current commissionState.
      */
     protected static String getPayerOrganization(Vkhform kontaktForm, Date stateDate, FacilityState currentFacility, 
-                                                 TermItemCommission<CommissionState> commissionState, String requesterOrgHsa) {
+                                                 TermItemCommission<CommissionState> commissionState, String requesterOrgHsa, 
+                                                 String referredFromHsaId, String kombika, String currentErsId, Path currentFile) 
+    {
         String payerOrganization = null;
         List<String> allowedPrimaryCareUnitTypes = Arrays.asList("31", "40", "42", "43", "44", "45", "46", "48", "50", "51", "78", "90", "95", "99");
         List<String> allowedInpatientCareUnitTypes = Arrays.asList("10", "11", "20");
@@ -374,18 +386,32 @@ public class TransformHelper {
         for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, commissionState)) {
 
             // Om det är en öppenvårdskontakt vars vårdenhetstyp finns med i allowedPrimaryCareUnitTypes, mappa.
-            if (kontaktForm.equals(Vkhform.ÖPPENVÅRDSKONTAKT)
-                    && allowedPrimaryCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
+            if (kontaktForm.equals(Vkhform.ÖPPENVÅRDSKONTAKT) && allowedPrimaryCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
                 payerOrganization = currentPayerFacility.getHSAMapping().getState(stateDate).getHsaId();
             }
 
             // Om det är en slutenvårdskontakt vars vårdenhetstyp finns med i allowedInpatientCareUnitTypes, mappa.
-            if (kontaktForm.equals(Vkhform.SLUTENVÅRDSTILLFÄLLE)
-                    && allowedInpatientCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
+            if (kontaktForm.equals(Vkhform.SLUTENVÅRDSTILLFÄLLE) && allowedInpatientCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
                 payerOrganization = currentPayerFacility.getHSAMapping().getState(stateDate).getHsaId();
             }
         }
-        return payerOrganization;
+        
+        if (payerOrganization != null) {
+            LOG.warn(String.format("Looked up kombika using strang back reference algorithm, verify this (and remove warning if code is correct)! "
+                                   + "kombika %s on care event %s in %s.", kombika, currentErsId, currentFile));
+            return payerOrganization;
+        }
+        
+        
+        if ("0000".equals(currentFacility.getCustomerCode()) && referredFromHsaId != null) {
+            // Fallback alternative way to look up payer.
+            //
+            // Verify that kundkod for kombika is 0000 (remittenten faktureras).
+            // If there is a remittent lookup kombika for that.
+            return referredFromHsaId;
+        }
+        
+        return null;
     }
 
     /**
