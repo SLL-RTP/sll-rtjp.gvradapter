@@ -100,154 +100,163 @@ public class ERSMOIndataToCareEventTransformer {
 
         String currentErsId = currentErsh.getID();
 
-        // Source System
-        TransformHelper.createSourceSystemStructure(ersmoIndata, currentEvent);
+        try {
+            // Source System
+            TransformHelper.createSourceSystemStructure(ersmoIndata, currentEvent);
 
-        // If the Händelseklass is null och the Händelseklass is not of type "Vårdkontakt", throw a mapping exception.
-        if (currentErsh.getHändelseklass() == null || currentErsh.getHändelseklass().getVårdkontakt() == null) {
-            fatal(String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.", currentErsId, currentFile));
-        }
-
-        // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
-        Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
-        String kombika = currentErsh.getSlutverksamhet();
-        TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
-        if (mappedFacilities == null) {
-            fatal(String.format("Did not find code server data for kombika %s on care event %s in %s.",
-                                kombika, currentErsId, currentFile));
-        }
-
-        if (mappedFacilities.getState(stateDate) == null) {
-            fatal(String.format("Did not find code server data for kombika %s and date %s on care event %s in %s.",
-                                kombika, stateDate, currentErsId, currentFile));
-        }
-        
-        FacilityState mappedFacility = mappedFacilities.getState(stateDate);
-        if (mappedFacility == null) {
-            fatal(String.format("Did not find code server data for kombika %s for date %s on care event %s in %s.",
-                                kombika, stateDate, currentErsId, currentFile));
-        }
-
-        // Patient            
-
-        if (currentErsh.getPatient() != null) {
-            currentEvent.setPatient(TransformHelper.createRivPatientFromErsättningsPatient(currentErsh.getPatient()));
-        }
-
-        // Care Unit
-        String careUnitHSAid = TransformHelper.createCareUnitStructure(currentErsh, currentFile, currentEvent, currentErsId, stateDate, mappedFacility);
-
-        // Contract
-        currentEvent.setContracts(of.createCareEventTypeContracts());
-
-        // Find the contract mapping with the right type
-        Vkhform händelseform = currentErsh.getHändelseklass().getVårdkontakt().getHändelseform();
-        for (TermItemCommission<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
-
-            // TODO roos Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
-            if (commissionState == null) {
-                continue;
+            // If the Händelseklass is null och the Händelseklass is not of type "Vårdkontakt", throw a mapping exception.
+            if (currentErsh.getHändelseklass() == null || currentErsh.getHändelseklass().getVårdkontakt() == null) {
+                fatal(String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.", currentErsId, currentFile));
             }
-            CommissionState filteredCommissionState = commissionState.getState(stateDate);
-            if (filteredCommissionState == null) {
-                continue;
+
+            // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
+            Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
+            String kombika = currentErsh.getSlutverksamhet();
+            TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
+            if (mappedFacilities == null) {
+                fatal(String.format("Did not find code server data for kombika %s on care event %s in %s.",
+                                    kombika, currentErsId, currentFile));
             }
-            
-            String assignmentType = filteredCommissionState.getAssignmentType();
-            if ("06".equals(assignmentType) || "07".equals(assignmentType) || "08".equals(assignmentType)) {
-                // Lookup the payer organisation. Extracted from getCareContractFromState due to number of parameters.
-                String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, mappedFacilities.getState(stateDate), commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID);
 
-                // Map the current commission information to a CareContractType and add it to the currentEvent list.
-                CareContractType currentContract = TransformHelper.getCareContractFromState(stateDate, careUnitHSAid, commissionState, payerOrganization);
-                currentEvent.getContracts().getContract().add(currentContract);
+            if (mappedFacilities.getState(stateDate) == null) {
+                fatal(String.format("Did not find code server data for kombika %s and date %s on care event %s in %s.",
+                                    kombika, stateDate, currentErsId, currentFile));
             }
-        }
 
-        // Set up mapping for the contact referral care unit to HSA-id.
-        RemissFöre referralBefore = currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre();
-        if (referralBefore != null) {
-            TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(referralBefore.getKod());
+            FacilityState mappedFacility = mappedFacilities.getState(stateDate);
+            if (mappedFacility == null) {
+                fatal(String.format("Did not find code server data for kombika %s for date %s on care event %s in %s.",
+                                    kombika, stateDate, currentErsId, currentFile));
+            }
 
-            if (mappedFacilitiesForReferral != null) {
-                // TODO roos stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
-                FacilityState facilityState = mappedFacilitiesForReferral.getState(stateDate);
-                if (facilityState != null) {
-                    HSAMappingState hsaMappingState = facilityState.getHSAMapping().getState(stateDate);
-                    if (hsaMappingState != null) {
-                        // Referred From (HSA-id)
-                        currentEvent.setReferredFrom(hsaMappingState.getHsaId());
+            // Patient            
+
+            if (currentErsh.getPatient() != null) {
+                currentEvent.setPatient(TransformHelper.createRivPatientFromErsättningsPatient(currentErsh.getPatient()));
+            }
+
+            // Care Unit
+            String careUnitHSAid = TransformHelper.createCareUnitStructure(currentErsh, currentFile, currentEvent, currentErsId, stateDate, mappedFacility);
+
+            // Contract
+            currentEvent.setContracts(of.createCareEventTypeContracts());
+
+            // Find the contract mapping with the right type
+            Vkhform händelseform = currentErsh.getHändelseklass().getVårdkontakt().getHändelseform();
+            for (TermItemCommission<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
+
+                // TODO roos Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
+                if (commissionState == null) {
+                    continue;
+                }
+                CommissionState filteredCommissionState = commissionState.getState(stateDate);
+                if (filteredCommissionState == null) {
+                    continue;
+                }
+
+                String assignmentType = filteredCommissionState.getAssignmentType();
+                if ("06".equals(assignmentType) || "07".equals(assignmentType) || "08".equals(assignmentType)) {
+                    // Lookup the payer organisation. Extracted from getCareContractFromState due to number of parameters.
+                    String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, mappedFacilities.getState(stateDate), commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID);
+
+                    // Map the current commission information to a CareContractType and add it to the currentEvent list.
+                    CareContractType currentContract = TransformHelper.getCareContractFromState(stateDate, careUnitHSAid, commissionState, payerOrganization);
+                    currentEvent.getContracts().getContract().add(currentContract);
+                }
+            }
+
+            // Set up mapping for the contact referral care unit to HSA-id.
+            RemissFöre referralBefore = currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre();
+            if (referralBefore != null) {
+                TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(referralBefore.getKod());
+
+                if (mappedFacilitiesForReferral != null) {
+                    // TODO roos stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
+                    FacilityState facilityState = mappedFacilitiesForReferral.getState(stateDate);
+                    if (facilityState != null) {
+                        HSAMappingState hsaMappingState = facilityState.getHSAMapping().getState(stateDate);
+                        if (hsaMappingState != null) {
+                            // Referred From (HSA-id)
+                            currentEvent.setReferredFrom(hsaMappingState.getHsaId());
+                        }
                     }
                 }
             }
+
+            // Last updated time
+            currentEvent.setLastUpdatedTime(TransformHelper.createXMLCalendarFromDate(updatedTime));
+
+            // Deleted
+            currentEvent.setDeleted(currentErsh.isMakulerad());
+
+            // Date Period
+            currentEvent.setDatePeriod(of.createDatePeriodType());
+            currentEvent.getDatePeriod().setStart(currentErsh.getStartdatum().toXMLFormat().replace("-", ""));
+            if (currentErsh.getSlutdatum() != null) {
+                currentEvent.getDatePeriod().setEnd(currentErsh.getSlutdatum().toXMLFormat().replace("-", ""));
+            }
+
+            // Emergency
+            if (currentErsh.getHändelseklass().getVårdkontakt().getAkut() != null) {
+                currentEvent.setEmergency(currentErsh.getHändelseklass().getVårdkontakt().getAkut().equals("J"));
+            }
+
+            // Event Type
+            if (händelseform != null) {
+                String händelsetyp = currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp();
+                TransformHelper.createEventTypeStructure(currentErsh, currentEvent, händelseform, händelsetyp);
+            }
+
+            // Fee Category
+            String avgiftsklass = currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass();
+            if (avgiftsklass == null || "006".equals(avgiftsklass)) {
+                currentEvent.setFeeCategory(of.createCVType());
+                currentEvent.getFeeCategory().setCodeSystem("SLL.CS.TAXA");
+                currentEvent.getFeeCategory().setCode(currentErsh.getHändelseklass().getVårdkontakt().getPatientavgift());
+            }
+            else {
+                fatal(String.format("Found unexpected Avgiftsklass %s on care event %s in %s.", avgiftsklass, currentErsId, currentFile));
+            }
+
+            // Involved Professions
+            TransformHelper.createInvolvedProfessionsStructure(currentErsh, currentEvent);
+
+            // Diagnoses
+            TransformHelper.createDiagnosisStructure(currentErsh, currentEvent);
+
+            // Conditions
+            TransformHelper.createConditionStructure(currentErsh, currentEvent);
+
+            // Activities
+            TransformHelper.createActivityStructure(currentErsh, currentEvent);
+
+            // Stay Before
+            VisteFöre stayBefore = currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre();
+            if (stayBefore != null) {
+                currentEvent.setStayBefore(of.createCVType());
+                currentEvent.getStayBefore().setCode(stayBefore.getKod());
+                currentEvent.getStayBefore().setCodeSystem("SLL.CS.IKOD");
+            }
+
+            // Stay After
+            VisteEfter stayAfter = currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter();
+            if (stayAfter != null) {
+                currentEvent.setStayAfter(of.createCVType());
+                currentEvent.getStayAfter().setCode(stayAfter.getKod());
+                currentEvent.getStayAfter().setCodeSystem("SLL.CS.UKOD");
+            }
+
+            // Deceased
+            currentEvent.setDeceased(stayAfter != null && "7".equals(stayAfter.getKod()));
+
         }
-
-        // Last updated time
-        currentEvent.setLastUpdatedTime(TransformHelper.createXMLCalendarFromDate(updatedTime));
-
-        // Deleted
-        currentEvent.setDeleted(currentErsh.isMakulerad());
-
-        // Date Period
-        currentEvent.setDatePeriod(of.createDatePeriodType());
-        currentEvent.getDatePeriod().setStart(currentErsh.getStartdatum().toXMLFormat().replace("-", ""));
-        if (currentErsh.getSlutdatum() != null) {
-            currentEvent.getDatePeriod().setEnd(currentErsh.getSlutdatum().toXMLFormat().replace("-", ""));
+        catch (Exception e) {
+            if (e instanceof TransformationException) {
+                throw e;
+            }
+            throw new TransformationException(String.format("Transformation of care event %s in %s failed fatally: %s", currentErsId, currentFile, e.getMessage()), e);
         }
-
-        // Emergency
-        if (currentErsh.getHändelseklass().getVårdkontakt().getAkut() != null) {
-            currentEvent.setEmergency(currentErsh.getHändelseklass().getVårdkontakt().getAkut().equals("J"));
-        }
-
-        // Event Type
-        String händelsetyp = currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp();
-        if (händelseform != null) {
-            TransformHelper.createEventTypeStructure(currentErsh, currentEvent, händelseform, händelsetyp);
-        }
-
-        // Fee Category
-        String avgiftsklass = currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass();
-        if (avgiftsklass == null || "006".equals(avgiftsklass)) {
-            currentEvent.setFeeCategory(of.createCVType());
-            currentEvent.getFeeCategory().setCodeSystem("SLL.CS.TAXA");
-            currentEvent.getFeeCategory().setCode(currentErsh.getHändelseklass().getVårdkontakt().getPatientavgift());
-        }
-        else {
-            fatal(String.format("Found unexpected Avgiftsklass %s on care event %s in %s.", avgiftsklass, currentErsId, currentFile));
-        }
-
-        // Involved Professions
-        TransformHelper.createInvolvedProfessionsStructure(currentErsh, currentEvent);
-
-        // Diagnoses
-        TransformHelper.createDiagnosisStructure(currentErsh, currentEvent);
-
-        // Conditions
-        TransformHelper.createConditionStructure(currentErsh, currentEvent);
-
-        // Activities
-        TransformHelper.createActivityStructure(currentErsh, currentEvent);
-
-        // Stay Before
-        VisteFöre stayBefore = currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre();
-        if (stayBefore != null) {
-            currentEvent.setStayBefore(of.createCVType());
-            currentEvent.getStayBefore().setCode(stayBefore.getKod());
-            currentEvent.getStayBefore().setCodeSystem("SLL.CS.IKOD");
-        }
-
-        // Stay After
-        VisteEfter stayAfter = currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter();
-        if (stayAfter != null) {
-            currentEvent.setStayAfter(of.createCVType());
-            currentEvent.getStayAfter().setCode(stayAfter.getKod());
-            currentEvent.getStayAfter().setCodeSystem("SLL.CS.UKOD");
-        }
-            
-        // Deceased
-        currentEvent.setDeceased(stayAfter != null && "7".equals(stayAfter.getKod()));
-
+        
         return currentEvent;
     }
 
