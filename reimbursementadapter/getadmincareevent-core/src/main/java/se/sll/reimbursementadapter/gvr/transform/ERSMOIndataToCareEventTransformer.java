@@ -174,10 +174,13 @@ public class ERSMOIndataToCareEventTransformer {
                     // TODO roos stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
                     FacilityState facilityState = mappedFacilitiesForReferral.getState(stateDate);
                     if (facilityState != null) {
-                        HSAMappingState hsaMappingState = facilityState.getHSAMapping().getState(stateDate);
-                        if (hsaMappingState != null) {
-                            // Referred From (HSA-id)
-                            currentEvent.setReferredFrom(hsaMappingState.getHsaId());
+                        TermItem<HSAMappingState> hsaMapping = facilityState.getHSAMapping();
+                        if (hsaMapping != null) {
+                            HSAMappingState hsaMappingState = hsaMapping.getState(stateDate);
+                            if (hsaMappingState != null) {
+                                // Referred From (HSA-id)
+                                currentEvent.setReferredFrom(hsaMappingState.getHsaId());
+                            }
                         }
                     }
                 }
