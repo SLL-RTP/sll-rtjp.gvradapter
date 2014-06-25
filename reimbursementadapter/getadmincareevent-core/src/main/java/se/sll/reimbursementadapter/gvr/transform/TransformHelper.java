@@ -353,7 +353,8 @@ public class TransformHelper {
      * @param commissionState The currently active Commission.
      * @return the HSA-id for the payerOrganization for the current commissionState.
      */
-    protected static String getPayerOrganization(Vkhform kontaktForm, Date stateDate, FacilityState currentFacility, TermItemCommission<CommissionState> commissionState, String requesterOrgHsa) {
+    protected static String getPayerOrganization(Vkhform kontaktForm, Date stateDate, FacilityState currentFacility, 
+                                                 TermItemCommission<CommissionState> commissionState, String requesterOrgHsa) {
         String payerOrganization = null;
         List<String> allowedPrimaryCareUnitTypes = Arrays.asList("31", "40", "42", "43", "44", "45", "46", "48", "50", "51", "78", "90", "95", "99");
         List<String> allowedInpatientCareUnitTypes = Arrays.asList("10", "11", "20");
@@ -405,7 +406,7 @@ public class TransformHelper {
                 FacilityState state = currentBackRef.getState(stateDate);
                 // If the current facility has a Customer Code of 9175 "Betalningsansvar samtlig medicinsk service", add it to the map
                 // of potential payerFacilities.
-                if (state != null && state.getCustomerCode().equals("9175")) {
+                if (state != null && "9175".equals(state.getCustomerCode())) {
                     payerFacilities.add(state);
                 }
             }

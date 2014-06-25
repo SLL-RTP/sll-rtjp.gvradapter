@@ -159,7 +159,8 @@ public class ERSMOIndataToCareEventTransformer {
                 String assignmentType = filteredCommissionState.getAssignmentType();
                 if ("06".equals(assignmentType) || "07".equals(assignmentType) || "08".equals(assignmentType)) {
                     // Lookup the payer organisation. Extracted from getCareContractFromState due to number of parameters.
-                    String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, mappedFacilities.getState(stateDate), commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID);
+                    String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, mappedFacilities.getState(stateDate), 
+                                                                                    commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID);
 
                     // Map the current commission information to a CareContractType and add it to the currentEvent list.
                     CareContractType currentContract = TransformHelper.getCareContractFromState(stateDate, careUnitHSAid, commissionState, payerOrganization);
