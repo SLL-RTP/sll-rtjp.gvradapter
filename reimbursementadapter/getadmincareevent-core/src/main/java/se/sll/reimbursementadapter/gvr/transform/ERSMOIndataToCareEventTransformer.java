@@ -223,17 +223,23 @@ public class ERSMOIndataToCareEventTransformer {
         TransformHelper.createActivityStructure(currentErsh, currentEvent);
 
         // Stay Before
-        currentEvent.setStayBefore(of.createCVType());
-        currentEvent.getStayBefore().setCode(currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre().getKod());
-        currentEvent.getStayBefore().setCodeSystem("SLL.CS.IKOD");
+        VisteFöre stayBefore = currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre();
+        if (stayBefore != null) {
+            currentEvent.setStayBefore(of.createCVType());
+            currentEvent.getStayBefore().setCode(stayBefore.getKod());
+            currentEvent.getStayBefore().setCodeSystem("SLL.CS.IKOD");
+        }
 
         // Stay After
-        currentEvent.setStayAfter(of.createCVType());
-        currentEvent.getStayAfter().setCode(currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter().getKod());
-        currentEvent.getStayAfter().setCodeSystem("SLL.CS.UKOD");
-
+        VisteEfter stayAfter = currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter();
+        if (stayAfter != null) {
+            currentEvent.setStayAfter(of.createCVType());
+            currentEvent.getStayAfter().setCode(stayAfter.getKod());
+            currentEvent.getStayAfter().setCodeSystem("SLL.CS.UKOD");
+        }
+            
         // Deceased
-        currentEvent.setDeceased(currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter().getKod().equals("7"));
+        currentEvent.setDeceased(stayAfter != null && "7".equals(stayAfter.getKod()));
 
         return currentEvent;
     }
