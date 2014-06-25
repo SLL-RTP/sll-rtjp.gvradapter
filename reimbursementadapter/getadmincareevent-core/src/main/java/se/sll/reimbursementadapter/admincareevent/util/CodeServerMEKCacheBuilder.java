@@ -162,14 +162,12 @@ public class CodeServerMEKCacheBuilder {
      * type FacilityState.
      */
     protected HashMap<String, TermItem<FacilityState>> createFacilityIndex() {
-        LOG.info("build commissionIndex from: {}", commissionFile);
         // Create underlying indexes to this one that will be linked in.
         final HashMap<String, TermItemCommission<CommissionState>> samverksIndex = createCommissionIndex();
-        LOG.info("commissionIndex size: {}", samverksIndex.size());
         
         final Map<String, List<TermItem<HSAMappingState>>> hsaIndex = createHSAIndex();
 
-        LOG.info("build facilityIndex from: {}", facilityFile);
+        LOG.info("build facilityIndex (AVD-REL) from: {}", facilityFile);
         
         // Create a index structure
         final HashMap<String, TermItem<FacilityState>> index = new HashMap<>();
@@ -243,7 +241,7 @@ public class CodeServerMEKCacheBuilder {
         // Execure the parsing of the source XML.
         parser.parse();
         
-        LOG.info("facilityIndex size: {}", index.size());
+        LOG.info("facilityIndex (AVD-REL) size: {}", index.size());
         
         return index;
     }
@@ -256,7 +254,7 @@ public class CodeServerMEKCacheBuilder {
      * HSAMappingState that holds the actual mapping information to HSA.
      */
     protected Map<String, List<TermItem<HSAMappingState>>> createHSAIndex() {
-        LOG.info("build HSA index from: {}", mekFile);
+        LOG.info("build HSA index (MEK) from: {}", mekFile);
 
         // Create the parser and point it to the mekFile.
         final SimpleXMLElementParser elementParser = new SimpleXMLElementParser(this.mekFile);
@@ -312,7 +310,7 @@ public class CodeServerMEKCacheBuilder {
             }
         });
 
-        LOG.info("hsaMappingIndex size: {}", map.size());
+        LOG.info("hsaMappingIndex (MEK) size: {}", map.size());
 
         return map;
     }
@@ -329,9 +327,11 @@ public class CodeServerMEKCacheBuilder {
 
         final HashMap<String, TermItemCommission<CommissionState>> index = new HashMap<>();
 
-        LOG.info("build commissionTypeIndex from: {}", commissionTypeFile);
+        LOG.info("build commissionTypeIndex (UPPDRAGSTYP) from: {}", commissionTypeFile);
         final HashMap<String, TermItem<CommissionTypeState>> uppdragstypIndex = createCommissionTypeIndex();
-        LOG.info("commissionTypeIndex size: {}", uppdragstypIndex.size());
+        LOG.info("commissionTypeIndex (UPPDRAGSTYP) size: {}", uppdragstypIndex.size());
+
+        LOG.info("build commissionIndex (SAMVERKS-REL) from: {}", commissionFile);
 
         final CodeServiceXMLParser parser = new CodeServiceXMLParser(this.commissionFile, new CodeServiceEntryCallback() {
             @Override
@@ -375,6 +375,7 @@ public class CodeServerMEKCacheBuilder {
         parser.setNewerThan(newerThan);
     
         parser.parse();
+        LOG.info("commissionIndex (SAMVERKS-REL) size: {}", index.size());
 
         return index;
     }
