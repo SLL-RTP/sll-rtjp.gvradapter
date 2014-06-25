@@ -32,7 +32,7 @@
 			<xs:element name="patient" type="tns:PatientType"/>
 			<xs:element name="emergency" type="xs:boolean"/>
 			<xs:element name="eventTypeMain" type="tns:CVType"/>
-			<xs:element name="eventTypeSub" type="tns:CVType"/>
+			<xs:element name="eventTypeSub" type="tns:CVType" minOccurs="0"/>
 			<xs:element name="feeCategory" type="tns:CVType" minOccurs="0"/>
 			<xs:element name="contracts">
 				<xs:complexType>
