@@ -311,10 +311,16 @@ public class TransformHelper {
 
 
         // Patient residence region.
-        rivPatient.setResidence(createRivResidenceFromErsättningLkf(ersättningPatient.getLkf()));
+        String ersättningsLkf = ersättningPatient.getLkf();
+        if (ersättningsLkf != null && ersättningsLkf.length() >= 6) {
+            rivPatient.setResidence(createRivResidenceFromErsättningLkf(ersättningsLkf));
+        }
 
         // Patient local residence.
-        rivPatient.setLocalResidence(ersättningPatient.getBasområde());
+        String basområde = ersättningPatient.getBasområde();
+        if (basområde != null) {
+            rivPatient.setLocalResidence(basområde);
+        }
 
         return rivPatient;
     }
@@ -328,25 +334,25 @@ public class TransformHelper {
      */
     protected static ResidenceType createRivResidenceFromErsättningLkf(String ersättningsLkf) {
         final ResidenceType rivResidence = of.createResidenceType();
-        if (ersättningsLkf != null && ersättningsLkf.length() >= 6) {
-            // Patient residence region
-            rivResidence.setRegion(new CVType());
-            rivResidence.getRegion().setCode(ersättningsLkf.substring(0, 2));
-            rivResidence.getRegion().setCodeSystem(OIDList.getOid(CodeSystem.KV_LÄN));
-            rivResidence.getRegion().setCodeSystemName(OIDList.getName(CodeSystem.KV_LÄN));
+        
+        // Patient residence region
+        rivResidence.setRegion(new CVType());
+        rivResidence.getRegion().setCode(ersättningsLkf.substring(0, 2));
+        rivResidence.getRegion().setCodeSystem(OIDList.getOid(CodeSystem.KV_LÄN));
+        rivResidence.getRegion().setCodeSystemName(OIDList.getName(CodeSystem.KV_LÄN));
 
-            // Patient residence municipality
-            rivResidence.setMunicipality(new CVType());
-            rivResidence.getMunicipality().setCode(ersättningsLkf.substring(2, 4));
-            rivResidence.getMunicipality().setCodeSystem(OIDList.getOid(CodeSystem.KV_KOMMUN));
-            rivResidence.getMunicipality().setCodeSystemName(OIDList.getName(CodeSystem.KV_KOMMUN));
+        // Patient residence municipality
+        rivResidence.setMunicipality(new CVType());
+        rivResidence.getMunicipality().setCode(ersättningsLkf.substring(2, 4));
+        rivResidence.getMunicipality().setCodeSystem(OIDList.getOid(CodeSystem.KV_KOMMUN));
+        rivResidence.getMunicipality().setCodeSystemName(OIDList.getName(CodeSystem.KV_KOMMUN));
 
-            // Patient residence parish
-            rivResidence.setParish(new CVType());
-            rivResidence.getParish().setCode(ersättningsLkf.substring(4, 6));
-            rivResidence.getParish().setCodeSystem(OIDList.getOid(CodeSystem.KV_FÖRSAMLING));
-            rivResidence.getParish().setCodeSystemName(OIDList.getName(CodeSystem.KV_FÖRSAMLING));
-        }
+        // Patient residence parish
+        rivResidence.setParish(new CVType());
+        rivResidence.getParish().setCode(ersättningsLkf.substring(4, 6));
+        rivResidence.getParish().setCodeSystem(OIDList.getOid(CodeSystem.KV_FÖRSAMLING));
+        rivResidence.getParish().setCodeSystemName(OIDList.getName(CodeSystem.KV_FÖRSAMLING));
+        
         return rivResidence;
     }
 
