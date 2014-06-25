@@ -62,9 +62,10 @@ public class ERSMOIndataToCareEventTransformer {
         LOG.info(String.format("Transforming file %s with %d care events updated at %s.", currentFile, list.size(), fileUpdatedTime));
         for (Ersättningshändelse currentErsh : list) {
             if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
-                CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager,
-                        fileUpdatedTime, currentFile);
-                responseList.add(currentEvent);
+                CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime, currentFile);
+                if (currentEvent != null) {
+                    responseList.add(currentEvent);
+                }
             }
         }
         return responseList;
@@ -114,21 +115,21 @@ public class ERSMOIndataToCareEventTransformer {
             calendar.set(Calendar.HOUR_OF_DAY, 12);
             Date stateDate = calendar.getTime();
             String kombika = currentErsh.getSlutverksamhet();
+            
+            // TODO roos, we are now skipping care event where kombika lookup fails (or when it is not cached SAMVERKS is 0000).
+            // Is this correct. We could send the data event if we can't lookup kombika?
             TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
             if (mappedFacilities == null) {
-                fatal(String.format("Did not find code server data for kombika %s on care event %s in %s.",
-                                    kombika, currentErsId, currentFile));
-            }
-
-            if (mappedFacilities.getState(stateDate) == null) {
-                fatal(String.format("Did not find code server data for kombika %s and date %s on care event %s in %s.",
-                                    kombika, stateDate, currentErsId, currentFile));
+                LOG.warn(String.format("Did not find code server data for kombika %s on care event %s in %s, skipping care event",
+                                       kombika, currentErsId, currentFile));
+                return null;
             }
 
             FacilityState mappedFacility = mappedFacilities.getState(stateDate);
             if (mappedFacility == null) {
-                fatal(String.format("Did not find code server data for kombika %s for date %s on care event %s in %s.",
-                                    kombika, stateDate, currentErsId, currentFile));
+                LOG.warn(String.format("Did not find code server data for kombika %s and date %s on care event %s in %s, skipping care event.",
+                                       kombika, stateDate, currentErsId, currentFile));
+                return null;
             }
 
             // Patient            
