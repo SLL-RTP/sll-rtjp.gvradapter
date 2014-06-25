@@ -110,7 +110,9 @@ public class ERSMOIndataToCareEventTransformer {
             }
 
             // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
-            Date stateDate = currentErsh.getStartdatum().toGregorianCalendar().getTime();
+            GregorianCalendar calendar = currentErsh.getStartdatum().toGregorianCalendar();
+            calendar.set(Calendar.HOUR_OF_DAY, 12);
+            Date stateDate = calendar.getTime();
             String kombika = currentErsh.getSlutverksamhet();
             TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
             if (mappedFacilities == null) {
