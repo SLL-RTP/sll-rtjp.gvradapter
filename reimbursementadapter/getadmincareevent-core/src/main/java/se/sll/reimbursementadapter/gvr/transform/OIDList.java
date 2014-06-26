@@ -33,8 +33,8 @@ public class OIDList {
         oidMap.put(CodeSystem.SAMORDNINGSNUMMER, "1.2.752.129.2.1.3.3");
         nameMap.put(CodeSystem.SAMORDNINGSNUMMER, "Samordningsnummer - vid användning inom vård och omsorg");
 
-        oidMap.put(CodeSystem.RESERVNUMMER_SLL, "1.2.752.97.3.1.3");
-        nameMap.put(CodeSystem.RESERVNUMMER_SLL, "Lokala reservnummer i SLL");
+        oidMap.put(CodeSystem.RESERVNUMMER_SLL, "1.2.752.129.2.1.3.2");
+        nameMap.put(CodeSystem.RESERVNUMMER_SLL, "Reservnummer enligt V-TIM");
 
         oidMap.put(CodeSystem.HYBRID_GUID_IDENTIFIER,"1.2.752.129.2.1.2.1");
         nameMap.put(CodeSystem.HYBRID_GUID_IDENTIFIER, "Hybrididentifierare bestående av HSA-id för org. där id är unikt + id");
