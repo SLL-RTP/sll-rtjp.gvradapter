@@ -16,7 +16,7 @@ DON'T CHANGE THE CONTENT OF THIS COMMENT UNLESS YOU REALLY KNOW WHAT YOU ARE DOI
     <parent>
         <groupId>se.sll.rtjp</groupId>
         <artifactId>reimbursementadapter-parent</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
     <!--<parent>
         <groupId>org.soitoolkit.commons.poms</groupId>
@@ -28,7 +28,6 @@ DON'T CHANGE THE CONTENT OF THIS COMMENT UNLESS YOU REALLY KNOW WHAT YOU ARE DOI
 	<artifactId>reimbursement-schemas</artifactId>
 	<packaging>jar</packaging>
     <name>reimbursement-schemas</name>
-    <version>1.0</version>
 
 	<scm>
         <!-- TODO: Sample <scm>-tag, update to reflect you own environment! -->

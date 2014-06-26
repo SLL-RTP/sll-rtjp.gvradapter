@@ -5,11 +5,13 @@
     <parent>
         <artifactId>reimbursementadapter-parent</artifactId>
         <groupId>se.sll.rtjp</groupId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>processreimbursement-core</artifactId>
+    <packaging>jar</packaging>
+    <name>${project.artifactId}</name>
 
     <dependencies>
         <dependency>
