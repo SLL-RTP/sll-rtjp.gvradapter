@@ -19,6 +19,7 @@ import riv.followup.processdevelopment.reimbursement.v1.*;
 import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
 import se.sll.ersmo.xml.indata.*;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
+import se.sll.reimbursementadapter.admincareevent.model.CommissionTypeState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
@@ -228,26 +229,32 @@ public class TransformHelper {
      *
      * @param stateDate The State date to use for looking up Commission codes from the Code Server index.
      * @param careUnitHSAid The care unit HSA id for the current care event.
-     * @param commissionType The CommissionState for the current Commission to extract contract information from.
+     * @param commissionState The CommissionState for the current Commission to extract contract information from.
      * @param payerOrganization The payerOrganization to use.
      * @return The populated {@link riv.followup.processdevelopment.reimbursement.v1.CareContractType}
      */
-    protected static CareContractType getCareContractFromState(Date stateDate, String careUnitHSAid, TermItemCommission<CommissionState> commissionType, String payerOrganization) {
+    protected static CareContractType getCareContractFromState(Date stateDate, String careUnitHSAid, TermItemCommission<CommissionState> commissionState, String payerOrganization) {
+        CommissionState currentCommissionState = commissionState.getState(stateDate);
+        
         // Create the care contract type.
         CareContractType currentContract = of.createCareContractType();
 
         // Contract Id
         currentContract.setId(of.createIIType());
         currentContract.getId().setRoot(OIDList.getOid(CodeSystem.HYBRID_GUID_IDENTIFIER));
-        currentContract.getId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + commissionType.getId());
-        currentContract.setName(commissionType.getState(stateDate).getName());
+        currentContract.getId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + commissionState.getId());
+        currentContract.setName(currentCommissionState.getName());
 
         // Contract type
+        TermItem<CommissionTypeState> commissionType = currentCommissionState.getCommissionType();
         currentContract.setContractType(of.createCVType());
         currentContract.getContractType().setCodeSystem(OIDList.getOid(CodeSystem.SLL_CS_UPPDRAGSTYP));
         currentContract.getContractType().setCodeSystemName(OIDList.getName(CodeSystem.SLL_CS_UPPDRAGSTYP));
-        currentContract.getContractType().setCode(commissionType.getState(stateDate).getCommissionType().getId());
-        currentContract.getContractType().setDisplayName(commissionType.getState(stateDate).getCommissionType().getState(stateDate).getName());
+        currentContract.getContractType().setCode(commissionType.getId());
+        CommissionTypeState currentCommissionType = commissionType.getState(stateDate);
+        if (currentCommissionType != null) {
+            currentContract.getContractType().setDisplayName(currentCommissionType.getName());
+        }
 
         // RequesterOrganization
         currentContract.setRequesterOrganization(SLL_CAREGIVER_HSA_ID);
