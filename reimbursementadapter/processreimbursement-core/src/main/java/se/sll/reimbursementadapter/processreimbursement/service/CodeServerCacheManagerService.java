@@ -41,14 +41,14 @@ import se.sll.reimbursementadapter.util.FileObjectStore;
 @Service
 public class CodeServerCacheManagerService {
 
-    /** The local path to read GVR files from. */
-    @Value("${pr.ftp.localPath:}")
+    /** The local path to read CS files from. */
+    @Value("${pr.cs.ftp.localPath:}")
     private String localPath;
     /** The local file to write the HSA-index to. */
-    @Value("${pr.indexFile:/tmp/hsa-index.gz}")
+    @Value("${pr.cs.indexFile:/tmp/hsa-index.gz}")
     private String fileName;
     /** The file name for the Geographical Area file. */
-    @Value("${pr.geographicalAreaFile:BASOMRNY.XML}")
+    @Value("${pr.cs.geographicalAreaFile:BASOMRNY.XML}")
     private String geographicalAreaFile;
 
     /** Flag indicating if the service is currently processing. */

@@ -202,7 +202,7 @@ public class GVRFileReaderTest extends TestSupport {
         Files.setLastModifiedTime(entry, FileTime.fromMillis(expectedDate.getTime()));
 
         List<Path> pathList = gvrFileReader.getFileList("2012-01-01T000000.000+0200", "2013-04-04T000000.000+0200");
-        Assert.assertEquals(pathList.size(), 5);
+        Assert.assertEquals(4, pathList.size());
 
         // Set up a list with the expected file list in the expected order.
         List<String> testList = new ArrayList<>();
@@ -210,7 +210,6 @@ public class GVRFileReaderTest extends TestSupport {
         testList.add("ERSMO_2014-01-01T090000.000+0000.xml");
         testList.add("ERSMO_2014-02-02T080000.000+0000.xml");
         testList.add("ERSMO_2014-02-03T080000.000+0000.xml");
-        testList.add("ERSMO_2014-07-01T080000.000+0000.xml");
 
         int index = 0;
         for(Path f : pathList) {

@@ -108,9 +108,12 @@ public class CodeServerCacheBuilder {
                 state.setName(codeServiceEntry.getAttribute(SHORTNAME));
                 state.setValidFrom(codeServiceEntry.getValidFrom());
                 state.setValidTo(codeServiceEntry.getValidTo());
-                for (CodeServerCode codeServerCode : codeServiceEntry.getCodes(OMRKODNY)) {
-                    if (codeServerCode.getReferenceId().equals(BASOMR_OMRKOD)) {
-                        state.setMedicalServiceArea(codeServerCode.getValue());
+                if (codeServiceEntry.getCodes(OMRKODNY) != null) {
+                    for (CodeServerCode codeServerCode : codeServiceEntry.getCodes(OMRKODNY)) {
+
+                        if (codeServerCode.getReferenceId().equals(BASOMR_OMRKOD)) {
+                            state.setMedicalServiceArea(codeServerCode.getValue());
+                        }
                     }
                 }
 

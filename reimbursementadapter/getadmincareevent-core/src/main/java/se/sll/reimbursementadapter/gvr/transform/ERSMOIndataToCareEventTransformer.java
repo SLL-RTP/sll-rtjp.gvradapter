@@ -116,6 +116,15 @@ public class ERSMOIndataToCareEventTransformer {
                 fatal(String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.", currentErsId, currentFile));
             }
 
+            // If the currentErsh does not have any diagnoses or any activities.
+            int numberOfDiagnoses = currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser().getDiagnos().size();
+            int numberOfActivities = currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd().size();
+            if (numberOfDiagnoses == 0 && numberOfActivities == 0) {
+                LOG.debug(String.format("There was no diagnoses or Diagnos or Åtgärd in the care event %s in %s.Filtering away!",
+                        currentErsId, currentFile));
+                return null;
+            }
+
             // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
             GregorianCalendar calendar = currentErsh.getStartdatum().toGregorianCalendar();
             calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -142,7 +151,8 @@ public class ERSMOIndataToCareEventTransformer {
             }
 
             // Care Unit
-            String careUnitHSAid = TransformHelper.createCareUnitStructure(currentErsh, currentFile, currentEvent, currentErsId, stateDate, mappedFacility);
+            String careUnitHSAid = TransformHelper.createCareUnitStructure(
+                    currentErsh, currentFile, currentEvent, currentErsId, stateDate, mappedFacility);
 
             // Set up mapping for the contact referral care unit to HSA-id.
             String referredFromHsaId = null;
@@ -192,7 +202,8 @@ public class ERSMOIndataToCareEventTransformer {
                                 kombika, currentErsId, currentFile);
 
                         // Map the current commission information to a CareContractType and add it to the currentEvent list.
-                        CareContractType currentContract = TransformHelper.getCareContractFromState(stateDate, careUnitHSAid, commissionState, payerOrganization);
+                        CareContractType currentContract = TransformHelper.getCareContractFromState(
+                                stateDate, careUnitHSAid, commissionState, payerOrganization);
                         currentEvent.getContracts().getContract().add(currentContract);
                     }
                 }
@@ -245,8 +256,6 @@ public class ERSMOIndataToCareEventTransformer {
             // Activities
             TransformHelper.createActivityStructure(currentErsh, currentEvent);
 
-            // TODO step 3, filter away care events with (no diagnoses and no activities)
-            
             // Stay Before
             VisteFöre stayBefore = currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre();
             if (stayBefore != null) {
@@ -273,7 +282,8 @@ public class ERSMOIndataToCareEventTransformer {
             if (e instanceof TransformationException) {
                 throw e;
             }
-            throw new TransformationException(String.format("Transformation of care event %s in %s failed fatally: %s", currentErsId, currentFile, e.getMessage()), e);
+            throw new TransformationException(String.format("Transformation of care event %s in %s failed fatally: %s",
+                    currentErsId, currentFile, e.getMessage()), e);
         }
         
         return currentEvent;
