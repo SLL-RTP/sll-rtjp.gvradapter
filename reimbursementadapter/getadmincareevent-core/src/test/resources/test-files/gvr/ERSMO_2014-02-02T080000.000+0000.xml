@@ -16,6 +16,7 @@
 					<Diagnos Klass="008" Kod="I050" OrdnNr="1"/>
 					<Diagnos Klass="008" Kod="J250" OrdnNr="2"/>
 					<Diagnos Klass="008" Kod="K570" OrdnNr="3"/>
+                    <Diagnos Klass="020" Kod="A01AB13" OrdnNr="4"/>
 				</Diagnoser>
 				<Tillståndslista>
 					<Tillstånd Klass="010" Kod="ASA6" Datum="2008-03-11" OrdnNr="1" DiagnosNr="1"/>

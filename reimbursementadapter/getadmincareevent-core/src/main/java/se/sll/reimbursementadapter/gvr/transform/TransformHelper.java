@@ -134,13 +134,15 @@ public class TransformHelper {
         if (currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder() != null && currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd() != null && currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd().size() > 0) {
             for (Åtgärder.Åtgärd åtgärd : currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd()) {
                 ActivityType currentActivity = getActivityFromÅtgärd(åtgärd);
-                currentEvent.getActivities().getActivity().add(currentActivity);
+                if (currentActivity != null) {
+                    currentEvent.getActivities().getActivity().add(currentActivity);
+                }
             }
         }
     }
 
     /**
-     * Creates a ActivityType RIV object from the incoming Åtgärd.
+     * Creates a ActivityType RIV object from the incoming Åtgärd. Diagnosis types '020' (ATC) are filtered away.
      *
      * @param åtgärd The source for the transformation.
      * @return The populated ActivityType object.
@@ -150,8 +152,8 @@ public class TransformHelper {
         if (åtgärd.getKlass().equals("007")) {
             currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.KVÅ));
         } else if (åtgärd.getKlass().equals("020")) {
-            // TODO step 2, do not include ATC in reply
-            currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.ATC));
+            //currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.ATC));
+            return null;
         } else {
             currentActivity.setCodeSystem("no.oid: " + åtgärd.getKlass());
         }
@@ -206,13 +208,16 @@ public class TransformHelper {
         currentEvent.setDiagnoses(of.createCareEventTypeDiagnoses());
         if (currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser() != null && currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser().getDiagnos() != null && currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser().getDiagnos().size() > 0) {
             for (Diagnoser.Diagnos diagnos : currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser().getDiagnos()) {
-                currentEvent.getDiagnoses().getDiagnosis().add(getDiagnosisFromDiagnos(diagnos));
+                DiagnosisType diagnosisType = getDiagnosisFromDiagnos(diagnos);
+                if (diagnosisType != null) {
+                    currentEvent.getDiagnoses().getDiagnosis().add(diagnosisType);
+                }
             }
         }
     }
 
     /**
-     * Creates a DiagnosisType RIV object from the incoming Diagnos.
+     * Creates a DiagnosisType RIV object from the incoming Diagnos. Diagnosis types '020' (ATC) are filtered away.
      *
      * @param diagnos The source for the transformation.
      * @return The populated DiagnosisType object.
@@ -222,8 +227,10 @@ public class TransformHelper {
         if (diagnos.getKlass().equals("008")) {
             currentDiagnosis.setCodeSystem(OIDList.getOid(CodeSystem.ICD10_SE));
             currentDiagnosis.setCodeSystemName(OIDList.getName(CodeSystem.ICD10_SE));
+        } else if (diagnos.getKlass().equals("020")) {
+            LOG.debug("Found diagnosis of type 020, filtering away.");
+            return null;
         } else {
-            // TODO roos, temporary filter away 020 content (ATC) here.
             currentDiagnosis.setCodeSystem("NO.OID: " + diagnos.getKlass());
         }
         currentDiagnosis.setCode(diagnos.getKod());

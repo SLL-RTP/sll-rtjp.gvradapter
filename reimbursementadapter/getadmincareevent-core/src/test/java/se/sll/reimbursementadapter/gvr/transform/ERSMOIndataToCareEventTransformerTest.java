@@ -132,7 +132,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Condition #1 code", "ASA6", careEventType.getConditions().getCondition().get(0).getCode());
 
         // Activities
-        Assert.assertEquals("Number of activities", 4, careEventType.getActivities().getActivity().size());
+        Assert.assertEquals("Number of activities", 3, careEventType.getActivities().getActivity().size());
         Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getCode());
         Assert.assertEquals("Activity #1 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(0).getCodeSystem());
         Assert.assertEquals("Activity #1 date", "20080311", careEventType.getActivities().getActivity().get(0).getDate());
@@ -142,9 +142,10 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getCode());
         Assert.assertEquals("Activity #3 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(2).getCodeSystem());
         Assert.assertEquals("Activity #3 date", "20080311", careEventType.getActivities().getActivity().get(2).getDate());
-        Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getCode());
-        Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getCodeSystem());
-        Assert.assertEquals("Activity #3 date", "20080311", careEventType.getActivities().getActivity().get(3).getDate());
+        // The ATC code should no longer be returned.
+        //Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getCode());
+        //Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getCodeSystem());
+        //Assert.assertEquals("Activity #3 date", "20080311", careEventType.getActivities().getActivity().get(3).getDate());
 
         // Referral from (HSA-id)
         Assert.assertEquals("Referred from", "SE2321000016-1664", careEventType.getReferredFrom());
