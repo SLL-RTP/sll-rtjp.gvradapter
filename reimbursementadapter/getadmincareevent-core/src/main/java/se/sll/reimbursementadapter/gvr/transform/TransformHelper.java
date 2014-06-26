@@ -146,6 +146,7 @@ public class TransformHelper {
         if (åtgärd.getKlass().equals("007")) {
             currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.KVÅ));
         } else if (åtgärd.getKlass().equals("020")) {
+            // TODO step 2, do not include ATC in reply
             currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.ATC));
         } else {
             currentActivity.setCodeSystem("no.oid: " + åtgärd.getKlass());

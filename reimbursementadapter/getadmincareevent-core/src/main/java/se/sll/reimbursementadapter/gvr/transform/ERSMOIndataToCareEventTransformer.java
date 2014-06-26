@@ -63,6 +63,7 @@ public class ERSMOIndataToCareEventTransformer {
         for (Ersättningshändelse currentErsh : list) {
             if (currentErsh.getHändelseklass().getVårdkontakt() != null) {
                 CareEventType currentEvent = createCareEventFromErsättningshändelse(currentErsh, ersmoIndata, cacheManager, fileUpdatedTime, currentFile);
+                // TODO after response, log numner of filtered
                 if (currentEvent != null) {
                     responseList.add(currentEvent);
                 }
@@ -118,6 +119,8 @@ public class ERSMOIndataToCareEventTransformer {
             
             // TODO roos, we are now skipping care event where kombika lookup fails (or when it is not cached SAMVERKS is 0000).
             // Is this correct. We could send the data event if we can't lookup kombika?
+            
+            // TODO step1, remove return null cases, verify that they are correct.
             TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
             if (mappedFacilities == null) {
                 LOG.warn(String.format("Did not find code server data for kombika %s on care event %s in %s, skipping care event",
@@ -240,6 +243,8 @@ public class ERSMOIndataToCareEventTransformer {
             // Activities
             TransformHelper.createActivityStructure(currentErsh, currentEvent);
 
+            // TODO step 3, filter away care events with (no diagnoses and no activities)
+            
             // Stay Before
             VisteFöre stayBefore = currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre();
             if (stayBefore != null) {
@@ -255,7 +260,9 @@ public class ERSMOIndataToCareEventTransformer {
                 currentEvent.getStayAfter().setCode(stayAfter.getKod());
                 currentEvent.getStayAfter().setCodeSystem("SLL.CS.UKOD");
             }
-
+            
+            // TODO step 4, disable codeSystemName in output
+            
             // Deceased
             currentEvent.setDeceased(stayAfter != null && "7".equals(stayAfter.getKod()));
 
