@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+
+     Copyright (c) 2013 SLL <http://sll.se/>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:management="http://www.mulesoft.org/schema/mule/management"
+	xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:rest="http://www.mulesoft.org/schema/mule/rest"
+	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+ http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans-current.xsd
+ http://www.mulesoft.org/schema/mule/core       http://www.mulesoft.org/schema/mule/core/current/mule.xsd   http://www.mulesoft.org/schema/mule/jms        http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd   http://www.mulesoft.org/schema/mule/management http://www.mulesoft.org/schema/mule/management/current/mule-management.xsd   http://www.mulesoft.org/schema/mule/json       http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd   http://www.mulesoft.org/schema/mule/scripting  http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd   http://www.mulesoft.org/schema/mule/rest       http://www.mulesoft.org/schema/mule/rest/current/mule-rest.xsd   http://www.mulesoft.org/schema/mule/xml        http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd  ">
+
+
+	<!-- Load property files in three steps... -->
+
+
+	<!-- 1. Support for decrypting encrypted properties. The encryption password 
+		will be read from an environment variable called "SOITOOLKIT_ENCRYPTION_PASSWORD" 
+		which, once the application has been started, could be safely unset. -->
+	<spring:bean
+		class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig"
+		id="environmentVariablesConfiguration">
+		<spring:property name="algorithm" value="PBEWithMD5AndDES" />
+		<spring:property name="passwordEnvName" value="SOITOOLKIT_ENCRYPTION_PASSWORD" />
+	</spring:bean>
+
+
+	<!-- 2. Support for decrypting encrypted properties -->
+	<spring:bean class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor"
+		id="configurationEncryptor">
+		<spring:property name="config"
+			ref="environmentVariablesConfiguration" />
+	</spring:bean>
+
+	<!-- Load beans listener. -->
+	<spring:bean id="AppContextNotificationListener"
+		class="se.sll.reimbursementadapter.mule.AppContextNotificationListener" />
+
+	<!--<spring:bean id="codeServerMekCacheService"
+		class="se.sll.reimbursementadapter.admincareevent.service.CodeServerCacheManagerService" />-->
+
+
+	<!-- 3. Replacement for org.springframework.beans.factory.config.PropertyPlaceholderConfigurer 
+		that supports decrypting encrypted property values -->
+	<spring:bean
+		class="org.jasypt.spring.properties.EncryptablePropertyPlaceholderConfigurer"
+		id="propertyConfigurer">
+		<spring:constructor-arg ref="configurationEncryptor" />
+		<spring:property name="ignoreResourceNotFound" value="true" />
+		<spring:property name="locations">
+			<spring:list>
+				<spring:value>classpath:processreimbursementevent-core.properties
+				</spring:value>
+				<spring:value>classpath:processreimbursementevent-config.properties
+				</spring:value>
+				<spring:value>file:///${user.home}/.processreimbursementevent-config.properties
+				</spring:value>
+			</spring:list>
+		</spring:property>
+	</spring:bean>
+
+	<!-- <management:jmx-default-config port="${JMX_PORT}" registerMx4jAdapter="false" 
+		> <management:credentials> <spring:entry key="${JMX_USER}" value="${JMX_PWD}"/> 
+		</management:credentials> </management:jmx-default-config> -->
+
+
+
+	<!-- The default profile used by normal usage of mule-app, either deployed 
+		in mule or started using st-muleServer-helper-class. Not used by integration 
+		tests -->
+	<spring:beans profile="default">
+		<spring:import
+			resource="classpath:soitoolkit-mule-jms-connector-activemq-external.xml" />
+	</spring:beans>
+
+
+	<!-- Used by integration tests only -->
+	<spring:beans profile="soitoolkit-integrationtests">
+		<mule>
+			<!-- Allow integration tests to register dynamic listeners by specifying 
+				dynamic="true" -->
+			<notifications dynamic="true">
+				<notification event="ENDPOINT-MESSAGE" />
+				<notification event="COMPONENT-MESSAGE" />
+			</notifications>
+		</mule>
+	</spring:beans>
+	
+	<mulexml:namespace-manager xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" includeConfigNamespaces="true">  
+        <mulexml:namespace prefix="urn1" uri="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21" />
+    </mulexml:namespace-manager>
+
+	<spring:beans>
+		<spring:import resource="classpath:soitoolkit-mule-http-connector.xml" />
+	</spring:beans>
+
+	<custom-transformer
+		class="org.soitoolkit.commons.mule.core.ObjectToStringTransformer"
+		name="objToStr" />
+
+	<custom-transformer
+		class="org.soitoolkit.commons.mule.soap.CreateSoapFaultIfExceptionTransformer"
+		name="createSoapFaultIfException" />
+
+
+	<!-- TODO: Add global definitions here -->
+</mule>

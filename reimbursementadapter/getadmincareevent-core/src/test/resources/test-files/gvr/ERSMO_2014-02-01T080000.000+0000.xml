@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ERSMOIndata Källa="GVR" ID="0000001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ERSMOIndata/ERSMOIndata2.2.xsd">
+	<Ersättningshändelse ID="12345678901234567890" Makulerad="false" Startdatum="2014-02-01" Slutdatum="2014-02-02" Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
+		<Patient ID="191212121212" Lkf="010203" Basområde="1210151" Födelsedatum="1912-12-12" Kön="M"/>
+		<Händelseklass>
+			<Vårdkontakt Händelseform="Öppenvårdskontakt" Händelsetyp="013" Typ="1" Avgiftsklass="006" Patientavgift="12" Akut="J">
+				<Produkter>
+					<Produkt Klass="005" Kod="K1234" Antal="1"/>
+					<Produkt Klass="005" Kod="K1235" Antal="2"/>
+				</Produkter>
+				<Yrkeskategorier>
+					<Yrkeskategori Klass="001" Kod="01" OrdnNr="1"/>
+					<Yrkeskategori Klass="001" Kod="02" OrdnNr="2"/>
+				</Yrkeskategorier>
+				<Diagnoser>
+					<Diagnos Klass="008" Kod="I050" OrdnNr="1"/>
+					<Diagnos Klass="008" Kod="J250" OrdnNr="2"/>
+					<Diagnos Klass="008" Kod="K570" OrdnNr="3"/>
+				</Diagnoser>
+				<Tillståndslista>
+					<Tillstånd Klass="010" Kod="ASA6" Datum="2008-03-11" OrdnNr="1" DiagnosNr="1"/>
+				</Tillståndslista>
+				<Åtgärder>
+					<Åtgärd Klass="007" Kod="NHP09" Datum="2008-03-11" OrdnNr="1" DiagnosNr="1" TillståndNr="90"/>
+					<Åtgärd Klass="007" Kod="PE009" Datum="2008-03-11" OrdnNr="2" DiagnosNr="1" TillståndNr="90"/>
+					<Åtgärd Klass="007" Kod="AQ014" Datum="2008-03-11" OrdnNr="3" DiagnosNr="2" TillståndNr="90"/>
+					<Åtgärd Klass="020" Kod="A01AB13" Datum="2008-03-11" OrdnNr="4" DiagnosNr="90" TillståndNr="1"/>
+				</Åtgärder>
+				<Resursgrupper>
+					<Resursgrupp Klass="012" Kod="1234"/>
+				</Resursgrupper>
+				<VisteFöre Klass="002" Kod="1"/>
+				<VårdFöre Klass="" Kod="a"/>
+				<RemissFöre Klass="009" Kod="17101011M04"/>
+				<VisteEfter Klass="003" Kod="1"/>
+				<VårdEfter Klass="004" Kod="4"/>
+				<RemissEfter Klass="009" Kod="10011101M03"/>
+			</Vårdkontakt>
+		</Händelseklass>
+	</Ersättningshändelse>
+</ERSMOIndata>

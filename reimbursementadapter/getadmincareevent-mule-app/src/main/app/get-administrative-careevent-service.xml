@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+     Copyright (c) 2013 SLL <http://sll.se/>
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+           http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<mule
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+	<flow name="get-administrative-careevent-service" doc:name="get-administrative-careevent-service">
+
+		<http:inbound-endpoint address="${pr.ws.inboundURL}"
+			exchange-pattern="request-response"
+			responseTransformer-refs="createSoapFaultIfException"
+			doc:name="HTTP">
+			<cxf:jaxws-service doc:name="RIV-TA WebService"
+				serviceClass="riv.followup.processdevelopment.reimbursement.getadministrativecareevent.v1.rivtabp21.GetAdministrativeCareEventResponderInterface" />
+		</http:inbound-endpoint>
+		<component doc:name="Java Component"
+			class="se.sll.reimbursementadapter.admincareevent.ws.GetAdministrativeCareEventProducer" />
+
+		<custom-exception-strategy
+			class="org.soitoolkit.commons.mule.error.ServiceExceptionStrategy" />
+	</flow>
+</mule>

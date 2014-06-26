@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	
+	<!--*** XML-schema för indata till HEJ från Ersmo. ***-->
+	<!--*** HEJIndata ***-->
+	<xsd:element name="HEJIndata">
+		<xsd:complexType>			
+			<xsd:sequence>
+			
+			<!--*** Ersättningshändelse ***-->
+			<xsd:element name="Ersättningshändelse" minOccurs="1" maxOccurs="unbounded">
+				<xsd:complexType>
+					
+					<xsd:sequence>		
+					<!--*** Patient ***-->
+					<xsd:element name="Patient" minOccurs="1" maxOccurs="1">
+						<xsd:complexType>
+							<xsd:attribute name="ID" type="xsd:string"></xsd:attribute>
+							<xsd:attribute name="Lkf" type="xsd:string"></xsd:attribute>
+							<xsd:attribute name="Basområde" type="xsd:string"></xsd:attribute>							
+						</xsd:complexType>
+					</xsd:element>	
+						
+					<!--*** ProduktOmgång ***-->
+					<xsd:element name="Produktomgång" minOccurs="1" maxOccurs="20">
+						<xsd:complexType>
+							<xsd:sequence>
+							<!-- *** Produkt ***-->
+							<xsd:element name="Produkt" minOccurs="1" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:attribute name="Kod" type="xsd:string"></xsd:attribute>
+									<xsd:attribute name="Antal" type="xsd:string"></xsd:attribute>
+									<xsd:attribute name="ErsVerksamhet" type="xsd:string"></xsd:attribute>	
+									<xsd:attribute name="LevKod" type="xsd:string"></xsd:attribute>	
+									<xsd:attribute name="Modell" type="xsd:string"></xsd:attribute>
+									<xsd:attribute name="Uppdrag" type="xsd:string"></xsd:attribute>
+									<xsd:attribute name="FbPeriod" type="xsd:string"></xsd:attribute>
+									<xsd:attribute name="FromDatum" type="xsd:string"></xsd:attribute>
+									<xsd:attribute name="TomDatum" type="xsd:string"></xsd:attribute>								
+								</xsd:complexType>
+							</xsd:element>
+							
+							</xsd:sequence>
+								
+							<!-- *** Attribut för Produktomgång ***-->
+							<xsd:attribute name="Typ" type="xsd:string"></xsd:attribute>							
+							<xsd:attribute name="AvPrisLev" type="xsd:string"></xsd:attribute>
+							<xsd:attribute name="AvFakturaMott" type="xsd:string"></xsd:attribute>											
+						</xsd:complexType>						
+						
+					</xsd:element>
+					<!--*** Slut på formatet för Produktomgång ***-->
+					
+					<!--*** Yrkeskategorier ***-->
+					<xsd:element name="Yrkeskategorier" minOccurs="0" maxOccurs="1">
+						<xsd:complexType>
+							<xsd:sequence>
+							<!-- *** Yrkeskategori ***-->
+							<xsd:element name="Yrkeskategori" minOccurs="1" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:attribute name="Kod" type="xsd:string"></xsd:attribute>
+									<xsd:attribute name="OrdnNr" type="xsd:string"></xsd:attribute>								
+								</xsd:complexType>
+							</xsd:element>
+												
+							</xsd:sequence>
+													
+							<!-- *** Attribut för Yrkeskategorier ***-->
+							<xsd:attribute name="Vald" type="xsd:string" use="optional"></xsd:attribute>																		
+						</xsd:complexType>						
+											
+					</xsd:element>
+					<!--*** Slut på formatet för Yrkeskategorier ***-->
+					
+					<!--*** Åtgärder ***-->
+					<xsd:element name="Åtgärder" minOccurs="0" maxOccurs="1">
+						<xsd:complexType>
+							<xsd:sequence>
+							<!-- *** Åtgärd ***-->
+							<xsd:element name="Åtgärd" minOccurs="1" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:attribute name="Kod" type="xsd:string"></xsd:attribute>
+									<xsd:attribute name="OrdnNr" type="xsd:string"></xsd:attribute>	
+									<xsd:attribute name="Datum" type="xsd:string"></xsd:attribute>
+								</xsd:complexType>
+							</xsd:element>
+																	
+							</xsd:sequence>																		
+						</xsd:complexType>						
+																
+										</xsd:element>
+					<!--*** Slut på formatet för Åtgärder ***-->
+					
+					</xsd:sequence>	
+										
+					<!-- *** Attribut för Ersättningshändelse ***-->							
+					<xsd:attribute name="Källa" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="ID" type="xsd:string"></xsd:attribute>					
+					<xsd:attribute name="KundKod" type="xsd:string"></xsd:attribute>					
+					<xsd:attribute name="Akut" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="Händelseklass" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="Händelseform" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="Händelsetyp" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="Typ" type="xsd:string"></xsd:attribute>
+					<xsd:attribute name="Taxa" type="xsd:string" use="optional"></xsd:attribute>
+					<xsd:attribute name="RnrOrsak" type="xsd:string" use="optional"></xsd:attribute>
+					<xsd:attribute name="Startdatum" type="xsd:string" use="optional"></xsd:attribute>
+					<xsd:attribute name="Slutdatum" type="xsd:string" use="optional"></xsd:attribute>
+					
+				</xsd:complexType>			
+			</xsd:element>			
+			<!--*** Slut på formatet för Ersättningshändelse ***-->
+			
+			</xsd:sequence>	
+			
+			<!-- *** Attribut för HEJIndata ***-->		
+			<xsd:attribute name="Källa" type="xsd:string"></xsd:attribute>
+			<xsd:attribute name="ID" type="xsd:string"></xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<!--*** Slut på formatet för HEJIndata ***-->
+</xsd:schema>

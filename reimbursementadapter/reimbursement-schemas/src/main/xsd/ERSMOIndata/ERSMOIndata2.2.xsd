@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--*** Detta är ett XML-schema för indata till ERSMO. Om XML-filen/postsamlingen inte  ***-->
+<!--*** kan valideras mot detta schema slås hela filen ut. För en XML-fil som godkänns  ***-->
+<!--*** utförs ytterligare formatkontroller för varje enskild vårdkontakt i inläsnings- ***-->
+<!--*** och kontrollrutinen.                                                            ***-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"  elementFormDefault="qualified">
+   <xsd:element name="ERSMOIndata">
+      <xsd:complexType>
+         <xsd:sequence>
+         
+            <!--*** Ersättningshändelse  ***-->
+            <xsd:element name="Ersättningshändelse" minOccurs="1" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:all>
+                  
+                     <!--*** Patient  ***-->
+                     <xsd:element name="Patient" minOccurs="1" maxOccurs="1">
+                        <xsd:complexType>
+                           <xsd:attribute name="ID" type="patientid" use="required"/> 
+                           <xsd:attribute name="Lkf" type="lkf" use="optional"/>
+                           <xsd:attribute name="Basområde" type="basomr" use="optional"/>
+                           <xsd:attribute name="Födelsedatum" type="xsd:date" use="optional"/>
+                           <xsd:attribute name="Kön" type="kon" use="optional"/>
+                        </xsd:complexType>
+                     </xsd:element>
+
+                     <!--*** Händelseklass  ***-->
+                     <xsd:element name="Händelseklass" minOccurs="1" maxOccurs="1">
+		        <xsd:complexType>
+                           <xsd:choice>
+                               <xsd:element ref="Vårdkontakt" />
+                               <xsd:element ref="Vårdansvar" />
+                               <xsd:element ref="Vårdperiod" />
+                               <xsd:element ref="Undersökning" />
+                               <xsd:element ref="Expediering" />
+                           </xsd:choice> 
+		        </xsd:complexType>
+                     </xsd:element>
+
+                  </xsd:all>
+
+                  <xsd:attribute name="ID" type="ehid" use="required"/>
+                  <xsd:attribute name="Makulerad" type="xsd:boolean" use="optional" default="false"/>
+                  <xsd:attribute name="Startdatum" type="xsd:date" use="required"/>
+                  <xsd:attribute name="Slutdatum" type="xsd:date" use="optional"/>
+                  <xsd:attribute name="Startverksamhet" type="ehvsh" use="required"/>
+                  <xsd:attribute name="Slutverksamhet" type="ehvsh" use="optional"/>
+		  <xsd:attribute name="ErsUppdrag" type="eheu" use="optional"/>
+               </xsd:complexType>
+            </xsd:element>
+            <!--*** Slut på formatet för Ersättningshändelse  ***-->
+
+         </xsd:sequence>
+         <xsd:attribute name="Källa" type="xsd:string" use="required"/>
+         <xsd:attribute name="ID" type="xsd:string" use="required"/>
+      </xsd:complexType>
+   </xsd:element>
+   <!--*** Slut på formatet för ERSMOindata  ***-->
+   
+
+   <!--************************************-->
+   <!--*** Händelseklassen Vårdkontakt  ***-->
+   <!--************************************-->
+   <xsd:element name="Vårdkontakt">
+      <xsd:complexType>
+         <xsd:all>
+            <xsd:element ref="Tillståndslista" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="Yrkeskategorier" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="Diagnoser" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="Åtgärder" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="Produkter" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="Resursgrupper" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="VisteFöre" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="VårdFöre" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="RemissFöre" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="VisteEfter" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="VårdEfter" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="RemissEfter" minOccurs="0" maxOccurs="1" />
+         </xsd:all>
+         <xsd:attribute name="Händelseform" type="vkhform" use="required"/>
+         <xsd:attribute name="Händelsetyp" type="vkhtyp" use="optional"/> 
+         <xsd:attribute name="Typ" type="vktyp" use="optional"/>
+	 <xsd:attribute name="Avgiftsklass" type="klass" use="optional"/>
+	 <xsd:attribute name="Patientavgift" type="pavgift" use="optional"/>
+         <xsd:attribute name="Akut" type="akut" use="optional"/>
+         <xsd:attribute name="TillhörVårdansvar" type="ehid" use="optional"/>
+         <xsd:attribute name="TillhörVårdkontakt" type="ehid" use="optional"/>
+      </xsd:complexType>
+   </xsd:element>
+   
+   <!--*** VisteFöre  ***-->
+   <xsd:element name="VisteFöre">
+      <xsd:complexType>
+        <xsd:attribute name="Kod" type="visteforekod" use="required"/> 
+        <xsd:attribute name="Klass" type="klass002" use="required"/>
+      </xsd:complexType>
+   </xsd:element>
+   
+   <!--*** VårdFöre  ***-->
+      <xsd:element name="VårdFöre">
+         <xsd:complexType>
+           <xsd:attribute name="Kod" type="vardforekod" use="required"/> 
+           <xsd:attribute name="Klass" type="klass" use="required"/>
+         </xsd:complexType>
+   </xsd:element>
+   
+   <!--*** RemissFöre  ***-->
+         <xsd:element name="RemissFöre">
+            <xsd:complexType>
+              <xsd:attribute name="Kod" type="ehvsh" use="required"/> 
+              <xsd:attribute name="Klass" type="klass009" use="required"/>
+            </xsd:complexType>
+   </xsd:element>
+   
+   <!--*** VisteEfter  ***-->
+      <xsd:element name="VisteEfter">
+         <xsd:complexType>
+           <xsd:attribute name="Kod" type="visteefterkod" use="required"/> 
+           <xsd:attribute name="Klass" type="klass003" use="required"/>
+         </xsd:complexType>
+      </xsd:element>
+      
+      <!--*** VårdEfter  ***-->
+         <xsd:element name="VårdEfter">
+            <xsd:complexType>
+              <xsd:attribute name="Kod" type="vardefterkod" use="required"/> 
+              <xsd:attribute name="Klass" type="klass004" use="required"/>
+            </xsd:complexType>
+      </xsd:element>
+      
+      <!--*** RemissEfter  ***-->
+            <xsd:element name="RemissEfter">
+               <xsd:complexType>
+                 <xsd:attribute name="Kod" type="ehvsh" use="required"/> 
+                 <xsd:attribute name="Klass" type="klass009" use="required"/>
+               </xsd:complexType>
+   </xsd:element>
+   
+   <!--*** visteforekod ska vara ett alfanumeriskt tecken enl IKOD  ***-->
+      <xsd:simpleType name="visteforekod">
+         <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z0-9]" />
+         </xsd:restriction>
+   </xsd:simpleType>
+   
+   <!--*** visteefterkod ska vara ett alfanumeriskt tecken enl UKOD  ***-->
+         <xsd:simpleType name="visteefterkod">
+            <xsd:restriction base="xsd:string">
+               <xsd:pattern value="[a-zA-Z0-9]" />
+            </xsd:restriction>
+   </xsd:simpleType>
+   
+   <!--*** vardforekod ska vara ett alfanumeriskt tecken enl ?  ***-->
+         <xsd:simpleType name="vardforekod">
+            <xsd:restriction base="xsd:string">
+               <xsd:pattern value="[a-zA-Z0-9]" />
+            </xsd:restriction>
+      </xsd:simpleType>
+      
+      <!--*** vardefterkod ska vara ett alfanumeriskt tecken enl VPLAN  ***-->
+            <xsd:simpleType name="vardefterkod">
+               <xsd:restriction base="xsd:string">
+                  <xsd:pattern value="[a-zA-Z0-9]" />
+               </xsd:restriction>
+   </xsd:simpleType>
+
+
+   <!--*** Händelseform för vårdkontakter ska ha något av de uppräknade värdena  ***-->
+   <xsd:simpleType name="vkhform">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="Öppenvårdskontakt" />
+         <xsd:enumeration value="Hemsjukvårdskontakt" />
+         <xsd:enumeration value="Slutenvårdstillfälle" />
+      </xsd:restriction>
+   </xsd:simpleType>
+
+   <!--*** Händelsetyp för vårdkontakter ska ha något av de uppräknade värdena  ***-->
+   <xsd:simpleType name="vkhtyp">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="013" />
+         <xsd:enumeration value="014" />
+      </xsd:restriction>
+   </xsd:simpleType>
+   
+   <!--*** Vårdkontakttyp ska vara ett eller två alfanumeriska tecken  ***-->
+      <xsd:simpleType name="vktyp">
+         <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z0-9]{1,2}" />
+         </xsd:restriction>
+   </xsd:simpleType>
+
+   <!--*** Patientavgift ska vara ett eller två alfanumeriska tecken  ***-->
+   <xsd:simpleType name="pavgift">
+      <xsd:restriction base="xsd:string">
+         <xsd:pattern value="[a-zA-Z0-9]{1,2}" />
+      </xsd:restriction>
+   </xsd:simpleType>
+   
+   <!--*** Akut ska vara J, N, 1 eller 2 ***-->
+      <xsd:simpleType name="akut">
+         <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="J" />
+            <xsd:enumeration value="N" />
+            <xsd:enumeration value="1" />
+            <xsd:enumeration value="2" />
+         </xsd:restriction>
+   </xsd:simpleType>
+   
+   <!--*** klass002 ska vara "002"  ***-->
+      <xsd:simpleType name="klass002">
+         <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="002" />
+         </xsd:restriction>
+   </xsd:simpleType>
+   
+   <!--*** klass003 ska vara "003"  ***-->
+         <xsd:simpleType name="klass003">
+            <xsd:restriction base="xsd:string">
+               <xsd:enumeration value="003" />
+            </xsd:restriction>
+   </xsd:simpleType>
+   
+   <!--*** klass004 ska vara "004"  ***-->
+         <xsd:simpleType name="klass004">
+            <xsd:restriction base="xsd:string">
+               <xsd:enumeration value="004" />
+            </xsd:restriction>
+   </xsd:simpleType>
+   
+   <!--*** klass009 ska vara "009"  ***-->
+         <xsd:simpleType name="klass009">
+            <xsd:restriction base="xsd:string">
+               <xsd:enumeration value="009" />
+            </xsd:restriction>
+   </xsd:simpleType>
+   
+   
+   <!--***********************************-->
+   <!--*** Händelseklassen Vårdansvar  ***-->
+   <!--***********************************-->
+   <xsd:element name="Vårdansvar">
+      <xsd:complexType>
+         <xsd:all>
+            <xsd:element ref="Tillståndslista" minOccurs="0" maxOccurs="1" />
+	    <xsd:element ref="Diagnoser" minOccurs="0" maxOccurs="1" />
+	 </xsd:all>
+	 <xsd:attribute name="Händelseform" type="vahform" use="required"/>
+	 <xsd:attribute name="Händelsetyp" type="vahtyp" use="optional"/> 
+      </xsd:complexType>
+   </xsd:element>
+   
+   <!--*** Händelseform för vårdansvar ska ha något av de uppräknade värdena  ***-->
+      <xsd:simpleType name="vahform">
+         <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Hemsjukvårdsansvar" />
+            <xsd:enumeration value="Okänt" />
+         </xsd:restriction>
+      </xsd:simpleType>
+   
+      <!--*** Händelsetyp för vårdansvar ska ha något av de uppräknade värdena  ***-->
+      <xsd:simpleType name="vahtyp">
+         <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Basal" />
+            <xsd:enumeration value="Avancerad" />
+            <xsd:enumeration value="Okänt" />
+         </xsd:restriction>
+      </xsd:simpleType>
+   
+   
+   <!--***********************************-->
+   <!--*** Händelseklassen Vårdperiod  ***-->
+   <!--***********************************-->
+      <xsd:element name="Vårdperiod">
+         <xsd:complexType>
+         </xsd:complexType>
+   </xsd:element>
+
+   
+   <!--*************************************-->
+   <!--*** Händelseklassen Undersökning  ***-->
+   <!--*************************************-->
+      <xsd:element name="Undersökning">
+         <xsd:complexType>
+         </xsd:complexType>
+   </xsd:element>
+
+  
+  <!--*************************************-->
+  <!--*** Händelseklassen Expediering  ***-->
+  <!--*************************************-->
+      <xsd:element name="Expediering">
+         <xsd:complexType>
+         </xsd:complexType>
+   </xsd:element>
+
+
+<!--***********************************************************************-->
+<!--*** Definition av gemensamma element för de olika händelseklasserna ***-->
+<!--***********************************************************************-->
+
+   <!--*** Tillstånd  ***-->
+   <xsd:element name="Tillståndslista">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="Tillstånd" minOccurs="0" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:attribute name="Kod" type="tillstandskod" use="required"/> 
+                  <xsd:attribute name="Klass" type="klass" use="required"/>
+                  <xsd:attribute name="Datum" type="xsd:date" use="required"/>
+                  <xsd:attribute name="OrdnNr" type="xsd:positiveInteger" use="required"/>
+                  <xsd:attribute name="DiagnosNr" type="xsd:integer" use="optional"/>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <!--*** Yrkeskategorier  ***-->
+   <xsd:element name="Yrkeskategorier">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="Yrkeskategori" minOccurs="0" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:attribute name="Kod" type="ykkod" use="required"/>
+                  <xsd:attribute name="Klass" type="klass" use="required"/>
+                  <xsd:attribute name="OrdnNr" type="xsd:positiveInteger" use="required"/> 
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <!--*** Diagnoser  ***-->
+   <xsd:element name="Diagnoser">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="Diagnos" minOccurs="0" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:attribute name="Kod" type="diagnoskod" use="required"/>
+                  <xsd:attribute name="Klass" type="klass" use="required"/>
+                  <xsd:attribute name="OrdnNr" type="xsd:positiveInteger" use="required"/>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <!--*** Åtgärder  ***-->
+   <xsd:element name="Åtgärder">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="Åtgärd" minOccurs="0" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:attribute name="Kod" type="atgardskod" use="required"/> 
+                  <xsd:attribute name="Klass" type="klass" use="required"/>
+                  <xsd:attribute name="Datum" type="xsd:date" use="required"/>
+                  <xsd:attribute name="OrdnNr" type="xsd:positiveInteger" use="required"/>
+                  <xsd:attribute name="DiagnosNr" type="xsd:integer" use="optional"/>
+                  <xsd:attribute name="TillståndNr" type="xsd:integer" use="optional"/>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <!--*** Produkter  ***-->
+   <xsd:element name="Produkter">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="Produkt" minOccurs="0" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:attribute name="Kod" type="produktkod" use="required"/> 
+                  <xsd:attribute name="Klass" type="klass" use="required"/>
+                  <xsd:attribute name="Antal" type="xsd:positiveInteger" use="required"/> 
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <!--*** Resursgrupper  ***-->
+   <xsd:element name="Resursgrupper">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="Resursgrupp" minOccurs="0" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:attribute name="Kod" type="resursgruppkod" use="required"/> 
+                  <xsd:attribute name="Klass" type="klass" use="required"/>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+<!--*******************************************-->
+<!--*** Definition av gemensamma datatyper  ***-->
+<!--*******************************************-->
+
+<!--*** ErsättningshändelseID ska vara en sträng på högst 20 tecken  ***-->
+<xsd:simpleType name="ehid">
+   <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="33" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Verksamhet ska antingen vara en kombika = 8 siffor följda av 1-3 alfanumeriska tecken  ***-->
+<!--*** eller ett hsa-id bestående av "SE2321000016-" och fyra alfanumeriska tecken            ***-->
+<xsd:simpleType name="ehvsh">
+   <xsd:restriction base="xsd:string">
+      <xsd:pattern value="([0-9]{8}[a-zåäöA-ZÅÄÖ0-9]{1,3})|((SE2321000016-)[a-zåäöA-ZÅÄÖ0-9]{4})" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** ErsUppdrag ska vara en sträng på högst 7 tecken  ***-->
+<xsd:simpleType name="eheu">
+   <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="7" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** PatientID (personnummer, samordningsnummer, reservnummer) ska vara 12 siffror  ***-->
+<xsd:simpleType name="patientid">
+   <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{12}" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Lkf ska vara sex alfanumeriska tecken  ***-->
+<xsd:simpleType name="lkf">
+   <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z0-9]{6}" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Basområde ska vara sju siffror  ***-->
+<xsd:simpleType name="basomr">
+   <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]{7}" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Kön ska vara K eller M  ***-->
+<xsd:simpleType name="kon">
+   <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="K" />
+      <xsd:enumeration value="M" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Tillståndskod ska vara en sträng på högst 10 tecken  ***-->
+<xsd:simpleType name="tillstandskod">
+   <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Yrkeskategorikod ska vara två alfanumeriska tecken  ***-->
+<xsd:simpleType name="ykkod">
+   <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z0-9]{2}" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Diagnoskod ska vara en sträng på högst 10 tecken  ***-->
+<xsd:simpleType name="diagnoskod">
+   <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Åtgärdskod ska vara en sträng på högst 10 tecken  ***-->
+<xsd:simpleType name="atgardskod">
+   <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Produktkod ska vara en sträng på högst 10 tecken  ***-->
+<xsd:simpleType name="produktkod">
+   <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Resursgruppkod ska vara en sträng på högst 4 tecken  ***-->
+<xsd:simpleType name="resursgruppkod">
+   <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="4" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+<!--*** Klass ska vara en sträng på högst 3 tecken  ***-->
+<xsd:simpleType name="klass">
+   <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="3" />
+   </xsd:restriction>
+</xsd:simpleType>
+
+
+</xsd:schema>
