@@ -223,6 +223,7 @@ public class TransformHelper {
             currentDiagnosis.setCodeSystem(OIDList.getOid(CodeSystem.ICD10_SE));
             currentDiagnosis.setCodeSystemName(OIDList.getName(CodeSystem.ICD10_SE));
         } else {
+            // TODO roos, temporary filter away 020 content (ATC) here.
             currentDiagnosis.setCodeSystem("NO.OID: " + diagnos.getKlass());
         }
         currentDiagnosis.setCode(diagnos.getKod());
