@@ -23,6 +23,8 @@ import java.util.Map;
  */
 public class OIDList {
 
+    static final boolean OUTPUT_CODE_SYSTEM_NAMES = false;
+
     private static Map<CodeSystem, String> oidMap = new HashMap<>();
     private static Map<CodeSystem, String> nameMap = new HashMap<>();
 
@@ -90,6 +92,6 @@ public class OIDList {
      * @return The mapped OID for the code system.
      */
     public static String getName(CodeSystem cs) {
-        return nameMap.get(cs);
+        return OUTPUT_CODE_SYSTEM_NAMES ? nameMap.get(cs) : null;
     }
 }

@@ -116,12 +116,12 @@ public class ERSMOIndataToCareEventTransformer {
                 fatal(String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.", currentErsId, currentFile));
             }
 
-            // If the currentErsh does not have any diagnoses or any activities.
-            int numberOfDiagnoses = currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser().getDiagnos().size();
-            int numberOfActivities = currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd().size();
-            if (numberOfDiagnoses == 0 && numberOfActivities == 0) {
-                LOG.debug(String.format("There was no diagnoses or Diagnos or Åtgärd in the care event %s in %s.Filtering away!",
-                        currentErsId, currentFile));
+            // If the currentErsh does not have any diagnoses or any activities, return null
+            boolean diagnosisListNullOrEmpty = (currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser() == null
+                    || currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser().getDiagnos().size() == 0);
+            boolean activityListNullOrEmpty = (currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder() == null
+                    || currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder().getÅtgärd().size() == 0);
+            if (diagnosisListNullOrEmpty && activityListNullOrEmpty) {
                 return null;
             }
 
