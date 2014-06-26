@@ -159,6 +159,44 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Deceased", false, careEventType.isDeceased());
     }
 
+    /**
+     * Tests the entire transformation of a ERSMOIndata file to a List of CareEventTypes
+     * @throws Exception on IO exceptions when reading files.
+     */
+    @Test
+    public void testDoTransformNonExistentKombika() throws Exception {
+        // Populate the cache necessary for the mapping to function correctly.
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate();
+
+        // Set the GVR Filter method to work with file names for this test.
+        gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
+
+        // Read a given ERSMOIndata file and marshal to an XML-object.
+        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-02-02T080000.000+0000.xml");
+        Reader fileReader = gvrFileReader.getReaderForFile(inFile);
+        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        indata.getErsättningshändelse().get(0).setStartverksamhet("1234");
+        indata.getErsättningshändelse().get(0).setSlutverksamhet("1234");
+
+        // Transform to a list of RIV CareEventTypes.
+        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+
+        // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
+        Assert.assertEquals("Number of Care Events", 1, careEventList.size());
+        CareEventType careEventType = careEventList.get(0);
+
+        Assert.assertEquals("ID#1", "12345678901234567890", careEventType.getId());
+
+        // No contracts should be mapped
+        Assert.assertTrue(careEventType.getContracts().getContract().size() == 0);
+        // No Care Unit ID should be mapped.
+        Assert.assertEquals("CareUnitId", "", careEventType.getCareUnit().getCareUnitId());
+        // But the kombika should still be fine.
+        Assert.assertEquals("Kombika", "SE2321000016-39KJ+1234", careEventType.getCareUnit().getCareUnitLocalId().getExtension());
+    }
+
     @Test
     public void doTestCodeTransformer() {
         Assert.assertEquals("Öppenvårdskontakt", "2", TransformHelper.mapErsmoKontaktFormToKvKontakttyp(Vkhform.ÖPPENVÅRDSKONTAKT));

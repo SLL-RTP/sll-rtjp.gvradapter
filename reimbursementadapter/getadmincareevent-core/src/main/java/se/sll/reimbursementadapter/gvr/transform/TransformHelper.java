@@ -106,14 +106,18 @@ public class TransformHelper {
         currentEvent.getCareUnit().getCareUnitLocalId().setExtension(SLL_CAREGIVER_HSA_ID + HYBRID_GUI_SEPARATOR + currentErsh.getSlutverksamhet());
 
         // Care Unit HSA-id from MEK
-        TermItem<HSAMappingState> hsaMapping = mappedFacility.getHSAMapping();
-        if (hsaMapping != null) {
-            HSAMappingState hsaMappingState = hsaMapping.getState(stateDate);
-            if (hsaMappingState != null) {
-                String careUnitHSAid = hsaMappingState.getHsaId();
-                currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
-                return careUnitHSAid;
+        if (mappedFacility != null) {
+            TermItem<HSAMappingState> hsaMapping = mappedFacility.getHSAMapping();
+            if (hsaMapping != null) {
+                HSAMappingState hsaMappingState = hsaMapping.getState(stateDate);
+                if (hsaMappingState != null) {
+                    String careUnitHSAid = hsaMappingState.getHsaId();
+                    currentEvent.getCareUnit().setCareUnitId(careUnitHSAid);
+                    return careUnitHSAid;
+                }
             }
+        } else {
+            currentEvent.getCareUnit().setCareUnitId("");
         }
         return null;
     }

@@ -42,38 +42,6 @@ import java.util.Date;
 @ContextConfiguration(locations="classpath:getadmincareevent-core-spring-context.xml")
 public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
-	/*@Test
-         public void test() {
-        CodeServerMEKCacheManagerService.getInstance().revalidate();
-        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
-        params.setUpdatedDuringPeriod(new DateTimePeriodType());
-        try {
-            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T10:00:00.000"));
-            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-02-01T11:00:00.000"));
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
-
-        //GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
-        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
-        for (CareEventType careEvent : response.getCareEvent()) {
-            if (careEvent.getCareUnit() != null) {
-                System.out.println("HSA-id: " + careEvent.getCareUnit().getCareUnitId());
-            }
-            assertFalse(careEvent.getPatient().getBirthDate().contains("-"));
-
-            if (careEvent.getDatePeriod() != null) {
-                if (careEvent.getDatePeriod().getStart() != null) {
-                    assertFalse(careEvent.getDatePeriod().getStart().contains("-"));
-                }
-                if (careEvent.getDatePeriod().getEnd() != null) {
-                    assertFalse(careEvent.getDatePeriod().getEnd().contains("-"));
-                }
-            }
-        }
-        assertTrue(true);
-    }*/
-
     @Test
     public void testTimezoneDateFilterInclusive() {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
@@ -205,7 +173,13 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
     public void testTimezoneDateFilterEndExclusiveMetadata() throws Exception {
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.METADATA);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
+        for (String test : CodeServerMEKCacheManagerService.getInstance().getCurrentIndex().keySet()) {
+            if (test.startsWith("191370")) {
+                System.out.println("Kombika: " + test);
 
+            }
+        }
+        System.out.println("Testget: " + CodeServerMEKCacheManagerService.getInstance().getCurrentIndex().get("19137011000"));
         SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSSZ");
         Date expectedDate = sf.parse("20140201080000000+0000");
         Date expectedDate2    = sf.parse("20140202080000000+0000");
