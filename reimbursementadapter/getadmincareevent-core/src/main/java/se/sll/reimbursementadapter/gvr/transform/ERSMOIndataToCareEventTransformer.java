@@ -272,8 +272,6 @@ public class ERSMOIndataToCareEventTransformer {
                 currentEvent.getStayAfter().setCodeSystem("SLL.CS.UKOD");
             }
             
-            // TODO step 4, disable codeSystemName in output
-            
             // Deceased
             currentEvent.setDeceased(stayAfter != null && "7".equals(stayAfter.getKod()));
 

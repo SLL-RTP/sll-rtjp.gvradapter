@@ -81,16 +81,8 @@ public class AbstractProducer {
     protected GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType
                                                                                      parameters) {
         // Set up the incoming dates with proper timezone + DST information. (Java < 8 is not fantastic at handling this stuff)
-        GregorianCalendar gregorianCalendarStart = parameters.getUpdatedDuringPeriod().getStart().toGregorianCalendar();
-        GregorianCalendar gregorianCalendarEnd = parameters.getUpdatedDuringPeriod().getEnd().toGregorianCalendar();
-
-        GregorianCalendar localCalendarStart = new GregorianCalendar();
-        localCalendarStart.setTimeInMillis(gregorianCalendarStart.getTimeInMillis());
-        GregorianCalendar localCalendarEnd = new GregorianCalendar();
-        localCalendarEnd.setTimeInMillis(gregorianCalendarEnd.getTimeInMillis());
-
-        Date startDate = new Date(localCalendarStart.getTime().getTime()); //+ localCalendarStart.getTimeZone().getDSTSavings());
-        Date endDate = new Date(localCalendarEnd.getTime().getTime()); //+ localCalendarEnd.getTimeZone().getDSTSavings());
+        Date startDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getStart());
+        Date endDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getEnd());
 
         LOG.info(String.format("Request recieved, from date: %s to date: %s", startDate, endDate));
 
@@ -113,11 +105,8 @@ public class AbstractProducer {
         }
 
         // Iterate over each file and process it. (convert to RIV format and insert into response)
-        Date currentDate;
         for (Path currentFile : pathList) {
-            currentDate = gvrFileReader.getDateFromGVRFile(currentFile);
-
-            // Get a reader for the current file, read it and then Unmarshall it into a generated ERSMOIndata object.
+            // Get a reader for the current file, read it and then Unmarshal it into a generated ERSMOIndata object.
             ERSMOIndata xmlObject;
             try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
                 ERSMOIndataUnMarshaller unmarshaller = new ERSMOIndataUnMarshaller();
@@ -137,10 +126,12 @@ public class AbstractProducer {
             // response.
             List<CareEventType> careEventList;
             try {
-                careEventList = ERSMOIndataToCareEventTransformer.doTransform(xmlObject, currentDate, currentFile);
+                careEventList = ERSMOIndataToCareEventTransformer.doTransform(
+                        xmlObject, gvrFileReader.getDateFromGVRFile(currentFile), currentFile);
             } catch (TransformationException e) {
                 LOG.error(String.format("TransformationException when parsing %s: %s", currentFile.getFileName(), e.getMessage()), e);
-                throw createSoapFault(String.format("Internal transformation error when parsing %s, Cause: %s", currentFile.getFileName(), e.getMessage()), e);
+                throw createSoapFault(String.format("Internal transformation error when parsing %s, Cause: %s",
+                        currentFile.getFileName(), e.getMessage()), e);
             }
 
             // If the current size of the response list plus the list that we want to add now is larger
@@ -156,8 +147,8 @@ public class AbstractProducer {
                     response.setComment("Response was truncated at 0 due to hitting the maximum configured number of Care " +
                             "Events of " + maximumSupportedCareEvents + " in the first input file.");
                 } else {
-                    response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent()
-                            .size() - 1).getLastUpdatedTime());
+                    response.getResponseTimePeriod().setEnd(response.getCareEvent().get(
+                            response.getCareEvent().size() - 1).getLastUpdatedTime());
                     response.setResultCode("TRUNCATED");
                     response.setComment("Response was truncated due to hitting the maximum configured number of Care " +
                             "Events of " + maximumSupportedCareEvents);
@@ -175,6 +166,19 @@ public class AbstractProducer {
         }
 
         return response;
+    }
+
+    /**
+     * Creates a localized Date object from the incoming {@link XMLGregorianCalendar}.
+     *
+     * @param sourceCalendar the source XMLGregorianCalendar to convert to the local system time zone.
+     * @return A localized Date matching the incoming {@link XMLGregorianCalendar}.
+     */
+    private Date getLocalizedDate(XMLGregorianCalendar sourceCalendar) {
+        GregorianCalendar gregorianCalendarStart = sourceCalendar.toGregorianCalendar();
+        GregorianCalendar localCalendarStart = new GregorianCalendar();
+        localCalendarStart.setTimeInMillis(gregorianCalendarStart.getTimeInMillis());
+        return new Date(localCalendarStart.getTime().getTime());
     }
 
     /**
