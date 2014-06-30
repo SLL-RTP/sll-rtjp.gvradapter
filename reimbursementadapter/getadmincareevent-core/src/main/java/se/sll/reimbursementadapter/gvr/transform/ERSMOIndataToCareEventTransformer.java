@@ -165,7 +165,7 @@ public class ERSMOIndataToCareEventTransformer {
             Vårdkontakt vårdkontakt = currentErsh.getHändelseklass().getVårdkontakt();
 
             // Filter on pnr list, remove in #215.
-            if (DO_CHECK && !mapped_pnrs.contains(currentErsh.getPatient().getID())) {
+            if (DO_CHECK && currentErsh.getPatient() != null && !mapped_pnrs.contains(currentErsh.getPatient().getID())) {
                 return null;
             }
 
