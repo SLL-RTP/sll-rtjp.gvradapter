@@ -15,14 +15,35 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import riv.followup.processdevelopment.reimbursement.v1.*;
+import riv.followup.processdevelopment.reimbursement.v1.CareContractType;
+import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
-import se.sll.ersmo.xml.indata.*;
+import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse.Patient;
+import se.sll.ersmo.xml.indata.RemissFöre;
+import se.sll.ersmo.xml.indata.VisteEfter;
+import se.sll.ersmo.xml.indata.VisteFöre;
+import se.sll.ersmo.xml.indata.Vkhform;
+import se.sll.ersmo.xml.indata.Vårdkontakt;
+import se.sll.ersmo.xml.indata.Åtgärder;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
@@ -31,11 +52,6 @@ import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheMana
 import se.sll.reimbursementadapter.exception.TransformationException;
 import se.sll.reimbursementadapter.parser.TermItem;
 
-import java.nio.file.Path;
-import java.util.*;
-
-import javax.xml.datatype.XMLGregorianCalendar;
-
 /**
  * Transforms a single ERSMOIndata XML object to a number of CareEventType XML objects.
  * Transformation rules implement the "inrapportering_gvr_meddelandeinnehall_0.3"-specification.
@@ -43,6 +59,38 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class ERSMOIndataToCareEventTransformer {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
+	
+	// TODO: Remove in #215.
+	private static Set<String> mapped_pnrs = new HashSet<String>();
+	private static boolean DO_CHECK = true;
+	
+	static {
+		try {
+			fillSet(mapped_pnrs, "/usr/local/ivbar/tomcat/shared/filter-pnr.txt");
+		} catch (IOException io) {
+			LOG.info(String.format("Unable to get pnr for filtering, %s", io.getMessage()));
+		}
+		
+		if (mapped_pnrs.isEmpty()) {
+			DO_CHECK = false;
+			LOG.info("Did not find any pnr to use for filtering.");
+		} else {
+			LOG.info(String.format("Found %d pnr to use for filtering.", mapped_pnrs.size()));
+		}
+	}
+	
+	private static void fillSet(Set<String> set, String fileName) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+	    try {
+	        String line = br.readLine();
+	        while (line != null) {
+	        	set.add(line);
+	            line = br.readLine();
+	        }
+	    } finally {
+	        br.close();
+	    }
+	}
 
     /**
      * Transforms a single {@link se.sll.ersmo.xml.indata.ERSMOIndata} object to a list of
@@ -116,7 +164,10 @@ public class ERSMOIndataToCareEventTransformer {
 
             Vårdkontakt vårdkontakt = currentErsh.getHändelseklass().getVårdkontakt();
 
-            // TODO Filter on pnr list here. Remove in #215.
+            // Filter on pnr list, remove in #215.
+            if (DO_CHECK && !mapped_pnrs.contains(currentErsh.getPatient().getID())) {
+                return null;
+            }
 
             String kombika = currentErsh.getSlutverksamhet();
             
