@@ -111,7 +111,7 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
         // Date Period
         Assert.assertEquals("Date Period start", "20140202", careEventType.getDatePeriod().getStart());
-        Assert.assertEquals("Date Period end", "20140203", careEventType.getDatePeriod().getEnd());
+        Assert.assertEquals("Date Period end", "20140202", careEventType.getDatePeriod().getEnd());
 
         // Involved Professions
         Assert.assertEquals("Profession count", 2, careEventType.getInvolvedProfessions().getProfession().size());
@@ -135,13 +135,13 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Number of activities", 3, careEventType.getActivities().getActivity().size());
         Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getCode());
         Assert.assertEquals("Activity #1 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(0).getCodeSystem());
-        Assert.assertEquals("Activity #1 date", "20080311", careEventType.getActivities().getActivity().get(0).getDate());
+        Assert.assertEquals("Activity #1 date", "20140202", careEventType.getActivities().getActivity().get(0).getDate());
         Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getCode());
         Assert.assertEquals("Activity #2 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(1).getCodeSystem());
-        Assert.assertEquals("Activity #2 date", "20080311", careEventType.getActivities().getActivity().get(1).getDate());
+        Assert.assertEquals("Activity #2 date", "20140202", careEventType.getActivities().getActivity().get(1).getDate());
         Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getCode());
         Assert.assertEquals("Activity #3 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(2).getCodeSystem());
-        Assert.assertEquals("Activity #3 date", "20080311", careEventType.getActivities().getActivity().get(2).getDate());
+        Assert.assertEquals("Activity #3 date", "20140202", careEventType.getActivities().getActivity().get(2).getDate());
         // The ATC code should no longer be returned.
         //Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getCode());
         //Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getCodeSystem());
@@ -160,10 +160,6 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Deceased", false, careEventType.isDeceased());
     }
 
-    /**
-     * Tests the entire transformation of a ERSMOIndata file to a List of CareEventTypes
-     * @throws Exception on IO exceptions when reading files.
-     */
     @Test
     public void testDoTransformNonExistentKombika() throws Exception {
         // Populate the cache necessary for the mapping to function correctly.
@@ -185,17 +181,51 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
+        Assert.assertEquals("Number of Care Events", 0, careEventList.size());
+    }
+
+    @Test
+    public void testActivityDateBasedLookup() throws Exception {
+        // Populate the cache necessary for the mapping to function correctly.
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate();
+
+        // Set the GVR Filter method to work with file names for this test.
+        gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
+
+        // Read a given ERSMOIndata file and marshal to an XML-object.
+        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2013-09-08T080000.000+0000.xml");
+        Reader fileReader = gvrFileReader.getReaderForFile(inFile);
+        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+
+        // Transform to a list of RIV CareEventTypes.
+        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+
+        // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
-        CareEventType careEventType = careEventList.get(0);
+    }
 
-        Assert.assertEquals("ID#1", "12345678901234567890", careEventType.getId());
+    @Test
+    public void testEndDateBasedLookup() throws Exception {
+        // Populate the cache necessary for the mapping to function correctly.
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate();
 
-        // No contracts should be mapped
-        Assert.assertTrue(careEventType.getContracts().getContract().size() == 0);
-        // No Care Unit ID should be mapped.
-        Assert.assertEquals("CareUnitId", "", careEventType.getCareUnit().getCareUnitId());
-        // But the kombika should still be fine.
-        Assert.assertEquals("Kombika", "SE2321000016-39KJ+1234", careEventType.getCareUnit().getCareUnitLocalId().getExtension());
+        // Set the GVR Filter method to work with file names for this test.
+        gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
+
+        // Read a given ERSMOIndata file and marshal to an XML-object.
+        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2013-09-09T080000.000+0000.xml");
+        Reader fileReader = gvrFileReader.getReaderForFile(inFile);
+        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+
+        // Transform to a list of RIV CareEventTypes.
+        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+
+        // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
+        Assert.assertEquals("Number of Care Events", 1, careEventList.size());
     }
 
     @Test

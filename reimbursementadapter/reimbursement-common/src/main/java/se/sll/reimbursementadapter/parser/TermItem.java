@@ -70,7 +70,7 @@ public class TermItem<T extends TermState> implements Serializable {
         }
         return null;
     }
-
+    
     @Override
     public int hashCode() {
         final String id = getId();

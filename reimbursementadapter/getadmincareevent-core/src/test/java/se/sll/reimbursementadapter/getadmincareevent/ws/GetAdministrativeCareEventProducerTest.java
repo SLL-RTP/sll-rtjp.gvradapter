@@ -429,22 +429,4 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
         Assert.assertEquals("CareEvent 2 id", "2014-02-04T10:00:00.000+02:00",  response.getResponseTimePeriod().getEnd().toXMLFormat());
         //Assert.assertEquals("CareEvent 2 id", "2014-02-03T10:00:00.000+02:00",  response.getCareEvent().get(2).getLastUpdatedTime().toXMLFormat());
     }
-
-    @Test
-    public void testNoActivitiesOrDiagnoses() {
-        this.maximumSupportedCareEvents = 10;
-        this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
-        CodeServerMEKCacheManagerService.getInstance().revalidate();
-        GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
-        params.setUpdatedDuringPeriod(new DateTimePeriodType());
-        try {
-            params.getUpdatedDuringPeriod().setStart(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-08-01T10:00:00.000+02:00"));
-            params.getUpdatedDuringPeriod().setEnd(DatatypeFactory.newInstance().newXMLGregorianCalendar("2014-08-01T10:00:00.000+02:00"));
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
-
-        GetAdministrativeCareEventResponse response = this.getAdministrativeCareEvent0(params);
-        Assert.assertEquals("Number of CareEvents", 0, response.getCareEvent().size());
-    }
 }

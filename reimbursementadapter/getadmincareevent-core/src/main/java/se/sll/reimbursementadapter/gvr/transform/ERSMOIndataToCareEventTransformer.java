@@ -22,6 +22,7 @@ import riv.followup.processdevelopment.reimbursement.v1.*;
 import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
 import se.sll.ersmo.xml.indata.*;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
+import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse.Patient;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
@@ -32,6 +33,8 @@ import se.sll.reimbursementadapter.parser.TermItem;
 
 import java.nio.file.Path;
 import java.util.*;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * Transforms a single ERSMOIndata XML object to a number of CareEventType XML objects.
@@ -73,7 +76,7 @@ public class ERSMOIndataToCareEventTransformer {
                 numberOfFilteredCareEvents++;
             }
         }
-        LOG.info("Number of filred care events: " + numberOfFilteredCareEvents);
+        LOG.info(String.format("%d/%d care events filtered away.", numberOfFilteredCareEvents, list.size()));
         return responseList;
     }
 
@@ -111,57 +114,78 @@ public class ERSMOIndataToCareEventTransformer {
             // Source System
             TransformHelper.createSourceSystemStructure(ersmoIndata, currentEvent);
 
-            // If the Händelseklass is null och the Händelseklass is not of type "Vårdkontakt", throw a mapping exception.
-            if (currentErsh.getHändelseklass() == null || currentErsh.getHändelseklass().getVårdkontakt() == null) {
-                fatal(String.format("Could not find any Händelseklass/Vårdkontakt in care event %s in %s.", currentErsId, currentFile));
-            }
+            Vårdkontakt vårdkontakt = currentErsh.getHändelseklass().getVårdkontakt();
 
-            // #215 If the currentErsh does not have any diagnoses or any activities, return null (skip the care event).
-            Diagnoser diagnoser = currentErsh.getHändelseklass().getVårdkontakt().getDiagnoser();
-            boolean diagnosisListNullOrEmpty = (diagnoser == null || diagnoser.getDiagnos().size() == 0);
-            Åtgärder åtgärder = currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder();
-            boolean activityListNullOrEmpty = (åtgärder == null || åtgärder.getÅtgärd().size() == 0);
-            if (diagnosisListNullOrEmpty && activityListNullOrEmpty) {
-                return null;
-            }
+            // TODO Filter on pnr list here. Remove in #215.
 
-            // Use the Startdatum from the Ersättningshändelse as the key for Code mapping lookup.
-            GregorianCalendar calendar = currentErsh.getStartdatum().toGregorianCalendar();
-            calendar.set(Calendar.HOUR_OF_DAY, 12);
-            Date stateDate = calendar.getTime();
             String kombika = currentErsh.getSlutverksamhet();
             
-            TermItem<FacilityState> mappedFacilities = cacheManager.getCurrentIndex().get(kombika);
-            FacilityState mappedFacility = null;
-            if (mappedFacilities != null) {
-                mappedFacility = mappedFacilities.getState(stateDate);
-                if (mappedFacility == null) {
-                    LOG.debug(String.format("Did not find code server data for kombika %s and date %s on care event %s in %s.",
-                            kombika, stateDate, currentErsId, currentFile));
-                }
-            } else {
-                LOG.debug(String.format("Did not find code server data for kombika %s on care event %s in %s",
-                        kombika, currentErsId, currentFile));
+            TermItem<FacilityState> avd = cacheManager.getCurrentIndex().get(kombika);
+            if (avd == null) {
+                // #215 We need to handle this somehow, not skip like now, like rereading later?
+                LOG.warn(String.format("Coult not look up facilities (AVD) for kombika %s on care event %s in %s, skipping, fix in #215?",
+                                        kombika, currentErsId, currentFile));
+                return null;
             }
-
-
+            
+            //
+            // Find a good date to use as state date. 
+            //
+            
+            Date stateDate = null;
+            FacilityState currentAvd = null;
+            
+            // Start using the Startdatum from the Ersättningshändelse. 
+            stateDate = getLookupDate(currentErsh.getStartdatum().toGregorianCalendar());
+            
+            currentAvd = avd.getState(stateDate);
+            
+            if (currentAvd == null) {
+                // Try to use the dates in activities.
+                Åtgärder åtgärder = currentErsh.getHändelseklass().getVårdkontakt().getÅtgärder();
+                if (åtgärder != null) {
+                    for (Åtgärder.Åtgärd åtgärd : åtgärder.getÅtgärd()) {
+                        stateDate = getLookupDate(åtgärd.getDatum());
+                        currentAvd = avd.getState(stateDate);
+                        if (currentAvd != null) break;
+                    }
+                }
+            }
+            
+            if (currentAvd == null) {
+                // Try with Slutdatum from the Ersättningshändelse.
+                stateDate = getLookupDate(currentErsh.getSlutdatum().toGregorianCalendar());
+                currentAvd = avd.getState(stateDate);
+            }
+            
+            if (currentAvd == null) {
+                LOG.debug(String.format("Did not find code server data for kombika %s and date %s on care event %s in %s, skipping.",
+                                        kombika, stateDate, currentErsId, currentFile));
+                return null;
+            }
+        
+            //
+            // Translate all the data.
+            // 
+            
             // Patient            
-            if (currentErsh.getPatient() != null) {
-                currentEvent.setPatient(TransformHelper.createRivPatientFromErsättningsPatient(currentErsh.getPatient()));
+            Patient patient = currentErsh.getPatient();
+            if (patient != null) {
+                currentEvent.setPatient(TransformHelper.createRivPatientFromErsättningsPatient(patient));
             }
 
             // Care Unit
             String careUnitHSAid = TransformHelper.createCareUnitStructure(
-                    currentErsh, currentFile, currentEvent, currentErsId, stateDate, mappedFacility);
+                    currentErsh, currentFile, currentEvent, currentErsId, stateDate, currentAvd);
 
             // Set up mapping for the contact referral care unit to HSA-id.
             String referredFromHsaId = null;
-            RemissFöre referralBefore = currentErsh.getHändelseklass().getVårdkontakt().getRemissFöre();
+            RemissFöre referralBefore = vårdkontakt.getRemissFöre();
             if (referralBefore != null) {
                 TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(referralBefore.getKod());
 
                 if (mappedFacilitiesForReferral != null) {
-                    // TODO roos stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
+                    // #215 roos stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
                     FacilityState facilityState = mappedFacilitiesForReferral.getState(stateDate);
                     if (facilityState != null) {
                         TermItem<HSAMappingState> hsaMapping = facilityState.getHSAMapping();
@@ -181,11 +205,11 @@ public class ERSMOIndataToCareEventTransformer {
             currentEvent.setContracts(of.createCareEventTypeContracts());
             
             // Find the contract mapping with the right type
-            Vkhform händelseform = currentErsh.getHändelseklass().getVårdkontakt().getHändelseform();
-            if (mappedFacilities != null && mappedFacilities.getState(stateDate) != null) {
-                for (TermItemCommission<CommissionState> commissionState : mappedFacilities.getState(stateDate).getCommissions()) {
+            Vkhform händelseform = vårdkontakt.getHändelseform();
+            if (avd != null && avd.getState(stateDate) != null) {
+                for (TermItemCommission<CommissionState> commissionState : avd.getState(stateDate).getCommissions()) {
 
-                    // TODO roos Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
+                    // #215 roos Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
                     if (commissionState == null) {
                         continue;
                     }
@@ -197,7 +221,7 @@ public class ERSMOIndataToCareEventTransformer {
                     String assignmentType = filteredCommissionState.getAssignmentType();
                     if ("06".equals(assignmentType) || "07".equals(assignmentType) || "08".equals(assignmentType)) {
                         // Lookup the payer organisation. Extracted from getCareContractFromState due to number of parameters.
-                        String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, mappedFacilities.getState(stateDate),
+                        String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, avd.getState(stateDate),
                                 commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID, referredFromHsaId,
                                 kombika, currentErsId, currentFile);
 
@@ -223,22 +247,22 @@ public class ERSMOIndataToCareEventTransformer {
             }
 
             // Emergency
-            if (currentErsh.getHändelseklass().getVårdkontakt().getAkut() != null) {
-                currentEvent.setEmergency(currentErsh.getHändelseklass().getVårdkontakt().getAkut().equals("J"));
+            if (vårdkontakt.getAkut() != null) {
+                currentEvent.setEmergency(vårdkontakt.getAkut().equals("J"));
             }
 
             // Event Type
             if (händelseform != null) {
-                String händelsetyp = currentErsh.getHändelseklass().getVårdkontakt().getHändelsetyp();
+                String händelsetyp = vårdkontakt.getHändelsetyp();
                 TransformHelper.createEventTypeStructure(currentErsh, currentEvent, händelseform, händelsetyp);
             }
 
             // Fee Category
-            String avgiftsklass = currentErsh.getHändelseklass().getVårdkontakt().getAvgiftsklass();
+            String avgiftsklass = vårdkontakt.getAvgiftsklass();
             if (avgiftsklass == null || "006".equals(avgiftsklass)) {
                 currentEvent.setFeeCategory(of.createCVType());
                 currentEvent.getFeeCategory().setCodeSystem("SLL.CS.TAXA");
-                currentEvent.getFeeCategory().setCode(currentErsh.getHändelseklass().getVårdkontakt().getPatientavgift());
+                currentEvent.getFeeCategory().setCode(vårdkontakt.getPatientavgift());
             }
             else {
                 fatal(String.format("Found unexpected Avgiftsklass %s on care event %s in %s.", avgiftsklass, currentErsId, currentFile));
@@ -257,7 +281,7 @@ public class ERSMOIndataToCareEventTransformer {
             TransformHelper.createActivityStructure(currentErsh, currentEvent);
 
             // Stay Before
-            VisteFöre stayBefore = currentErsh.getHändelseklass().getVårdkontakt().getVisteFöre();
+            VisteFöre stayBefore = vårdkontakt.getVisteFöre();
             if (stayBefore != null) {
                 currentEvent.setStayBefore(of.createCVType());
                 currentEvent.getStayBefore().setCode(stayBefore.getKod());
@@ -265,7 +289,7 @@ public class ERSMOIndataToCareEventTransformer {
             }
 
             // Stay After
-            VisteEfter stayAfter = currentErsh.getHändelseklass().getVårdkontakt().getVisteEfter();
+            VisteEfter stayAfter = vårdkontakt.getVisteEfter();
             if (stayAfter != null) {
                 currentEvent.setStayAfter(of.createCVType());
                 currentEvent.getStayAfter().setCode(stayAfter.getKod());
@@ -287,6 +311,19 @@ public class ERSMOIndataToCareEventTransformer {
         return currentEvent;
     }
 
+    private static Date getLookupDate(XMLGregorianCalendar xmlCalendar) 
+    {
+        if (xmlCalendar == null) return null;
+        return getLookupDate(xmlCalendar.toGregorianCalendar());
+    }
+
+    private static Date getLookupDate(GregorianCalendar calendar) 
+    {
+        if (calendar == null) return null;
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        return calendar.getTime();
+    }
+    
     private static void fatal(String msg) throws TransformationException 
     {
         ERSMOIndataToCareEventTransformer.LOG.error(msg);

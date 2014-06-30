@@ -29,11 +29,6 @@ public class FileReader {
     private static final Logger LOG = LoggerFactory.getLogger(FileReader.class);
 
     public List<Path> getFileList(String requestParam) {
-		// Temporary fix for Chrome constantly requesting the non-existant favicon. TODO: Remove!
-		if ("favicon.ico".equals(requestParam)) {
-			throw new InvalidParameterException("The date parameter was not valid: " + requestParam.substring(1));
-		}
-
 		Path folderToIterate = FileSystems.getDefault().getPath("c:\\Temp");
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
@@ -73,7 +68,6 @@ public class FileReader {
 				try {
 					ds.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
