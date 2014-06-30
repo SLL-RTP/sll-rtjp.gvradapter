@@ -17,12 +17,12 @@
         <dependency>
             <groupId>se.sll.rtjp</groupId>
             <artifactId>reimbursement-schemas</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>se.sll.rtjp</groupId>
             <artifactId>reimbursement-common</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
