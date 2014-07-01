@@ -203,7 +203,7 @@ public class ERSMOIndataToCareEventTransformer {
                 }
             }
             
-            if (currentAvd == null) {
+            if (currentAvd == null && currentErsh.getSlutdatum() != null) {
                 // Try with Slutdatum from the Ersättningshändelse.
                 stateDate = getLookupDate(currentErsh.getSlutdatum().toGregorianCalendar());
                 currentAvd = avd.getState(stateDate);
