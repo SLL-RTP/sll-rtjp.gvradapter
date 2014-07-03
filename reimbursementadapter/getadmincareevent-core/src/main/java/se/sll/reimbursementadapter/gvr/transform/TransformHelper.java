@@ -544,7 +544,6 @@ public class TransformHelper {
             // Create our locally defined OID with the "SLL.CS." + {getHändelsetyp()}
             String nameOfHandelseTyp = mapNumericHändelsetypToTextRepresentation(händelsetyp);
             careEventType.getEventTypeSub().setCodeSystem("SLL.CS." + nameOfHandelseTyp);
-            // #215 careEventType.getEventTypeSub().setCodeSystemName("SLL Code Server definition from the '" + händelsetyp + "' table.");
             careEventType.getEventTypeSub().setCode(currentErsh.getHändelseklass().getVårdkontakt().getTyp());
         }
     }

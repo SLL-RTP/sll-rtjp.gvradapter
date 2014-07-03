@@ -60,7 +60,7 @@ public class ERSMOIndataToCareEventTransformer {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
 	
-	// TODO: Remove in #215.
+	// TODO: Remove in #215. Anders.
 	private static Set<String> mapped_pnrs = new HashSet<String>();
 	private static boolean DO_CHECK = true;
 	
@@ -164,7 +164,7 @@ public class ERSMOIndataToCareEventTransformer {
 
             Vårdkontakt vårdkontakt = currentErsh.getHändelseklass().getVårdkontakt();
 
-            // Filter on pnr list, remove in #215.
+            // Filter on pnr list, remove in #215. Anders.
             if (DO_CHECK && currentErsh.getPatient() != null && !mapped_pnrs.contains(currentErsh.getPatient().getID())) {
                 return null;
             }
@@ -173,7 +173,7 @@ public class ERSMOIndataToCareEventTransformer {
             
             TermItem<FacilityState> avd = cacheManager.getCurrentIndex().get(kombika);
             if (avd == null) {
-                // #215 We need to handle this somehow, not skip like now, like rereading later?
+                // #215 Karin. We need to handle this somehow, not skip like now, like rereading later?
                 LOG.warn(String.format("Coult not look up facilities (AVD) for kombika %s on care event %s in %s, skipping, fix in #215?",
                                         kombika, currentErsId, currentFile));
                 return null;
@@ -236,7 +236,7 @@ public class ERSMOIndataToCareEventTransformer {
                 TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(referralBefore.getKod());
 
                 if (mappedFacilitiesForReferral != null) {
-                    // #215 roos stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
+                    // #215 Anders. stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
                     FacilityState facilityState = mappedFacilitiesForReferral.getState(stateDate);
                     if (facilityState != null) {
                         TermItem<HSAMappingState> hsaMapping = facilityState.getHSAMapping();
@@ -260,7 +260,7 @@ public class ERSMOIndataToCareEventTransformer {
             if (avd != null && avd.getState(stateDate) != null) {
                 for (TermItemCommission<CommissionState> commissionState : avd.getState(stateDate).getCommissions()) {
 
-                    // #215 roos Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
+                    // #215 Anders. Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
                     if (commissionState == null) {
                         continue;
                     }
