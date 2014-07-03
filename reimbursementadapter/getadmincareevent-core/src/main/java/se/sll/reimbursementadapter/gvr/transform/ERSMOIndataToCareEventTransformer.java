@@ -173,8 +173,8 @@ public class ERSMOIndataToCareEventTransformer {
             
             TermItem<FacilityState> avd = cacheManager.getCurrentIndex().get(kombika);
             if (avd == null) {
-                // #215 Karin. We need to handle this somehow, not skip like now, like rereading later?
-                LOG.warn(String.format("Coult not look up facilities (AVD) for kombika %s on care event %s in %s, skipping, fix in #215?",
+                // #221 We need to handle this somehow, not skip like now, like rereading later?
+                LOG.warn(String.format("Coult not look up facilities (AVD) for kombika %s on care event %s in %s, skipping, fix in #221?",
                                         kombika, currentErsId, currentFile));
                 return null;
             }
