@@ -60,7 +60,7 @@ public class ERSMOIndataToCareEventTransformer {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
 	
-	// TODO: Remove in #215. Anders.
+	// TODO: Remove in #236.
 	private static Set<String> mapped_pnrs = new HashSet<String>();
 	private static boolean DO_CHECK = true;
 	
@@ -164,7 +164,7 @@ public class ERSMOIndataToCareEventTransformer {
 
             Vårdkontakt vårdkontakt = currentErsh.getHändelseklass().getVårdkontakt();
 
-            // Filter on pnr list, remove in #215. Anders.
+            // Filter on pnr list, remove in #236.
             if (DO_CHECK && currentErsh.getPatient() != null && !mapped_pnrs.contains(currentErsh.getPatient().getID())) {
                 return null;
             }
@@ -236,7 +236,7 @@ public class ERSMOIndataToCareEventTransformer {
                 TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(referralBefore.getKod());
 
                 if (mappedFacilitiesForReferral != null) {
-                    // #215 Anders. stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
+                    // #236 stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
                     FacilityState facilityState = mappedFacilitiesForReferral.getState(stateDate);
                     if (facilityState != null) {
                         TermItem<HSAMappingState> hsaMapping = facilityState.getHSAMapping();
