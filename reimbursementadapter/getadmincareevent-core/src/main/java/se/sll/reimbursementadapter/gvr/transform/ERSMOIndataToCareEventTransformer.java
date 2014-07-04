@@ -187,7 +187,7 @@ public class ERSMOIndataToCareEventTransformer {
             FacilityState currentAvd = null;
             
             // Start using the Startdatum from the Ersättningshändelse. 
-            stateDate = getLookupDate(currentErsh.getStartdatum().toGregorianCalendar());
+            stateDate = getLookupDate(currentErsh.getStartdatum());
             
             currentAvd = avd.getState(stateDate);
             
@@ -205,7 +205,7 @@ public class ERSMOIndataToCareEventTransformer {
             
             if (currentAvd == null && currentErsh.getSlutdatum() != null) {
                 // Try with Slutdatum from the Ersättningshändelse.
-                stateDate = getLookupDate(currentErsh.getSlutdatum().toGregorianCalendar());
+                stateDate = getLookupDate(currentErsh.getSlutdatum());
                 currentAvd = avd.getState(stateDate);
             }
             
