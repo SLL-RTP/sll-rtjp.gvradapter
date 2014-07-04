@@ -173,8 +173,8 @@ public class ERSMOIndataToCareEventTransformer {
             
             TermItem<FacilityState> avd = cacheManager.getCurrentIndex().get(kombika);
             if (avd == null) {
-                // #221 We need to handle this somehow, not skip like now, like rereading later?
-                LOG.warn(String.format("Coult not look up facilities (AVD) for kombika %s on care event %s in %s, skipping, fix in #221?",
+                // #214 We need to handle this somehow, not skip like now, like rereading later?
+                LOG.warn(String.format("Coult not look up facilities (AVD) for kombika %s on care event %s in %s, skipping, fix in #214?",
                                         kombika, currentErsId, currentFile));
                 return null;
             }
@@ -260,7 +260,7 @@ public class ERSMOIndataToCareEventTransformer {
             if (avd != null && avd.getState(stateDate) != null) {
                 for (TermItemCommission<CommissionState> commissionState : avd.getState(stateDate).getCommissions()) {
 
-                    // #215 Anders. Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
+                    // #236 Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
                     if (commissionState == null) {
                         continue;
                     }
