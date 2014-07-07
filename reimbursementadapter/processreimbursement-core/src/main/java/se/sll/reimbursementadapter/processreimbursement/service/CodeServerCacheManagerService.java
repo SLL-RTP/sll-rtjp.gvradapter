@@ -160,7 +160,7 @@ public class CodeServerCacheManagerService {
 
     public synchronized Map<String, TermItem<GeographicalAreaState>> getCurrentIndex() {
         if (currentIndex == null) {
-        	Map<String, TermItem<GeographicalAreaState>> index = fileObjectStore.read(fileName);
+            Map<String, TermItem<GeographicalAreaState>> index = fileObjectStore.read(fileName);
             setCurrentIndex(index);
         }
         return this.currentIndex;

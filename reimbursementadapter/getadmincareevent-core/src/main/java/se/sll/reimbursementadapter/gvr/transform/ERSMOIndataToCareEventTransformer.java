@@ -57,40 +57,40 @@ import se.sll.reimbursementadapter.parser.TermItem;
  * Transformation rules implement the "inrapportering_gvr_meddelandeinnehall_0.3"-specification.
  */
 public class ERSMOIndataToCareEventTransformer {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
-	
-	// TODO: Remove in #236.
-	private static Set<String> mapped_pnrs = new HashSet<String>();
-	private static boolean DO_CHECK = true;
-	
-	static {
-		try {
-			fillSet(mapped_pnrs, "/usr/local/ivbar/tomcat/shared/filter-pnr.txt");
-		} catch (IOException io) {
-			LOG.info(String.format("Unable to get pnr for filtering, %s", io.getMessage()));
-		}
-		
-		if (mapped_pnrs.isEmpty()) {
-			DO_CHECK = false;
-			LOG.info("Did not find any pnr to use for filtering.");
-		} else {
-			LOG.info(String.format("Found %d pnr to use for filtering.", mapped_pnrs.size()));
-		}
-	}
-	
-	private static void fillSet(Set<String> set, String fileName) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(fileName));
-	    try {
-	        String line = br.readLine();
-	        while (line != null) {
-	        	set.add(line);
-	            line = br.readLine();
-	        }
-	    } finally {
-	        br.close();
-	    }
-	}
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataToCareEventTransformer.class);
+    
+    // TODO: Remove in #236.
+    private static Set<String> mapped_pnrs = new HashSet<String>();
+    private static boolean DO_CHECK = true;
+    
+    static {
+        try {
+            fillSet(mapped_pnrs, "/usr/local/ivbar/tomcat/shared/filter-pnr.txt");
+        } catch (IOException io) {
+            LOG.info(String.format("Unable to get pnr for filtering, %s", io.getMessage()));
+        }
+        
+        if (mapped_pnrs.isEmpty()) {
+            DO_CHECK = false;
+            LOG.info("Did not find any pnr to use for filtering.");
+        } else {
+            LOG.info(String.format("Found %d pnr to use for filtering.", mapped_pnrs.size()));
+        }
+    }
+    
+    private static void fillSet(Set<String> set, String fileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        try {
+            String line = br.readLine();
+            while (line != null) {
+                set.add(line);
+                line = br.readLine();
+            }
+        } finally {
+            br.close();
+        }
+    }
 
     /**
      * Transforms a single {@link se.sll.ersmo.xml.indata.ERSMOIndata} object to a list of

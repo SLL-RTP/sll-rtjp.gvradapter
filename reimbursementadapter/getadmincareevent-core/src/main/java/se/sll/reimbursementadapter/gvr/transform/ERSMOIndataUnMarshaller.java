@@ -35,8 +35,8 @@ import se.sll.ersmo.xml.indata.ERSMOIndata;
  * Unmarshals an XML Document in the form of a String to an ERSMOIndata XML Object.
  */
 public class ERSMOIndataUnMarshaller {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
 
     public ERSMOIndata unmarshalString(Reader src) throws SAXException, JAXBException {
         // Read the schema from the XSD to apply the validation to the unmarshalled XML object.

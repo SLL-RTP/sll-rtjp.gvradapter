@@ -35,13 +35,13 @@ public class GetAdministrativeCareEventProducer extends AbstractProducer impleme
 
     private static GetAdministrativeCareEventResponse response;
 
-	@Override
-	@WebResult(name = "GetAdministrativeCareEventResponse", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1", partName = "parameters")
-	@WebMethod(operationName = "GetAdministrativeCareEvent", action = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent")
-	public GetAdministrativeCareEventResponse getAdministrativeCareEvent(
-			@WebParam(partName = "LogicalAddress", name = "LogicalAddress", targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
-			@WebParam(partName = "parameters", name = "GetAdministrativeCareEvent", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1") final GetAdministrativeCareEventType parameters) {
-		fulfill(new Runnable() {
+    @Override
+    @WebResult(name = "GetAdministrativeCareEventResponse", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1", partName = "parameters")
+    @WebMethod(operationName = "GetAdministrativeCareEvent", action = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent")
+    public GetAdministrativeCareEventResponse getAdministrativeCareEvent(
+            @WebParam(partName = "LogicalAddress", name = "LogicalAddress", targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
+            @WebParam(partName = "parameters", name = "GetAdministrativeCareEvent", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1") final GetAdministrativeCareEventType parameters) {
+        fulfill(new Runnable() {
             @Override
             public void run() {
                 response = getAdministrativeCareEvent0(parameters);

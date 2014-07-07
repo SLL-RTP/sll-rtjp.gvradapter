@@ -202,7 +202,7 @@ public class CodeServerMEKCacheBuilder {
                     state.setValidTo(codeServiceEntry.getValidTo());
                     // If the HSA mapping does not already exist, create and populate it from the hsaIndex.
                     if (hsaIndex.get(codeServiceEntry.getId()) != null && hsaIndex.get(codeServiceEntry.getId()).size() > 0) {
-                    	state.setHSAMapping(hsaIndex.get(codeServiceEntry.getId()).get(0));
+                        state.setHSAMapping(hsaIndex.get(codeServiceEntry.getId()).get(0));
                     }
                     // Loop over every each previously fetched samverks code in the facility.
                     for (final CodeServerCode code : codes) {

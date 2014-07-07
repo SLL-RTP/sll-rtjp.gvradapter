@@ -35,8 +35,8 @@ import se.sll.hej.xml.indata.HEJIndata;
  * Marshals a HEJIndata XML Object to a string.
  */
 public class HEJIndataMarshaller {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(HEJIndataMarshaller.class);
+    
+    private static final Logger LOG = LoggerFactory.getLogger(HEJIndataMarshaller.class);
 
     /**
      * Marshals the HEJIndata to a string, and writes the string to the provided writer.

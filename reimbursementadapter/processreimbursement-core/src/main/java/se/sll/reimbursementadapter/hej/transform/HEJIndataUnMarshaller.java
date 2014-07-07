@@ -35,8 +35,8 @@ import se.sll.hej.xml.indata.HEJIndata;
  * Unmarshals an XML Document in the form of a String to a HEJIndata XML Object.
  */
 public class HEJIndataUnMarshaller {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(HEJIndata.class);
+    
+    private static final Logger LOG = LoggerFactory.getLogger(HEJIndata.class);
 
     public HEJIndata unmarshalString(Reader src) throws SAXException, JAXBException {
         LOG.info("Entering HEJIndataUnMarshaller with Reader: " + src);

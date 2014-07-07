@@ -25,18 +25,18 @@ import org.soitoolkit.commons.mule.util.RecursiveResourceBundle;
 public class GvrAdapterMuleServer {
 
 
-	public static final String MULE_SERVER_ID   = "codeserveradapter";
+    public static final String MULE_SERVER_ID   = "codeserveradapter";
  
 
-	private static final Logger logger = LoggerFactory.getLogger(GvrAdapterMuleServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(GvrAdapterMuleServer.class);
     private static final RecursiveResourceBundle rb = new RecursiveResourceBundle("codeserveradapter-config");
 
-	public static void main(String[] args) throws Exception {
-	
+    public static void main(String[] args) throws Exception {
+    
  
-	    StubFtpServer stubFtpServer = new StubFtpServer();
-	    
-	    stubFtpServer.setServerControlPort(1221);
+        StubFtpServer stubFtpServer = new StubFtpServer();
+        
+        stubFtpServer.setServerControlPort(1221);
         //
         stubFtpServer.start();
        // Configure the mule-server:
@@ -52,8 +52,8 @@ public class GvrAdapterMuleServer {
         StandaloneMuleServer muleServer = new StandaloneMuleServer(MULE_SERVER_ID, true, true);
          
         // Start the server
-		muleServer.run();
-	}
+        muleServer.run();
+    }
 
     /**
      * Address based on usage of the servlet-transport and a config-property for the URI-part
@@ -65,8 +65,8 @@ public class GvrAdapterMuleServer {
 
         String url = rb.getString(serviceUrlPropertyName);
 
-	    logger.info("URL: {}", url);
-    	return url;
+        logger.info("URL: {}", url);
+        return url;
  
-    }	
+    }    
 }

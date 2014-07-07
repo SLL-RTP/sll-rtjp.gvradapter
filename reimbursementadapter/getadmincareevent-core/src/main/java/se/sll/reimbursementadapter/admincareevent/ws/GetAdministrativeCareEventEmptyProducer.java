@@ -28,14 +28,14 @@ import riv.followup.processdevelopment.reimbursement.getadministrativecareeventr
  * response which the stand-alone Mule flow then loads with data.
  */
 public class GetAdministrativeCareEventEmptyProducer implements
-		GetAdministrativeCareEventResponderInterface {
+        GetAdministrativeCareEventResponderInterface {
 
-	@Override
-	@WebResult(name = "GetAdministrativeCareEventResponse", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1", partName = "parameters")
-	@WebMethod(operationName = "GetAdministrativeCareEvent", action = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent")
-	public GetAdministrativeCareEventResponse getAdministrativeCareEvent(
-			@WebParam(partName = "LogicalAddress", name = "LogicalAddress", targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
-			@WebParam(partName = "parameters", name = "GetAdministrativeCareEvent", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1") GetAdministrativeCareEventType parameters) {
-		return new GetAdministrativeCareEventResponse();
-	}
+    @Override
+    @WebResult(name = "GetAdministrativeCareEventResponse", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1", partName = "parameters")
+    @WebMethod(operationName = "GetAdministrativeCareEvent", action = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1:GetAdministrativeCareEvent")
+    public GetAdministrativeCareEventResponse getAdministrativeCareEvent(
+            @WebParam(partName = "LogicalAddress", name = "LogicalAddress", targetNamespace = "urn:riv:itintegration:registry:1", header = true) String logicalAddress,
+            @WebParam(partName = "parameters", name = "GetAdministrativeCareEvent", targetNamespace = "urn:riv:followup:processdevelopment:GetAdministrativeCareEventResponder:1") GetAdministrativeCareEventType parameters) {
+        return new GetAdministrativeCareEventResponse();
+    }
 }
