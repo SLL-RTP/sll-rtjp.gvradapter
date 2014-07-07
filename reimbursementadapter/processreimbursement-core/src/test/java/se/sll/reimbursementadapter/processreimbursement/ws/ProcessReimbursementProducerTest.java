@@ -15,27 +15,36 @@
  */
 package se.sll.reimbursementadapter.processreimbursement.ws;
 
+import java.io.BufferedReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+
 import junit.framework.Assert;
+
 import org.apache.cxf.binding.soap.SoapFault;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.*;
-import riv.followup.processdevelopment.reimbursement.v1.*;
-import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
-import se.sll.ersmo.xml.indata.ERSMOIndata;
+import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
+import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementResponse;
+import riv.followup.processdevelopment.reimbursement.v1.ActivityType;
+import riv.followup.processdevelopment.reimbursement.v1.CVType;
+import riv.followup.processdevelopment.reimbursement.v1.CareUnitType;
+import riv.followup.processdevelopment.reimbursement.v1.DatePeriodType;
+import riv.followup.processdevelopment.reimbursement.v1.IIType;
+import riv.followup.processdevelopment.reimbursement.v1.PatientType;
+import riv.followup.processdevelopment.reimbursement.v1.PersonIdType;
+import riv.followup.processdevelopment.reimbursement.v1.ProductType;
+import riv.followup.processdevelopment.reimbursement.v1.ProfessionType;
+import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
+import riv.followup.processdevelopment.reimbursement.v1.ResidenceType;
+import riv.followup.processdevelopment.reimbursement.v1.SimpleContractType;
+import riv.followup.processdevelopment.reimbursement.v1.SourceSystemType;
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.reimbursementadapter.hej.transform.HEJIndataUnMarshaller;
 import se.sll.reimbursementadapter.processreimbursement.service.CodeServerCacheManagerService;
-
-import javax.xml.bind.JAXBException;
-import java.io.BufferedReader;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 
 /**
  * Tests the ProcessReimbursementProducer via AbstractProducer.

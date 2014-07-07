@@ -22,7 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import riv.followup.processdevelopment.reimbursement.processreimbursementresponder.v1.ProcessReimbursementRequestType;
-import riv.followup.processdevelopment.reimbursement.v1.*;
+import riv.followup.processdevelopment.reimbursement.v1.ActivityType;
+import riv.followup.processdevelopment.reimbursement.v1.ProductType;
+import riv.followup.processdevelopment.reimbursement.v1.ProfessionType;
+import riv.followup.processdevelopment.reimbursement.v1.ReimbursementEventType;
+import riv.followup.processdevelopment.reimbursement.v1.ResidenceType;
 import se.sll.hej.xml.indata.HEJIndata;
 import se.sll.hej.xml.indata.ObjectFactory;
 import se.sll.reimbursementadapter.exception.NumberOfCareEventsExceededException;

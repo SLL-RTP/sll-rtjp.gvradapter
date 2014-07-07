@@ -1,9 +1,11 @@
 package se.sll.reimbursementadapter.gvr.transform;
 
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
+
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.Kon;
 import se.sll.ersmo.xml.indata.Vkhform;
@@ -12,16 +14,8 @@ import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
-import se.sll.reimbursementadapter.gvr.reader.DateFilterMethod;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.parser.TermItem;
-
-import java.io.Reader;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Tests the ERSMOIndataToCareEventTransformer with different

@@ -15,11 +15,13 @@
  */
 package se.sll.reimbursementadapter.admincareevent.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import se.sll.reimbursementadapter.parser.TermItem;
 import se.sll.reimbursementadapter.parser.TermState;
-
-import java.io.Serializable;
-import java.util.*;
 
 /**
  * 

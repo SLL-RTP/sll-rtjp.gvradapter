@@ -15,16 +15,12 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
-import riv.followup.processdevelopment.reimbursement.v1.*;
-import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
-import se.sll.ersmo.xml.indata.*;
-import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
-import se.sll.reimbursementadapter.admincareevent.model.CommissionTypeState;
-import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
-import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
-import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
-import se.sll.reimbursementadapter.exception.TransformationException;
-import se.sll.reimbursementadapter.parser.TermItem;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -33,8 +29,31 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
-import java.util.*;
+import riv.followup.processdevelopment.reimbursement.v1.ActivityType;
+import riv.followup.processdevelopment.reimbursement.v1.CVType;
+import riv.followup.processdevelopment.reimbursement.v1.CareContractType;
+import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
+import riv.followup.processdevelopment.reimbursement.v1.ConditionType;
+import riv.followup.processdevelopment.reimbursement.v1.DiagnosisType;
+import riv.followup.processdevelopment.reimbursement.v1.IIType;
+import riv.followup.processdevelopment.reimbursement.v1.ObjectFactory;
+import riv.followup.processdevelopment.reimbursement.v1.PatientType;
+import riv.followup.processdevelopment.reimbursement.v1.ProfessionType;
+import riv.followup.processdevelopment.reimbursement.v1.ResidenceType;
+import se.sll.ersmo.xml.indata.Diagnoser;
+import se.sll.ersmo.xml.indata.ERSMOIndata;
+import se.sll.ersmo.xml.indata.Kon;
+import se.sll.ersmo.xml.indata.Tillståndslista;
+import se.sll.ersmo.xml.indata.Vkhform;
+import se.sll.ersmo.xml.indata.Yrkeskategorier;
+import se.sll.ersmo.xml.indata.Åtgärder;
+import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
+import se.sll.reimbursementadapter.admincareevent.model.CommissionTypeState;
+import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
+import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
+import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
+import se.sll.reimbursementadapter.exception.TransformationException;
+import se.sll.reimbursementadapter.parser.TermItem;
 
 /**
  * Contains most of the actual transformation logic for the {@link ERSMOIndataToCareEventTransformer}

@@ -5,7 +5,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
