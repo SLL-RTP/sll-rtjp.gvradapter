@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <ERSMOIndata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="440" Källa="GVR" xsi:noNamespaceSchemaLocation="../../../../../../reimbursement-schemas/src/main/xsd/ERSMOIndata/ERSMOIndata2.2.xsd">
-	<Ersättningshändelse ID="191212121212_98156021M02_20090129" Startdatum="2014-01-01" Startverksamhet="98156021M02">
-		<Patient ID="191212121212" Lkf="010203" Basområde="1234567" Födelsedatum="1912-12-12" Kön="M"/>
-		<Händelseklass>
-			<Vårdansvar Händelseform="Hemsjukvårdsansvar" Händelsetyp="Basal">
+    <Ersättningshändelse ID="191212121212_98156021M02_20090129" Startdatum="2014-01-01" Startverksamhet="98156021M02">
+        <Patient ID="191212121212" Lkf="010203" Basområde="1234567" Födelsedatum="1912-12-12" Kön="M"/>
+        <Händelseklass>
+            <Vårdansvar Händelseform="Hemsjukvårdsansvar" Händelsetyp="Basal">
       </Vårdansvar>
-		</Händelseklass>
-	</Ersättningshändelse>
+        </Händelseklass>
+    </Ersättningshändelse>
 </ERSMOIndata>

@@ -17,45 +17,45 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-	<context:property-placeholder
-		location="classpath:getadmincareevent-core.properties,classpath:getadmincareevent-core-override.properties"
-		ignore-resource-not-found="true" />
+    <context:property-placeholder
+        location="classpath:getadmincareevent-core.properties,classpath:getadmincareevent-core-override.properties"
+        ignore-resource-not-found="true" />
 
-	<context:annotation-config />
+    <context:annotation-config />
 
-	<context:component-scan
-		base-package="se.sll.reimbursementadapter.admincareevent.service,se.sll.reimbursementadapter.admincareevent.jmx,se.sll.reimbursementadapter.gvr.reader" />
+    <context:component-scan
+        base-package="se.sll.reimbursementadapter.admincareevent.service,se.sll.reimbursementadapter.admincareevent.jmx,se.sll.reimbursementadapter.gvr.reader" />
 
-	<task:annotation-driven />
+    <task:annotation-driven />
 
-	<!-- JMX stuff this bean must not be lazily initialized if the exporting 
-		is to happen -->
-	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter"
-		lazy-init="false">
-		<property name="assembler" ref="assembler" />
-		<property name="namingStrategy" ref="namingStrategy" />
-		<property name="autodetect" value="true" />
-	</bean>
+    <!-- JMX stuff this bean must not be lazily initialized if the exporting 
+        is to happen -->
+    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter"
+        lazy-init="false">
+        <property name="assembler" ref="assembler" />
+        <property name="namingStrategy" ref="namingStrategy" />
+        <property name="autodetect" value="true" />
+    </bean>
 
-	<bean id="jmxAttributeSource"
-		class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource" />
+    <bean id="jmxAttributeSource"
+        class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource" />
 
-	<!-- will create management interface using annotation metadata -->
-	<bean id="assembler"
-		class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
-		<property name="attributeSource" ref="jmxAttributeSource" />
-	</bean>
+    <!-- will create management interface using annotation metadata -->
+    <bean id="assembler"
+        class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
+        <property name="attributeSource" ref="jmxAttributeSource" />
+    </bean>
 
-	<!-- will pick up the ObjectName from the annotation -->
-	<bean id="namingStrategy"
-		class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
-		<property name="attributeSource" ref="jmxAttributeSource" />
-	</bean>
+    <!-- will pick up the ObjectName from the annotation -->
+    <bean id="namingStrategy"
+        class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
+        <property name="attributeSource" ref="jmxAttributeSource" />
+    </bean>
 
 </beans>

@@ -20,12 +20,12 @@
 
 <log4j:configuration>
 
-	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d %-5p %-30C - %m%n" />
-		</layout>
-	</appender>
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %-30C - %m%n" />
+        </layout>
+    </appender>
 
     <appender name="ROLLINGFILE" class="org.apache.log4j.RollingFileAppender">
         <param name="file" value="${mule.home}/logs/mule-app-codeserveradapter.log" />
@@ -36,44 +36,44 @@
         </layout> 
     </appender>
 
-	<!--
-		Loglevels: {OFF, FATAL, ERROR, WARN, INFO, DEBUG, TRACE, ALL} See:
-		http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html
-	-->
+    <!--
+        Loglevels: {OFF, FATAL, ERROR, WARN, INFO, DEBUG, TRACE, ALL} See:
+        http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/Level.html
+    -->
 
-	<logger name="org.mockftpserver">
-		<level value="ERROR" />
-	</logger>
-	
-	<logger name="org.apache.sshd">
-		<level value="ERROR" />
-	</logger>	
+    <logger name="org.mockftpserver">
+        <level value="ERROR" />
+    </logger>
+    
+    <logger name="org.apache.sshd">
+        <level value="ERROR" />
+    </logger>    
 
     <logger name="org.apache.activemq.transport.failover.FailoverTransport">
         <level value="DEBUG" />
     </logger>
     
-	<logger name="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<level value="TRACE" />
-	</logger>
+    <logger name="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <level value="TRACE" />
+    </logger>
 
-	<logger name="org.springframework.core.io.support.PropertiesLoaderSupport">
-		<level value="INFO" />
-	</logger>
+    <logger name="org.springframework.core.io.support.PropertiesLoaderSupport">
+        <level value="INFO" />
+    </logger>
 
-	<logger name="org.springframework.beans.factory.xml.XmlBeanDefinitionReader">
-		<level value="INFO" />
-	</logger>
+    <logger name="org.springframework.beans.factory.xml.XmlBeanDefinitionReader">
+        <level value="INFO" />
+    </logger>
 
-	<logger name="org.mule.model.seda">
-		<level value="INFO" />
-	</logger>
-	<logger name="org.mule.MuleServer">
-		<level value="INFO" />
-	</logger>
-	<logger name="org.mule.DefaultMuleContext">
-		<level value="INFO" />
-	</logger>
+    <logger name="org.mule.model.seda">
+        <level value="INFO" />
+    </logger>
+    <logger name="org.mule.MuleServer">
+        <level value="INFO" />
+    </logger>
+    <logger name="org.mule.DefaultMuleContext">
+        <level value="INFO" />
+    </logger>
 
     <!-- Message logging using the old Mule <logger/> - element -->
     <logger name="org.mule.api.processor.LoggerMessageProcessor">
@@ -85,26 +85,26 @@
         <level value="INFO" />
     </logger>
 
-	<logger name="org.soitoolkit.commons">
-		<level value="INFO" />
-	</logger>
-	
-	<logger name="se.sll.codeserveradapter">
-		<level value="INFO" />
-	</logger>
+    <logger name="org.soitoolkit.commons">
+        <level value="INFO" />
+    </logger>
+    
+    <logger name="se.sll.codeserveradapter">
+        <level value="INFO" />
+    </logger>
 
     <!-- Message logging using soi-toolkit LogTransformer class -->
-	<logger name="org.soitoolkit.commons.mule.messageLogger">
-		<level value="INFO" />
-	</logger>
-	
-	<root>
-		<priority value="WARN" />
+    <logger name="org.soitoolkit.commons.mule.messageLogger">
+        <level value="INFO" />
+    </logger>
+    
+    <root>
+        <priority value="WARN" />
 
-		<appender-ref ref="CONSOLE" />
-		<!-- 
-		<appender-ref ref="ROLLINGFILE"/>
-		 -->
-		
-	</root>
+        <appender-ref ref="CONSOLE" />
+        <!-- 
+        <appender-ref ref="ROLLINGFILE"/>
+         -->
+        
+    </root>
 </log4j:configuration>

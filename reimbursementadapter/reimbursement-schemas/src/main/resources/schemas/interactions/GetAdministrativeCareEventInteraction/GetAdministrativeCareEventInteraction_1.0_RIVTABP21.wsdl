@@ -16,19 +16,19 @@
  KIND, either express or implied. See the License for the
  specific language governing permissions and limitations
  under the License.
- -->		
+ -->        
 <wsdl:definitions name='GetAdministrativeCareEventInteraction' xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:tjsr='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventResponder:1' xmlns:tjsi='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEventInitiator:1' xmlns:tns='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEvent:1:rivtabp21' targetNamespace='urn:riv:followup:processdevelopment:reimbursement:GetAdministrativeCareEvent:1:rivtabp21' xmlns:itr='urn:riv:itintegration:registry:1'>
   <xs:annotation>
     <xs:documentation>
-			 Tjänsteinteraktionens namn: GetAdministrativeCareEventInteraction
-			 Beskrivning: 
-			   Hämtar all vårdersättningsinformation för en given tidsperiod.
-			 Revisioner: 
-			 Tjänstedomän: followup:processdevelopment:reimbursement
-			 Tjänsteinteraktionstyp: Fråga-Svar
-			 WS-profil: RIVTABP21
-			 Förvaltas av: Sveriges Kommuner och Landsting
-			 </xs:documentation>
+             Tjänsteinteraktionens namn: GetAdministrativeCareEventInteraction
+             Beskrivning: 
+               Hämtar all vårdersättningsinformation för en given tidsperiod.
+             Revisioner: 
+             Tjänstedomän: followup:processdevelopment:reimbursement
+             Tjänsteinteraktionstyp: Fråga-Svar
+             WS-profil: RIVTABP21
+             Förvaltas av: Sveriges Kommuner och Landsting
+             </xs:documentation>
   </xs:annotation>
   <wsdl:types>
     <xs:schema targetNamespace='urn:riv:followup:processdevelopment:reimbursement:reimbursement:GetAdministrativeCareEvent:1:rivtabp21'>

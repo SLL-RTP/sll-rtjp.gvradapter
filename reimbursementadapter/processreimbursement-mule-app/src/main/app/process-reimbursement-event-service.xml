@@ -17,26 +17,26 @@
 
 -->
 <mule
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+    xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf"
+    xmlns:http="http://www.mulesoft.org/schema/mule/http"
+    xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 
-	<flow name="process-reimbursement-event-service" doc:name="process-reimbursement-event-service">
+    <flow name="process-reimbursement-event-service" doc:name="process-reimbursement-event-service">
 
-		<http:inbound-endpoint address="${pr.ws.inboundURL}"
-			exchange-pattern="request-response"
-			responseTransformer-refs="createSoapFaultIfException"
-			doc:name="HTTP">
-			<cxf:jaxws-service doc:name="RIV-TA WebService"
-				serviceClass="riv.followup.processdevelopment.reimbursement.processreimbursement.v1.rivtabp21.ProcessReimbursementResponderInterface" />
-		</http:inbound-endpoint>
-		<component doc:name="Java Component"
-			class="se.sll.reimbursementadapter.processreimbursement.ws.ProcessReimbursementProducer" />
+        <http:inbound-endpoint address="${pr.ws.inboundURL}"
+            exchange-pattern="request-response"
+            responseTransformer-refs="createSoapFaultIfException"
+            doc:name="HTTP">
+            <cxf:jaxws-service doc:name="RIV-TA WebService"
+                serviceClass="riv.followup.processdevelopment.reimbursement.processreimbursement.v1.rivtabp21.ProcessReimbursementResponderInterface" />
+        </http:inbound-endpoint>
+        <component doc:name="Java Component"
+            class="se.sll.reimbursementadapter.processreimbursement.ws.ProcessReimbursementProducer" />
 
-		<custom-exception-strategy
-			class="org.soitoolkit.commons.mule.error.ServiceExceptionStrategy" />
-	</flow>
+        <custom-exception-strategy
+            class="org.soitoolkit.commons.mule.error.ServiceExceptionStrategy" />
+    </flow>
 </mule>

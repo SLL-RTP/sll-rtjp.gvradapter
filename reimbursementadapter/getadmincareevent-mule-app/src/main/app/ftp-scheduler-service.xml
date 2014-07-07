@@ -17,55 +17,55 @@
 
 -->
 <!-- Copyright (c) 2013 SLL <http://sll.se/> Licensed under the Apache License, 
-	Version 2.0 (the "License"); you may not use this file except in compliance 
-	with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
-	Unless required by applicable law or agreed to in writing, software distributed 
-	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
-	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
-	the specific language governing permissions and limitations under the License. -->
+    Version 2.0 (the "License"); you may not use this file except in compliance 
+    with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+    Unless required by applicable law or agreed to in writing, software distributed 
+    under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+    OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+    the specific language governing permissions and limitations under the License. -->
 <mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
-	http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd 
-	http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
+    xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz"
+    xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+    xmlns:spring="http://www.springframework.org/schema/beans" xmlns:core="http://www.mulesoft.org/schema/mule/core"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+    http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd 
+    http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
-	<ftp:connector name="ftp-connector" passive="true"
-		streaming="true" binary="true">
-		<service-overrides
-			messageReceiver="se.sll.reimbursementadapter.mule.NonDeletingFtpMessageReceiver" />
-	</ftp:connector>
+    <ftp:connector name="ftp-connector" passive="true"
+        streaming="true" binary="true">
+        <service-overrides
+            messageReceiver="se.sll.reimbursementadapter.mule.NonDeletingFtpMessageReceiver" />
+    </ftp:connector>
 
-	<ftp:endpoint name="ftp-fetch" connector-ref="ftp-connector"
-		host="${pr.ftp.host}" port="${pr.ftp.port}" path="${pr.ftp.remotePath}"
-		user="${pr.ftp.user}" password="${pr.ftp.password}">
-		<file:filename-wildcard-filter pattern="${pr.ftp.filePattern}" />
-	</ftp:endpoint>
+    <ftp:endpoint name="ftp-fetch" connector-ref="ftp-connector"
+        host="${pr.ftp.host}" port="${pr.ftp.port}" path="${pr.ftp.remotePath}"
+        user="${pr.ftp.user}" password="${pr.ftp.password}">
+        <file:filename-wildcard-filter pattern="${pr.ftp.filePattern}" />
+    </ftp:endpoint>
 
-	<quartz:endpoint name="quartz-batch" jobName="cron-job"
-		cronExpression="${pr.ftp.cron}" responseTimeout="${pr.ftp.timeout}">
-		<quartz:event-generator-job />
-	</quartz:endpoint>
+    <quartz:endpoint name="quartz-batch" jobName="cron-job"
+        cronExpression="${pr.ftp.cron}" responseTimeout="${pr.ftp.timeout}">
+        <quartz:event-generator-job />
+    </quartz:endpoint>
 
 
-	<flow name="ftp-scheduler-flow" doc:name="ftp-scheduler-flow">
-		<inbound-endpoint ref="quartz-batch" />
-		<echo-component />
-		<flow-ref name="ftp-process-fetch-flow" />
-		<component class="se.sll.reimbursementadapter.mule.FTPFetchHandler" />
-	</flow>
+    <flow name="ftp-scheduler-flow" doc:name="ftp-scheduler-flow">
+        <inbound-endpoint ref="quartz-batch" />
+        <echo-component />
+        <flow-ref name="ftp-process-fetch-flow" />
+        <component class="se.sll.reimbursementadapter.mule.FTPFetchHandler" />
+    </flow>
 
-	<flow name="ftp-process-fetch-flow">
-		<composite-source>
-			<inbound-endpoint ref="ftp-fetch" />
-		</composite-source>
-		<expression-filter evaluator="header"
-			expression="originalFilename!=null" />
-		<file:outbound-endpoint path="${pr.ftp.localPath}"
-			responseTimeout="${pr.ftp.timeout}" outputPattern="#[header:originalFilename]" />
-	</flow>
+    <flow name="ftp-process-fetch-flow">
+        <composite-source>
+            <inbound-endpoint ref="ftp-fetch" />
+        </composite-source>
+        <expression-filter evaluator="header"
+            expression="originalFilename!=null" />
+        <file:outbound-endpoint path="${pr.ftp.localPath}"
+            responseTimeout="${pr.ftp.timeout}" outputPattern="#[header:originalFilename]" />
+    </flow>
 </mule>

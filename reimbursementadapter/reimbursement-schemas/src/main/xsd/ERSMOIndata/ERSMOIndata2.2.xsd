@@ -27,7 +27,7 @@
 
                      <!--*** Händelseklass  ***-->
                      <xsd:element name="Händelseklass" minOccurs="1" maxOccurs="1">
-		        <xsd:complexType>
+                <xsd:complexType>
                            <xsd:choice>
                                <xsd:element ref="Vårdkontakt" />
                                <xsd:element ref="Vårdansvar" />
@@ -35,7 +35,7 @@
                                <xsd:element ref="Undersökning" />
                                <xsd:element ref="Expediering" />
                            </xsd:choice> 
-		        </xsd:complexType>
+                </xsd:complexType>
                      </xsd:element>
 
                   </xsd:all>
@@ -46,7 +46,7 @@
                   <xsd:attribute name="Slutdatum" type="xsd:date" use="optional"/>
                   <xsd:attribute name="Startverksamhet" type="ehvsh" use="required"/>
                   <xsd:attribute name="Slutverksamhet" type="ehvsh" use="optional"/>
-		  <xsd:attribute name="ErsUppdrag" type="eheu" use="optional"/>
+          <xsd:attribute name="ErsUppdrag" type="eheu" use="optional"/>
                </xsd:complexType>
             </xsd:element>
             <!--*** Slut på formatet för Ersättningshändelse  ***-->
@@ -81,8 +81,8 @@
          <xsd:attribute name="Händelseform" type="vkhform" use="required"/>
          <xsd:attribute name="Händelsetyp" type="vkhtyp" use="optional"/> 
          <xsd:attribute name="Typ" type="vktyp" use="optional"/>
-	 <xsd:attribute name="Avgiftsklass" type="klass" use="optional"/>
-	 <xsd:attribute name="Patientavgift" type="pavgift" use="optional"/>
+     <xsd:attribute name="Avgiftsklass" type="klass" use="optional"/>
+     <xsd:attribute name="Patientavgift" type="pavgift" use="optional"/>
          <xsd:attribute name="Akut" type="akut" use="optional"/>
          <xsd:attribute name="TillhörVårdansvar" type="ehid" use="optional"/>
          <xsd:attribute name="TillhörVårdkontakt" type="ehid" use="optional"/>
@@ -243,10 +243,10 @@
       <xsd:complexType>
          <xsd:all>
             <xsd:element ref="Tillståndslista" minOccurs="0" maxOccurs="1" />
-	    <xsd:element ref="Diagnoser" minOccurs="0" maxOccurs="1" />
-	 </xsd:all>
-	 <xsd:attribute name="Händelseform" type="vahform" use="required"/>
-	 <xsd:attribute name="Händelsetyp" type="vahtyp" use="optional"/> 
+        <xsd:element ref="Diagnoser" minOccurs="0" maxOccurs="1" />
+     </xsd:all>
+     <xsd:attribute name="Händelseform" type="vahform" use="required"/>
+     <xsd:attribute name="Händelsetyp" type="vahtyp" use="optional"/> 
       </xsd:complexType>
    </xsd:element>
    
