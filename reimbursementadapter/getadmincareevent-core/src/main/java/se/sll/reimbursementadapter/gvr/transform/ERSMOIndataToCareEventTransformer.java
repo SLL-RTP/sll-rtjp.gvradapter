@@ -223,7 +223,6 @@ public class ERSMOIndataToCareEventTransformer {
             if (avd != null && avd.getState(stateDate) != null) {
                 for (TermItemCommission<CommissionState> commissionState : avd.getState(stateDate).getCommissions()) {
 
-                    // #236 Is this really a good idea? Got null pointer for care event with kombika 19137011000 at 2013-03-01  before.
                     if (commissionState == null) {
                         continue;
                     }
