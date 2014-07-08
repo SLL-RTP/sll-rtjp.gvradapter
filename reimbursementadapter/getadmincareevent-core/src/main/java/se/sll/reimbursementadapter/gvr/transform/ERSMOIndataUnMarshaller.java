@@ -36,8 +36,6 @@ import se.sll.ersmo.xml.indata.ERSMOIndata;
  */
 public class ERSMOIndataUnMarshaller {
     
-    private static final Logger LOG = LoggerFactory.getLogger(ERSMOIndataUnMarshaller.class);
-
     public ERSMOIndata unmarshalString(Reader src) throws SAXException, JAXBException {
         // Read the schema from the XSD to apply the validation to the unmarshalled XML object.
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

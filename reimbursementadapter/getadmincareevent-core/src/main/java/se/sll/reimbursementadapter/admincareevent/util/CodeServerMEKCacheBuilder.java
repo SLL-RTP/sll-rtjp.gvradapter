@@ -54,6 +54,7 @@ public class CodeServerMEKCacheBuilder {
     private static final String KUND = "KUND";
     private static final String HSA_ID = "HSAId";
     private static final String KOMBIKAKOD = "Kombikakod";
+    private static final String FOLJER_MALL = "Följer mall";
     private static final String ABBREVIATION = "abbreviation";
     private static final String UPPDRAGSTYP = "UPPDRAGSTYP";
     private static final String NO_COMMISSION_ID = "0000";
@@ -358,6 +359,13 @@ public class CodeServerMEKCacheBuilder {
                 if (contractCode != null) {
                     state.setContractCode(contractCode.getValue());
                 }
+                String followsTemplate = codeServiceEntry.getAttribute(FOLJER_MALL);
+                if (followsTemplate != null) {
+                    state.setFollowsTemplate(!"n".equals(followsTemplate.toLowerCase()));
+                }
+                else {
+                    state.setFollowsTemplate(true);                    
+                }
                 state.setName(codeServiceEntry.getAttribute(ABBREVIATION));
                 state.setCommissionType(uppdragstyp);
                 CodeServerCode assignmentCode = singleton(codeServiceEntry.getCodes(STYP));
@@ -372,6 +380,7 @@ public class CodeServerMEKCacheBuilder {
         });
 
         parser.extractAttribute(ABBREVIATION);
+        parser.extractAttribute(FOLJER_MALL);
         parser.extractCodeSystem(UPPDRAGSTYP);
         parser.extractCodeSystem(STYP);
         parser.extractCodeSystem(AVTAL);

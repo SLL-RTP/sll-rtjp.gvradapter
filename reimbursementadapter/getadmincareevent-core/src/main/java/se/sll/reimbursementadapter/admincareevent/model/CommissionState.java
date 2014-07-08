@@ -34,6 +34,10 @@ public class CommissionState extends TermState implements Serializable {
      */
     private TermItem<CommissionTypeState> commissionType;
 
+    /**
+     * Attribute "Följer Mall" of SAMVERKS, is false iff attribute to lower is "n".
+     */
+    private Boolean followsTemplate;
     
     /**
      * The contract reference.
@@ -75,6 +79,17 @@ public class CommissionState extends TermState implements Serializable {
     public String toString() {
         return "CommissionState [commissionType=" + commissionType
                 + ", contractCode=" + contractCode + ", assignmentType="
-                + assignmentType + "]";
+                + assignmentType + ", followsTemplate=" + followsTemplate + "]";
+    }
+
+    /**
+     * Följer mall is n/N.
+     */
+    public Boolean getFollowsTemplate() {
+        return followsTemplate;
+    }
+
+    public void setFollowsTemplate(Boolean followsTemplate) {
+        this.followsTemplate = followsTemplate;
     }
 }

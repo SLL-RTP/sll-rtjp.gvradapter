@@ -220,20 +220,29 @@ public class ERSMOIndataToCareEventTransformer {
             
             // Find the contract mapping with the right type
             Vkhform händelseform = vårdkontakt.getHändelseform();
-            if (avd != null && avd.getState(stateDate) != null) {
-                for (TermItemCommission<CommissionState> commissionState : avd.getState(stateDate).getCommissions()) {
-
+            if (currentAvd != null) {
+                // Loop over commissions (SAMVERKS).
+                for (TermItemCommission<CommissionState> commissionState : currentAvd.getCommissions()) {
+                    
                     if (commissionState == null) {
                         continue;
                     }
-                    CommissionState filteredCommissionState = commissionState.getState(stateDate);
-                    if (filteredCommissionState == null) {
+                    CommissionState currentCommissionState = commissionState.getState(stateDate);
+                    if (currentCommissionState == null) {
                         continue;
+                    } 
+                    
+                    if (!currentCommissionState.getFollowsTemplate()) {
+                        // This care event uses a test SAMVERKS, log and skip it.
+                        // TODO log? warning/info/debug?
+                        LOG.info(String.format("Care event using test SAMVERKS, kombika %s, date %s, care event %s, file %s, skipping.",
+                                               kombika, stateDate, currentErsId, currentFile));
+                        return null;
                     }
-
-                    String assignmentType = filteredCommissionState.getAssignmentType();
+                    
+                    String assignmentType = currentCommissionState.getAssignmentType();
                     if ("06".equals(assignmentType) || "07".equals(assignmentType) || "08".equals(assignmentType)) {
-                        // Lookup the payer organisation. Extracted from getCareContractFromState due to number of parameters.
+                        // Lookup the payer organization. Extracted from getCareContractFromState due to number of parameters.
                         String payerOrganization = TransformHelper.getPayerOrganization(händelseform, stateDate, avd.getState(stateDate),
                                 commissionState, TransformHelper.SLL_CAREGIVER_HSA_ID, referredFromHsaId,
                                 kombika, currentErsId, currentFile);
