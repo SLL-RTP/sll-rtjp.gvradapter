@@ -5,6 +5,8 @@ HEJIndata*.xml
 .classpath
 .project
 .settings/
+maven-eclipse.xml
+.externalToolBuilders
 
 # Intellij
 .idea/
