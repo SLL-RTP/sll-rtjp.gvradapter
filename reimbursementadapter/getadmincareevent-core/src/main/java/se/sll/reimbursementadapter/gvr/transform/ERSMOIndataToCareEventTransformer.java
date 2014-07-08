@@ -15,17 +15,12 @@
  */
 package se.sll.reimbursementadapter.gvr.transform;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -199,18 +194,36 @@ public class ERSMOIndataToCareEventTransformer {
                 TermItem<FacilityState> mappedFacilitiesForReferral = cacheManager.getCurrentIndex().get(referralBefore.getKod());
 
                 if (mappedFacilitiesForReferral != null) {
-                    // #236 stateDate is the wrong date to use. The referral kombika may have expired but was valid at the time of the referral.
+                    
                     FacilityState facilityState = mappedFacilitiesForReferral.getState(stateDate);
                     if (facilityState != null) {
                         TermItem<HSAMappingState> hsaMapping = facilityState.getHSAMapping();
                         if (hsaMapping != null) {
                             HSAMappingState hsaMappingState = hsaMapping.getState(stateDate);
                             if (hsaMappingState != null) {
-                                // Referred From (HSA-id)
                                 referredFromHsaId = hsaMappingState.getHsaId();
-                                currentEvent.setReferredFrom(referredFromHsaId);
                             }
                         }
+                    }
+                    
+                    if (referredFromHsaId == null) {
+                        // Try with another state date for the referral kombika. The kombika may have expired but was valid at the time of the referral.
+                        facilityState = mappedFacilitiesForReferral.getStateBefore(stateDate);
+                        if (facilityState != null) {
+                            TermItem<HSAMappingState> hsaMapping = facilityState.getHSAMapping();
+                            if (hsaMapping != null) {
+                                HSAMappingState hsaMappingState = hsaMapping.getStateBefore(stateDate);
+                                if (hsaMappingState != null) {
+                                    referredFromHsaId = hsaMappingState.getHsaId();
+                                    LOG.debug(String.format("Looked upp referral hsa id by using getStateBefore for referral kombika %s and original state date %s on care event %s in %s.",
+                                                            referralBefore.getKod(), stateDate, currentErsId, currentFile));
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (referredFromHsaId != null) {
+                        currentEvent.setReferredFrom(referredFromHsaId);
                     }
                 }
             }

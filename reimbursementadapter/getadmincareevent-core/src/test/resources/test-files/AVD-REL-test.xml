@@ -1393,5 +1393,30 @@
 </termitementry>
 
 
+<!-- testReferralHsaLookup -->
+<termitementry id="20130101999" language="fi" createdate="2014-01-07T00:00:00.0" begindate="2011-09-01T00:00:01.0" expirationdate="2013-01-01T23:59:59.0" lastmodifieddate="2014-01-15T13:31:47.0" lastmodifiedby="Rahman, Azad">
+    <attribute type="status" datatype="ST">1</attribute>
+    <attribute type="shortname" datatype="ST" language="fi">Testkombika för test</attribute>
+    <attribute type="longname" datatype="ST" language="fi">Etablerad priv sjukgymnast</attribute>
+    <attribute type="abbreviation" datatype="ST" language="fi">Lars Degerfeldt</attribute>
+    <attribute type="hierarchylevel" datatype="ST">0</attribute>
+    <attribute type="parentid" datatype="ST" language="fi" />
+    <attribute type="description" datatype="ST" language="fi" />
+    <attribute type="EKOD" datatype="ST" language="sv">00000</attribute>
+    <attribute type="Ägare" datatype="ST" language="sv">ovr</attribute>
+    <attribute type="UnderLev" datatype="ST" language="sv">j</attribute>
+    <attribute type="OKOD" datatype="ST" language="sv">0000</attribute>
+    <attribute type="externallink" datatype="CV" begindate="2001-10-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="01" codesystem="VARDNIVA" codesystemversion="1" referenceid="Vårdnivå" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2003-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="0000" codesystem="FORETAG" codesystemversion="1" referenceid="Företag" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2002-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="0000" codesystem="KUND" codesystemversion="1" referenceid="Kund" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2002-03-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="99" codesystem="AVDTYP" codesystemversion="1" referenceid="Avdelning/mottagningstyp" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1995-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="92775010" codesystem="KLIN" codesystemversion="1" referenceid="Moderklinik" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1995-12-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="92775010" codesystem="KLIN" codesystemversion="1" referenceid="Utnyttjas av" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="1994-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="101" codesystem="SPEC" codesystemversion="1" referenceid="Specialitet" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2001-06-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="02" codesystem="DRIFTFORM" codesystemversion="1" referenceid="Driftform" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2013-10-01T00:00:01.0" expirationdate="2015-12-31T23:59:59.0"><codedvalue code="5701" codesystem="SAMVERKS" codesystemversion="1" referenceid="Sammanhållen verksamhet" /></attribute>
+    <attribute type="externallink" datatype="CV" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="91605010019" codesystem="FAVD" codesystemversion="1" referenceid="Fysisk avdelning/mottagning" /></attribute>
+</termitementry>
+
 </termsystem>
 </body></arb:document></arb:result>

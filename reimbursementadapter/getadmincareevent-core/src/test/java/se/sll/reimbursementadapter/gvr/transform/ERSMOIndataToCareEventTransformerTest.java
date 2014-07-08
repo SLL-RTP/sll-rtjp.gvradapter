@@ -250,6 +250,75 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
     }
 
     @Test
+    public void testNormalReferralHsaLookup() throws Exception {
+        // Populate the cache necessary for the mapping to function correctly.
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate();
+        
+        // Set the GVR Filter method to work with file names for this test.
+        gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
+
+        // Read a given ERSMOIndata file and marshal to an XML-object.
+        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-13T080000.000+0000.xml");
+        Reader fileReader = gvrFileReader.getReaderForFile(inFile);
+        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+
+        // Transform to a list of RIV CareEventTypes.
+        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+
+        // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
+        Assert.assertEquals("Number of Care Events", 1, careEventList.size());
+        Assert.assertEquals("SE2321000016-15CQ", careEventList.get(0).getReferredFrom());
+    }
+    
+    @Test
+    public void testExpiredKombikaReferralHsaLookup() throws Exception {
+        // Populate the cache necessary for the mapping to function correctly.
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate();
+        
+        // Set the GVR Filter method to work with file names for this test.
+        gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
+
+        // Read a given ERSMOIndata file and marshal to an XML-object.
+        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-12T080000.000+0000.xml");
+        Reader fileReader = gvrFileReader.getReaderForFile(inFile);
+        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+
+        // Transform to a list of RIV CareEventTypes.
+        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+
+        // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
+        Assert.assertEquals("Number of Care Events", 1, careEventList.size());
+        Assert.assertEquals("REFERRAL_HSA-643S", careEventList.get(0).getReferredFrom());
+    }
+
+    @Test
+    public void testFailedKombikaReferralHsaLookup() throws Exception {
+        // Populate the cache necessary for the mapping to function correctly.
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate();
+        
+        // Set the GVR Filter method to work with file names for this test.
+        gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
+
+        // Read a given ERSMOIndata file and marshal to an XML-object.
+        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-14T080000.000+0000.xml");
+        Reader fileReader = gvrFileReader.getReaderForFile(inFile);
+        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+
+        // Transform to a list of RIV CareEventTypes.
+        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+
+        // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
+        Assert.assertEquals("Number of Care Events", 1, careEventList.size());
+        Assert.assertEquals(null, careEventList.get(0).getReferredFrom());
+    }
+
+    @Test
     public void doTestCodeTransformer() {
         Assert.assertEquals("Öppenvårdskontakt", "2", TransformHelper.mapErsmoKontaktFormToKvKontakttyp(Vkhform.ÖPPENVÅRDSKONTAKT));
         Assert.assertEquals("Slutenvårdstillfälle", "1", TransformHelper.mapErsmoKontaktFormToKvKontakttyp(Vkhform.SLUTENVÅRDSTILLFÄLLE));

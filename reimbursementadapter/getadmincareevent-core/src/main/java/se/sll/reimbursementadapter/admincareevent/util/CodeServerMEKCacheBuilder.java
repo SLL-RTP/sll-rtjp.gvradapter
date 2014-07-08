@@ -172,6 +172,12 @@ public class CodeServerMEKCacheBuilder {
         
         final Map<String, List<TermItem<HSAMappingState>>> hsaIndex = createHSAIndex();
 
+        for (List<TermItem<HSAMappingState>> list : hsaIndex.values()) {
+            for (TermItem<HSAMappingState> entry : list) {
+                entry.orderStates();
+            }
+        }
+        
         LOG.info("build facilityIndex (AVD-REL) from: {}", facilityFile);
         
         // Create a index structure
@@ -245,6 +251,10 @@ public class CodeServerMEKCacheBuilder {
 
         // Execure the parsing of the source XML.
         parser.parse();
+
+        for (TermItem<FacilityState> entry : index.values()) {
+            entry.orderStates();
+        }
         
         LOG.info("facilityIndex (AVD-REL) size: {}", index.size());
         
@@ -388,13 +398,18 @@ public class CodeServerMEKCacheBuilder {
         parser.setNewerThan(newerThan);
     
         parser.parse();
+
+        for (TermItemCommission<CommissionState> entry : index.values()) {
+            entry.orderStates();
+        }
+        
         LOG.info("commissionIndex (SAMVERKS-REL) size: {}", index.size());
 
         return index;
     }
 
     /**
-     * Builds the Commission Type (Samverkstyp) index. This index is the bottom node, and will not link in any other trees.
+     * Builds the Commission Type (UPPDRAGSTYP) index. This index is the bottom node, and will not link in any other trees.
      * All the configuration is taken from class variables set in the building (pattern, not code) process.
      *
      * @return a Hashmap where each key represents a Commission Type id (Samverkstypsid), and the value is a TermItem of
@@ -424,6 +439,10 @@ public class CodeServerMEKCacheBuilder {
 
         parser.parse();
 
+        for (TermItem<CommissionTypeState> entry : index.values()) {
+            entry.orderStates();
+        }
+        
         return index;
     }
 

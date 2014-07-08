@@ -154,4 +154,13 @@
     <FromDatum>2007-10-18T00:00:00+01:00</FromDatum>
     <SkapadDatum>2007-11-07T11:00:30.203+01:00</SkapadDatum>
   </mappning>
+
+  <!-- testReferralHsaLookup -->
+  <mappning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://brainpool.se/mek/MEK.xsd">
+    <Kombikakod>20130101999</Kombikakod>
+    <HSAId>REFERRAL_HSA-643S</HSAId>
+    <FromDatum>2011-09-01T00:00:01.0</FromDatum>
+    <SkapadDatum>2011-09-01T00:00:01.0</SkapadDatum>
+  </mappning>
+  
 </mappningar>

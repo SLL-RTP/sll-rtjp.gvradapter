@@ -59,6 +59,11 @@ public class TermItemCommission<T extends TermState> implements Serializable {
         stateVector.add(termState);
     }
     
+    @SuppressWarnings("unchecked")
+    public void orderStates() {
+        TermItem.orderStates((List<TermState>) stateVector, id);
+    }
+    
     /**
      * Returns state valid for a specific date and time.
      * 

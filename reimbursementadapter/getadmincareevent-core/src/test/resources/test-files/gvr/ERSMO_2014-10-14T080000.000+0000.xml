@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ERSMOIndata Källa="GVR" ID="0000001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ERSMOIndata/ERSMOIndata2.2.xsd">
+	<Ersättningshändelse ID="12345678901234567890" Makulerad="false" Startdatum="2013-10-01" Slutdatum="2013-10-01" Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
+		<Patient ID="191212121212" Lkf="010203" Basområde="1210151" Födelsedatum="1912-12-12" Kön="M"/>
+		<Händelseklass>
+			<Vårdkontakt Händelseform="Öppenvårdskontakt" Händelsetyp="013" Typ="1" Avgiftsklass="006" Patientavgift="12" Akut="J">
+				<Produkter>
+				</Produkter>
+				<Yrkeskategorier>
+				</Yrkeskategorier>
+				<Tillståndslista>
+				</Tillståndslista>
+				<Resursgrupper>
+				</Resursgrupper>
+				<VisteFöre Klass="002" Kod="1"/>
+				<VårdFöre Klass="" Kod="3"/>
+				<RemissFöre Klass="009" Kod="99911199911"/>
+				<VisteEfter Klass="003" Kod="1"/>
+				<VårdEfter Klass="004" Kod="4"/>
+				<RemissEfter Klass="009" Kod="10011101M03"/>
+			</Vårdkontakt>
+		</Händelseklass>
+	</Ersättningshändelse>
+</ERSMOIndata>
