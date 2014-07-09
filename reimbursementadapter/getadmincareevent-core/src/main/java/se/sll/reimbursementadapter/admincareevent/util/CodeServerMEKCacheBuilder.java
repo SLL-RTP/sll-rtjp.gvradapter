@@ -374,7 +374,7 @@ public class CodeServerMEKCacheBuilder {
                     state.setFollowsTemplate(!"n".equals(followsTemplate.toLowerCase()));
                 }
                 else {
-                    state.setFollowsTemplate(true);                    
+                    state.setFollowsTemplate(true);
                 }
                 state.setName(codeServiceEntry.getAttribute(ABBREVIATION));
                 state.setCommissionType(uppdragstyp);

@@ -83,7 +83,7 @@ public class CommissionState extends TermState implements Serializable {
     }
 
     /**
-     * Följer mall is n/N.
+     * Följer mall is not n/N.
      */
     public Boolean getFollowsTemplate() {
         return followsTemplate;

@@ -215,7 +215,7 @@ public class ERSMOIndataToCareEventTransformer {
                                 HSAMappingState hsaMappingState = hsaMapping.getStateBefore(stateDate);
                                 if (hsaMappingState != null) {
                                     referredFromHsaId = hsaMappingState.getHsaId();
-                                    LOG.debug(String.format("Looked upp referral hsa id by using getStateBefore for referral kombika %s and original state date %s on care event %s in %s.",
+                                    LOG.debug(String.format("Looked up referral hsa id by using getStateBefore for referral kombika %s and original state date %s on care event %s in %s.",
                                                             referralBefore.getKod(), stateDate, currentErsId, currentFile));
                                 }
                             }
@@ -247,8 +247,7 @@ public class ERSMOIndataToCareEventTransformer {
                     
                     if (!currentCommissionState.getFollowsTemplate()) {
                         // This care event uses a test SAMVERKS, log and skip it.
-                        // TODO log? warning/info/debug?
-                        LOG.info(String.format("Care event using test SAMVERKS, kombika %s, date %s, care event %s, file %s, skipping.",
+                        LOG.debug(String.format("Care event using test SAMVERKS, kombika %s, date %s, care event %s, file %s, skipping.",
                                                kombika, stateDate, currentErsId, currentFile));
                         return null;
                     }
