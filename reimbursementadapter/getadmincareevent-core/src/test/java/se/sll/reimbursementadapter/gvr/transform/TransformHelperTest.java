@@ -40,11 +40,14 @@ public class TransformHelperTest extends TestSupport {
         instance.revalidate(); // ??
         Date stateDate = new Date();
         String sourceFacilityId = "91605010010";
-        final TermItem<FacilityState> facilityState = instance.getCurrentIndex().get(sourceFacilityId);
-        final TermItemCommission<CommissionState> commissionState = facilityState.getState(stateDate).getCommissions().get(0);
+        final TermItem<FacilityState> avd = instance.getCurrentIndex().get(sourceFacilityId);
+        FacilityState currentAvd = avd.getState(stateDate);
+        final TermItemCommission<CommissionState> samverks = currentAvd.getCommissions().get(0);
         // Not really part of this test, but it never hurts.
-        Assert.assertEquals("Facility ID", "9081", commissionState.getId());
-        Assert.assertEquals("Payer facility HSA", "SE2321000016-15CQ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, null, commissionState, "SE2321000016-39KJ", null, null, null, null));
+        Assert.assertEquals("Facility ID", "9081", samverks.getId());
+        Assert.assertEquals("Payer facility HSA", 
+                            "SE2321000016-15CQ", 
+                            TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, currentAvd, samverks, "SE2321000016-39KJ", null, null, null, null));
     }
 
     @Test

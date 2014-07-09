@@ -61,6 +61,7 @@ import se.sll.reimbursementadapter.parser.TermItem;
  */
 public class TransformHelper {
 
+    private static final String SLL_GVR_SOURCE = "GVR";
     protected static final String SLL_CAREGIVER_HSA_ID = "SE2321000016-39KJ";
     protected static final String HYBRID_GUI_SEPARATOR = "+";
     private static final ObjectFactory of = new ObjectFactory();
@@ -74,10 +75,10 @@ public class TransformHelper {
      * @param ersmoIndata The {@link se.sll.ersmo.xml.indata.ERSMOIndata} to read information from.
      * @param currentEvent The {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} to write the new structure in.
      */
-    protected static void createSourceSystemStructure(ERSMOIndata ersmoIndata, CareEventType currentEvent) {
+    protected static void createSourceSystemStructure(CareEventType currentEvent) {
         currentEvent.setSourceSystem(of.createSourceSystemType());
         currentEvent.getSourceSystem().setOrg(SLL_CAREGIVER_HSA_ID);
-        currentEvent.getSourceSystem().setId(ersmoIndata.getKälla());
+        currentEvent.getSourceSystem().setId(SLL_GVR_SOURCE);
     }
 
     /**
@@ -117,7 +118,9 @@ public class TransformHelper {
      * @param currentErsh The {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse} to read information from.
      * @param currentEvent The {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} to write the new structure in.
      */
-    protected static String createCareUnitStructure(ERSMOIndata.Ersättningshändelse currentErsh, Path currentFile, CareEventType currentEvent, String currentErsId, Date stateDate, FacilityState mappedFacility) throws TransformationException {
+    protected static String createCareUnitStructure(ERSMOIndata.Ersättningshändelse currentErsh, Path currentFile, CareEventType currentEvent, String currentErsId, 
+                                                    Date stateDate, FacilityState mappedFacility) throws TransformationException 
+    {
         // Care Unit Local Id
         currentEvent.setCareUnit(of.createCareUnitType());
         currentEvent.getCareUnit().setCareUnitLocalId(new IIType());
@@ -265,7 +268,9 @@ public class TransformHelper {
      * @param payerOrganization The payerOrganization to use.
      * @return The populated {@link riv.followup.processdevelopment.reimbursement.v1.CareContractType}
      */
-    protected static CareContractType getCareContractFromState(Date stateDate, String careUnitHSAid, TermItemCommission<CommissionState> commissionState, String payerOrganization) {
+    protected static CareContractType getCareContractFromState(Date stateDate, String careUnitHSAid, TermItemCommission<CommissionState> commissionState, 
+                                                               String payerOrganization) 
+    {
         CommissionState currentCommissionState = commissionState.getState(stateDate);
         
         // Create the care contract type.
@@ -400,16 +405,16 @@ public class TransformHelper {
      *
      * @param kontaktForm The type of contact, primary care or inpatient care.
      * @param stateDate The date to use for lookup code mapping states.
-     * @param currentFacility The currently active Facility.
-     * @param commissionState The currently active Commission.
+     * @param currentAvd The currently active Facility.
+     * @param samverks The currently active Commission.
      * @param referredFromHsaId Previously looked up hsa id, may be null. 
      * @param currentFile 
      * @param currentErsId 
      * @param kombika 
      * @return the HSA-id for the payerOrganization for the current commissionState.
      */
-    protected static String getPayerOrganization(Vkhform kontaktForm, Date stateDate, FacilityState currentFacility, 
-                                                 TermItemCommission<CommissionState> commissionState, String requesterOrgHsa, 
+    protected static String getPayerOrganization(Vkhform kontaktForm, Date stateDate, FacilityState currentAvd, 
+                                                 TermItemCommission<CommissionState> samverks, String requesterOrgHsa, 
                                                  String referredFromHsaId, String kombika, String currentErsId, Path currentFile) 
     {
         String payerOrganization = null;
@@ -424,11 +429,11 @@ public class TransformHelper {
         // select AVD that has correct (9175) KUND and AVDELNINGSTYP/MOTTAGNINSTYP is correct (in list above) in regards to öppenvård/slutenvård
         // => profit
 
-        if (currentFacility != null && !"0000".equals(currentFacility.getCustomerCode())) {
+        if (!"0000".equals(currentAvd.getCustomerCode())) {
             return requesterOrgHsa;
         }
 
-        for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, commissionState)) {
+        for (FacilityState currentPayerFacility : getPotentialPayerFacilities(stateDate, samverks)) {
 
             // Om det är en öppenvårdskontakt vars vårdenhetstyp finns med i allowedPrimaryCareUnitTypes, mappa.
             if (kontaktForm.equals(Vkhform.ÖPPENVÅRDSKONTAKT) && allowedPrimaryCareUnitTypes.contains(currentPayerFacility.getCareUnitType())) {
@@ -448,7 +453,7 @@ public class TransformHelper {
         }
         
         
-        if ("0000".equals(currentFacility.getCustomerCode()) && referredFromHsaId != null) {
+        if ("0000".equals(currentAvd.getCustomerCode()) && referredFromHsaId != null) {
             // Fallback alternative way to look up payer.
             //
             // Verify that kundkod for kombika is 0000 (remittenten faktureras).
@@ -466,13 +471,13 @@ public class TransformHelper {
      * of '9175', the unit is added to the list of payer candidates.
      *
      * @param stateDate The date to use for lookup code mapping states.
-     * @param commissionState The currently active Commission.
+     * @param samverks The currently active Commission.
      * @return A List with the FacilityState for all the potential payerFacilities.
      */
-    protected static List<FacilityState> getPotentialPayerFacilities(Date stateDate, TermItemCommission<CommissionState> commissionState) {
+    protected static List<FacilityState> getPotentialPayerFacilities(Date stateDate, TermItemCommission<CommissionState> samverks) {
         List<FacilityState> payerFacilities = new ArrayList<>();
-        if (commissionState != null) {
-            List<TermItem<FacilityState>> backRefs = commissionState.getBackRefs();
+        if (samverks != null) {
+            List<TermItem<FacilityState>> backRefs = samverks.getBackRefs();
             for (TermItem<FacilityState> currentBackRef : backRefs) {
                 FacilityState state = currentBackRef.getState(stateDate);
                 // If the current facility has a Customer Code of 9175 "Betalningsansvar samtlig medicinsk service", add it to the map

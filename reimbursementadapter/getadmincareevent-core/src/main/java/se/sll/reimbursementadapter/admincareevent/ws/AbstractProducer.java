@@ -1,4 +1,5 @@
 /**
+                RetryBin retryBin = null;
  *  Copyright (c) 2013 SLL <http://sll.se/>
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +19,7 @@ package se.sll.reimbursementadapter.admincareevent.ws;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
@@ -41,6 +44,8 @@ import riv.followup.processdevelopment.reimbursement.getadministrativecareeventr
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
+import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
+import se.sll.reimbursementadapter.RetryBin;
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.exception.TransformationException;
@@ -57,6 +62,8 @@ public class AbstractProducer {
     private static final Logger LOG = LoggerFactory.getLogger("WS-API");
     private static final String SERVICE_CONSUMER_HEADER_NAME = "x-rivta-original-serviceconsumer-hsaid";
 
+    public static final String RETRY_LOCK = "SLL_REIMBURSEMENT_RETRY_LOCK";
+    
     /** Handles all the JMX stuff. */
     @Autowired
     private StatusBean statusBean;
@@ -69,9 +76,17 @@ public class AbstractProducer {
     @Resource
     private WebServiceContext webServiceContext;
 
-    /** The configured value for the maximum number of Care Events that the RIV Service should return. */
-    @Value("${pr.riv.maximumSupportedCareEvents:10000}")
-    protected int maximumSupportedCareEvents;
+    /**
+     * The maximum number of care events that the service can read from new
+     * files in a single request, since the service is required to send all 
+     * care events in one source file in the same request this value can not 
+     * be set too low.
+     * 
+     *  NOTE: The number of events in the response can exceed this number by
+     *  use of old care events in the retry bin.
+     */
+    @Value("${pr.riv.maximumNewEvents:10000}")
+    protected int maximumNewCareEvents;
 
     /**
      * Creates a GetAdministrativeCareEventResponse from the provided GetAdministrativeCareEventType parameter.
@@ -80,93 +95,133 @@ public class AbstractProducer {
      * @param parameters The incoming parameters from the RIV service.
      * @return A complete GetAdministrativeCareEventResponse.
      */
-    protected GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType
-                                                                                     parameters) {
-        // Set up the incoming dates with proper timezone + DST information. (Java < 8 is not fantastic at handling this stuff)
-        Date startDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getStart());
-        Date endDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getEnd());
+    protected GetAdministrativeCareEventResponse getAdministrativeCareEvent0(GetAdministrativeCareEventType parameters) 
+    {
 
-        LOG.info(String.format("Request recieved, from date: %s to date: %s", startDate, endDate));
+        // Make sure no two threads are doing this at the same time, we are keeping state in the retry bin file.
+        synchronized (RETRY_LOCK) {
+            
+            // Set up the incoming dates with proper timezone + DST information. (Java < 8 is not fantastic at handling this stuff)
+            Date startDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getStart());
+            Date endDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getEnd());
 
-        // Start setting up the response
-        GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
-        response.setResultCode("OK");
-        response.setResponseTimePeriod(new DateTimePeriodType());
-        response.getResponseTimePeriod().setStart(parameters.getUpdatedDuringPeriod().getStart());
-        if (parameters.getUpdatedDuringPeriod() != null) {
-            response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getEnd());
-        }
+            LOG.info(String.format("Request recieved, from date: %s to date: %s", startDate, endDate));
 
-        // List all the GVR files between the start- and end dates in the configured incoming directory
-        List<Path> pathList;
-        try {
-            pathList = gvrFileReader.getFileList(startDate, endDate);
-        } catch (Exception e) {
-            LOG.error("Error when listing files in GVR directory", e);
-            throw createSoapFault("Internal error when listing files in GVR directory", e);
-        }
-
-        // Iterate over each file and process it. (convert to RIV format and insert into response)
-        for (Path currentFile : pathList) {
-            // Get a reader for the current file, read it and then Unmarshal it into a generated ERSMOIndata object.
-            ERSMOIndata xmlObject;
-            try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
-                ERSMOIndataUnMarshaller unmarshaller = new ERSMOIndataUnMarshaller();
-                xmlObject = unmarshaller.unmarshalString(fileContent);
-            } catch (IOException e) {
-                LOG.error("Error when creating Reader for file: " + currentFile.getFileName(), e);
-                throw createSoapFault("Internal error when creating Reader for file: " + currentFile.getFileName(), e);
-            } catch (SAXException e) {
-                LOG.error("Error when loading schema file for ERSOMIndata", e);
-                throw createSoapFault("Internal error when loading schema file for ERSOMIndata", e);
-            } catch (JAXBException e) {
-                LOG.error("JAXB Error when parsing " + currentFile.getFileName() + ", is the XML Invalid?", e);
-                throw createSoapFault("JAXB Error when parsing the source file " + currentFile.getFileName() + ", is the XML invalid?", e);
-            }
-
-            // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
-            // response.
-            List<CareEventType> careEventList;
+            // List all the GVR files between the start- and end dates in the configured incoming directory
+            List<Path> pathList;
             try {
-                careEventList = ERSMOIndataToCareEventTransformer.doTransform(
-                        xmlObject, gvrFileReader.getDateFromGVRFile(currentFile), currentFile);
-            } catch (TransformationException e) {
-                LOG.error(String.format("TransformationException when parsing %s: %s", currentFile.getFileName(), e.getMessage()), e);
-                throw createSoapFault(String.format("Internal transformation error when parsing %s, Cause: %s",
-                        currentFile.getFileName(), e.getMessage()), e);
+                pathList = gvrFileReader.getFileList(startDate, endDate);
+            } catch (Exception e) {
+                return errorResponse("Error when listing files in GVR directory.", e);
             }
 
-            // If the current size of the response list plus the list that we want to add now is larger
-            // than the maximumSupportedCareEvents, we need to truncate the response.
-            if ((careEventList.size() + response.getCareEvent().size()) > maximumSupportedCareEvents) {
-                // Truncate response if we reached the configured limit for care events in the response.
-                if (response.getCareEvent().size() == 0) {
-                    // If we have been truncated due to a overly large first file we set the end response
-                    // period to the start of the request to indicate that nothing was processed.
-                    // This is such a special case that we return an ERROR code.
-                    response.getResponseTimePeriod().setEnd(parameters.getUpdatedDuringPeriod().getStart());
-                    response.setResultCode("ERROR");
-                    response.setComment("Response was truncated at 0 due to hitting the maximum configured number of Care " +
-                            "Events of " + maximumSupportedCareEvents + " in the first input file.");
-                } else {
-                    response.getResponseTimePeriod().setEnd(response.getCareEvent().get(
-                            response.getCareEvent().size() - 1).getLastUpdatedTime());
-                    response.setResultCode("TRUNCATED");
-                    response.setComment("Response was truncated due to hitting the maximum configured number of Care " +
-                            "Events of " + maximumSupportedCareEvents);
+            RetryBin retryBin = new RetryBin();
+            retryBin.load();
+
+            // Create the response list object.
+            List<CareEventType> careEventList = new ArrayList<CareEventType>();
+            Date fileUpdatedTime = null;
+            String resultCode = "OK";
+            String responseComment = "All known new care events translated and returned.";
+
+            // Iterate over each file and process it. (convert to RIV format and insert into response)
+            for (Path currentFile : pathList) {
+                // Get a reader for the current file, read it and then Unmarshal it into a generated ERSMOIndata object.
+                ERSMOIndata ersmoIndata;
+                try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
+                    ERSMOIndataUnMarshaller unmarshaller = new ERSMOIndataUnMarshaller();
+                    ersmoIndata = unmarshaller.unmarshalString(fileContent);
+                } catch (IOException e) {
+                    return errorResponse("Error when creating Reader for file: " + currentFile.getFileName(), e);
+                } 
+                catch (SAXException e) {
+                    return errorResponse("Error when loading schema file for ERSOMIndata", e);
+                } 
+                catch (JAXBException e) {
+                    return errorResponse("JAXB Error when parsing " + currentFile.getFileName() + ", is the XML Invalid?", e);
                 }
 
-                return response;
+                fileUpdatedTime = gvrFileReader.getDateFromGVRFile(currentFile);
+
+                List<Ersättningshändelse> ershList = ersmoIndata.getErsättningshändelse();
+
+                // Calculate whether we should break now or not.
+
+                if (ershList.size() + careEventList.size() > maximumNewCareEvents) {
+                    if (careEventList.size() == 0) {
+                        return errorResponse(String.format("ERSMOIndata from file (%s) is too big (%d events) for maximumSupportedCareEvents (%d), reconfigure it!",
+                                                           currentFile.getFileName(), careEventList.size(), maximumNewCareEvents), null);
+                    }
+                    resultCode = "TRUNCATED";
+                    responseComment = String.format("Response was truncated due to hitting maximumNewCareEvents config at %d.", maximumNewCareEvents);  
+                    break;
+                }
+
+                // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
+                // response.
+                String källa = ersmoIndata.getKälla();
+                if (!"GVR".equals(källa)) {
+                    return errorResponse(String.format("Unexpected källa %s when parsning when parsing %s.", källa, currentFile.getFileName()), null);
+                }
+
+                try {
+                    ERSMOIndataToCareEventTransformer.doTransform(retryBin, true, careEventList, ershList, fileUpdatedTime, currentFile);
+                }
+                catch (TransformationException e) {
+                    return errorResponse(String.format("TransformationException when parsing %s: %s", currentFile.getFileName(), e.getMessage()), e);
+                } 
+
+                retryBin.discardOld(fileUpdatedTime);
+
+                if (careEventList.size() > 0) {
+                    // Add from retry bin to response. We only want to piggyback on a response with new entries because we do want to use the fileUpdateTime to not
+                    // send too new care events from the retry bin (in case someone requests time intervals backwards). The ersh in the retry bin itself has faked
+                    // fileUpdateTime of +1 ms from the original ersh.
+                    try {
+                        ERSMOIndataToCareEventTransformer.doTransform(retryBin, false, careEventList, retryBin.getOld(fileUpdatedTime), 
+                                                                      fileUpdatedTime, retryBin.getCurrentFile());
+                    }
+                    catch (TransformationException e) {
+                        return errorResponse(String.format("TransformationException when parsing %s: %s", retryBin.getCurrentFile(), e.getMessage()), e);
+                    }
+                }
+
+                retryBin.acceptNewAndSave();
+            }       
+
+            // Create the response.
+            
+            DateTimePeriodType responsePeriod = new DateTimePeriodType();
+            responsePeriod.setStart(parameters.getUpdatedDuringPeriod().getStart());
+            XMLGregorianCalendar maxLastUpdatedTime = parameters.getUpdatedDuringPeriod().getStart();
+            for (CareEventType careEvent : careEventList) {
+                XMLGregorianCalendar lastUpdatedTime = careEvent.getLastUpdatedTime();
+                if (maxLastUpdatedTime == null || lastUpdatedTime.compare(maxLastUpdatedTime) == DatatypeConstants.GREATER) {
+                    maxLastUpdatedTime = lastUpdatedTime;
+                }
             }
-
+            responsePeriod.setEnd(maxLastUpdatedTime);
+            
+            GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+            response.setResponseTimePeriod(responsePeriod);
+            response.setResultCode(resultCode);
+            response.setComment(responseComment);
             response.getCareEvent().addAll(careEventList);
+            return response;
         }
+    }
 
-        if (response.getCareEvent().size() > 0) {
-            response.getResponseTimePeriod().setEnd(response.getCareEvent().get(response.getCareEvent().size() - 1)
-                    .getLastUpdatedTime());
+    private GetAdministrativeCareEventResponse errorResponse(String comment, Exception e)
+    {
+        if (e == null) {
+            LOG.error("Respoding with error: " + comment);
         }
-
+        else {
+            LOG.error("Respoding with error, logging cause: " + comment, e);
+        }
+        GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
+        response.setResultCode("ERROR");
+        response.setComment(comment);
         return response;
     }
 
