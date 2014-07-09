@@ -161,7 +161,7 @@ public class TransformHelper {
     }
 
     /**
-     * Creates a ActivityType RIV object from the incoming Åtgärd. Diagnosis types '020' (ATC) are filtered away.
+     * Creates a ActivityType RIV object from the incoming Åtgärd.
      *
      * @param åtgärd The source for the transformation.
      * @return The populated ActivityType object.
@@ -171,8 +171,7 @@ public class TransformHelper {
         if (åtgärd.getKlass().equals("007")) {
             currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.KVÅ));
         } else if (åtgärd.getKlass().equals("020")) {
-            //currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.ATC));
-            return null;
+            currentActivity.setCodeSystem(OIDList.getOid(CodeSystem.ATC));
         } else {
             currentActivity.setCodeSystem("no.oid: " + åtgärd.getKlass());
         }
@@ -236,7 +235,7 @@ public class TransformHelper {
     }
 
     /**
-     * Creates a DiagnosisType RIV object from the incoming Diagnos. Diagnosis types '020' (ATC) are filtered away.
+     * Creates a DiagnosisType RIV object from the incoming Diagnos.
      *
      * @param diagnos The source for the transformation.
      * @return The populated DiagnosisType object.
@@ -247,8 +246,8 @@ public class TransformHelper {
             currentDiagnosis.setCodeSystem(OIDList.getOid(CodeSystem.ICD10_SE));
             currentDiagnosis.setCodeSystemName(OIDList.getName(CodeSystem.ICD10_SE));
         } else if (diagnos.getKlass().equals("020")) {
-            LOG.debug("Found diagnosis of type 020, filtering away.");
-            return null;
+        	currentDiagnosis.setCodeSystem(OIDList.getOid(CodeSystem.ATC));
+            currentDiagnosis.setCodeSystemName(OIDList.getName(CodeSystem.ATC));
         } else {
             currentDiagnosis.setCodeSystem("NO.OID: " + diagnos.getKlass());
         }
