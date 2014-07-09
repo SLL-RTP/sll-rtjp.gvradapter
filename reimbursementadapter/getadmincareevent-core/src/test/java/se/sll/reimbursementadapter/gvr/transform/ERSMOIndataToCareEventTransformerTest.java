@@ -245,7 +245,6 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
-        // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
         Assert.assertEquals("Number of Care Events", 0, careEventList.size());
     }
 
@@ -267,7 +266,6 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
-        // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
         Assert.assertEquals("SE2321000016-15CQ", careEventList.get(0).getReferredFrom());
     }
