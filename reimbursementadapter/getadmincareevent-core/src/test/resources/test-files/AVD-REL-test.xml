@@ -1368,7 +1368,7 @@
     <attribute type="externallink" datatype="CV" begindate="2014-01-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0"><codedvalue code="91605010019" codesystem="FAVD" codesystemversion="1" referenceid="Fysisk avdelning/mottagning" /></attribute>
 </termitementry>
 
-<termitementry id="70471000000" language="fi" createdate="2014-01-07T00:00:00.0" begindate="2011-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2014-01-15T13:31:47.0" lastmodifiedby="Rahman, Azad">
+<termitementry id="70471000000" language="fi" createdate="2014-01-07T00:00:00.0" begindate="2001-09-01T00:00:01.0" expirationdate="2099-12-31T23:59:59.0" lastmodifieddate="2014-01-15T13:31:47.0" lastmodifiedby="Rahman, Azad">
     <attribute type="status" datatype="ST">1</attribute>
     <attribute type="shortname" datatype="ST" language="fi">Testkombika för test</attribute>
     <attribute type="longname" datatype="ST" language="fi">Etablerad priv sjukgymnast</attribute>
