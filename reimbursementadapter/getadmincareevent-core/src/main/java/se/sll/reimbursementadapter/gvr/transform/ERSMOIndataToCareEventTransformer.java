@@ -84,6 +84,10 @@ public class ERSMOIndataToCareEventTransformer {
         
         LOG.info(String.format("Transforming file %s with %d care events updated at %s.", currentFile, sourceList.size(), fileUpdatedTime));
 
+        int lookupFailCount = 0;
+        int testSamverksCount = 0;
+        int okCount = 0;
+
         for (Ersättningshändelse ersh : sourceList) {
             if (ersh.getHändelseklass().getVårdkontakt() != null) {
                 
@@ -92,15 +96,17 @@ public class ERSMOIndataToCareEventTransformer {
                 
                 switch (status) {
                 case LOOKUP_FAIL:
+                    ++lookupFailCount;
                     if (addLookupFails) {
                         retryBin.put(ersh, fileUpdatedTime); 
                         responseList.add(careEvent);
                     }
                     break;
                 case TEST_SAMVERKS:
-                    // TODO log?
+                    ++testSamverksCount;
                     break;
                 case OK:
+                    ++okCount;
                     retryBin.remove(ersh.getID());
                     responseList.add(careEvent);
                     break;
@@ -110,6 +116,8 @@ public class ERSMOIndataToCareEventTransformer {
                 
             }
         }
+        
+        LOG.info(String.format("Transform finished %d lookup fails (%sadded), %d test samverks skipped, %d was ok.", lookupFailCount, addLookupFails ? "" : "not ", testSamverksCount, okCount));
         
         return responseList;
     }
@@ -155,9 +163,6 @@ public class ERSMOIndataToCareEventTransformer {
             
             TermItem<FacilityState> avd = cacheManager.getCurrentIndex().get(kombika);
             if (avd == null) {
-                // #214 We need to handle this somehow, not skip like now, like rereading later?
-                LOG.warn(String.format("Coult not look up facilities (AVD) for kombika %s on care event %s in %s, skipping, fix in #214?",
-                                        kombika, ershId, currentFile));
                 status = Status.LOOKUP_FAIL;
             }
             
@@ -194,8 +199,6 @@ public class ERSMOIndataToCareEventTransformer {
             }
             
             if (currentAvd == null) {
-                LOG.debug(String.format("Did not find code server data for kombika %s and date %s on care event %s in %s, skipping.",
-                                        kombika, stateDate, ershId, currentFile));
                 status = Status.LOOKUP_FAIL;
             }
         
@@ -275,10 +278,7 @@ public class ERSMOIndataToCareEventTransformer {
                     } 
                     
                     if (!currentSamverks.getFollowsTemplate()) {
-                        // This care event uses a test SAMVERKS, log and skip it.
-                        // TODO log? warning/info/debug?
-                        LOG.info(String.format("Care event using test SAMVERKS, kombika %s, date %s, care event %s, file %s, skipping.",
-                                               kombika, stateDate, ershId, currentFile));
+                        // This care event uses a test SAMVERKS, skip it.
                         return Status.TEST_SAMVERKS;
                     }
                     

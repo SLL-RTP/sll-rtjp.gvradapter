@@ -61,7 +61,7 @@ public class RetryBin
         old = new HashMap<String, Ersättningshändelse>();
         nev = new HashMap<String, Ersättningshändelse>();
         lastLoadedFile = null;
-        fileKeepCount = 100;
+        fileKeepCount = 240;
     }
     
     /**

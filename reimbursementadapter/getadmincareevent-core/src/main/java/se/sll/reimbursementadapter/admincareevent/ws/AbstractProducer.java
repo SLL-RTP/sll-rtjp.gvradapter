@@ -76,7 +76,7 @@ public class AbstractProducer {
     public GVRFileReader gvrFileReader;
 
     @Autowired
-    private RetryBin retryBin;
+    public RetryBin retryBin;
     
     /** Reference to the JAX-WS {@link javax.xml.ws.WebServiceContext}. */
     @Resource
@@ -160,7 +160,7 @@ public class AbstractProducer {
                 if (ershList.size() + careEventList.size() > maximumNewCareEvents) {
                     if (careEventList.size() == 0) {
                         return errorResponse(String.format("ERSMOIndata from file (%s) is too big (%d events) for maximumSupportedCareEvents (%d), reconfigure it!",
-                                                           currentFile.getFileName(), careEventList.size(), maximumNewCareEvents), null);
+                                                           currentFile.getFileName(), ershList.size(), maximumNewCareEvents), null);
                     }
                     resultCode = "TRUNCATED";
                     responseComment = String.format("Response was truncated due to hitting maximumNewCareEvents config at %d.", maximumNewCareEvents);  
@@ -180,29 +180,29 @@ public class AbstractProducer {
                 catch (TransformationException | DatatypeConfigurationException e) {
                     return errorResponse(String.format("Exception when parsing %s: %s", currentFile.getFileName(), e.getMessage()), e);
                 } 
+            }
 
-                retryBin.discardOld(fileUpdatedTime);
+            retryBin.discardOld(fileUpdatedTime);
 
-                if (careEventList.size() > 0) {
-                    // Add from retry bin to response. We only want to piggyback on a response with new entries because we do want to use the fileUpdateTime to not
-                    // send too new care events from the retry bin (in case someone requests time intervals backwards). The ersh in the retry bin itself has faked
-                    // fileUpdateTime of +1 ms from the original ersh.
-                    try {
-                        ERSMOIndataToCareEventTransformer.doTransform(retryBin, false, careEventList, retryBin.getOld(fileUpdatedTime), 
-                                                                      fileUpdatedTime, retryBin.getCurrentFile());
-                    }
-                    catch (TransformationException | DatatypeConfigurationException e) {
-                        return errorResponse(String.format("Exception when parsing %s: %s", retryBin.getCurrentFile(), e.getMessage()), e);
-                    }
-                }
-
+            if (careEventList.size() > 0) {
+                // Add from retry bin to response. We only want to piggyback on a response with new entries because we do want to use the fileUpdateTime to not
+                // send too new care events from the retry bin (in case someone requests time intervals backwards). The ersh in the retry bin itself has faked
+                // fileUpdateTime of +1 ms from the original ersh.
                 try {
-                    retryBin.acceptNewAndSave();
+                    ERSMOIndataToCareEventTransformer.doTransform(retryBin, false, careEventList, retryBin.getOld(fileUpdatedTime), 
+                                                                  fileUpdatedTime, retryBin.getCurrentFile());
                 }
-                catch (IOException | JAXBException | SAXException e) {
-                    return errorResponse(String.format("Failed to save new retry bin: %s", e.getMessage()), e);
+                catch (TransformationException | DatatypeConfigurationException e) {
+                    return errorResponse(String.format("Exception when parsing %s: %s", retryBin.getCurrentFile(), e.getMessage()), e);
                 }
             }       
+
+            try {
+                retryBin.acceptNewAndSave();
+            }
+            catch (IOException | JAXBException | SAXException e) {
+                return errorResponse(String.format("Failed to save new retry bin: %s", e.getMessage()), e);
+            }
 
             // Create the response.
             

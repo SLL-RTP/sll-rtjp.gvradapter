@@ -306,7 +306,7 @@ public class RetryBinTest
         Assert.assertEquals(ersh1, retryBin.nev.get("123"));
     }
     
-    private Ersättningshändelse createMinimalErsh(String id) throws Exception
+    public static Ersättningshändelse createMinimalErsh(String id) throws Exception
     {
         Ersättningshändelse ersh = new Ersättningshändelse();
         ersh.setID(id);

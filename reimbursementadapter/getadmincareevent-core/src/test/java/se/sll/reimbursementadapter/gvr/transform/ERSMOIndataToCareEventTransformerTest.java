@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.Vkhform;
-import se.sll.reimbursementadapter.gvr.RetryBin;
 import se.sll.reimbursementadapter.TestSupport;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
+import se.sll.reimbursementadapter.gvr.RetryBin;
 import se.sll.reimbursementadapter.gvr.reader.DateFilterMethod;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.parser.TermItem;
@@ -373,4 +373,5 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Payer facility 1", "30216311002", TransformHelper.getPotentialPayerFacilities(stateDate, commissionState).get(0).getHSAMapping().getId());
         Assert.assertEquals("Payer facility 1", "30216311003", TransformHelper.getPotentialPayerFacilities(stateDate, commissionState).get(1).getHSAMapping().getId());
     }
+    
 }
