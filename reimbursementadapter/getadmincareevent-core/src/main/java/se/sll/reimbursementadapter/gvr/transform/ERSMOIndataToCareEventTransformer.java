@@ -101,7 +101,7 @@ public class ERSMOIndataToCareEventTransformer {
                     // TODO log?
                     break;
                 case OK:
-                    retryBin.remove(ersh);
+                    retryBin.remove(ersh.getID());
                     responseList.add(careEvent);
                     break;
                 default:

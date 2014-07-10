@@ -11,14 +11,18 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
@@ -31,6 +35,7 @@ import se.sll.reimbursementadapter.gvr.transform.TransformHelper;
 @Component
 public class RetryBin
 {
+    private static final Logger LOG = LoggerFactory.getLogger(RetryBin.class);
     
     /** 
      * Path to directory where the retry bin is stored. If empty the retry bin will be disabled.
@@ -96,14 +101,6 @@ public class RetryBin
     }
     
     /**
-     * Discard all old (compared to fileUpdateTime entries) in the old collection.
-     */
-    public void discardExpired(Date fileUpdatedTime)
-    {
-        // TODO Auto-generated method stub
-    }
-
-    /**
      * Load old ersh from file.
      */
     public void load() throws FileNotFoundException, SAXException, JAXBException
@@ -167,17 +164,29 @@ public class RetryBin
         }
     }
 
-    public List<Ersättningshändelse> getOld(Date fileUpdatedTime)
+    /**
+     * Return all ersh from old who have a updated timestamp before or equal to filterTimestamp.
+     */
+    public List<Ersättningshändelse> getOld(Date filterTimestamp)
     {
         if (disabled()) new ArrayList<Ersättningshändelse>();
 
-        return new ArrayList<Ersättningshändelse>();
-        // TODO Auto-generated method stub
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(filterTimestamp);
+        
+        ArrayList<Ersättningshändelse> list = new ArrayList<Ersättningshändelse>();
+        for (Ersättningshändelse ersh : old.values()) {
+           if (!ersh.getLastUpdated().toGregorianCalendar().after(cal)) {
+               list.add(ersh);
+           }
+        }
+        return list;
     }
 
-    public void remove(Ersättningshändelse ersh)
+    public void remove(String id)
     {        
-        // TODO Auto-generated method stub
+        nev.remove(id);
+        old.remove(id);
     }
 
     public Path getCurrentFile()
@@ -187,9 +196,24 @@ public class RetryBin
         return lastLoadedFile.toPath();
     }
 
-    public void discardOld(Date fileUpdatedTime)
+    /**
+     * Discard all old entries to prevent file from growing out of control.
+     */
+    public void discardOld(Date now)
     {
-        // TODO Auto-generated method stub
+        GregorianCalendar cal = new GregorianCalendar();
+        Date date = new Date(now.getTime() - 1000L * 3600L * 24L * 180L);
+        cal.setTime(date);
+        
+        Iterator<Entry<String, Ersättningshändelse>> iterator = old.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Entry<String, Ersättningshändelse> entry = iterator.next();
+            GregorianCalendar entryCal = entry.getValue().getLastUpdated().toGregorianCalendar();
+            if (entryCal.before(cal)) {
+                LOG.info(String.format("Discarding ersh %s updated at %s from retry bin.", entry.getKey(), entryCal.getTime()));
+                iterator.remove();
+            }
+        }
     }
     
     public static Date xmlCalToDate(XMLGregorianCalendar xcal) throws DatatypeConfigurationException

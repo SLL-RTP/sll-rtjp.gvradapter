@@ -19,6 +19,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -50,6 +51,56 @@ public class RetryBinTest
     }
 
     @Test
+    public void testDiscardOldDiscardsOldButNothingElse() throws Exception 
+    {
+        Date now = new Date();
+        Date timeExpired = new Date(now.getTime() - 1000L * 3600L * 24L * 181L);
+        Date timeAlmostExpired = new Date(now.getTime() - 1000L * 3600L * 24L * 179L);
+        
+        retryBin.put(createMinimalErsh("12"), now);
+        retryBin.put(createMinimalErsh("13"), timeExpired);
+        retryBin.put(createMinimalErsh("14"), timeAlmostExpired);
+
+        retryBin.acceptNewAndSave();
+        
+        retryBin.put(createMinimalErsh("22"), now);
+        retryBin.put(createMinimalErsh("23"), timeExpired);
+        retryBin.put(createMinimalErsh("24"), timeAlmostExpired);
+
+        Assert.assertEquals(3, retryBin.old.size());
+        Assert.assertEquals(3, retryBin.nev.size());
+
+        retryBin.discardOld(now);
+        
+        Assert.assertEquals(3, retryBin.nev.size());
+        Assert.assertEquals(2, retryBin.old.size());
+        
+        Assert.assertNotNull(retryBin.old.get("12"));
+        Assert.assertNotNull(retryBin.old.get("14"));
+    }
+
+    @Test
+    public void testRemoveRemovesFromBothNewAndOld() throws Exception 
+    {
+        retryBin.nev.put("12", createMinimalErsh("12"));
+        retryBin.nev.put("13", createMinimalErsh("13"));
+        retryBin.old.put("12", createMinimalErsh("12"));
+        
+        Assert.assertEquals(1, retryBin.old.size());
+        Assert.assertEquals(2, retryBin.nev.size());
+        
+        retryBin.remove("12");
+        
+        Assert.assertEquals(0, retryBin.old.size());
+        Assert.assertEquals(1, retryBin.nev.size());
+
+        retryBin.remove("13");
+        
+        Assert.assertEquals(0, retryBin.old.size());
+        Assert.assertEquals(0, retryBin.nev.size());
+    }
+
+    @Test
     public void testEmptyLoad() throws Exception 
     {
         retryBin.load();
@@ -57,14 +108,49 @@ public class RetryBinTest
         Assert.assertEquals(0, retryBin.old.size());
         Assert.assertEquals(0, retryBin.nev.size());
     }
-    
+
+    @Test
+    public void testGetOldFiltersOnDateAndDoesNotTouchNew() throws Exception 
+    {        
+        Date now = new Date();
+        Date time1 = new Date(now.getTime() + 1);
+        Date time2 = new Date(now.getTime() + 2);
+        Date time3 = new Date(now.getTime() + 3);
+        Date time4 = new Date(now.getTime() + 4);
+        retryBin.put(createMinimalErsh("123"), time1);
+        retryBin.put(createMinimalErsh("124"), time2);
+        retryBin.put(createMinimalErsh("125"), time3);
+
+        Assert.assertEquals(0, retryBin.old.size());
+        Assert.assertEquals(3, retryBin.nev.size());
+        Assert.assertEquals(0, retryBin.getOld(new Date(now.getTime() + 10020)).size());
+
+        retryBin.acceptNewAndSave();
+        
+        Assert.assertEquals(3, retryBin.old.size());
+        Assert.assertEquals(0, retryBin.nev.size());
+        Assert.assertEquals(3, retryBin.getOld(new Date(now.getTime() + 10020)).size());
+        Assert.assertEquals(0, retryBin.getOld(time1).size());
+        Assert.assertEquals(1, retryBin.getOld(time2).size());
+        Assert.assertEquals(2, retryBin.getOld(time3).size());
+        Assert.assertEquals(3, retryBin.getOld(time4).size());
+
+        HashMap<String, Ersättningshändelse> old = new HashMap<String, Ersättningshändelse>();
+        for (Ersättningshändelse ersh : retryBin.getOld(time3)) {
+            old.put(ersh.getID(), ersh);
+        }
+        
+        Assert.assertEquals(2, old.size());
+        Assert.assertNotNull(old.get("123"));
+        Assert.assertNotNull(old.get("124"));
+    }
+
     @Test
     public void testSaveAndLoad() throws Exception 
     {        
-        Date now = new Date();
-        retryBin.put(createMinimalErsh("123", now ), now);
-        retryBin.put(createMinimalErsh("124", now), now);
-        retryBin.put(createMinimalErsh("125", now), now);
+        retryBin.put(createMinimalErsh("123"), new Date());
+        retryBin.put(createMinimalErsh("124"), new Date());
+        retryBin.put(createMinimalErsh("125"), new Date());
 
         Assert.assertEquals(0, retryBin.old.size());
         Assert.assertEquals(3, retryBin.nev.size());
@@ -83,9 +169,8 @@ public class RetryBinTest
     @Test
     public void testAcceptAndSaveSavesToFirstNewFile() throws Exception 
     {
-        Date now = new Date();
-        Ersättningshändelse ersh = createMinimalErsh("123", now);
-        retryBin.put(ersh, now);
+        Ersättningshändelse ersh = createMinimalErsh("123");
+        retryBin.put(ersh, new Date());
         
         Assert.assertEquals(null, retryBin.old.get("123"));
         Assert.assertEquals(ersh, retryBin.nev.get("123"));
@@ -221,11 +306,10 @@ public class RetryBinTest
         Assert.assertEquals(ersh1, retryBin.nev.get("123"));
     }
     
-    private Ersättningshändelse createMinimalErsh(String id, Date date) throws Exception
+    private Ersättningshändelse createMinimalErsh(String id) throws Exception
     {
         Ersättningshändelse ersh = new Ersättningshändelse();
         ersh.setID(id);
-        ersh.setLastUpdated(RetryBin.dateToXmlCal(date));
         ersh.setStartdatum(DatatypeFactory.newInstance().newXMLGregorianCalendar(new GregorianCalendar()));
         ersh.setStartverksamhet("12345678901");
         ersh.setSlutverksamhet("12345678901");
