@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.slf4j.Logger;
@@ -38,13 +39,13 @@ import se.sll.ersmo.xml.indata.VisteFöre;
 import se.sll.ersmo.xml.indata.Vkhform;
 import se.sll.ersmo.xml.indata.Vårdkontakt;
 import se.sll.ersmo.xml.indata.Åtgärder;
-import se.sll.reimbursementadapter.RetryBin;
 import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
 import se.sll.reimbursementadapter.exception.TransformationException;
+import se.sll.reimbursementadapter.gvr.RetryBin;
 import se.sll.reimbursementadapter.parser.TermItem;
 
 /**
@@ -70,10 +71,11 @@ public class ERSMOIndataToCareEventTransformer {
      * @param fileUpdatedTime The update time for the file the ERSMOIndata was read from. This is used
      *                        for setting the "lastUpdatedTime" parameter in the transformation, which
      *                        is not available in the source data.
+     * @throws DatatypeConfigurationException 
      */
     public static List<CareEventType> doTransform(RetryBin retryBin, Boolean addLookupFails, List<CareEventType> responseList, 
                                                   List<Ersättningshändelse> sourceList, Date fileUpdatedTime, Path currentFile) 
-            throws TransformationException 
+            throws TransformationException, DatatypeConfigurationException 
     {
         ObjectFactory of = new ObjectFactory();
 

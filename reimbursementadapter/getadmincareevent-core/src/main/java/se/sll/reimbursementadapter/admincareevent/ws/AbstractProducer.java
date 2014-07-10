@@ -27,6 +27,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
@@ -45,10 +46,10 @@ import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
-import se.sll.reimbursementadapter.RetryBin;
 import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.exception.TransformationException;
+import se.sll.reimbursementadapter.gvr.RetryBin;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
@@ -70,8 +71,11 @@ public class AbstractProducer {
 
     /** Lists files matching a period and provides Readers for individual files. */
     @Autowired
-    private GVRFileReader gvrFileReader;
+    public GVRFileReader gvrFileReader;
 
+    @Autowired
+    private RetryBin retryBin;
+    
     /** Reference to the JAX-WS {@link javax.xml.ws.WebServiceContext}. */
     @Resource
     private WebServiceContext webServiceContext;
@@ -115,7 +119,6 @@ public class AbstractProducer {
                 return errorResponse("Error when listing files in GVR directory.", e);
             }
 
-            RetryBin retryBin = new RetryBin();
             retryBin.load();
 
             // Create the response list object.
@@ -167,8 +170,8 @@ public class AbstractProducer {
                 try {
                     ERSMOIndataToCareEventTransformer.doTransform(retryBin, true, careEventList, ershList, fileUpdatedTime, currentFile);
                 }
-                catch (TransformationException e) {
-                    return errorResponse(String.format("TransformationException when parsing %s: %s", currentFile.getFileName(), e.getMessage()), e);
+                catch (TransformationException | DatatypeConfigurationException e) {
+                    return errorResponse(String.format("Exception when parsing %s: %s", currentFile.getFileName(), e.getMessage()), e);
                 } 
 
                 retryBin.discardOld(fileUpdatedTime);
@@ -181,8 +184,8 @@ public class AbstractProducer {
                         ERSMOIndataToCareEventTransformer.doTransform(retryBin, false, careEventList, retryBin.getOld(fileUpdatedTime), 
                                                                       fileUpdatedTime, retryBin.getCurrentFile());
                     }
-                    catch (TransformationException e) {
-                        return errorResponse(String.format("TransformationException when parsing %s: %s", retryBin.getCurrentFile(), e.getMessage()), e);
+                    catch (TransformationException | DatatypeConfigurationException e) {
+                        return errorResponse(String.format("Exception when parsing %s: %s", retryBin.getCurrentFile(), e.getMessage()), e);
                     }
                 }
 

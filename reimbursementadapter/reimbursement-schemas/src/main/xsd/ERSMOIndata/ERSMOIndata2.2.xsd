@@ -47,6 +47,8 @@
                   <xsd:attribute name="Startverksamhet" type="ehvsh" use="required"/>
                   <xsd:attribute name="Slutverksamhet" type="ehvsh" use="optional"/>
           <xsd:attribute name="ErsUppdrag" type="eheu" use="optional"/>
+          <!-- NOTE: This attribute was added for internal use in the reimbursement adapter, this is not a part of the original ERSMOIndata format. -->
+          <xsd:attribute name="LastUpdated" type="xsd:dateTime" use="optional"/>
                </xsd:complexType>
             </xsd:element>
             <!--*** Slut på formatet för Ersättningshändelse  ***-->
