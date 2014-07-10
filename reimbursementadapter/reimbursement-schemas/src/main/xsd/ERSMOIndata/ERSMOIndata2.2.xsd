@@ -10,7 +10,7 @@
          <xsd:sequence>
          
             <!--*** Ersättningshändelse  ***-->
-            <xsd:element name="Ersättningshändelse" minOccurs="1" maxOccurs="unbounded">
+            <xsd:element name="Ersättningshändelse" minOccurs="0" maxOccurs="unbounded">
                <xsd:complexType>
                   <xsd:all>
                   

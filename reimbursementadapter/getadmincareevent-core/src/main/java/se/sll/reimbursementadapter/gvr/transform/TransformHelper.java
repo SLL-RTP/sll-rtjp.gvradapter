@@ -61,7 +61,7 @@ import se.sll.reimbursementadapter.parser.TermItem;
  */
 public class TransformHelper {
 
-    private static final String SLL_GVR_SOURCE = "GVR";
+    public static final String SLL_GVR_SOURCE = "GVR";
     protected static final String SLL_CAREGIVER_HSA_ID = "SE2321000016-39KJ";
     protected static final String HYBRID_GUI_SEPARATOR = "+";
     private static final ObjectFactory of = new ObjectFactory();

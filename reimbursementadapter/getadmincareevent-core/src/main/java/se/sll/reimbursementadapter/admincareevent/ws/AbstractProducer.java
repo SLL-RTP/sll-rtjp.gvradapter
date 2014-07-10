@@ -16,6 +16,7 @@
  */
 package se.sll.reimbursementadapter.admincareevent.ws;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
@@ -52,7 +53,8 @@ import se.sll.reimbursementadapter.exception.TransformationException;
 import se.sll.reimbursementadapter.gvr.RetryBin;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
-import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataUnMarshaller;
+import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataMarshaller;
+import se.sll.reimbursementadapter.gvr.transform.TransformHelper;
 
 /**
  * Abstract producer for the GetAdministrativeCareEvent service. Implements and isolates the actual logic for the
@@ -119,7 +121,12 @@ public class AbstractProducer {
                 return errorResponse("Error when listing files in GVR directory.", e);
             }
 
-            retryBin.load();
+            try {
+                retryBin.load();
+            }
+            catch (JAXBException | SAXException | FileNotFoundException e) {
+                return errorResponse(String.format("Error when loading retry bin: %s", e.getMessage()), e);
+            }
 
             // Create the response list object.
             List<CareEventType> careEventList = new ArrayList<CareEventType>();
@@ -132,8 +139,8 @@ public class AbstractProducer {
                 // Get a reader for the current file, read it and then Unmarshal it into a generated ERSMOIndata object.
                 ERSMOIndata ersmoIndata;
                 try (Reader fileContent = gvrFileReader.getReaderForFile(currentFile)) {
-                    ERSMOIndataUnMarshaller unmarshaller = new ERSMOIndataUnMarshaller();
-                    ersmoIndata = unmarshaller.unmarshalString(fileContent);
+                    ERSMOIndataMarshaller unmarshaller = new ERSMOIndataMarshaller();
+                    ersmoIndata = unmarshaller.unmarshal(fileContent);
                 } catch (IOException e) {
                     return errorResponse("Error when creating Reader for file: " + currentFile.getFileName(), e);
                 } 
@@ -163,7 +170,7 @@ public class AbstractProducer {
                 // Transform all the Ersättningshändelse within the object to CareEventType and add them to the
                 // response.
                 String källa = ersmoIndata.getKälla();
-                if (!"GVR".equals(källa)) {
+                if (!TransformHelper.SLL_GVR_SOURCE.equals(källa)) {
                     return errorResponse(String.format("Unexpected källa %s when parsning when parsing %s.", källa, currentFile.getFileName()), null);
                 }
 
@@ -189,7 +196,12 @@ public class AbstractProducer {
                     }
                 }
 
-                retryBin.acceptNewAndSave();
+                try {
+                    retryBin.acceptNewAndSave();
+                }
+                catch (IOException | JAXBException | SAXException e) {
+                    return errorResponse(String.format("Failed to save new retry bin: %s", e.getMessage()), e);
+                }
             }       
 
             // Create the response.

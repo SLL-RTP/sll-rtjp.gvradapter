@@ -50,8 +50,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-02-02T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
@@ -174,8 +174,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-02-02T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
         indata.getErsättningshändelse().get(0).setStartverksamhet("1234");
         indata.getErsättningshändelse().get(0).setSlutverksamhet("1234");
 
@@ -200,8 +200,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2013-09-08T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
@@ -223,8 +223,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2013-09-09T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
@@ -246,8 +246,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-09-10T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
@@ -268,8 +268,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-13T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
@@ -291,8 +291,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-12T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
@@ -314,8 +314,8 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-14T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
         List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
