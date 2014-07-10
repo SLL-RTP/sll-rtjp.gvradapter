@@ -52,9 +52,11 @@ public class RetryBin
         String id = ersh.getID();
         
         Ersättningshändelse existing = old.get(id);
-        if (existing != null && fileUpdatedTimestamp.after(xmlCalToDate(existing.getLastUpdated()))) {
-            old.remove(id); 
-            existing = null;
+        if (existing != null) { 
+            if (fileUpdatedTimestamp.after(xmlCalToDate(existing.getLastUpdated()))) {
+                old.remove(id); 
+                existing = null;
+            }
         }
         else {
             existing = nev.get(id);
