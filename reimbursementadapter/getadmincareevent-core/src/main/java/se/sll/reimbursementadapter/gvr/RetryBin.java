@@ -118,6 +118,7 @@ public class RetryBin
             for (Ersättningshändelse ersh : xml.getErsättningshändelse()) {
                 old.put(ersh.getID(), ersh);
             }
+            LOG.info(String.format("Loaded %d events from retry bin file %s.", old.size(), lastLoadedFile.getAbsolutePath()));
         }
         
     }
@@ -131,6 +132,7 @@ public class RetryBin
 
         // Accept new.
         
+        int newSize = nev.size();
         old.putAll(nev);
         nev.clear();
         
@@ -156,10 +158,13 @@ public class RetryBin
         xml.setKälla(TransformHelper.SLL_GVR_SOURCE);
         xml.setID("");
         (new ERSMOIndataMarshaller()).marshal(xml, new FileWriter(saveFile));
+
+        LOG.info(String.format("Saved %d events to retry bin file %s, accepted %d new.", old.size(), saveFile.getAbsolutePath(), newSize));
         
         // Remove excess files.
         
         for (int i = 0; i < files.length - fileKeepCount + 1; ++i) {
+            LOG.info(String.format("Removing excess retry bin file %s.", files[i].getAbsolutePath()));
             files[i].delete();
         }
     }
@@ -206,14 +211,16 @@ public class RetryBin
         cal.setTime(date);
         
         Iterator<Entry<String, Ersättningshändelse>> iterator = old.entrySet().iterator();
+        int removeCount = 0;
         while (iterator.hasNext()) {
             Entry<String, Ersättningshändelse> entry = iterator.next();
             GregorianCalendar entryCal = entry.getValue().getLastUpdated().toGregorianCalendar();
             if (entryCal.before(cal)) {
-                LOG.info(String.format("Discarding ersh %s updated at %s from retry bin.", entry.getKey(), entryCal.getTime()));
                 iterator.remove();
+                ++removeCount;
             }
         }
+        LOG.info(String.format("Discarded %d old entries from retry bin.", removeCount));
     }
     
     public static Date xmlCalToDate(XMLGregorianCalendar xcal) throws DatatypeConfigurationException
