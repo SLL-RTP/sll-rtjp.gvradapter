@@ -116,7 +116,7 @@ public class AbstractProducer {
         response.setResultCode("OK");
 
         // Transforms the incoming ProcessReimbursementRequestType to the equivivalent HEJIndata according to the
-        // specification (TODO: version?)
+        // specification
         ReimbursementRequestToHEJIndataTransformer hejTransformer =
                 new ReimbursementRequestToHEJIndataTransformer(codeServerCacheService.getCurrentIndex());
         HEJIndata hejXml = null;

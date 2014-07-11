@@ -185,7 +185,6 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
 
         // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
-        // TODO Add assert for event in retry bin.
     }
 
     @Test
