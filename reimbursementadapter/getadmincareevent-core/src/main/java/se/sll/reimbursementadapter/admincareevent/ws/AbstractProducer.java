@@ -190,7 +190,7 @@ public class AbstractProducer {
                 // fileUpdateTime of +1 ms from the original ersh.
                 try {
                     ERSMOIndataToCareEventTransformer.doTransform(retryBin, false, careEventList, retryBin.getOld(fileUpdatedTime), 
-                                                                  fileUpdatedTime, retryBin.getCurrentFile());
+                                                                  null, retryBin.getCurrentFile());
                 }
                 catch (TransformationException | DatatypeConfigurationException e) {
                     return errorResponse(String.format("Exception when parsing %s: %s", retryBin.getCurrentFile(), e.getMessage()), e);

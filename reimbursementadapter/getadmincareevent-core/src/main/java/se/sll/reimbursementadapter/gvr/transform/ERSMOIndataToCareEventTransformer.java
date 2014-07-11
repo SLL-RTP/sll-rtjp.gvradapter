@@ -297,7 +297,15 @@ public class ERSMOIndataToCareEventTransformer {
             }
 
             // Last updated time
-            careEvent.setLastUpdatedTime(TransformHelper.createXMLCalendarFromDate(updatedTime));
+            if (updatedTime != null) {
+                careEvent.setLastUpdatedTime(TransformHelper.createXMLCalendarFromDate(updatedTime));
+            }
+            else if (ersh.getLastUpdated() != null) {
+                careEvent.setLastUpdatedTime(ersh.getLastUpdated());
+            }
+            else {
+                fatal(String.format("Failed to set last updated time for ersh %s in file %s, all sources are null.", ershId, currentFile));
+            }
 
             // Deleted
             careEvent.setDeleted(ersh.isMakulerad());
