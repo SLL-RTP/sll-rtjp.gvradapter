@@ -52,7 +52,7 @@ public class GVRFileReader {
 
     /** Local path to the directory where GVR files are stored. */
     @Value("${pr.gvr.ftp.localPath:/tmp/gvr/in}")
-    private String localPath;
+    public String localPath;
 
     /** Timestamp format from the RIV schema request. Used for listing the files within the parameter period. */
     @Value("${pr.riv.timestampFormat:yyyyMMddHHmmssSSS}")
@@ -131,7 +131,6 @@ public class GVRFileReader {
      */
     public List<Path> getFileList(final Date fromDate, final Date toDate) throws IOException {
         Path directoryToIterate = FileSystems.getDefault().getPath(localPath);
-        LOG.info(String.format("Reading files from date: %s to date: %s and path: %s", fromDate, toDate, directoryToIterate.toString()));
 
         // Read all the wanted files from the current directory.
         List<Path> response = new ArrayList<>();

@@ -41,7 +41,7 @@ public class AbstractProducerTest extends TestSupport
         producer.retryBin = new RetryBin();
         producer.retryBin.dir = tmp.getRoot().getAbsolutePath();
         producer.gvrFileReader = gvrFileReader;
-        producer.maximumNewCareEvents = 100;
+        producer.maximumNewEvents = 100;
         
         // Prepare stuff in retry bin.
         Ersättningshändelse nowSuccessfulErsh666 = RetryBinTest.createMinimalErsh("666");

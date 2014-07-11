@@ -386,7 +386,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTruncationPartResponses() {
-        this.maximumNewCareEvents = 8;
+        this.maximumNewEvents = 8;
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -407,7 +407,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTruncationResponseOverlapsTwoFiles() {
-        this.maximumNewCareEvents = 14;
+        this.maximumNewEvents = 14;
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();
@@ -429,7 +429,7 @@ public class GetAdministrativeCareEventProducerTest extends AbstractProducer {
 
     @Test
     public void testTruncationNoResponses() {
-        this.maximumNewCareEvents = 3;
+        this.maximumNewEvents = 3;
         this.getGvrFileReader().setDateFilterMethod(DateFilterMethod.FILENAME);
         CodeServerMEKCacheManagerService.getInstance().revalidate();
         GetAdministrativeCareEventType params = new GetAdministrativeCareEventType();

@@ -52,8 +52,8 @@ import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.exception.TransformationException;
 import se.sll.reimbursementadapter.gvr.RetryBin;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
-import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataMarshaller;
+import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataToCareEventTransformer;
 import se.sll.reimbursementadapter.gvr.transform.TransformHelper;
 
 /**
@@ -92,7 +92,7 @@ public class AbstractProducer {
      *  use of old care events in the retry bin.
      */
     @Value("${pr.riv.maximumNewEvents:10000}")
-    protected int maximumNewCareEvents;
+    protected int maximumNewEvents;
 
     /**
      * Creates a GetAdministrativeCareEventResponse from the provided GetAdministrativeCareEventType parameter.
@@ -111,7 +111,7 @@ public class AbstractProducer {
             Date startDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getStart());
             Date endDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getEnd());
 
-            LOG.info(String.format("Request recieved, from date: %s to date: %s", startDate, endDate));
+            LOG.info(String.format("Request recieved, from date %s, to date %s, max new %d, indata dir %s.", startDate, endDate, maximumNewEvents, gvrFileReader.localPath));
 
             // List all the GVR files between the start- and end dates in the configured incoming directory
             List<Path> pathList;
@@ -157,13 +157,13 @@ public class AbstractProducer {
 
                 // Calculate whether we should break now or not.
 
-                if (ershList.size() + careEventList.size() > maximumNewCareEvents) {
+                if (ershList.size() + careEventList.size() > maximumNewEvents) {
                     if (careEventList.size() == 0) {
                         return errorResponse(String.format("ERSMOIndata from file (%s) is too big (%d events) for maximumSupportedCareEvents (%d), reconfigure it!",
-                                                           currentFile.getFileName(), ershList.size(), maximumNewCareEvents), null);
+                                                           currentFile.getFileName(), ershList.size(), maximumNewEvents), null);
                     }
                     resultCode = "TRUNCATED";
-                    responseComment = String.format("Response was truncated due to hitting maximumNewCareEvents config at %d.", maximumNewCareEvents);  
+                    responseComment = String.format("Response was truncated due to hitting maximumNewEvents config at %d.", maximumNewEvents);  
                     break;
                 }
 
@@ -182,9 +182,9 @@ public class AbstractProducer {
                 } 
             }
 
-            retryBin.discardOld(fileUpdatedTime);
-
             if (careEventList.size() > 0) {
+                retryBin.discardOld(fileUpdatedTime);
+                
                 // Add from retry bin to response. We only want to piggyback on a response with new entries because we do want to use the fileUpdateTime to not
                 // send too new care events from the retry bin (in case someone requests time intervals backwards). The ersh in the retry bin itself has faked
                 // fileUpdateTime of +1 ms from the original ersh.
@@ -234,9 +234,18 @@ public class AbstractProducer {
         else {
             LOG.error("Respoding with error, logging cause: " + comment, e);
         }
+        DateTimePeriodType responsePeriod = new DateTimePeriodType();
+        try {
+            responsePeriod.setStart(RetryBin.dateToXmlCal(new Date(0)));
+            responsePeriod.setEnd(RetryBin.dateToXmlCal(new Date(0)));
+        } catch (DatatypeConfigurationException ex) {
+            throw new RuntimeException("This is a bug that we can not handle.", ex);
+        }
+        
         GetAdministrativeCareEventResponse response = new GetAdministrativeCareEventResponse();
         response.setResultCode("ERROR");
         response.setComment(comment);
+        response.setResponseTimePeriod(responsePeriod);
         return response;
     }
 
@@ -326,10 +335,10 @@ public class AbstractProducer {
      * @return the result code.
      */
     protected boolean fulfill(final Runnable runnable) {
-        final MessageContext messageContext = getMessageContext();
-        final String path = (String) messageContext.get(MessageContext.PATH_INFO);
-        statusBean.start(path);
-        log(messageContext);
+        //final MessageContext messageContext = getMessageContext();
+        //final String path = (String) messageContext.get(MessageContext.PATH_INFO);
+        //statusBean.start(path);
+        //log(messageContext);
         boolean status = false;
         try {
             runnable.run();
@@ -340,10 +349,10 @@ public class AbstractProducer {
         } catch (Exception exception) {
             throw createSoapFault(exception);
         } finally {
-            statusBean.stop(status);
+            //statusBean.stop(status);
         }
 
-        LOG.debug("stats: {}", statusBean.getPerformanceMetricsAsJSON());
+        //LOG.debug("stats: {}", statusBean.getPerformanceMetricsAsJSON());
 
         return status;
     }
