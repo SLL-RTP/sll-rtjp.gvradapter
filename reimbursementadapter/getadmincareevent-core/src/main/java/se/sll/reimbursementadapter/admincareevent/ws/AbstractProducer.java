@@ -106,10 +106,13 @@ public class AbstractProducer {
         synchronized (RETRY_LOCK) {
             
             // Set up the incoming dates with proper timezone + DST information. (Java < 8 is not fantastic at handling this stuff)
-            Date startDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getStart());
-            Date endDate = getLocalizedDate(parameters.getUpdatedDuringPeriod().getEnd());
+            DateTimePeriodType requestPeriod = parameters.getUpdatedDuringPeriod();
+            Date startDate = getLocalizedDate(requestPeriod.getStart());
+            Date endDate = getLocalizedDate(requestPeriod.getEnd());
 
-            LOG.info(String.format("Request recieved, from date %s, to date %s, max new %d, indata dir %s.", startDate, endDate, maximumNewEvents, gvrFileReader.localPath));
+            LOG.info(String.format("Request recieved, from  %s to date %s, max new %d, indata dir %s.", 
+                                   requestPeriod.getStart().normalize().toXMLFormat(), requestPeriod.getEnd().normalize().toXMLFormat(), 
+                                   maximumNewEvents, gvrFileReader.localPath));
 
             // List all the GVR files between the start- and end dates in the configured incoming directory
             List<Path> pathList;
@@ -205,8 +208,8 @@ public class AbstractProducer {
             // Create the response.
             
             DateTimePeriodType responsePeriod = new DateTimePeriodType();
-            responsePeriod.setStart(parameters.getUpdatedDuringPeriod().getStart());
-            XMLGregorianCalendar maxLastUpdatedTime = parameters.getUpdatedDuringPeriod().getStart();
+            responsePeriod.setStart(requestPeriod.getStart());
+            XMLGregorianCalendar maxLastUpdatedTime = requestPeriod.getStart();
             for (CareEventType careEvent : careEventList) {
                 XMLGregorianCalendar lastUpdatedTime = careEvent.getLastUpdatedTime();
                 if (maxLastUpdatedTime == null || lastUpdatedTime.compare(maxLastUpdatedTime) == DatatypeConstants.GREATER) {
@@ -220,6 +223,10 @@ public class AbstractProducer {
             response.setResultCode(resultCode);
             response.setComment(responseComment);
             response.getCareEvent().addAll(careEventList);
+            
+            LOG.info(String.format("Responding with %d events from %s to %s.", 
+                                   careEventList.size(), responsePeriod.getStart().normalize().toXMLFormat(), responsePeriod.getEnd().normalize().toXMLFormat()));
+
             return response;
         }
     }
