@@ -40,6 +40,8 @@ public class AbstractProducerTest extends TestSupport
         AbstractProducer producer = new AbstractProducer();
         producer.retryBin = new RetryBin();
         producer.retryBin.dir = tmp.getRoot().getAbsolutePath();
+        producer.retryBin.discardOldDays = 180L;
+        producer.retryBin.fileKeepCount = 240;
         producer.gvrFileReader = gvrFileReader;
         producer.maximumNewEvents = 100;
         

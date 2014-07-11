@@ -43,6 +43,12 @@ public class RetryBin
     @Value("${pr.gvr.io.retryBinDir:}")
     public String dir;
 
+    @Value("${pr.gvr.id.retryBinFileKeepCount:240}")
+    public int fileKeepCount;
+
+    @Value("${pr.gvr.id.discardOldDays:180}")
+    public long discardOldDays;
+    
     /**
      * All Ersättningshändelser that came from the retry bin file (been there since last request).
      */
@@ -55,13 +61,11 @@ public class RetryBin
 
     public File lastLoadedFile;
     
-    public int fileKeepCount;
 
     public RetryBin() {
         old = new HashMap<String, Ersättningshändelse>();
         nev = new HashMap<String, Ersättningshändelse>();
         lastLoadedFile = null;
-        fileKeepCount = 240;
     }
     
     /**
@@ -207,7 +211,7 @@ public class RetryBin
     public void discardOld(Date now)
     {
         GregorianCalendar cal = new GregorianCalendar();
-        Date date = new Date(now.getTime() - 1000L * 3600L * 24L * 180L);
+        Date date = new Date(now.getTime() - 1000L * 3600L * 24L * discardOldDays);
         cal.setTime(date);
         
         Iterator<Entry<String, Ersättningshändelse>> iterator = old.entrySet().iterator();

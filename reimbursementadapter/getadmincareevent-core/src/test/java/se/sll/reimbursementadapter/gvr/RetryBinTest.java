@@ -48,6 +48,7 @@ public class RetryBinTest
         retryBin = new RetryBin();
         retryBin.dir = tmp.getRoot().getAbsolutePath();
         retryBin.fileKeepCount = 4;
+        retryBin.discardOldDays = 180L;
     }
 
     @Test
