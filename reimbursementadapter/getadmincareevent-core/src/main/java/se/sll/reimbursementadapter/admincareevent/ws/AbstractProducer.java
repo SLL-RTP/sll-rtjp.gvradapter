@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.xml.bind.JAXBException;
@@ -47,7 +46,6 @@ import riv.followup.processdevelopment.reimbursement.v1.CareEventType;
 import riv.followup.processdevelopment.reimbursement.v1.DateTimePeriodType;
 import se.sll.ersmo.xml.indata.ERSMOIndata;
 import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
-import se.sll.reimbursementadapter.admincareevent.jmx.StatusBean;
 import se.sll.reimbursementadapter.exception.NotFoundException;
 import se.sll.reimbursementadapter.exception.TransformationException;
 import se.sll.reimbursementadapter.gvr.RetryBin;
@@ -63,13 +61,13 @@ import se.sll.reimbursementadapter.gvr.transform.TransformHelper;
 public class AbstractProducer {
 
     private static final Logger LOG = LoggerFactory.getLogger("WS-API");
-    private static final String SERVICE_CONSUMER_HEADER_NAME = "x-rivta-original-serviceconsumer-hsaid";
+    //private static final String SERVICE_CONSUMER_HEADER_NAME = "x-rivta-original-serviceconsumer-hsaid";
 
     public static final String RETRY_LOCK = "SLL_REIMBURSEMENT_RETRY_LOCK";
     
     /** Handles all the JMX stuff. */
-    @Autowired
-    private StatusBean statusBean;
+    //@Autowired
+    //private StatusBean statusBean;
 
     /** Lists files matching a period and provides Readers for individual files. */
     @Autowired
@@ -311,21 +309,22 @@ public class AbstractProducer {
      *
      * @param messageContext the context.
      */
+    /*
     private void log(MessageContext messageContext) {
         final Map<?, ?> headers = (Map<?, ?>) messageContext.get(MessageContext.HTTP_REQUEST_HEADERS);
         LOG.info(createLogMessage(headers.get(SERVICE_CONSUMER_HEADER_NAME)));
         LOG.debug("HTTP Headers {}", headers);
     }
+     */   
+   
 
     /**
      * Creates a LOG message.
-     *
-     * @param msg the message.
-     * @return the LOG message.
      */
     protected String createLogMessage(Object msg) {
-        return String.format("%s - %s - \"%s\"", statusBean.getName(), statusBean.getGUID(),
-                (msg == null) ? "NA" : msg);
+        return String.format("%s", msg);
+        //return String.format("%s - %s - \"%s\"", statusBean.getName(), statusBean.getGUID(),
+        //        (msg == null) ? "NA" : msg);
     }
 
     /**
