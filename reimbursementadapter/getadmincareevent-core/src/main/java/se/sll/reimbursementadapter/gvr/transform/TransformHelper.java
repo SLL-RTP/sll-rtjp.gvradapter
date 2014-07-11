@@ -250,7 +250,6 @@ public class TransformHelper {
             currentDiagnosis.setCodeSystem(OIDList.getOid(CodeSystem.ICD10_SE));
             currentDiagnosis.setCodeSystemName(OIDList.getName(CodeSystem.ICD10_SE));
         } else if (diagnos.getKlass().equals("020")) {
-            LOG.debug("Found diagnosis of type 020, filtering away.");
             return null;
         } else {
             currentDiagnosis.setCodeSystem("NO.OID: " + diagnos.getKlass());
@@ -447,7 +446,7 @@ public class TransformHelper {
         }
         
         if (payerOrganization != null) {
-            LOG.warn(String.format("Looked up kombika using strang back reference algorithm, verify this (and remove warning if code is correct)! "
+            LOG.info(String.format("Looked up kombika using strang back reference algorithm, verify this (and remove warning if code is correct)! "
                                    + "kombika %s on care event %s in %s.", kombika, currentErsId, currentFile));
             return payerOrganization;
         }

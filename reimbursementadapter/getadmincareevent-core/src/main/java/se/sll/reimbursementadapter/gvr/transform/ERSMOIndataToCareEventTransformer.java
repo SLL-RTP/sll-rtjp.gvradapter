@@ -244,8 +244,6 @@ public class ERSMOIndataToCareEventTransformer {
                                 HSAMappingState hsaMappingState = hsaMapping.getStateBefore(stateDate);
                                 if (hsaMappingState != null) {
                                     referredFromHsaId = hsaMappingState.getHsaId();
-                                    LOG.debug(String.format("Looked up referral hsa id by using getStateBefore for referral kombika %s and original state date %s on care event %s in %s.",
-                                                            referralBefore.getKod(), stateDate, ershId, currentFile));
                                 }
                             }
                         }
