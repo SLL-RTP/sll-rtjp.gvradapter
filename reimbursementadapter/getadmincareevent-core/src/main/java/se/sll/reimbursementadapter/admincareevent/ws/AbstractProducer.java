@@ -175,7 +175,6 @@ public class AbstractProducer {
                 }
 
                 try {
-                    // Eric: If the response list from doTransform is not used anywhere, should we remove it?
                     boolean addLookupFails = true;
                     ERSMOIndataToCareEventTransformer.doTransform(retryBin, addLookupFails, careEventList, ershList, fileUpdatedTime, currentFile);
                 }
@@ -186,8 +185,6 @@ public class AbstractProducer {
 
             if (careEventList.size() > 0) {
                 retryBin.discardOld(fileUpdatedTime);
-
-                // Eric: might want to rephrase this comment, it took me a very long time to parse.
 
                 // Add from retry bin to response. We only want to piggyback on a response with new entries because we do want to use the fileUpdateTime to not
                 // send too new care events from the retry bin (in case someone requests time intervals backwards). The ersh in the retry bin itself has faked

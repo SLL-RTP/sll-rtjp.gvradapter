@@ -73,8 +73,8 @@ public class ERSMOIndataToCareEventTransformer {
      *                        is not available in the source data.
      * @throws DatatypeConfigurationException 
      */
-    public static List<CareEventType> doTransform(RetryBin retryBin, Boolean addLookupFails, List<CareEventType> responseList, 
-                                                  List<Ersättningshändelse> sourceList, Date fileUpdatedTime, Path currentFile) 
+    public static void doTransform(RetryBin retryBin, Boolean addLookupFails, List<CareEventType> responseList, 
+                                   List<Ersättningshändelse> sourceList, Date fileUpdatedTime, Path currentFile) 
             throws TransformationException, DatatypeConfigurationException 
     {
         ObjectFactory of = new ObjectFactory();
@@ -118,8 +118,6 @@ public class ERSMOIndataToCareEventTransformer {
         }
         
         LOG.info(String.format("Transform finished %d lookup fails (%sadded), %d test samverks skipped, %d was ok.", lookupFailCount, addLookupFails ? "" : "not ", testSamverksCount, okCount));
-        
-        return responseList;
     }
     
     /**
