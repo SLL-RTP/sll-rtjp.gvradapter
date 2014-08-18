@@ -32,31 +32,32 @@ import se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse;
 import se.sll.reimbursementadapter.gvr.transform.ERSMOIndataMarshaller;
 import se.sll.reimbursementadapter.gvr.transform.TransformHelper;
 
+/**
+ * Component that keeps a list of files that triggered an error when processing,
+ * but was deemed that the fault was fixable (i.e. updated code server definitions).
+ * Used by the AbstractProducer to continually resend messages along with the new ones.
+ */
 @Component
 public class RetryBin
 {
     private static final Logger LOG = LoggerFactory.getLogger(RetryBin.class);
     
-    /** 
-     * Path to directory where the retry bin is stored. If empty the retry bin will be disabled.
-     */
+    /** Path to directory where the retry bin is stored. If empty the retry bin will be disabled. */
     @Value("${pr.gvr.io.retryBinDir:}")
     public String dir;
 
+    /** The number of files to keep in the history. */
     @Value("${pr.gvr.id.retryBinFileKeepCount:240}")
     public int fileKeepCount;
 
+    /** The age in days after which the files should be discarded from the bin. */
     @Value("${pr.gvr.id.discardOldDays:180}")
     public long discardOldDays;
     
-    /**
-     * All Ersättningshändelser that came from the retry bin file (been there since last request).
-     */
+    /** All Ersättningshändelser that came from the retry bin file (been there since last request). */
     public Map<String, Ersättningshändelse> old;
     
-    /**
-     * All Ersättningshändelser that was added in this request.
-     */
+    /** All Ersättningshändelser that was added in this request. */
     public Map<String, Ersättningshändelse> nev;
 
     public File lastLoadedFile;
@@ -67,9 +68,13 @@ public class RetryBin
         nev = new HashMap<String, Ersättningshändelse>();
         lastLoadedFile = null;
     }
-    
+
     /**
      * Put ersh to collection of new but only update if it originates from newer file.
+     *
+     * @param ersh The {@link Ersättningshändelse} to insert into the bin.
+     * @param fileUpdatedTimestamp The {@link Date} file timestamp for the ersh.
+     * @throws DatatypeConfigurationException When the Date could not be converted to a Calendar.
      */
     public void put(Ersättningshändelse ersh, Date fileUpdatedTimestamp) throws DatatypeConfigurationException
     {
@@ -80,7 +85,7 @@ public class RetryBin
         Ersättningshändelse existing = old.get(id);
         if (existing != null) { 
             if (fileUpdatedTimestamp.after(xmlCalToDate(existing.getLastUpdated()))) {
-                old.remove(id); 
+                old.remove(id);
                 existing = null;
             }
         }
@@ -103,9 +108,13 @@ public class RetryBin
             nev.put(id, ersh);
         }
     }
-    
+
     /**
-     * Load old ersh from file.
+     * Load the old {@link Ersättningshändelse} from the file system.
+     *
+     * @throws FileNotFoundException When the listed file could not be read from the disk.
+     * @throws SAXException XML error when parsing file contents.
+     * @throws JAXBException XML error when parsing file contents.
      */
     public void load() throws FileNotFoundException, SAXException, JAXBException
     {
@@ -129,6 +138,10 @@ public class RetryBin
 
     /**
      * Add all from new collection to old collection and save all to file.
+     *
+     * @throws SAXException XML error when parsing file contents.
+     * @throws JAXBException XML error when parsing file contents.
+     * @throws IOException When the new files could not be saved to disk.
      */
     public void acceptNewAndSave() throws SAXException, JAXBException, IOException
     {
@@ -174,7 +187,12 @@ public class RetryBin
     }
 
     /**
-     * Return all ersh from old who have a updated timestamp before or equal to filterTimestamp.
+     * Return all {@link Ersättningshändelse} from the old bin who have a updated timestamp
+     * before or equal to the incoming filterTimestamp parameter.
+     *
+     * @param filterTimestamp A {@link Date} the filter date.
+     * @return {@link Ersättningshändelse} from the old bin who have a updated timestamp
+     * before or equal to the incoming filterTimestamp parameter.
      */
     public List<Ersättningshändelse> getOld(Date filterTimestamp)
     {
@@ -192,12 +210,23 @@ public class RetryBin
         return list;
     }
 
+    /**
+     * Removes the {@link Ersättningshändelse} corresponding to the incoming 'id' parameter
+     * from both the new and old bins.
+     *
+     * @param id The id for the {@link Ersättningshändelse} that should be removed.
+     */
     public void remove(String id)
     {        
         nev.remove(id);
         old.remove(id);
     }
 
+    /**
+     * Returns a {@link java.nio.file.Path} to the file that was last loaded.
+     *
+     * @return a {@link java.nio.file.Path} to the file that was last loaded.
+     */
     public Path getCurrentFile()
     {   
         if (lastLoadedFile == null) return null;
@@ -207,6 +236,8 @@ public class RetryBin
 
     /**
      * Discard all old entries to prevent file from growing out of control.
+     *
+     * @param now The date that constitutes now and should be used to calculate the file age.
      */
     public void discardOld(Date now)
     {

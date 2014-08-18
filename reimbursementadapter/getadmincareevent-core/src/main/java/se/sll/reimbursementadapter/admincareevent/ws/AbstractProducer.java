@@ -1,5 +1,4 @@
 /**
-                RetryBin retryBin = null;
  *  Copyright (c) 2013 SLL <http://sll.se/>
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -176,7 +175,9 @@ public class AbstractProducer {
                 }
 
                 try {
-                    ERSMOIndataToCareEventTransformer.doTransform(retryBin, true, careEventList, ershList, fileUpdatedTime, currentFile);
+                    // Eric: If the response list from doTransform is not used anywhere, should we remove it?
+                    boolean addLookupFails = true;
+                    ERSMOIndataToCareEventTransformer.doTransform(retryBin, addLookupFails, careEventList, ershList, fileUpdatedTime, currentFile);
                 }
                 catch (TransformationException | DatatypeConfigurationException e) {
                     return errorResponse(String.format("Exception when parsing %s: %s", currentFile.getFileName(), e.getMessage()), e);
@@ -185,12 +186,15 @@ public class AbstractProducer {
 
             if (careEventList.size() > 0) {
                 retryBin.discardOld(fileUpdatedTime);
-                
+
+                // Eric: might want to rephrase this comment, it took me a very long time to parse.
+
                 // Add from retry bin to response. We only want to piggyback on a response with new entries because we do want to use the fileUpdateTime to not
                 // send too new care events from the retry bin (in case someone requests time intervals backwards). The ersh in the retry bin itself has faked
                 // fileUpdateTime of +1 ms from the original ersh.
                 try {
-                    ERSMOIndataToCareEventTransformer.doTransform(retryBin, false, careEventList, retryBin.getOld(fileUpdatedTime), 
+                    boolean addLookupFails = false;
+                    ERSMOIndataToCareEventTransformer.doTransform(retryBin, addLookupFails, careEventList, retryBin.getOld(fileUpdatedTime),
                                                                   null, retryBin.getCurrentFile());
                 }
                 catch (TransformationException | DatatypeConfigurationException e) {
@@ -231,13 +235,20 @@ public class AbstractProducer {
         }
     }
 
+    /**
+     * Create an error response that is not a soap exception.
+     *
+     * @param comment The friendly explanation of the error.
+     * @param e The exception itself.
+     * @return A fully populated {GetAdministrativeCareEventResponse} object.
+     */
     private GetAdministrativeCareEventResponse errorResponse(String comment, Exception e)
     {
         if (e == null) {
-            LOG.error("Respoding with error: " + comment);
+            LOG.error("Responding with error: " + comment);
         }
         else {
-            LOG.error("Respoding with error, logging cause: " + comment, e);
+            LOG.error("Responding with error, logging cause: " + comment, e);
         }
         DateTimePeriodType responsePeriod = new DateTimePeriodType();
         try {

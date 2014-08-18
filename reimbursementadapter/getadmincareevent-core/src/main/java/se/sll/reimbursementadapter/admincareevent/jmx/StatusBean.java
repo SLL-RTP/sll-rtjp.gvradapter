@@ -134,10 +134,10 @@ public class StatusBean {
     }
 
     /**
-     * Returns performance metrics (JSON strings) in millisceonds for all instrumented operations.
-     * @return performance metrics (JSON strings) in millisceonds for all instrumented operations.
+     * Returns performance metrics (JSON strings) in milliseconds for all instrumented operations.
+     * @return performance metrics (JSON strings) in milliseconds for all instrumented operations.
      */
-    @ManagedOperation(description="Returns performance metrics (JSON strings) in millisceonds for all instrumented operations")
+    @ManagedOperation(description="Returns performance metrics (JSON strings) in milliseconds for all instrumented operations")
     public String[] getPerformanceMetricsAsJSON() {
         final Collection<HistoryTimer> c = timerMap.values();
         final String[] list = new String[c.size()];

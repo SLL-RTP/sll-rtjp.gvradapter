@@ -266,16 +266,17 @@ public class ERSMOIndataToCareEventTransformer {
             if (currentAvd != null) {
                 // Loop over commissions (SAMVERKS).
                 for (TermItemCommission<CommissionState> samverks : currentAvd.getCommissions()) {
-                    
+
                     if (samverks == null) {
                         continue;
                     }
                     CommissionState currentSamverks = samverks.getState(stateDate);
+
                     if (currentSamverks == null) {
                         continue;
-                    } 
-                    
-                    if (!currentSamverks.getFollowsTemplate()) {
+                    }
+
+                    if (currentSamverks.getFollowsTemplate() != null && currentSamverks.getFollowsTemplate() == false) {
                         // This care event uses a test SAMVERKS, skip it.
                         return Status.TEST_SAMVERKS;
                     }
