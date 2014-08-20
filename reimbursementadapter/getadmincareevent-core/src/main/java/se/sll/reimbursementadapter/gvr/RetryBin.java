@@ -47,11 +47,11 @@ public class RetryBin
     public String dir;
 
     /** The number of files to keep in the history. */
-    @Value("${pr.gvr.id.retryBinFileKeepCount:240}")
+    @Value("${pr.gvr.io.retryBinFileKeepCount:240}")
     public int fileKeepCount;
 
     /** The age in days after which the files should be discarded from the bin. */
-    @Value("${pr.gvr.id.discardOldDays:180}")
+    @Value("${pr.gvr.io.discardOldDays:180}")
     public long discardOldDays;
     
     /** All Ersättningshändelser that came from the retry bin file (been there since last request). */
