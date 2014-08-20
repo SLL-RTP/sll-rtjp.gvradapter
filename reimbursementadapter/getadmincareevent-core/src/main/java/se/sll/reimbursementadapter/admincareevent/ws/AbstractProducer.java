@@ -65,6 +65,7 @@ public class AbstractProducer {
     public static final String RETRY_LOCK = "SLL_REIMBURSEMENT_RETRY_LOCK";
     
     /** Handles all the JMX stuff. */
+    // #245 Fix and re-add the statusBean code.
     //@Autowired
     //private StatusBean statusBean;
 

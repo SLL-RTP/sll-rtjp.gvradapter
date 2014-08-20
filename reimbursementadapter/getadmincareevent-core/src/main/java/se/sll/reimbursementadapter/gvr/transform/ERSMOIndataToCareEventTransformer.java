@@ -165,7 +165,7 @@ public class ERSMOIndataToCareEventTransformer {
             
             TermItem<FacilityState> avd = cacheManager.getCurrentIndex().get(kombika);
             if (avd == null) {
-            	// TODO: Why not keep the logging here? But use debug or info instead of warn.
+            	// #246 Add reason for failure to the ersh.
                 status = Status.LOOKUP_FAIL;
             }
             
