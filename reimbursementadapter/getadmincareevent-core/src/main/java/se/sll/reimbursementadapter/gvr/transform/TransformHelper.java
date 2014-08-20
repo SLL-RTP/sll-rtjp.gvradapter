@@ -69,10 +69,8 @@ public class TransformHelper {
     private static final Logger LOG = LoggerFactory.getLogger(TransformHelper.class);
 
     /**
-     * Creates the SourceSystem structure in the incoming {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} using information from
-     * the incoming {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse}.
+     * Creates the SourceSystem structure in the incoming {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType}.
      *
-     * @param ersmoIndata The {@link se.sll.ersmo.xml.indata.ERSMOIndata} to read information from.
      * @param currentEvent The {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} to write the new structure in.
      */
     protected static void createSourceSystemStructure(CareEventType currentEvent) {

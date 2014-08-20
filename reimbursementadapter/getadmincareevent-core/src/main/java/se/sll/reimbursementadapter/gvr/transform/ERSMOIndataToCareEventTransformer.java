@@ -63,15 +63,20 @@ public class ERSMOIndataToCareEventTransformer {
     }
     
     /**
-     * Transforms a single {@link se.sll.ersmo.xml.indata.ERSMOIndata} object to a list of
+     * Transforms a list of {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse} (taken from
+     * a single {@link se.sll.ersmo.xml.indata.ERSMOIndata} object) to a list of
      * {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} objects.
      *
+     * @param retryBin The retry bin to add or remove Ersättningshändelse objects from.
      * @param addLookupFails If true lookup fails are added to the response and retry bin. When processing the retry bin, this will be set to false. 
-     *
+     * @param responseList The list to add transformed Ersättningshändelse objects to.
+     * @param sourceList The list of {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse} to be transformed.
      * @param fileUpdatedTime The update time for the file the ERSMOIndata was read from. This is used
      *                        for setting the "lastUpdatedTime" parameter in the transformation, which
      *                        is not available in the source data.
-     * @throws DatatypeConfigurationException 
+     * @param currentFile The current file that the ERSMOIndata originates from. Used for logging.
+     * @throws TransformationException              
+     * @throws DatatypeConfigurationException
      */
     public static void doTransform(RetryBin retryBin, Boolean addLookupFails, List<CareEventType> responseList, 
                                    List<Ersättningshändelse> sourceList, Date fileUpdatedTime, Path currentFile) 
@@ -121,25 +126,24 @@ public class ERSMOIndataToCareEventTransformer {
     }
     
     /**
-     * <p>Transforms a single source {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse} along
-     * with the parent {@link se.sll.ersmo.xml.indata.ERSMOIndata} object for metadata into a single, complete
+     * <p>Transforms a single source {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse} into a single, complete
      * {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} object.</p>
      *
      * <p>To handle the lookup of local care contract data as well as transformation from the local care unit
      * id format (KOMBIKA) to the national HSA format, the stored cache structure in
      * {@link se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService} is used.</p>
      * @param of 
-     * @param careEvent 
+     * @param careEvent The {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType} to populate.
      *
      * @param ersh The {@link se.sll.ersmo.xml.indata.ERSMOIndata.Ersättningshändelse} to transform from.
-     * @param ersmoIndata The {@link se.sll.ersmo.xml.indata.ERSMOIndata} to transform from.
      * @param cacheManager The {@link se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService}
      *                     to use for looking up additional information not available in the source data.
      * @param updatedTime The update time for the file the ERSMOIndata was read from. This is used
      *                    for setting the "lastUpdatedTime" parameter in the transformation, which
      *                    is not available in the source data.
      * @param currentFile The current file that the ersmoIndata originates from. Used for logging.
-     * @return The transformed {@link riv.followup.processdevelopment.reimbursement.v1.CareEventType}.
+     * @return The status of the transformation.
+     * @throws TransformationException
      */
     static Status populateCareEventFromErsättningshändelse(ObjectFactory of, CareEventType careEvent, ERSMOIndata.Ersättningshändelse ersh,
                                                            CodeServerMEKCacheManagerService cacheManager,
@@ -161,6 +165,7 @@ public class ERSMOIndataToCareEventTransformer {
             
             TermItem<FacilityState> avd = cacheManager.getCurrentIndex().get(kombika);
             if (avd == null) {
+            	// TODO: Why not keep the logging here? But use debug or info instead of warn.
                 status = Status.LOOKUP_FAIL;
             }
             
