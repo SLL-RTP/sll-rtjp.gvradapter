@@ -65,7 +65,6 @@ public class AbstractProducer {
     public static final String RETRY_LOCK = "SLL_REIMBURSEMENT_RETRY_LOCK";
     
     /** Handles all the JMX stuff. */
-    // TODO: Why has all status bean stuff been commented out?
     //@Autowired
     //private StatusBean statusBean;
 
@@ -89,10 +88,7 @@ public class AbstractProducer {
      *  NOTE: The number of events in the response can exceed this number by
      *  use of old care events in the retry bin.
      */
-    // TODO: Just curious, what happens when the default value in the code (10000) differs from the value in the
-    // properties file (5000)? I'm guessing that the properties file is boss? Also, why do we want to
-    // have different values?
-    @Value("${pr.riv.maximumNewEvents:10000}")
+    @Value("${pr.riv.maximumNewEvents:5000}")
     protected int maximumNewEvents;
 
     /**
@@ -186,8 +182,6 @@ public class AbstractProducer {
                 } 
             }
 
-            // TODO: What if careEventList is empty but the RetryBin has stuff in it from before..? Or is the RetryBin
-            // only meant to be used in combination with new care events?
             if (careEventList.size() > 0) {
                 retryBin.discardOld(fileUpdatedTime);
 
@@ -196,7 +190,6 @@ public class AbstractProducer {
                 // fileUpdateTime of +1 ms from the original ersh.
                 try {
                     boolean addLookupFails = false;
-                    // TODO: Why not use fileUpdatedTime instead of null here?
                     ERSMOIndataToCareEventTransformer.doTransform(retryBin, addLookupFails, careEventList, retryBin.getOld(fileUpdatedTime),
                                                                   null, retryBin.getCurrentFile());
                 }
@@ -254,7 +247,6 @@ public class AbstractProducer {
             LOG.error("Responding with error, logging cause: " + comment, e);
         }
         DateTimePeriodType responsePeriod = new DateTimePeriodType();
-        // TODO: Before start/end was taken from 'parameters.getUpdatedDuringPeriod()', any point in using that here as well?
         try {
             responsePeriod.setStart(RetryBin.dateToXmlCal(new Date(0)));
             responsePeriod.setEnd(RetryBin.dateToXmlCal(new Date(0)));
