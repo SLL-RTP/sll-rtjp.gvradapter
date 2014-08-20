@@ -446,7 +446,7 @@ public class TransformHelper {
         }
         
         if (payerOrganization != null) {
-            LOG.info(String.format("Looked up kombika using strang back reference algorithm, verify this (and remove warning if code is correct)! "
+            LOG.info(String.format("Looked up kombika using strange back reference algorithm, verify this (and remove warning if code is correct)! "
                                    + "kombika %s on care event %s in %s.", kombika, currentErsId, currentFile));
             return payerOrganization;
         }

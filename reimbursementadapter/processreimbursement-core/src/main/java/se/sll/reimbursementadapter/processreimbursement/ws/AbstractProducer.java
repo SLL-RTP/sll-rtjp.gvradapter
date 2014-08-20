@@ -73,6 +73,7 @@ public class AbstractProducer {
     private WebServiceContext webServiceContext;
 
     /** The configured value for the maximum number of Care Events that the RIV Service allows. */
+    // TODO: Rename to pr.riv.maximumNewEvents to use the same as in getadmincareevent..?
     @Value("${pr.riv.maximumSupportedCareEvents:10000}")
     private int maximumSupportedCareEvents;
 

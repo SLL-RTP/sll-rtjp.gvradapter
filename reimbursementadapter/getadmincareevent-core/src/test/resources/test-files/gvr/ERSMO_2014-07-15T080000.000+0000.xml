@@ -2,7 +2,7 @@
 <!-- File for AbstractProducerTest.abstractProducerWithRetryBinTest -->
 <ERSMOIndata Källa="GVR" ID="0000001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ERSMOIndata2.2.xsd">
 
-  <!-- Bad ersh replcing another already in the bin. -->
+  <!-- Bad ersh replacing another already in the bin. -->
   <Ersättningshändelse ID="111" Makulerad="false" Startdatum="2014-02-03" Slutdatum="2014-02-04" Startverksamhet="12345678901" Slutverksamhet="12345678901" ErsUppdrag="1234">
     <Patient ID="191212121244" Lkf="010203" Basområde="1210151" Födelsedatum="1912-12-12" Kön="M"/>
     <Händelseklass>
