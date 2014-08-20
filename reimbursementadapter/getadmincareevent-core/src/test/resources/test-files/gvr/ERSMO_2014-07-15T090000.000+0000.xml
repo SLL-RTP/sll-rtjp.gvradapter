@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- File for AbstractProducerTest.abstractProducerWithRetryBinTest -->
+<ERSMOIndata Källa="GVR" ID="0000001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ERSMOIndata2.2.xsd">
+
+  <!-- Update of bad kombika in previous file. -->
+  <Ersättningshändelse ID="999" Makulerad="false" Startdatum="2014-02-03" Slutdatum="2014-02-04" Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
+    <Patient ID="191212121212" Lkf="010203" Basområde="1210151" Födelsedatum="1912-12-12" Kön="M"/>
+    <Händelseklass>
+      <Vårdkontakt Händelseform="Öppenvårdskontakt" Händelsetyp="013" Typ="1" Avgiftsklass="006" Patientavgift="12" Akut="J"/>
+    </Händelseklass>
+  </Ersättningshändelse>
+  
+</ERSMOIndata>

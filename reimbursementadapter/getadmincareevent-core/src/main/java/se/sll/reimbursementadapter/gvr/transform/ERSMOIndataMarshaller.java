@@ -16,17 +16,17 @@
 package se.sll.reimbursementadapter.gvr.transform;
 
 import java.io.Reader;
+import java.io.Writer;
 import java.net.URL;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import se.sll.ersmo.xml.indata.ERSMOIndata;
@@ -34,9 +34,9 @@ import se.sll.ersmo.xml.indata.ERSMOIndata;
 /**
  * Unmarshals an XML Document in the form of a String to an ERSMOIndata XML Object.
  */
-public class ERSMOIndataUnMarshaller {
+public class ERSMOIndataMarshaller {
     
-    public ERSMOIndata unmarshalString(Reader src) throws SAXException, JAXBException {
+    public ERSMOIndata unmarshal(Reader src) throws SAXException, JAXBException {
         // Read the schema from the XSD to apply the validation to the unmarshalled XML object.
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         URL url = getClass().getClassLoader().getResource("xsd/ERSMOIndata/ERSMOIndata2.2.xsd");
@@ -50,4 +50,14 @@ public class ERSMOIndataUnMarshaller {
         return (ERSMOIndata) unmarshaller.unmarshal(src);
     }
 
+    public void marshal(ERSMOIndata xml, Writer writer) throws SAXException, JAXBException {
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        URL url = getClass().getClassLoader().getResource("xsd/ERSMOIndata/ERSMOIndata2.2.xsd");
+        Schema schema = sf.newSchema(url);
+        JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        marshaller.setSchema(schema);
+        marshaller.marshal(xml, writer);
+    }
 }

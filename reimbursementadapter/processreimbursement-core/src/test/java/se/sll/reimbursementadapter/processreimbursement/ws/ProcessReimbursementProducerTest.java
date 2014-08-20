@@ -103,7 +103,7 @@ public class ProcessReimbursementProducerTest extends AbstractProducer {
         CodeServerCacheManagerService instance = CodeServerCacheManagerService.getInstance();
         instance.revalidate();
 
-        ProcessReimbursementResponse response = processReimbursementEvent0(createRequestType());
+        processReimbursementEvent0(createRequestType());
 
         // Read the file..
         BufferedReader bufferedReader = Files.newBufferedReader(getLastWrittenFile(), Charset.forName("ISO-8859-1"));
@@ -138,7 +138,7 @@ public class ProcessReimbursementProducerTest extends AbstractProducer {
 
         boolean exception = false;
         try {
-            ProcessReimbursementResponse response = processReimbursementEvent0(req);
+            processReimbursementEvent0(req);
         } catch (SoapFault e) {
             exception = true;
         }

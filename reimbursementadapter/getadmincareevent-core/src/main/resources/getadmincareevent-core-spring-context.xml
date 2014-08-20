@@ -30,7 +30,7 @@
     <context:annotation-config />
 
     <context:component-scan
-        base-package="se.sll.reimbursementadapter.admincareevent.service,se.sll.reimbursementadapter.admincareevent.jmx,se.sll.reimbursementadapter.gvr.reader" />
+        base-package="se.sll.reimbursementadapter.admincareevent.service,se.sll.reimbursementadapter.admincareevent.jmx,se.sll.reimbursementadapter.gvr" />
 
     <task:annotation-driven />
 

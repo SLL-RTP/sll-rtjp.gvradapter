@@ -3,6 +3,7 @@ package se.sll.reimbursementadapter.gvr.transform;
 import java.io.Reader;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import se.sll.reimbursementadapter.admincareevent.model.CommissionState;
 import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.admincareevent.service.CodeServerMEKCacheManagerService;
+import se.sll.reimbursementadapter.gvr.RetryBin;
 import se.sll.reimbursementadapter.gvr.reader.DateFilterMethod;
 import se.sll.reimbursementadapter.gvr.reader.GVRFileReader;
 import se.sll.reimbursementadapter.parser.TermItem;
@@ -48,11 +50,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-02-02T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         // Validate contents of transformed RIV objects.
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
@@ -172,16 +175,17 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-02-02T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
         indata.getErsättningshändelse().get(0).setStartverksamhet("1234");
         indata.getErsättningshändelse().get(0).setSlutverksamhet("1234");
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
-        Assert.assertEquals("Number of Care Events", 0, careEventList.size());
+        Assert.assertEquals("Number of Care Events", 1, careEventList.size());
     }
 
     @Test
@@ -196,11 +200,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2013-09-08T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
@@ -218,11 +223,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2013-09-09T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         // Exactly the same file as the above test, so we only see that the local-id and contract is gone, and that the transformation doesn't freak out.
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
@@ -240,11 +246,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-09-10T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         Assert.assertEquals("Number of Care Events", 0, careEventList.size());
     }
@@ -261,11 +268,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-13T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
         Assert.assertEquals("SE2321000016-15CQ", careEventList.get(0).getReferredFrom());
@@ -283,11 +291,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-12T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
         Assert.assertEquals("REFERRAL_HSA-643S", careEventList.get(0).getReferredFrom());
@@ -305,11 +314,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Read a given ERSMOIndata file and marshal to an XML-object.
         Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-10-14T080000.000+0000.xml");
         Reader fileReader = gvrFileReader.getReaderForFile(inFile);
-        ERSMOIndataUnMarshaller unMarshaller = new ERSMOIndataUnMarshaller();
-        ERSMOIndata indata = unMarshaller.unmarshalString(fileReader);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
 
         // Transform to a list of RIV CareEventTypes.
-        List<CareEventType> careEventList = ERSMOIndataToCareEventTransformer.doTransform(indata, gvrFileReader.getDateFromGVRFile(inFile), inFile);
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
 
         Assert.assertEquals("Number of Care Events", 1, careEventList.size());
         Assert.assertEquals(null, careEventList.get(0).getReferredFrom());
@@ -328,11 +338,12 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         instance.revalidate(); // ??
         Date stateDate = new Date();
         String sourceFacilityId = "91605010010";
-        final TermItem<FacilityState> facilityState = instance.getCurrentIndex().get(sourceFacilityId);
-        final TermItemCommission<CommissionState> commissionState = facilityState.getState(stateDate).getCommissions().get(0);
+        final TermItem<FacilityState> avd = instance.getCurrentIndex().get(sourceFacilityId);
+        FacilityState currentAvd = avd.getState(stateDate);
+        final TermItemCommission<CommissionState> samverks = currentAvd.getCommissions().get(0);
         // Not really part of this test, but it never hurts.
-        Assert.assertEquals("Facility ID", "9081", commissionState.getId());
-        Assert.assertEquals("Payer facility HSA", "SE2321000016-15CQ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, null, commissionState, "SE2321000016-39KJ", null, null, null, null));
+        Assert.assertEquals("Facility ID", "9081", samverks.getId());
+        Assert.assertEquals("Payer facility HSA", "SE2321000016-15CQ", TransformHelper.getPayerOrganization(Vkhform.SLUTENVÅRDSTILLFÄLLE, stateDate, currentAvd, samverks, "SE2321000016-39KJ", null, null, null, null));
     }
 
     @Test
@@ -362,4 +373,5 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         Assert.assertEquals("Payer facility 1", "30216311002", TransformHelper.getPotentialPayerFacilities(stateDate, commissionState).get(0).getHSAMapping().getId());
         Assert.assertEquals("Payer facility 1", "30216311003", TransformHelper.getPotentialPayerFacilities(stateDate, commissionState).get(1).getHSAMapping().getId());
     }
+    
 }
