@@ -229,7 +229,7 @@ public class RetryBinTest
     }
 
     @Test
-    public void testPutReplacesInNewIfOlderInOLd() throws Exception 
+    public void testPutReplacesInNewIfOlderInOld() throws Exception 
     {
         Date now = new Date();
         
