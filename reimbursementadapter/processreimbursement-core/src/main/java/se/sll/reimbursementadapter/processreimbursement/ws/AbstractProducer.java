@@ -74,7 +74,7 @@ public class AbstractProducer {
 
     /** The configured value for the maximum number of Care Events that the RIV Service allows. */
     @Value("${pr.riv.maximumNewEvents:5000}")
-    private int maximumSupportedCareEvents;
+    private int maximumNewEvents;
 
     /** The path where HEJ should write its files. */
     @Value("${pr.hej.outPath:/tmp/hej/out}")
@@ -121,7 +121,7 @@ public class AbstractProducer {
                 new ReimbursementRequestToHEJIndataTransformer(codeServerCacheService.getCurrentIndex());
         HEJIndata hejXml = null;
         try {
-            hejXml = hejTransformer.doTransform(parameters, maximumSupportedCareEvents);
+            hejXml = hejTransformer.doTransform(parameters, maximumNewEvents);
         } catch (NumberOfCareEventsExceededException e) {
            LOG.error("The number of supported care events has been exceeded. Returning controlled error response to " +
                    "client.");

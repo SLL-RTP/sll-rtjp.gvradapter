@@ -159,7 +159,7 @@ public class AbstractProducer {
 
                 if (ershList.size() + careEventList.size() > maximumNewEvents) {
                     if (careEventList.size() == 0) {
-                        return errorResponse(String.format("ERSMOIndata from file (%s) is too big (%d events) for maximumSupportedCareEvents (%d), reconfigure it!",
+                        return errorResponse(String.format("ERSMOIndata from file (%s) is too big (%d events) for maximumNewEvents (%d), reconfigure it!",
                                                            currentFile.getFileName(), ershList.size(), maximumNewEvents), null);
                     }
                     resultCode = "TRUNCATED";
