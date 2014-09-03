@@ -15,7 +15,6 @@
  */
 package se.sll.reimbursementadapter.admincareevent.ws;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Path;
@@ -124,7 +123,7 @@ public class AbstractProducer {
             try {
                 retryBin.load();
             }
-            catch (JAXBException | SAXException | FileNotFoundException e) {
+            catch (JAXBException | SAXException | IOException e) {
                 return errorResponse(String.format("Error when loading retry bin: %s", e.getMessage()), e);
             }
 
