@@ -1,10 +1,12 @@
 package se.sll.reimbursementadapter.gvr;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,11 +114,11 @@ public class RetryBin
     /**
      * Load the old {@link Ersättningshändelse} from the file system.
      *
-     * @throws FileNotFoundException When the listed file could not be read from the disk.
      * @throws SAXException XML error when parsing file contents.
      * @throws JAXBException XML error when parsing file contents.
+     * @throws IOException 
      */
-    public void load() throws FileNotFoundException, SAXException, JAXBException
+    public void load() throws SAXException, JAXBException, IOException
     {
         if (disabled()) return;
 
@@ -127,7 +129,10 @@ public class RetryBin
         Arrays.sort(files);
         if (files.length > 0) {
             lastLoadedFile = files[files.length - 1];
-            ERSMOIndata xml = (new ERSMOIndataMarshaller()).unmarshal(new FileReader(lastLoadedFile));
+            
+            InputStreamReader in = new InputStreamReader(new FileInputStream(lastLoadedFile), Charset.forName("ISO-8859-1").newDecoder());
+            ERSMOIndata xml = (new ERSMOIndataMarshaller()).unmarshal(in);
+            in.close();
             for (Ersättningshändelse ersh : xml.getErsättningshändelse()) {
                 old.put(ersh.getID(), ersh);
             }
@@ -174,8 +179,11 @@ public class RetryBin
         xml.getErsättningshändelse().addAll(old.values());
         xml.setKälla(TransformHelper.SLL_GVR_SOURCE);
         xml.setID("");
-        (new ERSMOIndataMarshaller()).marshal(xml, new FileWriter(saveFile));
-
+        
+        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(saveFile), Charset.forName("ISO-8859-1").newEncoder());
+        (new ERSMOIndataMarshaller()).marshal(xml, out);
+        out.close();
+        
         LOG.info(String.format("Saved %d events to retry bin file %s, accepted %d new.", old.size(), saveFile.getAbsolutePath(), newSize));
         
         // Remove excess files.

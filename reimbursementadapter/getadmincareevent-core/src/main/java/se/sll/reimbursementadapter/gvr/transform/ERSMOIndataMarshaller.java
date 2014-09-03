@@ -56,6 +56,7 @@ public class ERSMOIndataMarshaller {
         Schema schema = sf.newSchema(url);
         JAXBContext jaxbContext = JAXBContext.newInstance(ERSMOIndata.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty("jaxb.encoding", "ISO-8859-1");
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         marshaller.setSchema(schema);
         marshaller.marshal(xml, writer);
