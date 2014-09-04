@@ -333,6 +333,10 @@
             <xs:element name="codeSystem" type="xs:string" minOccurs="0"/>
             <xs:element name="code" type="xs:string" minOccurs="0"/>
             <xs:element name="date" type="tns:DateType" minOccurs="0"/>
+            <xs:element name="diagnosisRef" type="xs:int" minOccurs="0"/>
+            <!--
+            NOTE: This attribute was not a part of the original schema.
+            -->
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="ResidenceType">

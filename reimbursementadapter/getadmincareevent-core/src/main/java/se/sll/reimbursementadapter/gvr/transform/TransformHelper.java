@@ -178,6 +178,7 @@ public class TransformHelper {
         }
         currentActivity.setCode(åtgärd.getKod());
         currentActivity.setDate(åtgärd.getDatum().toXMLFormat().replaceAll("-", ""));
+        currentActivity.setDiagnosisRef(åtgärd.getDiagnosNr().intValue());
         return currentActivity;
     }
 
