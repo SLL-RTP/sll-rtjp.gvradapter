@@ -123,17 +123,17 @@
     </xs:complexType>
     <xs:complexType name="ProfessionType">
         <xs:complexContent>
-            <xs:extension base="tns:CVType"/>
+            <xs:extension base="tns:OrderedCVType"/>
         </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="DiagnosisType">
         <xs:complexContent>
-            <xs:extension base="tns:CVType"/>
+            <xs:extension base="tns:OrderedCVType"/>
         </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="ConditionType">
         <xs:complexContent>
-            <xs:extension base="tns:CVType"/>
+            <xs:extension base="tns:OrderedCVType"/>
         </xs:complexContent>
     </xs:complexType>
     <xs:complexType name="CVType">
@@ -149,6 +149,18 @@
             <xs:element name="originalText" type="xs:string" minOccurs="0"/>
             <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="OrderedCVType">
+        <!-- 
+        NOTE: This type was added as an extension of the CVType to also include seqNo, it was not a part of the original schema.
+        -->
+        <xs:complexContent>
+            <xs:extension base="tns:CVType">
+	            <xs:sequence>
+	                <xs:element name="seqNo" type="xs:int" minOccurs="0"/>
+	            </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
     <xs:simpleType name="HSAIdType">
         <xs:restriction base="xs:string"/>
@@ -334,8 +346,9 @@
             <xs:element name="code" type="xs:string" minOccurs="0"/>
             <xs:element name="date" type="tns:DateType" minOccurs="0"/>
             <xs:element name="diagnosisRef" type="xs:int" minOccurs="0"/>
+            <xs:element name="seqNo" type="xs:int" minOccurs="0"/>
             <!--
-            NOTE: This attribute was not a part of the original schema.
+            NOTE: The diagnosisRef and seqNo attributes above was not a part of the original schema.
             -->
         </xs:sequence>
     </xs:complexType>
