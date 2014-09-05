@@ -106,6 +106,9 @@ public class TransformHelper {
         currentProfession.setCodeSystem(OIDList.getOid(CodeSystem.SLL_CS_VDG));
         currentProfession.setCodeSystemName(OIDList.getName(CodeSystem.SLL_CS_VDG));
         currentProfession.setCode(kategori.getKod());
+        if (kategori.getOrdnNr() != null) {
+            currentProfession.setSeqNo(kategori.getOrdnNr().intValue());
+        }
         return currentProfession;
     }
 
@@ -181,6 +184,9 @@ public class TransformHelper {
         if (åtgärd.getDiagnosNr() != null) {
             currentActivity.setDiagnosisRef(åtgärd.getDiagnosNr().intValue());
         }
+        if (åtgärd.getOrdnNr() != null) {
+            currentActivity.setSeqNo(åtgärd.getOrdnNr().intValue());
+        }
         return currentActivity;
     }
 
@@ -216,6 +222,9 @@ public class TransformHelper {
             currentCondition.setCodeSystem("NO.OID: " + tillstånd.getKlass());
         }
         currentCondition.setCode(tillstånd.getKod());
+        if (tillstånd.getOrdnNr() != null) {
+            currentCondition.setSeqNo(tillstånd.getOrdnNr().intValue());
+        }
         return currentCondition;
     }
 
@@ -256,6 +265,9 @@ public class TransformHelper {
             currentDiagnosis.setCodeSystem("NO.OID: " + diagnos.getKlass());
         }
         currentDiagnosis.setCode(diagnos.getKod());
+        if (diagnos.getOrdnNr() != null) {
+            currentDiagnosis.setSeqNo(diagnos.getOrdnNr().intValue());
+        }
         return currentDiagnosis;
     }
 

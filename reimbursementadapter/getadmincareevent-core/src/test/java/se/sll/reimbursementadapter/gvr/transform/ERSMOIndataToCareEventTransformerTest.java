@@ -118,37 +118,48 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Involved Professions
         Assert.assertEquals("Profession count", 2, careEventType.getInvolvedProfessions().getProfession().size());
         Assert.assertEquals("Profession #1 code","01", careEventType.getInvolvedProfessions().getProfession().get(0).getCode());
-        Assert.assertEquals("Profession 21 code", "02", careEventType.getInvolvedProfessions().getProfession().get(1).getCode());
+        Assert.assertEquals("Profession #1 OrdnNr", 1, careEventType.getInvolvedProfessions().getProfession().get(0).getSeqNo().intValue());
+        Assert.assertEquals("Profession #2 code", "02", careEventType.getInvolvedProfessions().getProfession().get(1).getCode());
+        Assert.assertEquals("Profession #2 OrdnNr", 2, careEventType.getInvolvedProfessions().getProfession().get(1).getSeqNo().intValue());
 
         // Diagnoses
         Assert.assertEquals("Number of diagnoses", 4, careEventType.getDiagnoses().getDiagnosis().size());
         Assert.assertEquals("Diagnosis #1 code", "I050", careEventType.getDiagnoses().getDiagnosis().get(0).getCode());
         Assert.assertEquals("Diagnosis #1 codeSystem", "1.2.752.116.1.1.1.1.3", careEventType.getDiagnoses().getDiagnosis().get(0).getCodeSystem());
+        Assert.assertEquals("Diagnosis #1 OrdnNr", 1, careEventType.getDiagnoses().getDiagnosis().get(0).getSeqNo().intValue());
         Assert.assertEquals("Diagnosis #2 code", "J250", careEventType.getDiagnoses().getDiagnosis().get(1).getCode());
         Assert.assertEquals("Diagnosis #2 codeSystem", "1.2.752.116.1.1.1.1.3", careEventType.getDiagnoses().getDiagnosis().get(1).getCodeSystem());
+        Assert.assertEquals("Diagnosis #2 OrdnNr", 2, careEventType.getDiagnoses().getDiagnosis().get(1).getSeqNo().intValue());
         Assert.assertEquals("Diagnosis #3 code", "K570", careEventType.getDiagnoses().getDiagnosis().get(2).getCode());
         Assert.assertEquals("Diagnosis #3 codeSystem", "1.2.752.116.1.1.1.1.3", careEventType.getDiagnoses().getDiagnosis().get(2).getCodeSystem());
+        Assert.assertEquals("Diagnosis #3 OrdnNr", 3, careEventType.getDiagnoses().getDiagnosis().get(2).getSeqNo().intValue());
         Assert.assertEquals("Diagnosis #4 code", "A01AB13", careEventType.getDiagnoses().getDiagnosis().get(3).getCode());
         Assert.assertEquals("Diagnosis #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getDiagnoses().getDiagnosis().get(3).getCodeSystem());
+        Assert.assertEquals("Diagnosis #4 OrdnNr", 4, careEventType.getDiagnoses().getDiagnosis().get(3).getSeqNo().intValue());
         
         // Conditions
         Assert.assertEquals("Number of conditions", 1, careEventType.getConditions().getCondition().size());
         Assert.assertEquals("Condition #1 code", "ASA6", careEventType.getConditions().getCondition().get(0).getCode());
+        Assert.assertEquals("Condition #1 OrdnNr", 1, careEventType.getConditions().getCondition().get(0).getSeqNo().intValue());
 
         // Activities
         Assert.assertEquals("Number of activities", 4, careEventType.getActivities().getActivity().size());
         Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getCode());
         Assert.assertEquals("Activity #1 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(0).getCodeSystem());
         Assert.assertEquals("Activity #1 date", "20140202", careEventType.getActivities().getActivity().get(0).getDate());
+        Assert.assertEquals("Activity #1 OrdnNr", 1, careEventType.getActivities().getActivity().get(0).getSeqNo().intValue());
         Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getCode());
         Assert.assertEquals("Activity #2 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(1).getCodeSystem());
         Assert.assertEquals("Activity #2 date", "20140202", careEventType.getActivities().getActivity().get(1).getDate());
+        Assert.assertEquals("Activity #2 OrdnNr", 2, careEventType.getActivities().getActivity().get(1).getSeqNo().intValue());
         Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getCode());
         Assert.assertEquals("Activity #3 codeSystem", "1.2.752.116.1.3.2.1.4", careEventType.getActivities().getActivity().get(2).getCodeSystem());
         Assert.assertEquals("Activity #3 date", "20140202", careEventType.getActivities().getActivity().get(2).getDate());
+        Assert.assertEquals("Activity #3 OrdnNr", 3, careEventType.getActivities().getActivity().get(2).getSeqNo().intValue());
         Assert.assertEquals("Activity #4 code", "A01AB13", careEventType.getActivities().getActivity().get(3).getCode());
         Assert.assertEquals("Activity #4 codeSystem", "1.2.752.129.2.2.3.1.1", careEventType.getActivities().getActivity().get(3).getCodeSystem());
         Assert.assertEquals("Activity #4 date", "20140202", careEventType.getActivities().getActivity().get(3).getDate());
+        Assert.assertEquals("Activity #4 OrdnNr", 4, careEventType.getActivities().getActivity().get(3).getSeqNo().intValue());
 
         // Referral from (HSA-id)
         Assert.assertEquals("Referred from", "SE2321000016-1664", careEventType.getReferredFrom());
