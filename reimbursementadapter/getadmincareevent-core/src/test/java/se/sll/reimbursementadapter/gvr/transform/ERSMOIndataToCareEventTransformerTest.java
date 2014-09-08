@@ -173,6 +173,83 @@ public class ERSMOIndataToCareEventTransformerTest extends TestSupport {
         // Deceased
         Assert.assertEquals("Deceased", false, careEventType.isDeceased());
     }
+    
+    @Test
+    public void testDoTransformWithNonSequentialOrdnNr() throws Exception {
+        // Populate the cache necessary for the mapping to function correctly.
+        final CodeServerMEKCacheManagerService instance = CodeServerMEKCacheManagerService.getInstance();
+        instance.revalidate();
+
+        // Set the GVR Filter method to work with file names for this test.
+        gvrFileReader.setDateFilterMethod(DateFilterMethod.FILENAME);
+
+        // Read a given ERSMOIndata file and marshal to an XML-object.
+        Path inFile = FileSystems.getDefault().getPath(gvrFileReader.getLocalPath() + "ERSMO_2014-09-04T080000.000+0000.xml");
+        Reader fileReader = gvrFileReader.getReaderForFile(inFile);
+        ERSMOIndataMarshaller unMarshaller = new ERSMOIndataMarshaller();
+        ERSMOIndata indata = unMarshaller.unmarshal(fileReader);
+        indata.getErsättningshändelse().get(0).setStartverksamhet("1234");
+        indata.getErsättningshändelse().get(0).setSlutverksamhet("1234");
+
+        // Transform to a list of RIV CareEventTypes.
+        List<CareEventType> careEventList = new ArrayList<CareEventType>(); 
+        ERSMOIndataToCareEventTransformer.doTransform(new RetryBin(), true, careEventList, indata.getErsättningshändelse(), gvrFileReader.getDateFromGVRFile(inFile), inFile);
+
+        // Basically the same file as the above test except that the OrdnNr is non-sequential on some rows.
+        Assert.assertEquals("Number of Care Events", 4, careEventList.size());
+        
+        // First event has diagnoses with non-sequential OrdnNr.
+        CareEventType careEventType = careEventList.get(0);
+        Assert.assertEquals("Number of diagnoses", 4, careEventType.getDiagnoses().getDiagnosis().size());
+        Assert.assertEquals("Diagnosis #1 code", "J250", careEventType.getDiagnoses().getDiagnosis().get(0).getCode());
+        Assert.assertEquals("Diagnosis #2 code", "I050", careEventType.getDiagnoses().getDiagnosis().get(1).getCode());
+        Assert.assertEquals("Diagnosis #3 code", "K570", careEventType.getDiagnoses().getDiagnosis().get(2).getCode());
+        Assert.assertEquals("Diagnosis #4 code", "A01AB13", careEventType.getDiagnoses().getDiagnosis().get(3).getCode());
+        
+        // Second event has activities with non-sequential OrdnNr.
+        careEventType = careEventList.get(1);
+        Assert.assertEquals("Number of activities", 4, careEventType.getActivities().getActivity().size());
+        Assert.assertEquals("Activity #1 code", "NHP09", careEventType.getActivities().getActivity().get(0).getCode());
+        Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getCode());
+        Assert.assertEquals("Activity #3 code", "A01AB13", careEventType.getActivities().getActivity().get(2).getCode());
+        Assert.assertEquals("Activity #4 code", "AQ014", careEventType.getActivities().getActivity().get(3).getCode());
+        
+        // Third event has professions, diagnoses, conditions and activities with non-sequential OrdnNr.
+        careEventType = careEventList.get(2);
+        
+        // Professions
+        Assert.assertEquals("Number of professions", 2, careEventType.getInvolvedProfessions().getProfession().size());
+        Assert.assertEquals("Profession #1 code", "01", careEventType.getInvolvedProfessions().getProfession().get(0).getCode());
+        Assert.assertEquals("Profession #2 code", "02", careEventType.getInvolvedProfessions().getProfession().get(1).getCode());
+        
+        // Diagnoses
+        Assert.assertEquals("Number of diagnoses", 4, careEventType.getDiagnoses().getDiagnosis().size());
+        Assert.assertEquals("Diagnosis #1 code", "I050", careEventType.getDiagnoses().getDiagnosis().get(0).getCode());
+        Assert.assertEquals("Diagnosis #2 code", "K570", careEventType.getDiagnoses().getDiagnosis().get(1).getCode());
+        Assert.assertEquals("Diagnosis #3 code", "J250", careEventType.getDiagnoses().getDiagnosis().get(2).getCode());
+        Assert.assertEquals("Diagnosis #4 code", "A01AB13", careEventType.getDiagnoses().getDiagnosis().get(3).getCode());
+        
+        // Conditions
+        Assert.assertEquals("Number of conditions", 3, careEventType.getConditions().getCondition().size());
+        Assert.assertEquals("Condition #1 code", "ASA4", careEventType.getConditions().getCondition().get(0).getCode());
+        Assert.assertEquals("Condition #2 code", "ASA5", careEventType.getConditions().getCondition().get(1).getCode());
+        Assert.assertEquals("Condition #3 code", "ASA6", careEventType.getConditions().getCondition().get(2).getCode());
+        
+        // Activities
+        Assert.assertEquals("Number of activities", 4, careEventType.getActivities().getActivity().size());
+        Assert.assertEquals("Activity #1 code", "A01AB13", careEventType.getActivities().getActivity().get(0).getCode());
+        Assert.assertEquals("Activity #2 code", "PE009", careEventType.getActivities().getActivity().get(1).getCode());
+        Assert.assertEquals("Activity #3 code", "AQ014", careEventType.getActivities().getActivity().get(2).getCode());
+        Assert.assertEquals("Activity #4 code", "NHP09", careEventType.getActivities().getActivity().get(3).getCode());
+        
+        // The fourth event has several diagnoses with the same OrdnNr.
+        careEventType = careEventList.get(3);
+        Assert.assertEquals("Number of diagnoses", 4, careEventType.getDiagnoses().getDiagnosis().size());
+        Assert.assertEquals("Diagnosis #1 code", "I050", careEventType.getDiagnoses().getDiagnosis().get(0).getCode());
+        Assert.assertEquals("Diagnosis #2 code", "K570", careEventType.getDiagnoses().getDiagnosis().get(1).getCode());
+        Assert.assertEquals("Diagnosis #3 code", "J250", careEventType.getDiagnoses().getDiagnosis().get(2).getCode());
+        Assert.assertEquals("Diagnosis #4 code", "A01AB13", careEventType.getDiagnoses().getDiagnosis().get(3).getCode());
+    }
 
     @Test
     public void testDoTransformNonExistentKombika() throws Exception {

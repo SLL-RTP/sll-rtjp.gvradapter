@@ -18,6 +18,7 @@ package se.sll.reimbursementadapter.gvr.transform;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -53,6 +54,7 @@ import se.sll.reimbursementadapter.admincareevent.model.FacilityState;
 import se.sll.reimbursementadapter.admincareevent.model.HSAMappingState;
 import se.sll.reimbursementadapter.admincareevent.model.TermItemCommission;
 import se.sll.reimbursementadapter.exception.TransformationException;
+import se.sll.reimbursementadapter.gvr.SeqNoComparator;
 import se.sll.reimbursementadapter.parser.TermItem;
 
 /**
@@ -65,6 +67,7 @@ public class TransformHelper {
     protected static final String SLL_CAREGIVER_HSA_ID = "SE2321000016-39KJ";
     protected static final String HYBRID_GUI_SEPARATOR = "+";
     private static final ObjectFactory of = new ObjectFactory();
+    private static final SeqNoComparator comparator = new SeqNoComparator();
     
     private static final Logger LOG = LoggerFactory.getLogger(TransformHelper.class);
 
@@ -92,6 +95,7 @@ public class TransformHelper {
             for (Yrkeskategorier.Yrkeskategori kategori : currentErsh.getHändelseklass().getVårdkontakt().getYrkeskategorier().getYrkeskategori()) {
                 currentEvent.getInvolvedProfessions().getProfession().add(getProfessionFromYrkeskategori(kategori));
             }
+            Collections.sort(currentEvent.getInvolvedProfessions().getProfession(), comparator);
         }
     }
 
@@ -161,6 +165,7 @@ public class TransformHelper {
                     currentEvent.getActivities().getActivity().add(currentActivity);
                 }
             }
+            Collections.sort(currentEvent.getActivities().getActivity(), comparator);
         }
     }
 
@@ -204,6 +209,7 @@ public class TransformHelper {
                 ConditionType currentCondition = getConditionFromTillstånd(tillstånd);
                 currentEvent.getConditions().getCondition().add(currentCondition);
             }
+            Collections.sort(currentEvent.getConditions().getCondition(), comparator);
         }
     }
 
@@ -244,6 +250,7 @@ public class TransformHelper {
                     currentEvent.getDiagnoses().getDiagnosis().add(diagnosisType);
                 }
             }
+            Collections.sort(currentEvent.getDiagnoses().getDiagnosis(), comparator);
         }
     }
 

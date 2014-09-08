@@ -78,7 +78,7 @@
             </Vårdkontakt>
         </Händelseklass>
     </Ersättningshändelse>
-    <Ersättningshändelse ID="OrdnNr_Diagnoser_Åtgärder" Makulerad="false" Startdatum="2014-09-04" Slutdatum="2014-09-04" Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
+    <Ersättningshändelse ID="OrdnNr_Samtliga" Makulerad="false" Startdatum="2014-09-04" Slutdatum="2014-09-04" Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
         <Patient ID="191212121212" Lkf="010203" Basområde="1210151" Födelsedatum="1912-12-12" Kön="M"/>
         <Händelseklass>
             <Vårdkontakt Händelseform="Öppenvårdskontakt" Händelsetyp="013" Typ="1" Avgiftsklass="006" Patientavgift="12" Akut="J">
@@ -87,8 +87,8 @@
                     <Produkt Klass="005" Kod="K1235" Antal="2"/>
                 </Produkter>
                 <Yrkeskategorier>
-                    <Yrkeskategori Klass="001" Kod="01" OrdnNr="1"/>
                     <Yrkeskategori Klass="001" Kod="02" OrdnNr="2"/>
+                    <Yrkeskategori Klass="001" Kod="01" OrdnNr="1"/>
                 </Yrkeskategorier>
                 <Diagnoser>
                     <Diagnos Klass="008" Kod="I050" OrdnNr="1"/>
@@ -97,7 +97,9 @@
                     <Diagnos Klass="020" Kod="A01AB13" OrdnNr="4"/>
                 </Diagnoser>
                 <Tillståndslista>
-                    <Tillstånd Klass="010" Kod="ASA6" Datum="2008-03-11" OrdnNr="1" DiagnosNr="1"/>
+                    <Tillstånd Klass="010" Kod="ASA6" Datum="2008-03-15" OrdnNr="3" DiagnosNr="1"/>
+                    <Tillstånd Klass="010" Kod="ASA4" Datum="2008-03-11" OrdnNr="1" DiagnosNr="1"/>
+                    <Tillstånd Klass="010" Kod="ASA5" Datum="2008-03-14" OrdnNr="2" DiagnosNr="1"/>
                 </Tillståndslista>
                 <Åtgärder>
                     <Åtgärd Klass="007" Kod="NHP09" Datum="2014-02-02" OrdnNr="4" DiagnosNr="1" TillståndNr="90"/>
@@ -117,7 +119,7 @@
             </Vårdkontakt>
         </Händelseklass>
     </Ersättningshändelse>
-    <Ersättningshändelse ID="Duplicate_OrdnNr" Makulerad="false" Startdatum="2014-09-04" Slutdatum="2014-09-04" Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
+    <Ersättningshändelse ID="Duplicerade_OrdnNr" Makulerad="false" Startdatum="2014-09-04" Slutdatum="2014-09-04" Startverksamhet="30216311002" Slutverksamhet="30216311002" ErsUppdrag="1234">
         <Patient ID="191212121212" Lkf="010203" Basområde="1210151" Födelsedatum="1912-12-12" Kön="M"/>
         <Händelseklass>
             <Vårdkontakt Händelseform="Öppenvårdskontakt" Händelsetyp="013" Typ="1" Avgiftsklass="006" Patientavgift="12" Akut="J">
