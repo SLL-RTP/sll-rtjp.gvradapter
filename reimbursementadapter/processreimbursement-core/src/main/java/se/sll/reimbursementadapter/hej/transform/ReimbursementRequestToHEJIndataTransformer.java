@@ -15,6 +15,9 @@
  */
 package se.sll.reimbursementadapter.hej.transform;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -67,14 +70,16 @@ public class ReimbursementRequestToHEJIndataTransformer {
      *
      * @throws TransformationException when an error or validation failure occurs during the transformation.
      */
-    public HEJIndata doTransform(ProcessReimbursementRequestType request, int maxNumberOfCareEvents)
+    public HEJIndata doTransform(ProcessReimbursementRequestType request, int maxNumberOfCareEvents, String rivDateFormat)
             throws NumberOfCareEventsExceededException, TransformationException {
         LOG.info("Entering ReimbursementRequestToHEJIndataTransformer.doTransform");
 
         // Create and populate the base response object
         ObjectFactory of = new ObjectFactory();
         HEJIndata response = of.createHEJIndata();
-        response.setKälla(request.getSourceSystem().getId());
+        if (request.getSourceSystem() != null) {
+            response.setKälla(request.getSourceSystem().getId());
+        }
         response.setID(request.getBatchId());
 
         // For each reimbursement event in the request, transform to Ersättningshändelse and add to the response list.
@@ -82,7 +87,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
             if (response.getErsättningshändelse().size() >= maxNumberOfCareEvents) {
                 throw new NumberOfCareEventsExceededException("The number of allowed care events (" + maxNumberOfCareEvents + ") has been exceeded.");
             }
-            response.getErsättningshändelse().add(transformReimbursementEventToErsättningshändelse(currentReimbursementEvent));
+            response.getErsättningshändelse().add(transformReimbursementEventToErsättningshändelse(currentReimbursementEvent, rivDateFormat));
         }
 
         LOG.info("Exiting ReimbursementRequestToHEJIndataTransformer.doTransform");
@@ -97,7 +102,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
      * @return The transformed HEJIndata.Ersättningshändelse.
      * @throws TransformationException when an error or validation failure occurs during the transformation.
      */
-    public HEJIndata.Ersättningshändelse transformReimbursementEventToErsättningshändelse(ReimbursementEventType currentReimbursementEvent)
+    public HEJIndata.Ersättningshändelse transformReimbursementEventToErsättningshändelse(ReimbursementEventType currentReimbursementEvent, String rivDateFormat)
             throws TransformationException {
         // Create response object.
         ObjectFactory of = new ObjectFactory();
@@ -145,9 +150,21 @@ public class ReimbursementRequestToHEJIndataTransformer {
             // Map the Basområde to a Betjäningsområde using the Codeserver cache.
             TermItem<GeographicalAreaState> geographicalAreaStateTermItem = codeServerCache.get(patientLocalResidence);
             if (geographicalAreaStateTermItem != null) {
-                // TODO: Fix lookup date for mapping! (None available in request atm)
-                Date careEventDate = new Date();
-                final GeographicalAreaState state = geographicalAreaStateTermItem.getState(careEventDate);
+                // TODO: Currently using the start date for the first product in the list as the lookup date, this might not be optimal!
+                SimpleDateFormat sdf = new SimpleDateFormat(rivDateFormat);
+                Date product1Date = null;
+                if (currentReimbursementEvent.getProductSet().size() > 0 &&
+                        currentReimbursementEvent.getProductSet().get(0).getProduct().size() > 0) {
+                    try {
+                        product1Date = sdf.parse(currentReimbursementEvent.getProductSet().get(0).getProduct().get(0).getDatePeriod().getStart());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    // No products found, fallback to the current time.
+                    product1Date = new Date();
+                }
+                final GeographicalAreaState state = geographicalAreaStateTermItem.getState(product1Date);
                 if (state != null) {
                     ersh.setKundKod("01" + state.getMedicalServiceArea());
                 } else {
@@ -204,7 +221,7 @@ public class ReimbursementRequestToHEJIndataTransformer {
                 produkt.setUppdrag(product.getContract().getId().getExtension());
                 produkt.setModell(product.getModel().getCode());
 
-                // Sate the date period, and calculate the FbPerion from this.
+                // Set the date period, and calculate the FbPeriod from this.
                 if (product.getDatePeriod() != null) {
                     produkt.setFromDatum(product.getDatePeriod().getStart());
                     produkt.setTomDatum(product.getDatePeriod().getEnd());

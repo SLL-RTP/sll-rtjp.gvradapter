@@ -45,7 +45,7 @@ public class HEJIndataMarshaller {
      * @param writer The Writer to write the result to.
      */
     public void unmarshalString(HEJIndata src, Writer writer) throws SAXException, JAXBException {
-        LOG.info("Starting to unmarshal contents of source Reader.");
+        LOG.info("Starting to unmarshal contents of source Reader, " + src);
         // Read the schema from the XSD to apply the validation to the unmarshalled XML object.
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         URL url = getClass().getClassLoader().getResource("xsd/HEJIndata/HEJIndata2.0.xsd");

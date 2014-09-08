@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project activeEnvironment="Default" name="ProcessReimbursementInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="4.6.3" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config">
+<con:soapui-project activeEnvironment="Default" name="ProcessReimbursementInteraction_1.0_RIVTABP21" resourceRoot="" soapui-version="5.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config">
   <con:settings/>
   <con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ProcessReimbursementResponderBinding" type="wsdl" bindingName="{urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursement:1:rivtabp21}ProcessReimbursementResponderBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/sll.rtjp.gvradapter/reimbursementadapter/reimbursement-schemas/src/main/resources/schemas/interactions/ProcessReimbursementInteraction/ProcessReimbursementInteraction_1.0_RIVTABP21.wsdl" id="fe58a22d-125e-450d-ae92-accbe5d318dc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <con:settings/>
@@ -519,35 +519,30 @@
    <soapenv:Body>
       <urn1:ProcessReimbursementRequest>
          <urn1:sourceSystem>
-            <urn2:organization>1.2.3.4.5.5.7</urn2:organization>
-            <urn2:name>ERA</urn2:name>
+            <urn2:org>1.2.3.4.5.5.7</urn2:org>
+            <urn2:id>ERA</urn2:id>
          </urn1:sourceSystem>
          <urn1:batchId>1</urn1:batchId>
          <!--Zero or more repetitions:-->
          <urn1:reimbursementEvent>
             <urn2:id>
-               <urn2:organization>1.2.3.4.5.6</urn2:organization>
-               <urn2:source>ERA</urn2:source>
-               <urn2:value>42342432</urn2:value>
+               1234
             </urn2:id>
             <!--Optional:-->
             <urn2:emergency>false</urn2:emergency>
-            <urn2:eventType>
-               <urn2:mainType>
+               <urn2:eventTypeMain>
                   <!--Optional:-->
                   <urn2:code>ÖPPENVÅRD</urn2:code>
                   <!--Optional:-->
                   <urn2:codeSystem>1.2.3.4.5.6</urn2:codeSystem>
-               </urn2:mainType>
+               </urn2:eventTypeMain>
                <!--Optional:-->
-               <urn2:subType>
+               <urn2:eventTypeSub>
                   <!--Optional:-->
                   <urn2:code>I02+1235</urn2:code>
                   <!--Optional:-->
                   <urn2:codeSystem>1.2.4.4.6.</urn2:codeSystem>
-               </urn2:subType>
-               <!--You may enter ANY elements at this point-->
-            </urn2:eventType>
+               </urn2:eventTypeSub>
             <urn2:patient>
                <urn2:id>
                   <urn2:id>191212121212</urn2:id>
@@ -557,7 +552,11 @@
                <!--Optional:-->
                <urn2:birthDate>19121212</urn2:birthDate>
                <!--Optional:-->
-               <urn2:gender>M</urn2:gender>
+               <urn2:gender>
+               	<urn2:code>M</urn2:code>
+               	<urn2:codeSystem>1.2.3.4.5</urn2:codeSystem>
+               </urn2:gender>
+               <urn2:localResidence>1010202</urn2:localResidence>
                <!--Optional:-->
                <urn2:residence>
                   <urn2:region>
@@ -570,8 +569,6 @@
                      <urn2:code>01</urn2:code>
                   </urn2:parish>
                </urn2:residence>
-               <!--You may enter ANY elements at this point-->
-               <Extras>2242363</Extras>
             </urn2:patient>
             <!--Optional:-->
             <urn2:involvedProfessions>
@@ -597,22 +594,17 @@
             </urn2:involvedProfessions>
             <!--Optional:-->
             <urn2:activities>
-               <!--Zero or more repetitions:-->
-               <urn2:activity>
-                  <!--Optional:-->
-                  <urn2:activityCode>
+            	<urn2:activity>
+            		<urn2:codeSystem>1.2.3.4.5</urn2:codeSystem>
                      <urn2:code>NHP09</urn2:code>
-                     <!--Optional:-->
-                     <urn2:codeSystem>1.2.3.4.5.7</urn2:codeSystem>
-                  </urn2:activityCode>
+                     <urn2:date>20010101</urn2:date>  
+                    <!--<urn2:codeSystem>1.2.3.4.5</urn2:codeSystem>-->
+                                        
                </urn2:activity>
                <urn2:activity>
-                  <urn2:activityCode>
-                     <!--Optional:-->
-                     <urn2:code>PE009</urn2:code>
-                     <!--Optional:-->
-                     <urn2:codeSystem>1.2.3.4.5.7</urn2:codeSystem>
-                  </urn2:activityCode>
+           	   <urn2:codeSystem>1.2.3.4.5</urn2:codeSystem>
+                  <urn2:code>NHP09</urn2:code>
+                  <urn2:date>20010101</urn2:date>  
                </urn2:activity>
             </urn2:activities>
             <!--1 or more repetitions:-->
@@ -629,9 +621,9 @@
                      <!--Optional:-->
                      <urn2:careUnitLocalId>
                         <!--Optional:-->
-                        <urn2:code>19147021M01</urn2:code>
+                        <urn2:root>1.2.3.5.7</urn2:root>
                         <!--Optional:-->
-                        <urn2:codeSystem>1.2.3.5.7</urn2:codeSystem>
+                        <urn2:extension>19147021M01</urn2:extension>
                      </urn2:careUnitLocalId>
                      <!--You may enter ANY elements at this point-->
                   </urn2:careUnit>
@@ -651,6 +643,11 @@
                      <!--Optional:-->
                      <urn2:codeSystem>1.2.3.4.5.6</urn2:codeSystem>
                   </urn2:model>
+                  <urn2:count>5</urn2:count>
+                  <urn2:datePeriod>
+                  	<urn2:start>20140101</urn2:start>
+                  	<urn2:end>20140201</urn2:end>
+                  </urn2:datePeriod>
                </urn2:product>
             </urn2:productSet>
             <!--You may enter ANY elements at this point-->
@@ -935,7 +932,6 @@
                </urn2:id>
                <!--Optional:-->
                <urn2:birthDate>${#TestCase#patient_birthDate}</urn2:birthDate>
-
                <!--Optional:-->
                <urn2:localResidence>${#TestCase#Patient_Basområde}</urn2:localResidence>
                <urn2:residence>
@@ -1119,7 +1115,7 @@
               </con:configuration>
             </con:assertion>
             <con:credentials>
-              <con:authType>Global HTTP Settings</con:authType>
+              <con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
@@ -6237,7 +6233,7 @@ for(prop in xpath_map.getPropertyList()) {
       <con:settings/>
       <con:dispatchStyle>SEQUENCE</con:dispatchStyle>
       <con:defaultResponse>Response 1</con:defaultResponse>
-      <con:response name="Response 1" encoding="UTF-8">
+      <con:response name="Response 1" encoding="UTF-8" httpResponseStatus="200">
         <con:settings/>
         <con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn1="urn:riv:followup:processdevelopment:reimbursement:ProcessReimbursementResponder:1">
    <soapenv:Header>      

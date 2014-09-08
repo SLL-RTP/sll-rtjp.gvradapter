@@ -152,7 +152,7 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
 
 
         // Do the transformation
-        HEJIndata indata = transformer.doTransform(requestType, 1000);
+        HEJIndata indata = transformer.doTransform(requestType, 1000, "yyyyMMdd");
 
 
         // Asserts
@@ -196,7 +196,7 @@ public class ReimbursementRequestToHEJIndataTransformerTest extends TestSupport 
         ReimbursementRequestToHEJIndataTransformer transformer = new ReimbursementRequestToHEJIndataTransformer
                 (instance.getCurrentIndex());
         try {
-            transformer.doTransform(null, 2);
+            transformer.doTransform(null, 2, "yyyyMMdd");
             Assert.fail("No exception thrown");
         } catch (Exception e) {
             Assert.assertTrue(true);

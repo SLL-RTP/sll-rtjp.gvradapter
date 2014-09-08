@@ -76,6 +76,10 @@ public class AbstractProducer {
     @Value("${pr.riv.maximumSupportedCareEvents:10000}")
     private int maximumSupportedCareEvents;
 
+    /** The configured value for the date format that the RIV service uses. */
+    @Value("${pr.riv.dateFormat:yyyyMMdd}")
+    private String rivDateFormat;
+
     /** The path where HEJ should write its files. */
     @Value("${pr.hej.outPath:/tmp/hej/out}")
     private String hejFileOutputPath;
@@ -116,12 +120,12 @@ public class AbstractProducer {
         response.setResultCode("OK");
 
         // Transforms the incoming ProcessReimbursementRequestType to the equivivalent HEJIndata according to the
-        // specification (TODO: version?)
+        // specification "aterrapportering_hej_meddelandeinnehall_0.4".
         ReimbursementRequestToHEJIndataTransformer hejTransformer =
                 new ReimbursementRequestToHEJIndataTransformer(codeServerCacheService.getCurrentIndex());
         HEJIndata hejXml = null;
         try {
-            hejXml = hejTransformer.doTransform(parameters, maximumSupportedCareEvents);
+            hejXml = hejTransformer.doTransform(parameters, maximumSupportedCareEvents, rivDateFormat);
         } catch (NumberOfCareEventsExceededException e) {
            LOG.error("The number of supported care events has been exceeded. Returning controlled error response to " +
                    "client.");
@@ -175,14 +179,12 @@ public class AbstractProducer {
                 }
             } catch (SAXException e) {
                 LOG.error("Error when loading schema file for HEJIndata", e);
-                //response.setResultCode("ERROR");
                 if (file != null) {
                     file.toFile().delete();
                 }
                 throw createSoapFault("Internal error when loading schema file for HEJIndata", e);
             } catch (JAXBException e) {
                 LOG.error("JAXB Error when writing the result XML (HEJIndata)", e);
-                //response.setResultCode("ERROR");
                 if (file != null) {
                     file.toFile().delete();
                 }
